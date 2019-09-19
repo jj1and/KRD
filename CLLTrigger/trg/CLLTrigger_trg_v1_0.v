@@ -125,41 +125,16 @@
 	reg [2:0] err_code = NO_ERROR;
 	assign err_assert = err_code;
 	
-	// when initialize has done, this value must be 1
-	reg init_done = 1'b0;
-	reg init_done_delay = 1'b0;
-	reg curr_cfg_update_flag = 1'b0;
-	reg curr_cfg_update_flag_delay = 1'b0;
-	// when initialization is completed, this value must be 1 
-	// when cfg_update_flag is 1, this value must be 0 untill cfg update has done.
-	reg cfg_update_done = 1'b0;
-	
-	// threshold 1 (nearly Baseline)
-	reg [ADC_RESO_WIDTH-1-1:0] thre_1 = 1;
-	// threshold 2 (value is larger than thre1)
-	reg [ADC_RESO_WIDTH-1-1:0] thre_2 = 5;
-	// thre_1 down cross to thre_2 down cross (unit is clock)
-	reg [MAX_PRE_ACQUI_LENGTH_WIDTH-1:0] max_pre_cnt = 8;
-	// thre_2 up cross to trigger end (unit is clock)
-	reg [MAX_PRO_ACQUI_LENGTH_WIDTH-1:0] max_pro_cnt = 32;
-	// thre_2 down cross to trigger end (unit is clock)
-	reg [MAX_TIMEOUT_LENGTH_WIDTH-1:0] max_out_cnt = 0;
-	// thre_1 down cross to thre_2 down cross counter var
+ 	// thre_1 down cross to thre_2 down cross counter var
 	reg [MAX_PRE_ACQUI_LENGTH_WIDTH:0] pre_cnt = 0;
-	// thre_1 up cross to trigger end counter var
+  // thre_1 up cross to trigger end counter var
 	reg [MAX_PRO_ACQUI_LENGTH_WIDTH:0] pro_cnt = 0;
 	reg [MAX_TIMEOUT_LENGTH_WIDTH-1:0] out_cnt = 0;
-	
 	
 	// AXI-Stream singnals
 	reg tvalid;
 	assign s00_axis_tready = (mst_exec_state == TRG_MODE);
 	
-	// for initial baseline scan
-	reg [TMP_BL_SUM_WIDTH-1 : 0] tmp_bl_sum = 0;
-	reg [INIT_BL_SCALE_WIDTH-1:0] init_bl_cnt = 0;
-	// initial current baseline
-	reg [ADC_RESO_WIDTH-1 : 0] init_curr_bl = 0;
 	// current baseline
 	reg [ADC_RESO_WIDTH-1 : 0] curr_bl = 0;
 	
@@ -179,7 +154,6 @@
 
 	assign cfg_update_state = cfg_update_done;
 	assign trg_state = { valid_trg, trg_end_flag, noise_flag };
-	//assign bl_update_state = bl_update_done;
 	
 	// Control state machine implementation
 	always @(posedge s00_axis_aclk) 
@@ -223,81 +197,22 @@
 	    end
 	end
 	
-	
-	//cfg update & init implementation
-	always @(posedge s00_axis_aclk) 
-	begin  
-	  if (!s00_axis_aresetn) 
-	  // Synchronous reset (active low)
-	    begin
-	      init_done <= 1'b0;
-	      init_done_delay <= 1'b0;
-	      init_bl_cnt <= 13'd0;
-	      curr_cfg_update_flag <= 1'b0;
-	      curr_cfg_update_flag_delay <= 1'b0;
-	      cfg_update_done <= 1'b0;
-	    end
-	  else
-	    begin
-	      curr_cfg_update_flag_delay <= curr_cfg_update_flag;
-	      curr_cfg_update_flag <= cfg_update_flag;
-	      if ( !cfg_update_done )
-	        begin
-              max_pre_cnt <= cfg_new_len[C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH-1:MAX_PRO_ACQUI_LENGTH_WIDTH + MAX_TIMEOUT_LENGTH_WIDTH];
-              max_pro_cnt <= cfg_new_len[MAX_PRO_ACQUI_LENGTH_WIDTH + MAX_TIMEOUT_LENGTH_WIDTH-1:MAX_TIMEOUT_LENGTH_WIDTH];
-              max_out_cnt <= cfg_new_len[MAX_TIMEOUT_LENGTH_WIDTH-1:0];
-              thre_1 <= cfg_new_thre[C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH-1:THRE_2_LEVEL_WIDTH]*THRE_1_LEVEL_DELTA;
-              thre_2 <= cfg_new_thre[THRE_2_LEVEL_WIDTH-1:0]*THRE_2_LEVEL_DELTA; 
-              cfg_update_done <= 1'b1;
-              init_done_delay <= init_done;
-              init_done <= 1'b0; 
-	        end
-	          //this if section is for initial baseline scan
-              else if ( !init_done )
-                begin
-                  if ( s00_axis_tvalid )
-                    begin
-                      if ( init_bl_cnt < INIT_BL_SCALE )
-                        begin
-                          if ( init_curr_bl != new_bl )
-                            begin
-                              tmp_bl_sum <= tmp_bl_sum + init_curr_bl;
-                              init_curr_bl <= new_bl;
-                              init_bl_cnt <= init_bl_cnt + 13'd1;
-                              init_done_delay <= init_done;
-                              init_done <= 1'b0;                              
-                            end
-                        end
-                      else
-                        begin
-                          init_curr_bl <= tmp_bl_sum/INIT_BL_SCALE;
-                          init_bl_cnt <= 13'd0;
-                          init_done_delay <= init_done;
-                          init_done <= 1'b1;
-                        end
-                    end
-                  else
-                    begin
-                      init_done_delay <= init_done;
-                      init_done <= 1'b0;                       
-                    end
-	           end
-	      // cfg_update_flag = 0 or 1, cfg_update_done = init_done = 1;  
-	      else
-	        begin
-	          if ( (curr_cfg_update_flag == 1'b1) & ( !curr_cfg_update_flag_delay == 1'b0 )  )
-	            begin
-	              cfg_update_done <= 1'b0;
-	              init_done_delay <= init_done;
-                  init_done <= 1'b0;
-	            end    
-	          // this else is (cfg_update_flag, delay) = (0,0),(0,1),(1,1) , cfg_update_done = init_done = 1; this is normal. nothing to do
-              // else
-              //   begin
-              //   end 	          
-	        end
-	    end
-	end
+  module cfg_updater #
+  (
+        .C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH()
+        .THRE_1_LEVEL_WIDTH(),
+        .C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH(),
+        .MAX_PRO_ACQUI_LENGTH_WIDTH(),
+        .MAX_TIMEOUT_LENGTH_WIDTH(),
+        .TIME_COUNTER_WIDTH = 16,
+        .ADC_RESO_WIDTH = 12,
+        . INIT_BL_SCALE = 10,
+		    .C_S00_AXIS_TDATA_WIDTH	= 128
+
+  ) cfg_updater_inst (
+
+  )
+
 	
     //trg mode logic implementation
 	always @(posedge s00_axis_aclk) 
