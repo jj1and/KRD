@@ -28,8 +28,8 @@ module cfg_udapter # (
 		parameter integer C_S00_AXIS_TDATA_WIDTH	= 128
 
 )(
-        // updated threshold =  { thre_1 (THRE_1_LEVEL_WIDTH bit), thre_2 (THRE_2_LEVEL_WIDTH bit) }
-	    input wire [C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH-1:0] cfg_new_thre,
+    // updated threshold =  { thre_1 (THRE_1_LEVEL_WIDTH bit), thre_2 (THRE_2_LEVEL_WIDTH bit) }
+	  input wire [C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH-1:0] cfg_new_thre,
 		// updated pre/proceeding wait length =  { max_pre_cnt (MAX_PRE_ACQUI_LENGTH_WIDTH bit), max_pro_cnt (MAX_PRO_ACQUI_LENGTH_WIDTH bit), max_out_cnt (MAX_TIMEOUT_LENGTH_WIDTH bit) }
 		input wire [C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH-1:0] cfg_new_len,
 		// new BaseLine from BL-Calc module
@@ -37,26 +37,26 @@ module cfg_udapter # (
 		// cfg update flag
 		input wire cfg_update_flag,
 
-        // initial baselinr
-        output wire [ADC_RESO_WIDTH-1 : 0] o_init_curr_bl,
-        // threshold 1 (nearly Baseline)
-        output wire [ADC_RESO_WIDTH-1-1:0] o_thre_1,
-        // threshold 2 (value is larger than thre1)
-        output wire [ADC_RESO_WIDTH-1-1:0] o_thre_2,
-        // thre_1 down cross to thre_2 down cross (unit is clock)
-        output wire [MAX_PRE_ACQUI_LENGTH_WIDTH-1:0] o_max_pre_cnt,
-        // thre_2 up cross to trigger end (unit is clock)
-        output wire [MAX_PRO_ACQUI_LENGTH_WIDTH-1:0] o_max_pro_cnt,
-        // thre_2 down cross to trigger end (unit is clock)
-        output wire [MAX_TIMEOUT_LENGTH_WIDTH-1:0] o_max_out_cnt,
-        // config update done flag
-        output wire o_cfg_update_done,
-        // initialize done
-        output wire o_init_done,
-        // initialize done delay
-        output wire o_init_done_delay,
+    // initial baseline
+    output wire [ADC_RESO_WIDTH-1 : 0] o_init_curr_bl,
+    // threshold 1 (nearly Baseline)
+    output wire [ADC_RESO_WIDTH-1-1:0] o_thre_1,
+    // threshold 2 (value is larger than thre1)
+    output wire [ADC_RESO_WIDTH-1-1:0] o_thre_2,
+    // thre_1 down cross to thre_2 down cross (unit is clock)
+    output wire [MAX_PRE_ACQUI_LENGTH_WIDTH-1:0] o_max_pre_cnt,
+    // thre_2 up cross to trigger end (unit is clock)
+    output wire [MAX_PRO_ACQUI_LENGTH_WIDTH-1:0] o_max_pro_cnt,
+    // thre_2 down cross to trigger end (unit is clock)
+    output wire [MAX_TIMEOUT_LENGTH_WIDTH-1:0] o_max_out_cnt,
+    // config update done flag
+    output wire o_cfg_update_done,
+    // initialize done
+    output wire o_init_done,
+    // initialize done delay
+    output wire o_init_done_delay,
 
-        // Ports of Axi Slave Bus Interface S00_AXIS　
+    // Ports of Axi Slave Bus Interface S00_AXIS　
 		input wire  s00_axis_aclk,
 		input wire  s00_axis_aresetn,
 		output wire  s00_axis_tready,

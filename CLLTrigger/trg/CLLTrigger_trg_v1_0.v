@@ -199,17 +199,37 @@
 	
   module cfg_updater #
   (
-        .C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH()
-        .THRE_1_LEVEL_WIDTH(),
-        .C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH(),
-        .MAX_PRO_ACQUI_LENGTH_WIDTH(),
-        .MAX_TIMEOUT_LENGTH_WIDTH(),
-        .TIME_COUNTER_WIDTH = 16,
-        .ADC_RESO_WIDTH = 12,
-        . INIT_BL_SCALE = 10,
-		    .C_S00_AXIS_TDATA_WIDTH	= 128
+    .C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH(C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH)
+    .THRE_1_LEVEL_WIDTH(THRE_1_LEVEL_WIDTH),
+    .C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH(C_S_AXI_LITE_CFG_ACQUI_LENGTH_WIDTH),
+    .MAX_PRO_ACQUI_LENGTH_WIDTH(MAX_PRO_ACQUI_LENGTH_WIDTH),
+    .MAX_TIMEOUT_LENGTH_WIDTH(MAX_TIMEOUT_LENGTH_WIDTH),
+    .TIME_COUNTER_WIDTH(TIME_COUNTER_WIDTH),
+    .ADC_RESO_WIDTH(ADC_RESO_WIDTH,
+    .INIT_BL_SCALE(INIT_BL_SCALE),
+    .C_S00_AXIS_TDATA_WIDTH(C_S00_AXIS_TDATA_WIDTH)
 
-  ) cfg_updater_inst (
+  ) cfg_updater_inst ( 
+
+	  .cfg_new_thre(cfg_new_thre),
+		.cfg_new_len(cfg_new_len),
+		.new_bl(new_bl),
+		.cfg_update_flag(cfg_update_flag),
+    .o_init_curr_bl(init_curr_bl),
+    .o_thre_1(thre_1),
+    .o_thre_2(thre_2),
+    .o_max_pre_cnt(max_pre_cnt),
+    .o_max_pro_cnt(max_pro_cnt),
+    .o_max_out_cnt(max_out_cnt),
+    .o_cfg_update_done(cfg_update_done),
+    .o_init_done(init_done),
+    .o_init_done_delay(init_done_delay),
+
+    .s00_axis_aclk(s00_axis_aclk),
+		.s00_axis_aresetn(s00_axis_aresetn),
+		.s00_axis_tready(s00_axis_tready),
+		.s00_axis_tdata(s00_axis_tdata),
+		.s00_axis_tvalid(s00_axis_tvalid)
 
   )
 
