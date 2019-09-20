@@ -1,6 +1,6 @@
 
 `timescale 1 ns / 1 ps
-
+  
 	module CLLTrigger_cfg_v1_0 #
 	(
 		// Users to add parameters here

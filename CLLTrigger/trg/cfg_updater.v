@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 
-module cfg_udapter # (
+module cfg_updater # (
 
     	// S_AXI_LITE_CFG threshold level data bus width (bit)
         parameter integer C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH = 16,
@@ -74,11 +74,6 @@ module cfg_udapter # (
 	  end
 	endfunction
 
-    // mst exec state
-    localparam [1:0] TRG_MODE = 2'b00,    // In this state Trigger mode is enabled
-                    CFG_UPDATE  = 2'b11; // In this state the threshold is being updated
-
-
     localparam integer THRE_2_LEVEL_WIDTH = C_S_AXI_LITE_CFG_THRE_LEVEL_WIDTH - THRE_1_LEVEL_WIDTH;
     localparam integer THRE_1_LEVEL_DELTA = 2 ** (ADC_RESO_WIDTH-THRE_1_LEVEL_WIDTH);
     localparam integer THRE_2_LEVEL_DELTA = 2 ** (ADC_RESO_WIDTH-THRE_2_LEVEL_WIDTH);
@@ -87,10 +82,6 @@ module cfg_udapter # (
     localparam integer REDUCE_DIGIT = 16 - ADC_RESO_WIDTH;
     localparam integer TMP_BL_SUM_WIDTH = clogb2(ADC_RESO_WIDTH*INIT_BL_SCALE-1);
     localparam integer INIT_BL_SCALE_WIDTH = clogb2(INIT_BL_SCALE-1);
-	
-    // Macine state variable
-	reg [1:0] mst_exec_state = CFG_UPDATE;
-	// threshold cross state ( = { thre_1 down cross, thre_2 down cross, thre_1 up cross } no tsumori datta )
 	
 	// when initialize has done, this value must be 1
 	reg init_done = 1'b0;
@@ -118,15 +109,15 @@ module cfg_udapter # (
 	// initial current baseline
 	reg [ADC_RESO_WIDTH-1 : 0] init_curr_bl = 0;
 
-    assign o_init_curr_bl = init_curr_bl;
-    assign o_thre_1 = thre_1;
-    assign o_thre_2 = thre_2;
-    assign o_max_pre_cnt = max_pre_cnt;
-    assign o_max_pro_cnt = max_pro_cnt;
-    assign o_max_out_cnt = max_out_cnt;
-    assign o_cfg_update_done = cfg_update_done;
-    assign o_init_done = init_done;
-    assign o_init_done_delay = init_done_delay;
+  assign o_init_curr_bl = init_curr_bl;
+  assign o_thre_1 = thre_1;
+  assign o_thre_2 = thre_2;
+  assign o_max_pre_cnt = max_pre_cnt;
+  assign o_max_pro_cnt = max_pro_cnt;
+  assign o_max_out_cnt = max_out_cnt;
+  assign o_cfg_update_done = cfg_update_done;
+  assign o_init_done = init_done;
+  assign o_init_done_delay = init_done_delay;
 
     //cfg update & init implementation
 	always @(posedge s00_axis_aclk) 
