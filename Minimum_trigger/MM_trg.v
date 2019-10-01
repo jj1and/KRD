@@ -6,7 +6,6 @@ module MM_trg # (
     parameter integer THRESHOLD = 10,
     
     // acquiasion length settings
-    parameter integer PRE_ACQUI_LEN = 24/2,
     parameter integer POST_ACQUI_LEN = 76/2,
 
     // TIME STAMP DATA WIDTH
@@ -16,7 +15,7 @@ module MM_trg # (
     parameter integer ADC_RESOLUTION_WIDTH = 12,
     
     // RF Data Converter data stream bus width
-    parameter integer AXIS_TDATA_WIDTH	= 128
+    parameter integer S_AXIS_TDATA_WIDTH	= 128
 
 )
 (    
@@ -40,7 +39,7 @@ module MM_trg # (
     // Ports of Axi Slave Bus Interface S00_AXIS　
     input wire  AXIS_ACLK,
     input wire  AXIS_ARESETN,
-    input wire [AXIS_TDATA_WIDTH-1 : 0] AXIS_TDATA
+    input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA
 
 );
 
@@ -54,7 +53,7 @@ module MM_trg # (
 	endfunction
 
     localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN-1); 
-    localparam integer SAMPLE_PER_TDATA = AXIS_TDATA_WIDTH/16;
+    localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
     localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
     localparam integer THRESHOLD_VAL = (2^ADC_RESOLUTION_WIDTH)*THRESHOLD/100;
 
@@ -168,7 +167,7 @@ module MM_trg # (
 	generate
 	  for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
 	    begin
-	      assign compare_result[i] = ((AXIS_TDATA[16*(i+1)-1:16*i+REDUCE_DIGIT]-BASELINE) >= THRESHOLD_VAL);
+	      assign compare_result[i] = ((S_AXIS_TDATA[16*(i+1)-1:16*i+REDUCE_DIGIT]-BASELINE) >= THRESHOLD_VAL);
 	    end
 	endgenerate
 

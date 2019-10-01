@@ -20,7 +20,7 @@ module m_axis_IF # (
     parameter integer ADC_RESOLUTION_WIDTH = 12,
     
     // RF Data Converter data stream bus width
-    parameter integer S_AXIS_TDATA_WIDTH = 128
+    parameter integer S_AXIS_TDATA_WIDTH = 128,
 
     // AXI DMA S2MM bus width
     parameter integer M_AXIS_TDATA_WIDTH = 64
@@ -53,7 +53,8 @@ module m_axis_IF # (
     input wire M_AXIS_TREADY
 );
    
-   localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH; 
+   localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
+   integer i;
 
     // pre acquiasion buffer
     reg [S_AXIS_TDATA_WIDTH-1:0] pre_acqui_buff[PRE_ACQUI_LEN-1:0];
@@ -135,7 +136,6 @@ module m_axis_IF # (
     begin
       if (!AXIS_ARESETN)
         begin
-          integer i;
           for ( i=0 ; i<PRE_ACQUI_LEN ; i=i+1 )
             begin
               pre_acqui_buff[i] <= 0;

@@ -1,6 +1,7 @@
 `timescale 1 ns / 1 ps
 `include "./Fifo.vhd"
 `include "./MM_trg.v"
+`include "./base_calc.v"
 
 module Minimum_trigger # (
     // threshold ( percentage of max value = 2^12)
@@ -38,6 +39,8 @@ module Minimum_trigger # (
     // Ports of Axi-stream Master Bus Interface
     output wire [M_AXIS_TDATA_WIDTH-1:0] M_AXIS_TDATA,
     output wire M_AXIS_TLAST,
+    output wire M_AXIS_TUSER,
+    input wire M_AXIS_TREADY
 );
 
 	// function called clogb2 that returns an integer which has the 
@@ -49,13 +52,16 @@ module Minimum_trigger # (
 	  end
 	endfunction
 
+  //  exec state
+  localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
+                  TRG = 2'b11; // ADC > THRESHOLD_VAL
+
   MM_trg # (
     .THRESHOLD(THRESHOLD),
-    .PRE_ACQUI_LEN(PRE_ACQUI_LEN),
     .POST_ACQUI_LEN(POST_ACQUI_LEN),
     .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
     .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),  
-    .AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
+    .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
   ) MM_trg_inst (
       .EXEC_STATE(),    
       .BASELINE(),
@@ -65,7 +71,46 @@ module Minimum_trigger # (
       .O_finalize_trg(),
       .AXIS_ACLK(AXIS_ACLK),
       .AXIS_ARESETN(AXIS_ARESETN),
-      .AXIS_TDATA(S_AXIS_TDATA)
+      .S_AXIS_TDATA(S_AXIS_TDATA)
   );
+
+  base_calc # (
+    .THRESHOLD(THRESHOLD),
+    .BASELINE_CALC_LEN(BASELINE_CALC_LEN),
+    .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
+    .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH),
+  ) base_calc_inst (    
+    .EXEC_STATE(),
+    .O_BASELINE(),
+    .O_CALC_COMPLETE(),
+    .AXIS_ACLK(AXIS_ACLK),
+    .AXIS_ARESETN(AXIS_ARESETN),
+    .S_AXIS_TDATA(S_AXIS_TDATA),
+    .S_AXIS_TVALID(S_AXIS_TVALID)
+);
+
+  m_axis_IF # (
+    .THRESHOLD(THRESHOLD),
+    .PRE_ACQUI_LEN(PRE_ACQUI_LEN),
+    .POST_ACQUI_LEN(POST_ACQUI_LEN),
+    .ACQUI_LEN(ACQUI_LEN),
+    .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
+    .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
+    .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH),
+    .M_AXIS_TDATA_WIDTH(M_AXIS_TDATA_WIDTH)
+  ) m_axis_IF_inst (    
+    .TIME_STAMP(),
+    .START_TRG(),
+    .O_FIFO_FULL(),
+    .AXIS_ACLK(AXIS_ACLK),
+    .AXIS_ARESETN(AXIS_ARESETN),
+    .S_AXIS_TREADY(S_AXIS_TREADY),
+    .S_AXIS_TDATA(S_AXIS_TDATA),
+    .S_AXIS_TVALID(S_AXIS_TVALID),
+    .M_AXIS_TDATA(M_AXIS_TDATA),
+    .M_AXIS_TLAST(M_AXIS_TLAST),
+    .M_AXIS_TUSER(M_AXIS_TUSER),
+    .M_AXIS_TREADY(M_AXIS_TREADY)
+);
 
 endmodule
