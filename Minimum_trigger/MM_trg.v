@@ -187,7 +187,7 @@ module MM_trg # (
 	generate
 	  for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
 	    begin
-	      assign compare_result[i] = ((S_AXIS_TDATA[16*(i+1)-1:16*i+REDUCE_DIGIT]-BASELINE) >= THRESHOLD_VAL);
+	      assign compare_result[i] = ((S_AXIS_TDATA[16*i+:ADC_RESOLUTION_WIDTH]-BASELINE) >= THRESHOLD_VAL);
 	    end
 	endgenerate
 
