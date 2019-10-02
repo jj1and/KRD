@@ -111,11 +111,11 @@ module MM_Trigger_tb;
     begin
         for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MIN;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MIN;
         end
         for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MAX;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MAX;
         end
     end
     endtask
@@ -126,22 +126,22 @@ module MM_Trigger_tb;
         // 最初の山
         for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MIN+FST_HEIGHT;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MIN+FST_HEIGHT;
         end
         for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MAX+FST_HEIGHT;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MAX+FST_HEIGHT;
         end
         repeat(FST_WIDTH) @(posedge axis_aclk);
         
         // 二段目の山 (最初より低い)
         for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MIN+SND_HEIGHT;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MIN+SND_HEIGHT;
         end
         for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 )
         begin
-            s_axis_tdata[M_AXIS_TDATA_WIDTH*i +:M_AXIS_TDATA_WIDTH] <= BL_MAX+SND_HEIGHT;
+            s_axis_tdata[16*i +:ADC_RESOLUTION_WIDTH] <= BL_MAX+SND_HEIGHT;
         end
         repeat(SND_WIDTH) @(posedge axis_aclk);
 
