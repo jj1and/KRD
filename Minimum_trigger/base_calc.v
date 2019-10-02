@@ -112,7 +112,7 @@ module base_calc # (
     generate
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 )
         begin
-          assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*(i+1)-1:16*i+REDUCE_DIGIT];
+          assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*i +:ADC_RESOLUTION_WIDTH];
         end
     endgenerate
 
