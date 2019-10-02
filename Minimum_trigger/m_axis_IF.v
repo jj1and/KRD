@@ -107,7 +107,7 @@ module m_axis_IF # (
     reg start_trg;
     reg start_trg_delay;
 
-    FIFO # (
+    Fifo # (
         .WIDTH(S_AXIS_TDATA_WIDTH),
         .DEPTH(ACQUI_LEN*BIT_DIFF)
     ) BUFF_FIFO_inst ( 
