@@ -8,6 +8,9 @@ module Minimum_trigger # (
     parameter integer PRE_ACQUI_LEN = 24/2,
     parameter integer POST_ACQUI_LEN = 76/24,
 
+    // Baselineの計算時間
+    parameter integer BASELINE_CALC_LEN = 5E8,
+
     // FIFO depth setting
     parameter integer ACQUI_LEN = 200/2,
 
@@ -115,7 +118,7 @@ module Minimum_trigger # (
         .THRESHOLD(THRESHOLD),
         .BASELINE_CALC_LEN(BASELINE_CALC_LEN),
         .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
-        .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH),
+        .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
       ) base_calc_inst (    
         .EXEC_STATE(exec_machine_state),
         .O_BASELINE(base_line),
