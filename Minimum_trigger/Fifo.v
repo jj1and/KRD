@@ -8,7 +8,7 @@ module Fifo # (
     input wire CLK,
     input wire RESET,
     input wire [WIDTH-1:0] DIN,
-    output wire [WIDTH-10:0] DOUT,
+    output wire [WIDTH-1:0] DOUT,
     input wire WE,
     input wire RE,
     output wire EMPTY,
@@ -17,7 +17,7 @@ module Fifo # (
 
     integer i;
 
-    reg [DEPTH-1:0] SRAM[WIDTH-1:0];
+    reg [WIDTH-1:0] SRAM[DEPTH-1:0];
     reg [DEPTH-1:0] WP;
     reg [DEPTH-1:0] RP;
 
