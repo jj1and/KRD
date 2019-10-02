@@ -1,5 +1,4 @@
 `timescale 1 ns / 1 ps
-`include "./Fifo.vhd"
 
 module m_axis_IF # (
 
