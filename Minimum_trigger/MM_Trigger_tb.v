@@ -101,7 +101,7 @@ module MM_Trigger_tb;
     task reset;
     begin
         axis_aresetn = 1'b0;
-        repeat(RESET_TIME) @(posedge axis_aclk)
+        repeat(RESET_TIME) @(posedge axis_aclk);
         axis_aresetn = 1'b1;
     end
     endtask
