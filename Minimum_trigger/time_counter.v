@@ -22,7 +22,7 @@ module time_counter # (
     input wire  AXIS_ARESETN,
     
     // current time
-    input wire [TIME_STAMP_WIDTH-1:0] O_CURRENT_TIME
+    output wire [TIME_STAMP_WIDTH-1:0] O_CURRENT_TIME
 );
 
     localparam integer MAX_TIME_COUNT = 2^TIME_STAMP_WIDTH-1;

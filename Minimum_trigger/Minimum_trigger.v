@@ -67,6 +67,10 @@ module Minimum_trigger # (
                     TRG = 2'b11; // ADC > THRESHOLD_VAL
     reg [1:0]  exec_machine_state;
 
+    // s_axis_tready (ステートマシンで決める)
+    reg s_axis_tready;
+    assign S_AXIS_TREADY = s_axis_tready;
+
     wire [ADC_RESOLUTION_WIDTH-1:0] base_line;
     wire [TIME_STAMP_WIDTH-1:0] curr_time;
     wire [TIME_STAMP_WIDTH-1:0] time_stamp;
@@ -94,6 +98,26 @@ module Minimum_trigger # (
             end
         end
     end  
+
+    // S_AXIS_TREADYの動作
+    always @(posedge AXIS_ACLK) 
+    begin  
+      if (!AXIS_ARESETN) 
+        begin
+          s_axis_tready <= 1'b0;
+        end
+      else
+        begin
+          if (exec_machine_state==TRG)
+            begin
+              s_axis_tready <= 1'b1;
+            end
+          else
+            begin
+              s_axis_tready <= 1'b0;
+            end
+        end
+    end
 
   
     MM_trg # (
@@ -145,7 +169,7 @@ module Minimum_trigger # (
         .O_FIFO_FULL(O_INTERNAL_FIFO_FULL),
         .AXIS_ACLK(AXIS_ACLK),
         .AXIS_ARESETN(AXIS_ARESETN),
-        .S_AXIS_TREADY(S_AXIS_TREADY),
+        .S_AXIS_TREADY(s_axis_tready),
         .S_AXIS_TDATA(S_AXIS_TDATA),
         .S_AXIS_TVALID(S_AXIS_TVALID),
         .M_AXIS_TDATA(M_AXIS_TDATA),
