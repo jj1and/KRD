@@ -27,7 +27,7 @@ module Minimum_trigger # (
     parameter integer ADC_RESOLUTION_WIDTH = 12,
 
     // RF Data Converter data stream bus width
-    parameter integer S_AXIS_TDATA_WIDTH	= 128
+    parameter integer S_AXIS_TDATA_WIDTH	= 128,
 
     // AXI DMA S2MM bus width
     parameter integer M_AXIS_TDATA_WIDTH	= 64
