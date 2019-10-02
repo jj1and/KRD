@@ -111,7 +111,7 @@ module m_axis_IF # (
         .WIDTH(S_AXIS_TDATA_WIDTH),
         .DEPTH(ACQUI_LEN*BIT_DIFF)
     ) BUFF_FIFO_inst ( 
-        .CLK(AXIS_ACLK);
+        .CLK(AXIS_ACLK),
         .RESET(AXIS_ARESETN),
         .DIN(fifo_input),
         .DOUT(M_AXIS_TDATA),
