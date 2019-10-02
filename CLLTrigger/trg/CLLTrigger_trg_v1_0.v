@@ -95,8 +95,6 @@
     localparam integer INIT_BL_SCALE_WIDTH = clogb2(INIT_BL_SCALE-1);
 	
   // Macine state variable
-	reg [1:0] mst_exec_state = CFG_UPDATE;
-  // value is valid or not
 	reg valid_trg = 1'b0;
   assign trg_state = { valid_trg, trg_end_flag, noise_flag };
 	
