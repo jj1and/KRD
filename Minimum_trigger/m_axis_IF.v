@@ -44,7 +44,7 @@ module m_axis_IF # (
     input wire  AXIS_ARESETN,
 
     // Ports of Axi-stream Slave Bus Interface　
-    output wire  S_AXIS_TREADY,
+    input wire  S_AXIS_TREADY,
     input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
     input wire  S_AXIS_TVALID,
 
@@ -54,9 +54,19 @@ module m_axis_IF # (
     output wire M_AXIS_TUSER,
     input wire M_AXIS_TREADY
 );
+
+	// function called clogb2 that returns an integer which has the 
+	// value of the ceiling of the log base 2.
+	function integer clogb2 (input integer bit_depth);
+	  begin
+	    for(clogb2=0; bit_depth>0; clogb2=clogb2+1)
+	      bit_depth = bit_depth >> 1;
+	  end
+	endfunction
    
-   localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
-   integer i;
+    localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
+    localparam integer BIT_CONVERT_CNT_WIDTH = clogb2(BIT_DIFF-1);
+    integer i;
 
     // pre acquiasion buffer
     reg [S_AXIS_TDATA_WIDTH-1:0] pre_acqui_buff[PRE_ACQUI_LEN-1:0];
@@ -82,8 +92,14 @@ module m_axis_IF # (
     // data to put into FIFO
     reg [S_AXIS_TDATA_WIDTH-1:0] fifo_input;
 
-    // bit convert buffer
-    reg [M_AXIS_TDATA_WIDTH-1:0] bit_convert_buff[BIT_DIFF-1:0];
+    // fifo data output
+    wire [S_AXIS_TDATA_WIDTH-1:0] fifo_output;
+    
+    // bit width convert buffer
+    reg [S_AXIS_TDATA_WIDTH-1:0] bit_conv_buff[BIT_DIFF-1:0];
+
+    // bit width converting counter
+    reg [BIT_CONVERT_CNT_WIDTH-1:0] bit_conv_cnt;
 
     // fifo read out counter
     reg [ACQUI_LEN*BIT_DIFF-1:0] fifo_read_cnt;
@@ -114,13 +130,14 @@ module m_axis_IF # (
         .CLK(AXIS_ACLK),
         .RESET(AXIS_ARESETN),
         .DIN(fifo_input),
-        .DOUT(M_AXIS_TDATA),
+        .DOUT(fifo_output),
         .WE(fifo_ready),
         .RE(fifo_reen),
         .EMPTY(fifo_empty),
         .FULL(fifo_full)
     );
     
+    // start trigger flag の delay
     always @(posedge AXIS_ACLK )
     begin
         if (!AXIS_ARESETN)
@@ -293,7 +310,7 @@ module m_axis_IF # (
               fifo_read_cnt <= 0;
             end
         end
-    end
+    end  
 
     // FIFOの read enableの動作
     always @(posedge AXIS_ACLK )
@@ -340,7 +357,56 @@ module m_axis_IF # (
               fifo_input <= fifo_input;
             end
         end
-    end    
+    end
+
+    // FIFOからのデータのbit長変換にかかるカウント
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          bit_conv_cnt <= 0;
+        end
+      else
+        begin
+          if (fifo_reen)
+            begin
+              if ( bit_conv_cnt > BIT_DIFF-1 )
+                begin
+                  bit_conv_cnt <= 0;
+                end
+              else
+                begin
+                  bit_conv_cnt <= bit_conv_cnt + 1;  
+                end
+            end
+          else
+            begin
+              bit_conv_cnt <= 0;
+            end
+        end
+    end 
+
+    // FIFOからのデータのbit長変換
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          for ( i=0 ; i<BIT_DIFF ; i=i+1 )
+            begin
+              bit_conv_buff[i] <= 0;  
+            end
+        end
+      else
+        begin
+          bit_conv_buff[0] <= fifo_output;
+          for ( i=1 ; i<BIT_DIFF ; i=i+1 )
+            begin
+              bit_conv_buff[i] <= bit_conv_buff[i-1];
+            end
+        end    
+    end
+
+    assign M_AXIS_TDATA = bit_conv_buff[BIT_DIFF-1]; 
   
     // FIFOの write enable の動作
     always @(posedge AXIS_ACLK )
