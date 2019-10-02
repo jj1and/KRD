@@ -1,7 +1,4 @@
 `timescale 1 ns / 1 ps
-`include "./Fifo.vhd"
-`include "./MM_trg.v"
-`include "./base_calc.v"
 
 module Minimum_trigger # (
     // threshold ( percentage of max value = 2^12)
