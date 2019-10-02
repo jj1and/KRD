@@ -88,13 +88,13 @@ module Minimum_trigger # (
         end
       else
         begin
-          if (!bl_calc_comp)
+          if (bl_calc_comp)
             begin
-              exec_machine_state <= INIT;
+              exec_machine_state <= TRG;
             end
           else
             begin
-              exec_machine_state <= TRG;
+              exec_machine_state <= INIT;
             end
         end
     end  
