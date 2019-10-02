@@ -83,6 +83,7 @@ module MM_trg # (
     // trigger time stamp
     reg [TIME_STAMP_WIDTH-1:0] time_stamp;
 
+   // ADCの値がどの範囲にあるか判定
     always @(posedge AXIS_ACLK) 
 	begin  
 	  if (!AXIS_ARESETN) 
@@ -92,32 +93,34 @@ module MM_trg # (
 	    end
 	  else
 	    begin
-          adc_val_state_delay <= adc_val_state;
           if (EXEC_STATE == INIT)
             begin
+              adc_val_state_delay <= adc_val_state;
               adc_val_state <= CALB;
             end
           else
             begin
               if (|compare_result)
                 begin
+                  adc_val_state_delay <= adc_val_state;
                   adc_val_state <= ZONE_1;
                 end
               else
                 begin
+                  adc_val_state_delay <= adc_val_state;
                   adc_val_state <= ZONE_0;
                 end
             end
 	    end
 	end
 
+    // trigger flag の 動作
     always @(posedge AXIS_ACLK) 
 	begin  
 	  if (!AXIS_ARESETN) 
 	    begin
 	      start_trg <= 1'b0;
           finalize_trg <= 1'b0;
-          post_count <= 0;
           time_stamp <= 0;
 	    end
 	  else
@@ -129,40 +132,57 @@ module MM_trg # (
             end
           else
             begin
+              time_stamp <= time_stamp;
               if (adc_val_state_delay == ZONE_1)
                 begin
+                  start_trg <= 1'b1;
                   finalize_trg <= 1'b1;
                 end
-            end
-          if (post_count == POST_ACQUI_LEN)
-            begin
-              start_trg <= 1'b0;
-              finalize_trg <= 1'b0;
+              else
+                begin
+                  if ((post_count>0)&(post_count<POST_ACQUI_LEN))
+                    begin
+                      start_trg <= 1'b1;
+                      finalize_trg <= 1'b1;
+                    end
+                  else
+                    begin
+                      start_trg <= 1'b0;
+                      finalize_trg <= 1'b0;                      
+                    end
+                end
             end
 	    end
 	end
 
+    // post countの動作
     always @(posedge AXIS_ACLK) 
 	begin  
 	  if (!AXIS_ARESETN) 
 	    begin
           post_count <= 0;
-          time_stamp <= 0;
 	    end
 	  else
 	    begin
-          if (finalize_trg == 1'b1)
+          if (finalize_trg)
             begin
-              post_count <= post_count + 1;
+              if (post_count>POST_ACQUI_LEN-1)
+                begin
+                  post_count <= 0;
+                end
+              else 
+                begin
+                  post_count <= post_count + 1;
+                end
             end
-          if (post_count == POST_ACQUI_LEN)
+          else
             begin
               post_count <= 0;
-              time_stamp <= 0;
-            end
+            end        
 	    end
 	end
 
+    // Thresoldの値との比較
     genvar i;
 	generate
 	  for(i=0;i<SAMPLE_PER_TDATA;i=i+1)

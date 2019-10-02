@@ -34,6 +34,9 @@ module m_axis_IF # (
     // start trigger flag
     input wire START_TRG,
 
+    // finalize trigger flag
+    input wire FINALIZE_TRG,
+
     // internal fifo full flag
     output wire O_FIFO_FULL,
 
@@ -85,6 +88,8 @@ module m_axis_IF # (
 
     // fifo read out counter
     reg [ACQUI_LEN*BIT_DIFF-1:0] fifo_read_cnt;
+    // finalize counter
+    reg [ACQUI_LEN*BIT_DIFF-1:0] fin_read_cnt;
 
     // inputting fifo ready flag
     reg fifo_ready;
@@ -182,13 +187,12 @@ module m_axis_IF # (
     end
 
 
-    // M_AXISのFlagの動作
+    // M_AXISの tuser flagの動作
     always @(posedge AXIS_ACLK )
     begin
       if (!AXIS_ARESETN)
         begin
           m_axis_tuser <= 1'b0;
-          m_axis_tlast <= 1'b0;
         end
       else
         begin
@@ -202,22 +206,68 @@ module m_axis_IF # (
                 begin
                   m_axis_tuser <= 1'b0;
                 end
-              if (fifo_read_cnt == ACQUI_LEN-1)
+            end
+          else
+            begin
+              m_axis_tuser <= 1'b0;
+            end
+        end
+    end
+
+    // M_AXISの tlast flagの動作
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          m_axis_tlast <= 1'b0;
+        end
+      else
+        begin
+          if (fifo_reen)
+            begin
+              if ((fifo_read_cnt-fin_read_cnt) == POST_ACQUI_LEN-1)
                 begin
                   m_axis_tlast <= 1'b1;
                 end
               else
                 begin
-                  m_axis_tlast <= 1'b0;
+                  if (fifo_read_cnt == ACQUI_LEN-1)
+                    begin
+                      m_axis_tlast <= 1'b1;  
+                    end
+                  else
+                    begin
+                      m_axis_tlast <= 1'b0;
+                    end
                 end
             end
           else
             begin
-              m_axis_tuser <= 1'b0;
-              m_axis_tlast <= 1'b1;
+              m_axis_tlast <= 1'b0;
             end
         end
     end
+
+    // finalize trigger flag が立った時の fifo_read_cnt の記録
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          fin_read_cnt <= 0;
+        end
+      else
+        begin
+          if (FINALIZE_TRG)
+            begin
+              fin_read_cnt <= fifo_read_cnt;
+            end
+          else
+            begin
+              fin_read_cnt <= 0;
+            end
+        end
+    end    
+
 
     // FIFOの read out のカウント
     always @(posedge AXIS_ACLK )
@@ -244,7 +294,7 @@ module m_axis_IF # (
               fifo_read_cnt <= 0;
             end
         end
-    end    
+    end
 
     // FIFOの read enableの動作
     always @(posedge AXIS_ACLK )
