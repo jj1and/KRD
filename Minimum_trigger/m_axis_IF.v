@@ -81,7 +81,7 @@ module m_axis_IF # (
     reg [S_AXIS_TDATA_WIDTH-1:0] fifo_input;
 
     // fifo data output
-    wire [S_AXIS_TDATA_WIDTH-1:0] fifo_output;
+    wire [M_AXIS_TDATA_WIDTH-1:0] fifo_output;
     
     // bit width convert buffer
     reg [S_AXIS_TDATA_WIDTH-1:0] bit_conv_buff[BIT_DIFF-1:0];
@@ -94,11 +94,9 @@ module m_axis_IF # (
     // finalize counter
     reg [ACQUI_LEN*BIT_DIFF-1:0] fin_read_cnt;
 
-    // inputting fifo ready flag
-    reg fifo_ready;
-
-    // fifo read pointer
-    reg fifo_reen;
+    // fifo read enable
+    wire fifo_reen;
+    assign fifo_reen = (!fifo_empty)&M_AXIS_TREADY;
 
     // fifo empty
     wire fifo_empty;
@@ -106,6 +104,11 @@ module m_axis_IF # (
     // fifo full
     wire fifo_full;
     assign O_FIFO_FULL = fifo_full;
+
+    // fifo 1hit dout done
+    wire DOUT_DONE;
+    reg dout_done;
+    reg dout_done_delay;
 
     // start_trg delay
     reg triggerd_flag;
@@ -115,16 +118,19 @@ module m_axis_IF # (
     reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
 
     Ring_buffer # (
-        .WIDTH(S_AXIS_TDATA_WIDTH),
-        .DEPTH(ACQUI_LEN*BIT_DIFF)
+        .DIN_WIDTH(S_AXIS_TDATA_WIDTH),
+        .DOUT_WIDTH(M_AXIS_TDATA_WIDTH),
+        .FIFO_DEPTH(ACQUI_LEN*BIT_DIFF),
+        .PRE_ACQUI_LEN(PRE_ACQUI_LEN)
     ) Ring_buff_inst ( 
         .CLK(AXIS_ACLK),
         .RESET(AXIS_ARESETN),
         .DIN(fifo_input),
         .DOUT(fifo_output),
         .WE(S_AXIS_TVALID),
-        .RE(TRIGGERD_FLAG),
+        .RE(fifo_reen),
         .TRIGGERD_FLAG(TRIGGERD_FLAG),
+        .O_DOUT_DONE(),
         .EMPTY(fifo_empty),
         .FULL(fifo_full)
     );
@@ -141,20 +147,35 @@ module m_axis_IF # (
             s_axis_tdata_delay <= S_AXIS_TDATA;
           end
     end
+
+    // FIFOのdout_doneの遅延(1clock)
+    always @(posedge AXIS_ACLK )
+    begin
+        if (!AXIS_ARESETN)
+          begin
+            dout_done <= DOUT_DONE;  
+            dout_done <= dout_done_delay;
+          end
+        else
+          begin
+            dout_done_delay <= dout_done;  
+            dout_done <= DOUT_DONE;
+          end
+    end
     
     // start trigger flag の delay
     always @(posedge AXIS_ACLK )
     begin
         if (!AXIS_ARESETN)
-        begin
+          begin
             triggerd_flag <= 1'b0;
             triggerd_flag_delay <= triggerd_flag;
-        end
+          end
         else
-        begin
+          begin
             triggerd_flag_delay <= triggerd_flag;
             triggerd_flag <= TRIGGERD_FLAG;
-        end
+           end
     end
 
     // M_AXISの tuser flagの動作
@@ -166,16 +187,9 @@ module m_axis_IF # (
         end
       else
         begin
-          if (fifo_reen)
+          if (triggerd_flag&(!triggerd_flag_delay))
             begin
-              if (triggerd_flag&(!triggerd_flag_delay))
-                begin
-                  m_axis_tuser <= 1'b1;
-                end
-              else
-                begin
-                  m_axis_tuser <= 1'b0;
-                end
+              m_axis_tuser <= 1'b1;
             end
           else
             begin
@@ -193,7 +207,7 @@ module m_axis_IF # (
         end
       else
         begin
-          if ((!triggerd_flag)&triggerd_flag_delay)
+          if ((!dout_done)&dout_done_delay)
             begin
               m_axis_tlast <= 1'b1;
             end
@@ -204,7 +218,6 @@ module m_axis_IF # (
         end
     end
     
-
     // FIFOにデータを入れる動作
     always @(posedge AXIS_ACLK )
     begin
@@ -225,53 +238,6 @@ module m_axis_IF # (
       end
     end
 
-    // FIFOからのデータのbit長変換にかかるカウント
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          bit_conv_cnt <= 0;
-        end
-      else
-        begin
-          if (fifo_reen)
-            begin
-              if ( bit_conv_cnt >= BIT_DIFF-1 )
-                begin
-                  bit_conv_cnt <= 0;
-                end
-              else
-                begin
-                  bit_conv_cnt <= bit_conv_cnt + 1;  
-                end
-            end
-          else
-            begin
-              bit_conv_cnt <= 0;
-            end
-        end
-    end 
-
-    // FIFOからのデータのbit長変換
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          for ( i=0 ; i<BIT_DIFF ; i=i+1 )
-            begin
-              bit_conv_buff[i] <= 0;  
-            end
-        end
-      else
-        begin
-          bit_conv_buff[0] <= fifo_output;
-          for ( i=1 ; i<BIT_DIFF ; i=i+1 )
-            begin
-              bit_conv_buff[i] <= bit_conv_buff[i-1];
-            end
-        end    
-    end
-
-    assign M_AXIS_TDATA = bit_conv_buff[BIT_DIFF-1]; 
+    assign M_AXIS_TDATA = fifo_output; 
 
 endmodule
