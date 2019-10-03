@@ -129,7 +129,7 @@ module base_calc # (
 	    begin
           if ( calc_en )
             begin
-              if (bl_calc_cnt < BASELINE_CALC_LEN)
+              if (bl_calc_cnt < BASELINE_CALC_LEN-1)
                 begin
                   for (j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
                     begin
