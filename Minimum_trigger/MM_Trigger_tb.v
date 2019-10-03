@@ -9,7 +9,7 @@ module MM_Trigger_tb;
     parameter THRESHOLD = 20;
     // acquiasion length settings
     parameter integer PRE_ACQUI_LEN = 24/2;
-    parameter integer POST_ACQUI_LEN = 76/24;
+    parameter integer POST_ACQUI_LEN = 76/2;
     // Baselineの計算時間
     parameter BASELINE_CALC_LEN = 10;
     // FIFO depth setting
