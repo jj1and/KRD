@@ -88,15 +88,15 @@ module base_calc # (
 	    begin
           if ( calc_en )
             begin
-              if (bl_calc_cnt < BASELINE_CALC_LEN)
-                begin
-                  bl_calc_cnt <= bl_calc_cnt + 1;
-                  calc_comp <= 1'b0;
-                end
-              else
+              if (bl_calc_cnt >= BASELINE_CALC_LEN-1)
                 begin
                   bl_calc_cnt <= bl_calc_cnt;
                   calc_comp <= 1'b1;
+                end
+              else
+                begin
+                  bl_calc_cnt <= bl_calc_cnt + 1;
+                  calc_comp <= 1'b0;
                 end
             end
           else
