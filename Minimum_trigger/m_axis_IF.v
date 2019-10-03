@@ -31,10 +31,7 @@ module m_axis_IF # (
 	input wire [TIME_STAMP_WIDTH-1:0] TIME_STAMP,
 
     // start trigger flag
-    input wire START_TRG,
-
-    // finalize trigger flag
-    input wire FINALIZE_TRG,
+    input wire TRIGGERD_FLAG,
 
     // internal fifo full flag
     output wire O_FIFO_FULL,
@@ -67,15 +64,6 @@ module m_axis_IF # (
     localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
     localparam integer BIT_CONVERT_CNT_WIDTH = clogb2(BIT_DIFF-1);
     integer i;
-
-    // pre acquiasion buffer
-    reg [S_AXIS_TDATA_WIDTH-1:0] pre_acqui_buff[PRE_ACQUI_LEN-1:0];
-
-    // pre acquiasion buffer write pointer
-    reg [PRE_ACQUI_LEN-1:0] pre_wrp = 0;
-
-    // pre acquiasion buffer read pointer
-    reg [PRE_ACQUI_LEN-1:0] pre_rep = 0;
 
     // pre acquiasion buffer write enable
     wire pre_wren;
@@ -120,22 +108,23 @@ module m_axis_IF # (
     assign O_FIFO_FULL = fifo_full;
 
     // start_trg delay
-    reg start_trg;
-    reg start_trg_delay;
+    reg triggerd_flag;
+    reg triggerd_flag_delay;
 
     // S_AXIS_TDATA_delay
     reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
 
-    Fifo # (
+    Ring_buffer # (
         .WIDTH(S_AXIS_TDATA_WIDTH),
         .DEPTH(ACQUI_LEN*BIT_DIFF)
-    ) BUFF_FIFO_inst ( 
+    ) Ring_buff_inst ( 
         .CLK(AXIS_ACLK),
         .RESET(AXIS_ARESETN),
         .DIN(fifo_input),
         .DOUT(fifo_output),
-        .WE(fifo_ready),
-        .RE(fifo_reen),
+        .WE(S_AXIS_TVALID),
+        .RE(TRIGGERD_FLAG),
+        .TRIGGERD_FLAG(TRIGGERD_FLAG),
         .EMPTY(fifo_empty),
         .FULL(fifo_full)
     );
@@ -158,66 +147,15 @@ module m_axis_IF # (
     begin
         if (!AXIS_ARESETN)
         begin
-            start_trg <= 1'b0;
-            start_trg_delay <= start_trg;
+            triggerd_flag <= 1'b0;
+            triggerd_flag_delay <= triggerd_flag;
         end
         else
         begin
-            start_trg_delay <= start_trg;
-            start_trg <= START_TRG;
+            triggerd_flag_delay <= triggerd_flag;
+            triggerd_flag <= TRIGGERD_FLAG;
         end
     end
-
-    // pre-acquiation buffer　にデータを一時保存
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          for ( i=0 ; i<PRE_ACQUI_LEN ; i=i+1 )
-            begin
-              pre_acqui_buff[i] <= 0;
-            end
-        end
-      else
-        begin
-          if (pre_wren)
-            begin
-              pre_acqui_buff[pre_wrp] <= S_AXIS_TDATA;
-            end
-          else
-            begin
-              pre_acqui_buff[pre_wrp] <= pre_acqui_buff[pre_wrp];
-            end
-        end
-    end
-
-   // pre-acquiasion buffer の write pointer の動作
-   always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          pre_wrp <= 0;
-        end
-      else
-        begin
-          if (pre_wren)
-            begin
-              if (pre_wrp == PRE_ACQUI_LEN-1 ) 
-                begin
-                  pre_wrp <= 0;
-                end
-              else
-                begin
-                  pre_wrp <= pre_wrp + 1;
-                end
-            end
-          else
-            begin
-              pre_wrp <= pre_wrp;
-            end
-        end
-    end
-
 
     // M_AXISの tuser flagの動作
     always @(posedge AXIS_ACLK )
@@ -230,7 +168,7 @@ module m_axis_IF # (
         begin
           if (fifo_reen)
             begin
-              if (fifo_read_cnt == 0)
+              if (triggerd_flag&(!triggerd_flag_delay))
                 begin
                   m_axis_tuser <= 1'b1;
                 end
@@ -255,23 +193,9 @@ module m_axis_IF # (
         end
       else
         begin
-          if (fifo_reen)
+          if ((!triggerd_flag)&triggerd_flag_delay)
             begin
-              if ((fifo_read_cnt-fin_read_cnt) == POST_ACQUI_LEN-1)
-                begin
-                  m_axis_tlast <= 1'b1;
-                end
-              else
-                begin
-                  if (fifo_read_cnt == ACQUI_LEN-1)
-                    begin
-                      m_axis_tlast <= 1'b1;  
-                    end
-                  else
-                    begin
-                      m_axis_tlast <= 1'b0;
-                    end
-                end
+              m_axis_tlast <= 1'b1;
             end
           else
             begin
@@ -279,74 +203,7 @@ module m_axis_IF # (
             end
         end
     end
-
-    // finalize trigger flag が立った時の fifo_read_cnt の記録
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          fin_read_cnt <= 0;
-        end
-      else
-        begin
-          if (FINALIZE_TRG)
-            begin
-              fin_read_cnt <= fifo_read_cnt;
-            end
-          else
-            begin
-              fin_read_cnt <= 0;
-            end
-        end
-    end    
-
-
-    // FIFOの read out のカウント
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          fifo_read_cnt <= 0;
-        end
-      else
-        begin
-          if (fifo_reen)
-            begin
-              if ( fifo_read_cnt < ACQUI_LEN )
-                begin
-                  fifo_read_cnt <= fifo_read_cnt + 1;  
-                end
-              else
-                begin
-                  fifo_read_cnt <= 0;
-                end
-            end
-          else
-            begin
-              fifo_read_cnt <= 0;
-            end
-        end
-    end  
-
-    // FIFOの read enableの動作
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          fifo_reen <= 1'b0;
-        end
-      else
-        begin
-          if ((!fifo_empty)&M_AXIS_TREADY)
-            begin
-              fifo_reen <= 1'b1;
-            end
-          else
-            begin
-              fifo_reen <= 1'b0;
-            end
-        end
-    end        
+    
 
     // FIFOにデータを入れる動作
     always @(posedge AXIS_ACLK )
@@ -357,22 +214,15 @@ module m_axis_IF # (
         end
       else
         begin
-          if (START_TRG)
+          if (triggerd_flag&(!triggerd_flag_delay))
             begin
-              if (!start_trg_delay)
-                begin
-                  fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
-                end
-              else
-                begin
-                  fifo_input <= s_axis_tdata_delay;
-                end
+              fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
             end
           else
             begin
-              fifo_input <= fifo_input;
+              fifo_input <= s_axis_tdata_delay;
             end
-        end
+      end
     end
 
     // FIFOからのデータのbit長変換にかかるカウント
@@ -386,7 +236,7 @@ module m_axis_IF # (
         begin
           if (fifo_reen)
             begin
-              if ( bit_conv_cnt > BIT_DIFF-1 )
+              if ( bit_conv_cnt >= BIT_DIFF-1 )
                 begin
                   bit_conv_cnt <= 0;
                 end
@@ -423,39 +273,5 @@ module m_axis_IF # (
     end
 
     assign M_AXIS_TDATA = bit_conv_buff[BIT_DIFF-1]; 
-  
-    // FIFOの write enable の動作
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          fifo_ready <= 1'b0;
-        end
-      else
-        begin
-          if (START_TRG)
-            begin
-              if (fifo_full)
-                begin
-                  fifo_ready <= 1'b0;
-                end
-              else
-                begin
-                  fifo_ready <= 1'b1;
-                end
-            end
-          else
-            begin
-              if (fifo_ready)
-                begin
-                  fifo_ready <= 1'b0;
-                end
-              else
-                begin
-                  fifo_ready <= fifo_ready;
-                end
-            end
-        end
-    end
 
 endmodule
