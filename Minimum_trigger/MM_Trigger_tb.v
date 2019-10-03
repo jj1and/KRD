@@ -85,7 +85,7 @@ module MM_Trigger_tb;
         .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH),
         .M_AXIS_TDATA_WIDTH(M_AXIS_TDATA_WIDTH)
     ) DUT (    
-        .O_INTERNAL_FIFO_FULL(),
+        .O_INTERNAL_FIFO_FULL(fifo_full),
         .AXIS_ACLK(axis_aclk),
         .AXIS_ARESETN(axis_aresetn),
         .S_AXIS_TREADY(s_axis_tready),
