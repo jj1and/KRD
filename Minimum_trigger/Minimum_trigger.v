@@ -74,8 +74,7 @@ module Minimum_trigger # (
     wire [ADC_RESOLUTION_WIDTH-1:0] base_line;
     wire [TIME_STAMP_WIDTH-1:0] curr_time;
     wire [TIME_STAMP_WIDTH-1:0] time_stamp;
-    wire start_trg;
-    wire finalize_trg;
+    wire triggerd_flag;
     wire bl_calc_comp;
 
 
@@ -131,8 +130,7 @@ module Minimum_trigger # (
           .BASELINE(base_line),
           .CURRENT_TIME(curr_time),
           .O_TIME_STAMP(time_stamp),
-          .O_START_TRG(start_trg),
-          .O_FINALIZE_TRG(finalize_trg),
+          .O_TRIGGERD_FLAG(triggerd_flag),
           .AXIS_ACLK(AXIS_ACLK),
           .AXIS_ARESETN(AXIS_ARESETN),
           .S_AXIS_TDATA(S_AXIS_TDATA)
@@ -164,8 +162,7 @@ module Minimum_trigger # (
         .M_AXIS_TDATA_WIDTH(M_AXIS_TDATA_WIDTH)
       ) m_axis_IF_inst (    
         .TIME_STAMP(time_stamp),
-        .START_TRG(start_trg),
-        .FINALIZE_TRG(finalize_trg),
+        .TRIGGERD_FLAG(triggerd_flag),
         .O_FIFO_FULL(O_INTERNAL_FIFO_FULL),
         .AXIS_ACLK(AXIS_ACLK),
         .AXIS_ARESETN(AXIS_ARESETN),
