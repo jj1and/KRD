@@ -43,14 +43,14 @@ module MM_trg # (
 
 );
 
-	// function called clogb2 that returns an integer which has the 
-	// value of the ceiling of the log base 2.
-	function integer clogb2 (input integer bit_depth);
-	  begin
-	    for(clogb2=0; bit_depth>0; clogb2=clogb2+1)
-	      bit_depth = bit_depth >> 1;
-	  end
-	endfunction
+    // function called clogb2 that returns an integer which has the 
+    // value of the ceiling of the log base 2.
+    function integer clogb2 (input integer bit_depth);
+      begin
+        for(clogb2=0; bit_depth>0; clogb2=clogb2+1)
+          bit_depth = bit_depth >> 1;
+      end
+    endfunction
 
     localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN-1); 
     localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
@@ -83,113 +83,113 @@ module MM_trg # (
     // trigger time stamp
     reg [TIME_STAMP_WIDTH-1:0] time_stamp;
 
-   // ADCの値がどの範囲にあるか判定
+    // ADCの値がどの範囲にあるか判定
     always @(posedge AXIS_ACLK) 
-	begin  
-	  if (!AXIS_ARESETN) 
-	    begin
-	      adc_val_state <= ZONE_0;
-          adc_val_state_delay <= adc_val_state;
-	    end
-	  else
-	    begin
-          if (EXEC_STATE == INIT)
+    begin  
+    if (!AXIS_ARESETN) 
+        begin
+        adc_val_state <= ZONE_0;
+        adc_val_state_delay <= adc_val_state;
+        end
+    else
+        begin
+        if (EXEC_STATE == INIT)
             begin
-              adc_val_state_delay <= adc_val_state;
-              adc_val_state <= CALB;
+            adc_val_state_delay <= adc_val_state;
+            adc_val_state <= CALB;
             end
-          else
+        else
             begin
-              if (|compare_result)
+            if (|compare_result)
                 begin
-                  adc_val_state_delay <= adc_val_state;
-                  adc_val_state <= ZONE_1;
+                adc_val_state_delay <= adc_val_state;
+                adc_val_state <= ZONE_1;
                 end
-              else
+            else
                 begin
-                  adc_val_state_delay <= adc_val_state;
-                  adc_val_state <= ZONE_0;
+                adc_val_state_delay <= adc_val_state;
+                adc_val_state <= ZONE_0;
                 end
             end
-	    end
-	end
+        end
+    end
 
     // trigger flag の 動作
     always @(posedge AXIS_ACLK) 
-	begin  
-	  if (!AXIS_ARESETN) 
-	    begin
-	      start_trg <= 1'b0;
-          finalize_trg <= 1'b0;
-          time_stamp <= 0;
-	    end
-	  else
-	    begin
-          if (adc_val_state == ZONE_1)
+    begin  
+    if (!AXIS_ARESETN) 
+        begin
+        start_trg <= 1'b0;
+        finalize_trg <= 1'b0;
+        time_stamp <= 0;
+        end
+    else
+        begin
+        if (adc_val_state == ZONE_1)
             begin
-              start_trg <= 1'b1;
-              time_stamp <= CURRENT_TIME;
+            start_trg <= 1'b1;
+            time_stamp <= CURRENT_TIME;
             end
-          else
+        else
             begin
-              time_stamp <= time_stamp;
-              if (adc_val_state_delay == ZONE_1)
+            time_stamp <= time_stamp;
+            if (adc_val_state_delay == ZONE_1)
                 begin
-                  start_trg <= 1'b1;
-                  finalize_trg <= 1'b1;
+                start_trg <= 1'b1;
+                finalize_trg <= 1'b1;
                 end
-              else
+            else
                 begin
-                  if ((post_count>0)&(post_count<POST_ACQUI_LEN))
+                if ((post_count>0)&(post_count<POST_ACQUI_LEN))
                     begin
-                      start_trg <= 1'b1;
-                      finalize_trg <= 1'b1;
+                    start_trg <= 1'b1;
+                    finalize_trg <= 1'b1;
                     end
-                  else
+                else
                     begin
-                      start_trg <= 1'b0;
-                      finalize_trg <= 1'b0;                      
+                    start_trg <= 1'b0;
+                    finalize_trg <= 1'b0;                      
                     end
                 end
             end
-	    end
-	end
+        end
+    end
 
     // post countの動作
     always @(posedge AXIS_ACLK) 
-	begin  
-	  if (!AXIS_ARESETN) 
-	    begin
-          post_count <= 0;
-	    end
-	  else
-	    begin
-          if (finalize_trg)
+    begin  
+    if (!AXIS_ARESETN) 
+        begin
+        post_count <= 0;
+        end
+    else
+        begin
+        if (finalize_trg)
             begin
-              if (post_count>POST_ACQUI_LEN-1)
+            if (post_count>POST_ACQUI_LEN-1)
                 begin
-                  post_count <= 0;
+                post_count <= 0;
                 end
-              else 
+            else 
                 begin
-                  post_count <= post_count + 1;
+                post_count <= post_count + 1;
                 end
             end
-          else
+        else
             begin
-              post_count <= 0;
+            post_count <= 0;
             end        
-	    end
-	end
+        end
+    end
 
     // Thresoldの値との比較
     genvar i;
-	generate
-	  for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
-	    begin
-	      assign compare_result[i] = ((S_AXIS_TDATA[16*i+:ADC_RESOLUTION_WIDTH]-BASELINE) >= THRESHOLD_VAL);
-	    end
-	endgenerate
+    generate
+    for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
+        begin
+        assign compare_result[i] = ((S_AXIS_TDATA[16*i+:ADC_RESOLUTION_WIDTH]-BASELINE) >= THRESHOLD_VAL);
+        end
+    endgenerate
 
     assign O_TIME_STAMP = time_stamp;
     assign O_START_TRG = start_trg;

@@ -123,6 +123,9 @@ module m_axis_IF # (
     reg start_trg;
     reg start_trg_delay;
 
+    // S_AXIS_TDATA_delay
+    reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
+
     Fifo # (
         .WIDTH(S_AXIS_TDATA_WIDTH),
         .DEPTH(ACQUI_LEN*BIT_DIFF)
@@ -136,6 +139,19 @@ module m_axis_IF # (
         .EMPTY(fifo_empty),
         .FULL(fifo_full)
     );
+
+    // 入力データの遅延(1clock)
+    always @(posedge AXIS_ACLK )
+    begin
+        if (!AXIS_ARESETN)
+          begin
+            s_axis_tdata_delay <= 0;  
+          end
+        else
+          begin
+            s_axis_tdata_delay <= S_AXIS_TDATA;
+          end
+    end
     
     // start trigger flag の delay
     always @(posedge AXIS_ACLK )
@@ -349,7 +365,7 @@ module m_axis_IF # (
                 end
               else
                 begin
-                  fifo_input <= S_AXIS_TDATA;
+                  fifo_input <= s_axis_tdata_delay;
                 end
             end
           else
