@@ -25,7 +25,7 @@ module time_counter # (
     output wire [TIME_STAMP_WIDTH-1:0] O_CURRENT_TIME
 );
 
-    localparam integer MAX_TIME_COUNT = 2^TIME_STAMP_WIDTH-1;
+    localparam integer MAX_TIME_COUNT = 2**TIME_STAMP_WIDTH-1;
     localparam integer DIVIDE_NUM = AXIS_ACLK_FREQ/TIMER_RESO_FREQ;
 
     //  exec state

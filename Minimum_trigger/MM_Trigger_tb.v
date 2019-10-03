@@ -28,7 +28,7 @@ module MM_Trigger_tb;
     parameter M_AXIS_TDATA_WIDTH	= 64;
 
     // --- function/task用 ---
-    parameter ADC_MAX_VAL = 2^ADC_RESOLUTION_WIDTH-1;
+    parameter ADC_MAX_VAL = 2**ADC_RESOLUTION_WIDTH-1;
     parameter integer ACLK_PERIOD = 1E12/AXIS_ACLK_FREQ;
     parameter RESET_TIME = 10;
     parameter PRE_SIG = 10;

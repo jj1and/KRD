@@ -55,7 +55,7 @@ module MM_trg # (
     localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN-1); 
     localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
     localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
-    localparam integer THRESHOLD_VAL = (2^ADC_RESOLUTION_WIDTH)*THRESHOLD/100;
+    localparam integer THRESHOLD_VAL = (2**ADC_RESOLUTION_WIDTH-1)*THRESHOLD/100;
 
     //  exec state
     localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
