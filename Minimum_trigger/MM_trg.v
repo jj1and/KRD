@@ -76,6 +76,7 @@ module MM_trg # (
 
     // finalizing trigger
     reg finalize_trg;
+    reg finalize_trg_delay;
 
     // finish trigger flag
     reg finish_trg;
@@ -133,6 +134,8 @@ module MM_trg # (
     if (!AXIS_ARESETN) 
         begin
         triggerd_flag <= 1'b0;
+        finalize_trg <= 1'b0;
+        finalize_trg_delay <= finalize_trg;
         time_stamp <= 0;
         end
     else
@@ -147,17 +150,20 @@ module MM_trg # (
             time_stamp <= time_stamp;
             if (adc_val_state_delay == ZONE_1)
                 begin
+                finalize_trg_delay <= finalize_trg;
                 finalize_trg <= 1'b1;
                 end
             else
                 begin
                 if (finish_trg|over_len_flag)
                     begin
+                    finalize_trg_delay <= finalize_trg;
                     triggerd_flag <= 1'b0;
                     finalize_trg <= 1'b0;
                     end
                 else
                     begin
+                    finalize_trg_delay <= finalize_trg;
                     triggerd_flag <= 1'b1;
                     finalize_trg <= 1'b1;                      
                     end
@@ -172,27 +178,27 @@ module MM_trg # (
     if (!AXIS_ARESETN) 
         begin
         finish_trg <= 1'b1;
-        post_count <= 0;
+        post_count <= POST_ACQUI_LEN-1;
         end
     else
         begin
-        if (finalize_trg)
+        if (finalize_trg&(!finalize_trg_delay))
             begin
-            if (post_count>=POST_ACQUI_LEN-1)
-                begin
-                finish_trg <= 1'b1;
-                post_count <= 0;
-                end
-            else 
-                begin
                 finish_trg <= 1'b0;
-                post_count <= post_count + 1;
-                end
+                post_count <= 0;
             end
         else
             begin
-            finish_trg <= 1'b1;
-            post_count <= 0;
+                if (post_count>=POST_ACQUI_LEN-1)
+                    begin
+                        finish_trg <= 1'b1;
+                        post_count <= POST_ACQUI_LEN-1;
+                    end
+                else 
+                    begin
+                        finish_trg <= 1'b0;
+                        post_count <= post_count + 1;
+                    end
             end        
         end
     end
