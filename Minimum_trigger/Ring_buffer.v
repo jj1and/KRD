@@ -193,7 +193,8 @@ module Ring_buffer # (
     begin
       if (!RESET)
         begin
-          dout_done <= 1'b1;        
+          dout_done <= 1'b1;
+          rp <= 0;        
         end
       else
         begin
