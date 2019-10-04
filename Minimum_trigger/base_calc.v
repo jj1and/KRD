@@ -54,19 +54,19 @@ module base_calc # (
                      TRG = 2'b11; // ADC > THRESHOLD_VAL
 
     // baseline 計算用カウンター
-    reg [CALC_COUNTER_WIDTH-1:0]  bl_calc_cnt;
+    reg signed [CALC_COUNTER_WIDTH-1:0]  bl_calc_cnt;
 
     // 平均baseline
-    reg [ADC_RESOLUTION_WIDTH-1:0] ave_baseline;
+    reg signed [ADC_RESOLUTION_WIDTH-1:0] ave_baseline;
     assign O_BASELINE = ave_baseline;
 
     // 平均baseline
-    reg [ADC_RESOLUTION_WIDTH-1:0] temp_ave_baseline;
+    reg signed [ADC_RESOLUTION_WIDTH-1:0] temp_ave_baseline;
     // temporary baseline sum (data bus が 128bitを想定)
-    reg [ADC_RESOLUTION_WIDTH-1+SUM_BIT_WIDTH:0] temp_bl_sum;
+    reg signed [ADC_RESOLUTION_WIDTH-1+SUM_BIT_WIDTH:0] temp_bl_sum;
 
     // S_AXIS_TDATAを分割するための配列
-    wire [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
+    wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
 
     // baseline calc start enable
     wire calc_en;

@@ -26,7 +26,7 @@ module MM_trg # (
     input wire [1:0] EXEC_STATE,
 
     // Baseline value
-    input wire [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
+    input wire signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
     
     // current time
     input wire [TIME_STAMP_WIDTH-1:0] CURRENT_TIME,
@@ -57,7 +57,7 @@ module MM_trg # (
     localparam integer FULL_COUNTER_WIDTH = clogb2(ACQUI_LEN-1);
     localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
     localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
-    localparam integer THRESHOLD_VAL = (2**ADC_RESOLUTION_WIDTH-1)*THRESHOLD/100;
+    localparam signed THRESHOLD_VAL = (2**ADC_RESOLUTION_WIDTH-1)*THRESHOLD/100;
 
     //  exec state
     localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
@@ -84,6 +84,8 @@ module MM_trg # (
     // ACQUI_LEN 内にtriggerが終わらなかった場合のフラグ
     reg over_len_flag;
 
+    // S_AXIS_TDATAを分割するための配列
+    wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
 
     // POST ACQUIASION COUNTER
     reg [POST_COUNTER_WIDTH-1:0] post_count = 0;
@@ -233,14 +235,22 @@ module MM_trg # (
             full_count <= 0;
             end
         end
-    end  
+    end
+
+    // S_AXIS_TDATAの分割
+    genvar i;
+    generate
+      for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 )
+        begin
+          assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*i +:ADC_RESOLUTION_WIDTH];
+        end
+    endgenerate  
 
     // Thresoldの値との比較
-    genvar i;
     generate
     for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
         begin
-        assign compare_result[i] = ((S_AXIS_TDATA[16*i+:ADC_RESOLUTION_WIDTH]-BASELINE) >= THRESHOLD_VAL);
+        assign compare_result[i] = ((s_axis_tdata_word[i]-BASELINE) >= THRESHOLD_VAL);
         end
     endgenerate
 
