@@ -121,7 +121,8 @@ module Ring_buffer # (
     begin
       if (!RESET)
         begin
-          current_rp <= 0;  
+          current_rp <= 0;
+          past_rp <= 0;  
         end
       else
         begin
@@ -150,7 +151,7 @@ module Ring_buffer # (
                   else
                     begin
                       past_rp <= current_rp;
-                      current_rp <= wp+FIFO_DEPTH-PRE_ACQUI_LEN;
+                      current_rp <= wp-PRE_ACQUI_LEN;
                     end
                 end
             end 
