@@ -107,11 +107,9 @@ module m_axis_IF # (
 
     // fifo 1hit dout done
     wire DOUT_DONE;
-    reg dout_done;
     reg dout_done_delay;
 
     // start_trg delay
-    reg triggerd_flag;
     reg triggerd_flag_delay;
 
     // S_AXIS_TDATA_delay
@@ -153,13 +151,11 @@ module m_axis_IF # (
     begin
         if (!AXIS_ARESETN)
           begin
-            dout_done <= DOUT_DONE;  
-            dout_done <= dout_done_delay;
+            dout_done_delay <= DOUT_DONE;  
           end
         else
           begin
-            dout_done_delay <= dout_done;  
-            dout_done <= DOUT_DONE;
+            dout_done_delay <= DOUT_DONE;  
           end
     end
     
@@ -168,13 +164,11 @@ module m_axis_IF # (
     begin
         if (!AXIS_ARESETN)
           begin
-            triggerd_flag <= 1'b0;
-            triggerd_flag_delay <= triggerd_flag;
+            triggerd_flag_delay <= TRIGGERD_FLAG;
           end
         else
           begin
-            triggerd_flag_delay <= triggerd_flag;
-            triggerd_flag <= TRIGGERD_FLAG;
+            triggerd_flag_delay <= TRIGGERD_FLAG;
            end
     end
 
@@ -187,7 +181,7 @@ module m_axis_IF # (
         end
       else
         begin
-          if (triggerd_flag&(!triggerd_flag_delay))
+          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
             begin
               m_axis_tuser <= 1'b1;
             end
@@ -207,7 +201,7 @@ module m_axis_IF # (
         end
       else
         begin
-          if ((!dout_done)&dout_done_delay)
+          if (!DOUT_DONE&(dout_done_delay))
             begin
               m_axis_tlast <= 1'b1;
             end
@@ -227,7 +221,7 @@ module m_axis_IF # (
         end
       else
         begin
-          if (triggerd_flag&(!triggerd_flag_delay))
+          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
             begin
               fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
             end
