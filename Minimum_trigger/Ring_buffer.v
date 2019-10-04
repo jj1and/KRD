@@ -47,6 +47,7 @@ module Ring_buffer # (
     reg putout_flag;
     reg putout_flag_delay;
 
+    assign O_DOUT_DONE = dout_done;
     assign DOUT = bit_conv_buff[BIT_DIFF-1];
     assign EMPTY = (wp == current_rp);
     assign FULL = (wp+1 == current_rp);
