@@ -201,7 +201,7 @@ module m_axis_IF # (
         end
       else
         begin
-          if (!DOUT_DONE&(dout_done_delay))
+          if (DOUT_DONE&(!dout_done_delay))
             begin
               m_axis_tlast <= 1'b1;
             end
