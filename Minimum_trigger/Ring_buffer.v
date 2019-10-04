@@ -43,7 +43,6 @@ module Ring_buffer # (
     reg [BIT_CONVERT_CNT_WIDTH-1:0] bit_conv_cnt;
     reg [DOUT_WIDTH-1:0] bit_conv_buff[BIT_DIFF-1:0];
     reg dout_done;
-    reg triggerd_flag;
     reg triggerd_flag_delay;
     reg putout_flag;
     reg putout_flag_delay;
@@ -56,13 +55,11 @@ module Ring_buffer # (
     begin
         if (!RESET)
         begin
-            triggerd_flag <= 1'b0;
-            triggerd_flag_delay <= triggerd_flag;
+            triggerd_flag_delay <= TRIGGERD_FLAG;
         end
         else
         begin
-            triggerd_flag_delay <= triggerd_flag;
-            triggerd_flag <= TRIGGERD_FLAG;    
+            triggerd_flag_delay <= TRIGGERD_FLAG;
         end
     end
 
@@ -126,7 +123,7 @@ module Ring_buffer # (
         end
       else
         begin
-          if (triggerd_flag&(!triggerd_flag_delay))
+          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
             begin
               if (wp<PRE_ACQUI_LEN)
                 begin
@@ -258,8 +255,9 @@ module Ring_buffer # (
         begin
           for ( i=1 ; i<BIT_DIFF ; i=i+1 )
             begin
-              bit_conv_buff[i] <= sram[rp][DOUT_WIDTH*i +:DOUT_WIDTH];
+              bit_conv_buff[i] <= bit_conv_buff[i-1];
             end
+          bit_conv_buff[0] <= sram[rp][DEPTH_WIDTH*0 +:DEPTH_WIDTH];
         end    
     end
 
@@ -271,7 +269,7 @@ module Ring_buffer # (
         end
       else
         begin
-          if ((!triggerd_flag)&triggerd_flag_delay)
+          if ((!TRIGGERD_FLAG)&triggerd_flag_delay)
             begin
               fin_wp <= wp;
             end
@@ -291,7 +289,7 @@ module Ring_buffer # (
         end
       else
         begin
-          if (triggerd_flag&(!triggerd_flag_delay))
+          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
             begin
               putout_flag_delay <= putout_flag;
               putout_flag <= 1'b1;
