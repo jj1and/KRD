@@ -45,7 +45,6 @@ module Ring_buffer # (
     reg dout_done;
     reg triggerd_flag_delay;
     reg putout_flag;
-    reg putout_flag_delay;
 
     assign O_DOUT_DONE = dout_done;
     assign DOUT = bit_conv_buff[BIT_DIFF-1];
@@ -119,8 +118,8 @@ module Ring_buffer # (
     begin
       if (!RESET)
         begin
-          current_rp <= 0;
-          past_rp <= 0;  
+          current_rp = 0;
+          past_rp = 0;  
         end
       else
         begin
@@ -128,35 +127,35 @@ module Ring_buffer # (
             begin
               if (wp<PRE_ACQUI_LEN)
                 begin
-                  if (past_rp<current_rp)
+                  if (past_rp<(wp+FIFO_DEPTH-PRE_ACQUI_LEN))
                     begin
-                      past_rp <= past_rp;
-                      current_rp <= past_rp;
+                      past_rp = current_rp;
+                      current_rp = wp+FIFO_DEPTH-PRE_ACQUI_LEN;
                     end
                   else
                     begin
-                      past_rp <= current_rp;
-                      current_rp <= wp+FIFO_DEPTH-PRE_ACQUI_LEN;
+                      past_rp = past_rp;
+                      current_rp = past_rp;
                     end
                 end
               else
                 begin
-                  if (past_rp>current_rp)
+                  if (past_rp<(wp-PRE_ACQUI_LEN))
                     begin
-                      past_rp <= past_rp;
-                      current_rp <= past_rp;
+                      past_rp = current_rp;
+                      current_rp = wp-PRE_ACQUI_LEN;
                     end
                   else
                     begin
-                      past_rp <= current_rp;
-                      current_rp <= wp-PRE_ACQUI_LEN;
+                      past_rp = past_rp;
+                      current_rp = past_rp;
                     end
                 end
             end 
           else
             begin
-              past_rp <= past_rp;
-              current_rp <= current_rp;
+              past_rp = past_rp;
+              current_rp = current_rp;
             end          
         end    
     end
@@ -286,18 +285,15 @@ module Ring_buffer # (
       if (!RESET) 
         begin
           putout_flag <= 1'b0;
-          putout_flag_delay <= putout_flag;
         end
       else
         begin
           if (TRIGGERD_FLAG&(!triggerd_flag_delay))
             begin
-              putout_flag_delay <= putout_flag;
               putout_flag <= 1'b1;
             end
           else
             begin
-              putout_flag_delay <= putout_flag;
               putout_flag <= 1'b0;;
             end
         end  

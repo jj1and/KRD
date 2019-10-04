@@ -105,28 +105,37 @@ module MM_trg # (
     if (!AXIS_ARESETN) 
         begin
         adc_val_state <= ZONE_0;
-        adc_val_state_delay <= adc_val_state;
         end
     else
         begin
         if (EXEC_STATE == INIT)
             begin
-            adc_val_state_delay <= adc_val_state;
             adc_val_state <= CALB;
             end
         else
             begin
             if (|compare_result)
                 begin
-                adc_val_state_delay <= adc_val_state;
                 adc_val_state <= ZONE_1;
                 end
             else
                 begin
-                adc_val_state_delay <= adc_val_state;
                 adc_val_state <= ZONE_0;
                 end
             end
+        end
+    end
+
+    // adc_val_stateのディレイ
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          adc_val_state_delay <= 0;
+        end
+      else
+        begin
+          adc_val_state_delay <= adc_val_state;
         end
     end
 
@@ -137,7 +146,6 @@ module MM_trg # (
         begin
         triggerd_flag <= 1'b0;
         finalize_trg <= 1'b0;
-        finalize_trg_delay <= finalize_trg;
         time_stamp <= 0;
         end
     else
@@ -153,25 +161,35 @@ module MM_trg # (
             if (adc_val_state_delay == ZONE_1)
                 begin
                 triggerd_flag <= 1'b1;
-                finalize_trg_delay <= finalize_trg;
                 finalize_trg <= 1'b1;
                 end
             else
                 begin
                 if (finish_trg|over_len_flag)
                     begin
-                    finalize_trg_delay <= finalize_trg;
                     triggerd_flag <= 1'b0;
                     finalize_trg <= 1'b0;
                     end
                 else
                     begin
-                    finalize_trg_delay <= finalize_trg;
                     triggerd_flag <= 1'b1;
                     finalize_trg <= 1'b1;                      
                     end
                 end
             end
+        end
+    end
+
+    // finalize_trg delay
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          finalize_trg_delay <= 0;
+        end
+      else
+        begin
+          finalize_trg_delay <= finalize_trg;
         end
     end
 
