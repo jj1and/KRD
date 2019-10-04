@@ -183,7 +183,7 @@ module MM_trg # (
         end
     else
         begin
-        if (finalize_trg&(!finalize_trg_delay))
+        if ((adc_val_state == ZONE_1)&((adc_val_state_delay == ZONE_1)))
             begin
             finish_trg <= 1'b0;
             post_count <= 0;
