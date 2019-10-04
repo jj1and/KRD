@@ -47,6 +47,7 @@ module m_axis_IF # (
 
     // Ports of Axi-stream Master Bus Interface
     output wire [M_AXIS_TDATA_WIDTH-1:0] M_AXIS_TDATA,
+    output wire M_AXIS_TVALID,
     output wire M_AXIS_TLAST,
     output wire M_AXIS_TUSER,
     input wire M_AXIS_TREADY
@@ -96,7 +97,8 @@ module m_axis_IF # (
 
     // fifo read enable
     wire fifo_reen;
-    assign fifo_reen = (!fifo_empty)&M_AXIS_TREADY;
+    assign fifo_reen = !fifo_empty;
+    assign M_AXIS_TVALID = fifo_reen;
 
     // fifo empty
     wire fifo_empty;

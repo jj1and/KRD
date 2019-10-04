@@ -48,6 +48,7 @@ module Minimum_trigger # (
 
     // Ports of Axi-stream Master Bus Interface
     output wire [M_AXIS_TDATA_WIDTH-1:0] M_AXIS_TDATA,
+    output wire M_AXIS_TVALID,
     output wire M_AXIS_TLAST,
     output wire M_AXIS_TUSER,
     input wire M_AXIS_TREADY
@@ -171,6 +172,7 @@ module Minimum_trigger # (
         .S_AXIS_TDATA(S_AXIS_TDATA),
         .S_AXIS_TVALID(S_AXIS_TVALID),
         .M_AXIS_TDATA(M_AXIS_TDATA),
+        .M_AXIS_TVALID(M_AXIS_TVALID),
         .M_AXIS_TLAST(M_AXIS_TLAST),
         .M_AXIS_TUSER(M_AXIS_TUSER),
         .M_AXIS_TREADY(M_AXIS_TREADY)
