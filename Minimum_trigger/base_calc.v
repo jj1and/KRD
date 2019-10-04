@@ -131,10 +131,6 @@ module base_calc # (
             begin
               if (bl_calc_cnt < BASELINE_CALC_LEN-1)
                 begin
-                  for (j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
-                    begin
-                      temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];  
-                    end
                   if (bl_calc_cnt==0)
                     begin
                       temp_ave_baseline <= temp_bl_sum/SAMPLE_PER_TDATA;
@@ -153,9 +149,22 @@ module base_calc # (
             begin
               ave_baseline <= ave_baseline;
               temp_ave_baseline <= temp_ave_baseline;
-              temp_bl_sum <= 0;
             end
 	    end
-	end    
+	end
+
+  always @(posedge AXIS_ACLK )
+  begin
+    if (!AXIS_ARESETN)
+      begin
+        temp_bl_sum <= 0;
+      end
+    else
+      begin
+        for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
+          temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];
+        end
+      end  
+  end
 
 endmodule
