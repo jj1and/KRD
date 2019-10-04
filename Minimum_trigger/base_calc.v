@@ -123,7 +123,6 @@ module base_calc # (
 	    begin
           ave_baseline <= 0;
           temp_ave_baseline <= 0;
-          temp_bl_sum <= 0;
 	    end
 	  else
 	    begin
@@ -161,6 +160,7 @@ module base_calc # (
       end
     else
       begin
+        temp_bl_sum <= 0;
         temp_bl_sum <= s_axis_tdata_word[0];
         for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
           temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];
