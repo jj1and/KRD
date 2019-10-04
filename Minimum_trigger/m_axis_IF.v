@@ -130,7 +130,7 @@ module m_axis_IF # (
         .WE(S_AXIS_TVALID),
         .RE(fifo_reen),
         .TRIGGERD_FLAG(TRIGGERD_FLAG),
-        .O_DOUT_DONE(),
+        .O_DOUT_DONE(DOUT_DONE),
         .EMPTY(fifo_empty),
         .FULL(fifo_full)
     );
