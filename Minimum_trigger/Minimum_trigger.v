@@ -36,6 +36,8 @@ module Minimum_trigger # (
 
     //  internal fifo full flag
     output wire O_INTERNAL_FIFO_FULL,
+    // triggerd flag check 
+    output wire O_TRIGGERD_FLAG,
 
     // Ports of Axi-stream Bus Interface
     input wire  AXIS_ACLK,
@@ -76,6 +78,8 @@ module Minimum_trigger # (
     wire [TIME_STAMP_WIDTH-1:0] curr_time;
     wire [TIME_STAMP_WIDTH-1:0] time_stamp;
     wire triggerd_flag;
+    assign O_TRIGGERD_FLAG = triggerd_flag;
+
     wire bl_calc_comp;
 
 
