@@ -54,7 +54,7 @@ module base_calc # (
                      TRG = 2'b11; // ADC > THRESHOLD_VAL
 
     // baseline 計算用カウンター
-    reg signed [CALC_COUNTER_WIDTH-1:0]  bl_calc_cnt;
+    reg [CALC_COUNTER_WIDTH-1:0]  bl_calc_cnt;
 
     // 平均baseline
     reg signed [ADC_RESOLUTION_WIDTH-1:0] ave_baseline;
@@ -161,6 +161,7 @@ module base_calc # (
       end
     else
       begin
+        temp_bl_sum <= s_axis_tdata_word[0];
         for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
           temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];
         end
