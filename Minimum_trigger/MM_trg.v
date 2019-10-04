@@ -150,6 +150,7 @@ module MM_trg # (
             time_stamp <= time_stamp;
             if (adc_val_state_delay == ZONE_1)
                 begin
+                triggerd_flag <= 1'b1;
                 finalize_trg_delay <= finalize_trg;
                 finalize_trg <= 1'b1;
                 end
@@ -184,20 +185,20 @@ module MM_trg # (
         begin
         if (finalize_trg&(!finalize_trg_delay))
             begin
-                finish_trg <= 1'b0;
-                post_count <= 0;
+            finish_trg <= 1'b0;
+            post_count <= 0;
             end
         else
             begin
                 if (post_count>=POST_ACQUI_LEN-1)
                     begin
-                        finish_trg <= 1'b1;
-                        post_count <= POST_ACQUI_LEN-1;
+                    finish_trg <= 1'b1;
+                    post_count <= POST_ACQUI_LEN-1;
                     end
                 else 
                     begin
-                        finish_trg <= 1'b0;
-                        post_count <= post_count + 1;
+                    finish_trg <= 1'b0;
+                    post_count <= post_count + 1;
                     end
             end        
         end
