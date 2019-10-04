@@ -28,18 +28,19 @@ module MM_Trigger_tb;
     parameter M_AXIS_TDATA_WIDTH	= 64;
 
     // --- function/task用 ---
-    parameter ADC_MAX_VAL = 2**ADC_RESOLUTION_WIDTH-1;
+    parameter signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
+    parameter signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
     parameter integer ACLK_PERIOD = 1E12/AXIS_ACLK_FREQ;
     parameter RESET_TIME = 10;
     parameter PRE_SIG = 10;
     parameter POST_SIG = 10;
-    parameter integer FST_HEIGHT = ADC_MAX_VAL*80/100;
-    parameter integer SND_HEIGHT = ADC_MAX_VAL*10/100;
+    parameter signed FST_HEIGHT = (ADC_MAX_VAL+ADC_MIN_VAL)*80/100 + ADC_MIN_VAL;
+    parameter signed SND_HEIGHT = (ADC_MAX_VAL+ADC_MIN_VAL)*10/100 + ADC_MIN_VAL;
     parameter FST_WIDTH = 10;
     parameter SND_WIDTH = 20;
     parameter SIGNAL_INTERVAL = 100; 
-    parameter BL_MIN = 10;
-    parameter BL_MAX = 12;
+    parameter signed BL_MIN = 10 + ADC_MIN_VAL;
+    parameter signed BL_MAX = 12 + ADC_MIN_VAL;
     parameter integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
     integer i;
     
