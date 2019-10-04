@@ -160,11 +160,17 @@ module base_calc # (
       end
     else
       begin
-        temp_bl_sum <= 0;
         temp_bl_sum <= s_axis_tdata_word[0];
-        for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
-          temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];
-        end
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[1];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[2];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[3];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[4];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[5];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[6];
+        temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[7];
+        // for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
+        //   temp_bl_sum <= temp_bl_sum + s_axis_tdata_word[j];
+        // end
       end  
   end
 
