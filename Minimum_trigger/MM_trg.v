@@ -57,8 +57,8 @@ module MM_trg # (
     localparam integer FULL_COUNTER_WIDTH = clogb2(ACQUI_LEN-1);
     localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
     localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
-    localparam signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1);
-    localparam signed ADC_MIN_VAL = -2**ADC_RESOLUTION_WIDTH;
+    localparam signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
+    localparam signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
     localparam signed THRESHOLD_VAL = (ADC_MAX_VAL-ADC_MIN_VAL)*THRESHOLD/100;
 
     //  exec state
