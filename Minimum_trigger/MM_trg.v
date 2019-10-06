@@ -65,6 +65,12 @@ module MM_trg # (
     localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
                      TRG = 2'b11; // ADC > THRESHOLD_VAL
 
+    // trigger state
+    localparam [1:0] WAIT = 2'b00,
+                     TRIGGERD = 2'b01,
+                     END = 2'b11;
+    reg [1:0] trigger_state;
+
     // ADC value state
     localparam [1:0] ZONE_0 = 2'b00, // ADC < THRESHOLD_VAL
                      ZONE_1 = 2'b11, // ADC > THRESHOLD_VAL
@@ -74,17 +80,15 @@ module MM_trg # (
 
     // triggered flag 
     reg triggerd_flag;
+    reg trigger_flag_delay;
     assign TRIGGERD_FLAG = triggerd_flag;
-
-    // finalizing trigger
-    reg finalize_trg;
-    reg finalize_trg_delay;
 
     // finish trigger flag
     reg finish_trg;
 
     // ACQUI_LEN 内にtriggerが終わらなかった場合のフラグ
     reg over_len_flag;
+    reg over_len_flag_delay;
 
     // S_AXIS_TDATAを分割するための配列
     wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
@@ -141,64 +145,100 @@ module MM_trg # (
         end
     end
 
-    // trigger flag の 動作
+    // trigger_state の 動作
     always @(posedge AXIS_ACLK) 
     begin  
     if (!AXIS_ARESETN) 
         begin
-        triggerd_flag <= 1'b0;
-        finalize_trg <= 1'b0;
-        time_stamp <= 0;
+          trigger_state <= WAIT;
         end
     else
-        begin
-        if (adc_val_state == ZONE_1)
-            begin
-              if (over_len_flag)
-                begin
-                  triggerd_flag <= 1'b0;
-                  finalize_trg <= 1'b0;
-                end
-              else
-                begin
-                  triggerd_flag <= 1'b1;
-                  time_stamp <= CURRENT_TIME;
-                end
-            end
-        else
-            begin
-            if (adc_val_state_delay == ZONE_1)
-                begin
-                triggerd_flag <= 1'b1;
-                finalize_trg <= 1'b1;
-                end
+      begin
+        if (adc_val_state == ZONE_1)       
+          begin
+            if (over_len_flag&(!over_len_flag_delay))
+              begin
+                trigger_state <= END;
+              end
             else
-                begin
-                if (finish_trg)
-                    begin
-                    triggerd_flag <= 1'b0;
-                    finalize_trg <= 1'b0;
-                    end
-                else
-                    begin
-                    triggerd_flag <= 1'b1;
-                    finalize_trg <= 1'b1;                      
-                    end
-                end
-            end
-        end
+              begin
+                trigger_state <= TRIGGERD;
+              end
+          end
+        else
+          begin
+            if (finish_trg)
+              begin
+                trigger_state <= END;
+              end
+            else
+              begin
+                trigger_state <= TRIGGERD;
+              end
+          end
+      end
     end
 
-    // finalize_trg delay
+    // time-stampの代入
     always @(posedge AXIS_ACLK )
     begin
       if (!AXIS_ARESETN)
         begin
-          finalize_trg_delay <= 0;
+          time_stamp <= 0;
         end
       else
         begin
-          finalize_trg_delay <= finalize_trg;
+          if (triggerd_flag&(!trigger_flag_delay))
+            begin
+              time_stamp <= CURRENT_TIME;
+            end
+          else
+            begin
+              time_stamp <= time_stamp;
+            end
+        end
+    end
+
+    // trigger flagの動作
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          triggerd_flag <= 1'b0;
+        end
+      else
+        begin
+          case (trigger_state)
+            WAIT:
+              begin
+                triggerd_flag <= 1'b0;
+              end
+            TRIGGERD:
+              begin
+                triggerd_flag <= 1'b1;
+              end
+            END:
+              begin
+                triggerd_flag <= 1'b0;
+              end 
+            default:
+              begin
+                triggerd_flag <= 1'b0;
+              end 
+          endcase
+        end  
+    end
+
+    // triggerd flagのdelay
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          trigger_flag_delay <= 1'b0;
+        end
+      else
+        begin
+          triggerd_flag <= trigger_flag_delay;
         end
     end
 
@@ -213,10 +253,10 @@ module MM_trg # (
     else
         begin
         if ((adc_val_state == ZONE_1)&((adc_val_state_delay == ZONE_1)))
-            begin
+          begin
             finish_trg <= 1'b0;
             post_count <= 0;
-            end
+          end
         else
             begin
                 if (post_count>=POST_ACQUI_LEN-1)
@@ -245,10 +285,10 @@ module MM_trg # (
         begin
           if (triggerd_flag)
             begin
-              if ( full_count >= ACQUI_LEN-POST_ACQUI_LEN-1 )
+              if ( full_count >= ACQUI_LEN-1 )
                 begin
-                over_len_flag <= 1'b1;
-                full_count <= 0;  
+                  over_len_flag <= 1'b1;
+                  full_count <= 0;  
                 end
               else
                 begin
@@ -258,10 +298,23 @@ module MM_trg # (
             end
           else
             begin
-            over_len_flag <= 1'b0;
-            full_count <= 0;
+              over_len_flag <= 1'b0;
+              full_count <= 0;
             end
         end
+    end
+
+    // over_len_flagのディレイ
+    always @(posedge AXIS_ACLK )
+    begin
+      if (!AXIS_ARESETN)
+        begin
+          over_len_flag_delay <= 1'b0;
+        end
+      else
+        begin
+          over_len_flag_delay <= over_len_flag;
+        end  
     end
 
     // S_AXIS_TDATAの分割
@@ -283,8 +336,5 @@ module MM_trg # (
 
     assign O_TIME_STAMP = time_stamp;
     assign O_TRIGGERD_FLAG = triggerd_flag;
-    assign O_FINALIZE_TRG = finalize_trg;
-
-
 
 endmodule
