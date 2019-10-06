@@ -262,7 +262,7 @@ module MM_trg # (
     generate
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 )
         begin
-          assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*(i+1) -:ADC_RESOLUTION_WIDTH];
+          assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
         end
     endgenerate  
 
