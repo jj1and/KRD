@@ -154,12 +154,19 @@ module MM_trg # (
         begin
         if (adc_val_state == ZONE_1)
             begin
-            triggerd_flag <= 1'b1;
-            time_stamp <= CURRENT_TIME;
+              if (over_len_flag)
+                begin
+                  triggerd_flag <= 1'b0;
+                  finalize_trg <= 1'b0;
+                end
+              else
+                begin
+                  triggerd_flag <= 1'b1;
+                  time_stamp <= CURRENT_TIME;
+                end
             end
         else
             begin
-            time_stamp <= time_stamp;
             if (adc_val_state_delay == ZONE_1)
                 begin
                 triggerd_flag <= 1'b1;
@@ -167,7 +174,7 @@ module MM_trg # (
                 end
             else
                 begin
-                if (finish_trg|over_len_flag)
+                if (finish_trg)
                     begin
                     triggerd_flag <= 1'b0;
                     finalize_trg <= 1'b0;
