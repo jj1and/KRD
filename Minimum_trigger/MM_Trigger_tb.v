@@ -49,7 +49,19 @@ module MM_Trigger_tb;
     reg axis_aresetn = 1'b0;
 
     wire s_axis_tready;
+<<<<<<< HEAD
     reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata = 0;
+=======
+    reg signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word;
+    wire [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata = 0;
+    genvar j;
+    generate
+      for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
+        begin
+          assign s_axis_tdata[16*j +: 16] = {s_axis_tdata_word, {16-ADC_RESOLUTION_WIDTH{1'b0}} };  
+        end
+    endgenerate
+>>>>>>> 982e000420255394df1184159792215e9dea060a
 
     reg s_axis_tvalid = 1'b0;
 
