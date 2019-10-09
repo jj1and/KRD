@@ -96,7 +96,7 @@ module Ring_buffer # (
         end
       else
         begin
-          if ( WE & (wp+1 != current_rp) )
+          if ( WE & (wp+1 != rp) )
             begin
               if (wp == FIFO_DEPTH-1)
                 begin
