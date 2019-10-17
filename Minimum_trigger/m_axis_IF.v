@@ -62,178 +62,116 @@ module m_axis_IF # (
 	  end
 	endfunction
    
-    localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
-    localparam integer BIT_CONVERT_CNT_WIDTH = clogb2(BIT_DIFF-1);
-    integer i;
+  localparam integer BIT_DIFF = S_AXIS_TDATA_WIDTH/M_AXIS_TDATA_WIDTH;
+  localparam integer BIT_CONVERT_CNT_WIDTH = clogb2(BIT_DIFF-1);
+  integer i;
 
-    // pre acquiasion buffer write enable
-    wire pre_wren;
-    assign pre_wren = S_AXIS_TVALID&S_AXIS_TREADY;
+  // pre acquiasion buffer write enable
+  wire pre_wren;
+  assign pre_wren = S_AXIS_TVALID&S_AXIS_TREADY;
+  
+  // data to put into FIFO
+  reg [S_AXIS_TDATA_WIDTH-1:0] fifo_input;
 
-    // m_axis_tuser
-    reg m_axis_tuser;
-    assign M_AXIS_TUSER = m_axis_tuser;
+  // fifo data output
+  wire [M_AXIS_TDATA_WIDTH-1:0] fifo_output;
+  
+  // bit width convert buffer
+  reg [S_AXIS_TDATA_WIDTH-1:0] bit_conv_buff[BIT_DIFF-1:0];
 
-    // m_axis_tlast
-    reg m_axis_tlast;
-    assign M_AXIS_TLAST = m_axis_tlast;
-   
-    // data to put into FIFO
-    reg [S_AXIS_TDATA_WIDTH-1:0] fifo_input;
+  // bit width converting counter
+  reg [BIT_CONVERT_CNT_WIDTH-1:0] bit_conv_cnt;
 
-    // fifo data output
-    wire [M_AXIS_TDATA_WIDTH-1:0] fifo_output;
+  // fifo read out counter
+  reg [ACQUI_LEN*BIT_DIFF-1:0] fifo_read_cnt;
+  // finalize counter
+  reg [ACQUI_LEN*BIT_DIFF-1:0] fin_read_cnt;
+
+  // fifo read enable
+  wire fifo_reen;
+  assign fifo_reen = !fifo_empty;
+  assign M_AXIS_TVALID = fifo_reen;
+
+  // fifo empty
+  wire fifo_empty;
+
+  // fifo full
+  wire fifo_full;
+  assign O_FIFO_FULL = fifo_full;
+
+  // fifo 1hit dout done
+  wire DOUT_DONE;
+  wire dout_done_delay;
+
+  // start_trg delay
+  wire triggerd_flag_delay;
+
+  // S_AXIS_TDATA_delay
+  wire [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
+
+  Ring_buffer # (
+      .DIN_WIDTH(S_AXIS_TDATA_WIDTH),
+      .DOUT_WIDTH(M_AXIS_TDATA_WIDTH),
+      .FIFO_DEPTH(ACQUI_LEN*BIT_DIFF),
+      .PRE_ACQUI_LEN(PRE_ACQUI_LEN)
+  ) Ring_buff_inst ( 
+      .CLK(AXIS_ACLK),
+      .RESET(AXIS_ARESETN),
+      .DIN(fifo_input),
+      .DOUT(fifo_output),
+      .WE(S_AXIS_TVALID),
+      .RE(fifo_reen),
+      .TRIGGERD_FLAG(TRIGGERD_FLAG),
+      .O_DOUT_DONE(DOUT_DONE),
+      .FIRST_DATA_FLAG(M_AXIS_TUSER),
+      .LAST_DATA_FLAG(M_AXIS_TLAST),
+      .EMPTY(fifo_empty),
+      .FULL(fifo_full)
+  );
+
+  Delay #(
+    .DELAY_CLK(1),
+    .WIDTH(S_AXIS_TDATA_WIDTH)
+  ) s_axis_tdata_delay_inst (
+    .CLK(AXIS_ACLK),
+    .RESETn(AXIS_ARESETN),
+    .DIN(S_AXIS_TDATA),
+    .DOUT(s_axis_tdata_delay)
+  );
+
+  Delay #(
+    .DELAY_CLK(1),
+    .WIDTH(1)
+  ) dout_done_delay_inst (
+    .CLK(AXIS_ACLK),
+    .RESETn(AXIS_ARESETN),
+    .DIN(DOUT_DONE),
+    .DOUT(dout_done_delay)
+  );
     
-    // bit width convert buffer
-    reg [S_AXIS_TDATA_WIDTH-1:0] bit_conv_buff[BIT_DIFF-1:0];
-
-    // bit width converting counter
-    reg [BIT_CONVERT_CNT_WIDTH-1:0] bit_conv_cnt;
-
-    // fifo read out counter
-    reg [ACQUI_LEN*BIT_DIFF-1:0] fifo_read_cnt;
-    // finalize counter
-    reg [ACQUI_LEN*BIT_DIFF-1:0] fin_read_cnt;
-
-    // fifo read enable
-    wire fifo_reen;
-    assign fifo_reen = !fifo_empty;
-    assign M_AXIS_TVALID = fifo_reen;
-
-    // fifo empty
-    wire fifo_empty;
-
-    // fifo full
-    wire fifo_full;
-    assign O_FIFO_FULL = fifo_full;
-
-    // fifo 1hit dout done
-    wire DOUT_DONE;
-    reg dout_done_delay;
-
-    // start_trg delay
-    reg triggerd_flag_delay;
-
-    // S_AXIS_TDATA_delay
-    reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
-
-    Ring_buffer # (
-        .DIN_WIDTH(S_AXIS_TDATA_WIDTH),
-        .DOUT_WIDTH(M_AXIS_TDATA_WIDTH),
-        .FIFO_DEPTH(ACQUI_LEN*BIT_DIFF),
-        .PRE_ACQUI_LEN(PRE_ACQUI_LEN)
-    ) Ring_buff_inst ( 
-        .CLK(AXIS_ACLK),
-        .RESET(AXIS_ARESETN),
-        .DIN(fifo_input),
-        .DOUT(fifo_output),
-        .WE(S_AXIS_TVALID),
-        .RE(fifo_reen),
-        .TRIGGERD_FLAG(TRIGGERD_FLAG),
-        .O_DOUT_DONE(DOUT_DONE),
-        .EMPTY(fifo_empty),
-        .FULL(fifo_full)
-    );
-
-    // 入力データの遅延(1clock)
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            s_axis_tdata_delay <= 0;  
-          end
-        else
-          begin
-            s_axis_tdata_delay <= S_AXIS_TDATA;
-          end
-    end
-
-    // FIFOのdout_doneの遅延(1clock)
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            dout_done_delay <= DOUT_DONE;  
-          end
-        else
-          begin
-            dout_done_delay <= DOUT_DONE;  
-          end
-    end
+  Delay #(
+    .DELAY_CLK(1),
+    .WIDTH(1)
+  ) triggerd_flag_delay_inst (
+    .CLK(AXIS_ACLK),
+    .RESETn(AXIS_ARESETN),
+    .DIN(TRIGGERD_FLAG),
+    .DOUT(triggerd_flag_delay)
+  );
     
-    // start trigger flag の delay
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            triggerd_flag_delay <= TRIGGERD_FLAG;
-          end
-        else
-          begin
-            triggerd_flag_delay <= TRIGGERD_FLAG;
-           end
-    end
-
-    // M_AXISの tuser flagの動作
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          m_axis_tuser <= 1'b0;
-        end
-      else
-        begin
-          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
-            begin
-              m_axis_tuser <= 1'b1;
-            end
-          else
-            begin
-              m_axis_tuser <= 1'b0;
-            end
-        end
-    end
-
-    // M_AXISの tlast flagの動作
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          m_axis_tlast <= 1'b0;
-        end
-      else
-        begin
-          if (DOUT_DONE&(!dout_done_delay))
-            begin
-              m_axis_tlast <= 1'b1;
-            end
-          else
-            begin
-              m_axis_tlast <= 1'b0;
-            end
-        end
-    end
-    
-    // FIFOにデータを入れる動作
-    always @(posedge AXIS_ACLK )
-    begin
-      if (!AXIS_ARESETN)
-        begin
-          fifo_input <= 0;
-        end
-      else
-        begin
-          if (TRIGGERD_FLAG&(!triggerd_flag_delay))
-            begin
-              fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
-            end
-          else
-            begin
-              fifo_input <= s_axis_tdata_delay;
-            end
+  // FIFOにデータを入れる動作
+  always @(posedge AXIS_ACLK ) begin
+    if (!AXIS_ARESETN) begin
+      fifo_input <= 0;
+    end else begin
+      if (TRIGGERD_FLAG&(!triggerd_flag_delay)) begin
+        fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
+      end else begin
+        fifo_input <= s_axis_tdata_delay;
       end
     end
+  end
 
-    assign M_AXIS_TDATA = fifo_output; 
+  assign M_AXIS_TDATA = fifo_output; 
 
 endmodule

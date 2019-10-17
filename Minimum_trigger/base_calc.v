@@ -77,35 +77,25 @@ module base_calc # (
     assign O_CALC_COMPLETE = calc_comp;
 
     // baselineの計算カウンターの動作
-    always @(posedge AXIS_ACLK) 
-	begin  
-	  if (!AXIS_ARESETN) 
-	    begin
+    always @(posedge AXIS_ACLK) begin  
+	    if (!AXIS_ARESETN) begin
+        bl_calc_cnt <= 0;
+        calc_comp <= 1'b0;
+	    end else begin
+        if ( calc_en ) begin
+          if (bl_calc_cnt >= BASELINE_CALC_LEN-1) begin
+            bl_calc_cnt <= bl_calc_cnt;
+            calc_comp <= 1'b1;
+          end else begin
+            bl_calc_cnt <= bl_calc_cnt + 1;
+            calc_comp <= 1'b0;
+          end
+        end else begin
           bl_calc_cnt <= 0;
-          calc_comp <= 1'b0;
+          calc_comp <= calc_comp;
+        end
 	    end
-	  else
-	    begin
-          if ( calc_en )
-            begin
-              if (bl_calc_cnt >= BASELINE_CALC_LEN-1)
-                begin
-                  bl_calc_cnt <= bl_calc_cnt;
-                  calc_comp <= 1'b1;
-                end
-              else
-                begin
-                  bl_calc_cnt <= bl_calc_cnt + 1;
-                  calc_comp <= 1'b0;
-                end
-            end
-          else
-            begin
-              bl_calc_cnt <= 0;
-              calc_comp <= calc_comp;
-            end
-	    end
-	end
+	  end
 
     // S_AXIS_TDATAの分割
     genvar i;
@@ -116,55 +106,39 @@ module base_calc # (
         end
     endgenerate
 
-    // baselineの計算
-    always @(posedge AXIS_ACLK) 
-	begin  
-	  if (!AXIS_ARESETN) 
-	    begin
-          ave_baseline <= 0;
-          temp_ave_baseline <= 0;
-	    end
-	  else
-	    begin
-          if ( calc_en )
-            begin
-              if (bl_calc_cnt < BASELINE_CALC_LEN-1)
-                begin
-                  if (bl_calc_cnt==0)
-                    begin
-                      temp_ave_baseline <= temp_bl_sum/SAMPLE_PER_TDATA;
-                    end
-                  else
-                    begin
-                      temp_ave_baseline <= temp_ave_baseline/2 + temp_bl_sum/(SAMPLE_PER_TDATA*2);
-                    end
-                end
-              else
-                begin
-                  ave_baseline <= temp_ave_baseline;
-                end
-            end
-          else
-            begin
-              ave_baseline <= ave_baseline;
-              temp_ave_baseline <= temp_ave_baseline;
-            end
-	    end
+  // baselineの計算
+  always @(posedge AXIS_ACLK) begin  
+	  if (!AXIS_ARESETN) begin
+      ave_baseline <= 0;
+      temp_ave_baseline <= 0;
+    end else begin
+      if ( calc_en ) begin
+        if (bl_calc_cnt < BASELINE_CALC_LEN-1) begin
+          if (bl_calc_cnt==0) begin
+            temp_ave_baseline <= temp_bl_sum/SAMPLE_PER_TDATA;
+          end else begin
+            temp_ave_baseline <= temp_ave_baseline/2 + temp_bl_sum/(SAMPLE_PER_TDATA*2);
+          end
+        end else begin
+          ave_baseline <= temp_ave_baseline;
+        end
+      end else begin
+        ave_baseline <= ave_baseline;
+        temp_ave_baseline <= temp_ave_baseline;
+      end
+	  end
 	end
 
-  always @(posedge AXIS_ACLK )
-  begin
-    if (!AXIS_ARESETN)
-      begin
+  always @(posedge AXIS_ACLK ) begin
+    if (!AXIS_ARESETN) begin
         temp_bl_sum = 0;
-      end
-    else
-      begin
-        temp_bl_sum = s_axis_tdata_word[0];
-        for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 ) begin
-          temp_bl_sum = temp_bl_sum + s_axis_tdata_word[j];
+    end else begin
+      temp_bl_sum = s_axis_tdata_word[0];
+      for ( j=1 ; j<SAMPLE_PER_TDATA ; j=j+1 )
+        begin
+         temp_bl_sum = temp_bl_sum + s_axis_tdata_word[j];
         end
-      end  
+    end  
   end
 
 endmodule

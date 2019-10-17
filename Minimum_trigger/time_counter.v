@@ -25,106 +25,72 @@ module time_counter # (
     output wire [TIME_STAMP_WIDTH-1:0] O_CURRENT_TIME
 );
 
-    localparam integer MAX_TIME_COUNT = 2**TIME_STAMP_WIDTH-1;
-    localparam integer DIVIDE_NUM = AXIS_ACLK_FREQ/TIMER_RESO_FREQ;
+  localparam integer MAX_TIME_COUNT = 2**TIME_STAMP_WIDTH-1;
+  localparam integer DIVIDE_NUM = AXIS_ACLK_FREQ/TIMER_RESO_FREQ;
 
-    //  exec state
-    localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
-                    TRG = 2'b11; // ADC > THRESHOLD_VAL
+  //  exec state
+  localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
+                  TRG = 2'b11; // ADC > THRESHOLD_VAL
 
-    // enable counter
-    reg [DIVIDE_NUM-1:0] en_cnt;
+  // enable counter
+  reg [DIVIDE_NUM-1:0] en_cnt;
 
-    // timer enable
-    reg time_en;
+  // timer enable
+  reg time_en;
 
-    // current time
-    reg [TIME_STAMP_WIDTH-1:0] current_time = 0;
-    assign O_CURRENT_TIME = current_time;
+  // current time
+  reg [TIME_STAMP_WIDTH-1:0] current_time = 0;
+  assign O_CURRENT_TIME = current_time;
 
-    // time counter の動作
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            current_time <= 1;
+  // time counter の動作
+  always @(posedge AXIS_ACLK ) begin
+    if (!AXIS_ARESETN) begin
+      current_time <= 1;
+    end else begin
+      if (time_en) begin
+        if (current_time > MAX_TIME_COUNT-1) begin
+          current_time <= 1;
+        end else begin
+          if (en_cnt == 0) begin
+            current_time <= current_time + 1;
+          end else begin
+            current_time <= current_time;
           end
-        else
-          begin
-            if (time_en)
-              begin
-                if (current_time > MAX_TIME_COUNT-1)
-                  begin
-                    current_time <= 1;
-                  end
-                else
-                  begin
-                    if (en_cnt == 0)
-                      begin
-                        current_time <= current_time + 1;
-                      end
-                    else
-                      begin
-                        current_time <= current_time;
-                      end
-                  end
-              end
-            else
-              begin
-                current_time <= 1;
-              end
-          end
+        end
+      end else begin
+        current_time <= 1;
+      end
     end
+  end
 
-    // en_cnt の動作(clockの分周のようなもの)
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            en_cnt <= 0;
-          end
-        else
-          begin
-            if (time_en)
-              begin
-                if (en_cnt>DIVIDE_NUM-1)
-                  begin
-                    en_cnt <= 0; 
-                  end
-                else
-                  begin
-                    en_cnt <= en_cnt + 1;
-                  end
-              end
-            else
-              begin
-                en_cnt <= en_cnt;
-              end
-          end
+  // en_cnt の動作(clockの分周のようなもの)
+  always @(posedge AXIS_ACLK ) begin
+    if (!AXIS_ARESETN) begin
+      en_cnt <= 0;
+    end else begin
+      if (time_en) begin
+        if (en_cnt>DIVIDE_NUM-1) begin
+          en_cnt <= 0; 
+        end else begin
+          en_cnt <= en_cnt + 1;
+        end
+      end else begin
+        en_cnt <= en_cnt;
+      end
     end
+  end
 
-    // time enable の動作
-    always @(posedge AXIS_ACLK )
-    begin
-        if (!AXIS_ARESETN)
-          begin
-            time_en <= 1'b0;
-          end
-        else
-          begin
-            if (EXEC_STATE==INIT)
-              begin
-                time_en <= 1'b0;
-              end
-            else
-              begin
-                time_en <= 1'b1;
-              end
-          end
-    end  
-
-
-
-
+  // time enable の動作
+  always @(posedge AXIS_ACLK ) begin
+    if (!AXIS_ARESETN) begin
+      time_en <= 1'b0;
+    end else begin
+      if (EXEC_STATE==INIT) begin
+        time_en <= 1'b0;
+      end else begin
+        time_en <= 1'b1;
+      end
+    end
+  end  
 
 endmodule
