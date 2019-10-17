@@ -89,8 +89,6 @@ module m_axis_IF # (
 
   // fifo read enable
   wire fifo_reen;
-  assign fifo_reen = !fifo_empty;
-  assign M_AXIS_TVALID = fifo_reen;
 
   // fifo empty
   wire fifo_empty;
@@ -113,6 +111,8 @@ module m_axis_IF # (
 
   assign M_AXIS_TUSER = first_data_flag;
   assign M_AXIS_TLAST = last_data_flag_delay;
+  assign fifo_reen = !fifo_empty;
+  assign M_AXIS_TVALID = fifo_reen;
 
   wire [TIME_STAMP_WIDTH-1:0] next_time_stamp;
 

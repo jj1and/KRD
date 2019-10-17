@@ -39,7 +39,7 @@ module Fifo # (
 
   always @(posedge CLK ) begin
     if (!RESET) begin
-      for ( i=0 ; i<WIDTH ; i=i+1 )
+      for ( i=0 ; i<DEPTH ; i=i+1 )
         begin
           SRAM[i] <= 0;
         end

@@ -45,11 +45,7 @@ module Ring_buffer # (
   wire end_rp_ren;
   wire end_rp_wen;
   wire end_rp_empty;
-  assign end_rp_wen = FULL ? 1'b0: (TRIGGERD_FLAG == 1'b0)&(triggerd_flag_delay == 1'b1);
   wire [1:0] read_end_en;
-  assign read_end_en = end_rp_empty ? 1'b0: {(rp==end_rp), (bit_conv_cnt>=(BIT_DIFF-1))};
-  assign end_rp_ren = &read_end_en;
-  assign END_RP_FIFO_REN = end_rp_ren;
 
   reg [DEPTH_WIDTH-1:0] rp;
   reg [DEPTH_WIDTH-1:0] next_rp;
@@ -60,11 +56,7 @@ module Ring_buffer # (
   wire start_rp_ren;
   wire start_rp_wen;
   wire start_rp_empty;
-  assign start_rp_wen = FULL ? 1'b0: (TRIGGERD_FLAG == 1'b1)&(triggerd_flag_delay == 1'b0);
   wire [2:0] read_start_en;
-  assign read_start_en = {!start_rp_empty, (rp==last_end_rp), (bit_conv_cnt>=(BIT_DIFF-1))};
-  assign start_rp_ren = &read_start_en;
-  assign START_RP_FIFO_REN = start_rp_ren;
 
   wire write_en;
   assign write_en = (!FULL || ((TRIGGERD_FLAG==1'b0)&&(end_rp_empty)) );
@@ -83,6 +75,16 @@ module Ring_buffer # (
 
   reg full_flag;
   assign FULL = full_flag;
+
+  assign read_start_en = {!start_rp_empty, (rp==last_end_rp), (bit_conv_cnt>=(BIT_DIFF-1))};
+  assign start_rp_wen = FULL ? 1'b0: (TRIGGERD_FLAG == 1'b1)&(triggerd_flag_delay == 1'b0);
+  assign start_rp_ren = &read_start_en;
+  assign START_RP_FIFO_REN = start_rp_ren;
+
+  assign read_end_en = end_rp_empty ? 1'b0: {(rp==end_rp), (bit_conv_cnt>=(BIT_DIFF-1))};
+  assign end_rp_wen = FULL ? 1'b0: (TRIGGERD_FLAG == 1'b0)&(triggerd_flag_delay == 1'b1);
+  assign end_rp_ren = &read_end_en;
+  assign END_RP_FIFO_REN = end_rp_ren;
 
 
   Delay #(
@@ -241,7 +243,7 @@ module Ring_buffer # (
 
   always @(posedge CLK ) begin
     if (!RESET) begin
-      for ( i=0 ; i<DIN_WIDTH ; i=i+1 ) begin
+      for ( i=0 ; i<FIFO_DEPTH ; i=i+1 ) begin
         sram[i] <= 0;
       end
     end else begin
