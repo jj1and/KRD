@@ -106,8 +106,18 @@ module m_axis_IF # (
   // start_trg delay
   wire triggerd_flag_delay;
 
+  // first/last_flag
+  wire first_data_flag;
+  wire last_data_flag;
+  wire last_data_flag_delay;
+
+  assign M_AXIS_TUSER = first_data_flag;
+  assign M_AXIS_TLAST = last_data_flag_delay;
+
+  wire [TIME_STAMP_WIDTH-1:0] next_time_stamp;
+
   // S_AXIS_TDATA_delay
-  wire [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata_delay;
+  wire [M_AXIS_TDATA_WIDTH-1:0] m_axis_tdata_delay;
 
   Ring_buffer # (
       .DIN_WIDTH(S_AXIS_TDATA_WIDTH),
@@ -117,30 +127,30 @@ module m_axis_IF # (
   ) Ring_buff_inst ( 
       .CLK(AXIS_ACLK),
       .RESET(AXIS_ARESETN),
-      .DIN(fifo_input),
+      .DIN(S_AXIS_TDATA),
       .DOUT(fifo_output),
       .WE(S_AXIS_TVALID),
       .RE(fifo_reen),
       .TRIGGERD_FLAG(TRIGGERD_FLAG),
       .O_DOUT_DONE(DOUT_DONE),
-      .FIRST_DATA_FLAG(M_AXIS_TUSER),
-      .LAST_DATA_FLAG(M_AXIS_TLAST),
+      .FIRST_DATA_FLAG(first_data_flag),
+      .LAST_DATA_FLAG(last_data_flag),
       .EMPTY(fifo_empty),
       .FULL(fifo_full)
   );
 
   Delay #(
     .DELAY_CLK(1),
-    .WIDTH(S_AXIS_TDATA_WIDTH)
+    .WIDTH(M_AXIS_TDATA_WIDTH)
   ) s_axis_tdata_delay_inst (
     .CLK(AXIS_ACLK),
     .RESETn(AXIS_ARESETN),
-    .DIN(S_AXIS_TDATA),
-    .DOUT(s_axis_tdata_delay)
+    .DIN(fifo_output),
+    .DOUT(m_axis_tdata_delay)
   );
 
   Delay #(
-    .DELAY_CLK(1),
+    .DELAY_CLK(2),
     .WIDTH(1)
   ) dout_done_delay_inst (
     .CLK(AXIS_ACLK),
@@ -158,20 +168,32 @@ module m_axis_IF # (
     .DIN(TRIGGERD_FLAG),
     .DOUT(triggerd_flag_delay)
   );
-    
-  // FIFOにデータを入れる動作
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
-      fifo_input <= 0;
-    end else begin
-      if (TRIGGERD_FLAG&(!triggerd_flag_delay)) begin
-        fifo_input <= { {S_AXIS_TDATA_WIDTH-TIME_STAMP_WIDTH{1'b0}}, TIME_STAMP };
-      end else begin
-        fifo_input <= s_axis_tdata_delay;
-      end
-    end
-  end
+ 
+  Delay #(
+    .DELAY_CLK(1),
+    .WIDTH(1)
+  ) lats_data_flag_delay_inst (
+    .CLK(AXIS_ACLK),
+    .RESETn(AXIS_ARESETN),
+    .DIN(last_data_flag),
+    .DOUT(last_data_flag_delay)
+  );
 
-  assign M_AXIS_TDATA = fifo_output; 
+  Fifo # (
+    .WIDTH(TIME_STAMP_WIDTH),
+    .DEPTH(ACQUI_LEN)
+  ) time_stamp_fifo (
+    .CLK(AXIS_ACLK),
+    .RESET(AXIS_ARESETN),
+    .DIN(TIME_STAMP),
+    .DOUT(next_time_stamp),
+    .WE(TRIGGERD_FLAG&&(!triggerd_flag_delay)),
+    .RE(first_data_flag),
+    .EMPTY(),
+    .ALMOST_EMPTY(),
+    .FULL()
+  );
+
+  assign M_AXIS_TDATA = first_data_flag ? next_time_stamp: m_axis_tdata_delay; 
 
 endmodule
