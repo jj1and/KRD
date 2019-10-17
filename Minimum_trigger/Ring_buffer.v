@@ -326,9 +326,9 @@ module Ring_buffer # (
     end else begin
         for ( i=1 ; i<BIT_DIFF ; i=i+1 )
           begin
-            bit_conv_buff[i] <= bit_conv_buff[i-1];
+            bit_conv_buff[i] = bit_conv_buff[i-1];
           end
-        bit_conv_buff[0] <= sram[rp][DEPTH_WIDTH*0 +:DEPTH_WIDTH];
+        bit_conv_buff[0] = sram[rp][DOUT_WIDTH*0 +:DOUT_WIDTH];
     end    
   end
 
