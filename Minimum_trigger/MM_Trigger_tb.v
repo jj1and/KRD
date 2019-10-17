@@ -42,6 +42,7 @@ module MM_Trigger_tb;
     parameter signed BL_MIN = 10 + ADC_MIN_VAL;
     parameter signed BL_MAX = 12 + ADC_MIN_VAL;
     parameter integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
+    parameter integer SAMPLE_PER_M_TDATA = M_AXIS_TDATA_WIDTH/16;
     integer i;
     
     // ------ reg/wireの生成 -------
@@ -64,6 +65,9 @@ module MM_Trigger_tb;
     reg [ADC_RESOLUTION_WIDTH-1:0] bl_max = BL_MAX;
     reg [ADC_RESOLUTION_WIDTH-1:0] fst_height = FST_HEIGHT;
     reg [ADC_RESOLUTION_WIDTH-1:0] snd_height = SND_HEIGHT;
+
+    wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
+    wire signed [ADC_RESOLUTION_WIDTH-1:0] m_axis_tdata_word[SAMPLE_PER_M_TDATA-1:0];
 
 
     // ------ クロックの生成 ------
@@ -166,6 +170,22 @@ module MM_Trigger_tb;
     end
     endtask
 
+    // S_AXIS_TDATAの分割
+    genvar j;
+    generate
+        for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
+        begin
+            assign s_axis_tdata_word[j] = s_axis_tdata[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
+        end
+    endgenerate  
+
+    // M_AXIS_TDATAの分割
+    generate
+        for ( j=0 ; j<SAMPLE_PER_M_TDATA ; j=j+1 )
+        begin
+            assign m_axis_tdata_word[j] = m_axis_tdata[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
+        end
+    endgenerate  
 
     // ------ テストベンチ本体 ------
     initial
