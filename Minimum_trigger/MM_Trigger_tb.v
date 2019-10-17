@@ -170,6 +170,8 @@ module MM_Trigger_tb;
     // ------ テストベンチ本体 ------
     initial
     begin
+        $dumpfile("MM_Trigger_tb.vcd");
+        $dumpvars(0, MM_Trigger_tb);
         s_axis_tvalid <= 1'b0;
         m_axis_treday <= 1'b0;
 
@@ -186,6 +188,7 @@ module MM_Trigger_tb;
         repeat(SIGNAL_INTERVAL) @(posedge axis_aclk);
         gen_signal_set;
         repeat(SIGNAL_INTERVAL) @(posedge axis_aclk);
+        $finish;
 
     end
 
