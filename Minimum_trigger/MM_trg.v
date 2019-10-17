@@ -56,7 +56,7 @@ module MM_trg # (
   localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN-1); 
   localparam integer FULL_COUNTER_WIDTH = clogb2(ACQUI_LEN-1);
   localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
-  localparam integer COMPARE_RESULT_BIT_SUM_WIDTH = clogb2(SAMPLE_PER_TDATA-1);
+  localparam integer COMPARE_RESULT_BIT_SUM_WIDTH = clogb2(SAMPLE_PER_TDATA);
   localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
   localparam signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
   localparam signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
@@ -101,8 +101,7 @@ module MM_trg # (
   reg [FULL_COUNTER_WIDTH-1:0] full_count = 0;
 
   // comparing ADC value with THRESHOLD_VAL
-  reg compare_result;
-  reg [COMPARE_RESULT_BIT_SUM_WIDTH-1:0] compare_result_sum;
+  wire [SAMPLE_PER_TDATA-1:0] compare_result;
 
   // trigger time stamp
   reg [TIME_STAMP_WIDTH-1:0] time_stamp;
@@ -115,7 +114,7 @@ module MM_trg # (
       if (EXEC_STATE == INIT) begin
         adc_val_state <= CALB;
       end else begin
-        if (compare_result) begin
+        if (|compare_result) begin
           adc_val_state <= ZONE_1;
         end else begin
           adc_val_state <= ZONE_0;
@@ -219,7 +218,7 @@ module MM_trg # (
     if (!AXIS_ARESETN) begin
       post_count <= POST_ACQUI_LEN-1;
     end else begin
-      if ((adc_val_state == ZONE_0)&&(adc_val_state_delay == ZONE_1)) begin
+      if (adc_val_state == ZONE_1) begin
           post_count <= 0;
       end else begin
         if (post_count>=POST_ACQUI_LEN-1) begin
@@ -284,29 +283,12 @@ module MM_trg # (
   endgenerate  
 
   // Thresoldの値との比較
-  integer j;
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
-      compare_result_sum = 0;
-    end else begin
-      for (j=0;j<SAMPLE_PER_TDATA;j=j+1)
-        begin
-          compare_result_sum = compare_result_sum + ((s_axis_tdata_word[j]-BASELINE) >= THRESHOLD_VAL);
-        end
-    end
-  end
-
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
-      compare_result <= 1'b0;
-    end else begin
-      if (compare_result_sum[0]==1'b0) begin
-        compare_result <= 1'b0;
-      end else begin
-        compare_result <= 1'b1;
+  generate
+  for(i=0;i<SAMPLE_PER_TDATA;i=i+1)
+      begin
+      assign compare_result[i] = ((s_axis_tdata_word[i]-BASELINE) >= THRESHOLD_VAL);
       end
-    end
-  end
+  endgenerate
 
   assign O_TIME_STAMP = time_stamp;
   assign O_TRIGGERD_FLAG = triggerd_flag;
