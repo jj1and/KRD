@@ -13,7 +13,7 @@ module Ring_buffer_tb;
     // Baselineの計算時間
     parameter BASELINE_CALC_LEN = 10;
     // FIFO depth setting
-    parameter ACQUI_LEN = 150/2;
+    parameter ACQUI_LEN = 200/2;
     // AXIS_ACLK frequency
     parameter AXIS_ACLK_FREQ = 500E6;
     // time counter resolution
@@ -32,13 +32,13 @@ module Ring_buffer_tb;
     parameter signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
     parameter integer ACLK_PERIOD = 1E12/AXIS_ACLK_FREQ;
     parameter RESET_TIME = 10;
-    parameter PRE_SIG = 0;
-    parameter POST_SIG = 0;
+    parameter PRE_SIG = 10;
+    parameter POST_SIG = 10;
     parameter signed FST_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*80/100;
     parameter signed SND_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*10/100;
     parameter FST_WIDTH = 10;
     parameter SND_WIDTH = 20;
-    parameter SIGNAL_INTERVAL = 10; 
+    parameter SIGNAL_INTERVAL = 100; 
     parameter AFTER_SIGNAL_INTERVAL = 300;
     parameter signed BL_MIN = 10 + ADC_MIN_VAL;
     parameter signed BL_MAX = 12 + ADC_MIN_VAL;
