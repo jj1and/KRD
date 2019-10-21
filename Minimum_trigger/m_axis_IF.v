@@ -122,7 +122,7 @@ module m_axis_IF # (
   Ring_buffer # (
       .DIN_WIDTH(S_AXIS_TDATA_WIDTH),
       .DOUT_WIDTH(M_AXIS_TDATA_WIDTH),
-      .FIFO_DEPTH(ACQUI_LEN*BIT_DIFF),
+      .FIFO_DEPTH(ACQUI_LEN*BIT_DIFF*10),
       .PRE_ACQUI_LEN(PRE_ACQUI_LEN)
   ) Ring_buff_inst ( 
       .CLK(AXIS_ACLK),
