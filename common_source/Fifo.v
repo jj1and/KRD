@@ -53,7 +53,7 @@ module Fifo # (
   assign wpD = wp + {{ACTUAL_DEPTH-1{1'b0}}, wp_inc};
   assign rpD = rp + {{ACTUAL_DEPTH-1{1'b0}}, rp_inc};
 
-  assign fullD = (wpD[ACTUAL_DEPTH] != rpD[ACTUAL_DEPTH])&&(wpD[ACTUAL_DEPTH-1:0] != rpD[ACTUAL_DEPTH-1:0]);
+  assign fullD = ( (wpD[DEPTH_BIT_WIDTH] != rpD[DEPTH_BIT_WIDTH]) && (wpD[DEPTH_BIT_WIDTH-1:0] != rpD[DEPTH_BIT_WIDTH-1:0]) );
   assign not_emptyD = (wpD != rpD);
 
   assign NOT_EMPTY = not_empty;
