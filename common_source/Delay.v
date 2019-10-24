@@ -41,78 +41,48 @@ module Delay # (
     wire write_enD;
     reg write_en;
 
+    reg read_en;
+
     assign write_enD = !full;
-    
-    always @(posedge CLK ) begin
-      if (!RESETN) begin
-        delay_cnt <= 0;
-      end else begin
-        if (delay_cnt >= DELAY_CLK) begin
-          delay_cnt <= delay_cnt;
-        end else begin
-          delay_cnt <= delay_cnt + 1;
-        end
-      end
-    end
 
-  
-  end
-  endgenerate
-
-  
-
-
-
-  Fifo # (
+    Fifo # (
       .WIDTH(WIDTH),
-      .DEPTH(DELAY_CLK+2)
-  ) delay_fifo (
+      .DEPTH(DELAY_CLK)
+    ) delay_buff (
       .CLK(CLK),
-      .RESET(RESETN),
+      .RESETN(RESETN),
       .DIN(DIN),
       .DOUT(DOUT),
       .WE(write_en),
       .RE(read_en),
-      .EMPTY(fifo_empty),
-      .ALMOST_EMPTY(),
-      .FULL(fifo_full)
-  );
-
-
-  always @(posedge CLK) begin
-    if (!RESETN) begin
-      delay_cnt <= 0;
-    end else begin
-      if (delay_cnt >= DELAY_CLK) begin
-        delay_cnt <= delay_cnt;
-      end else begin
-          delay_cnt <= delay_cnt + 1;
-      end
-    end
-  end
-      
-  always @(posedge CLK) begin
-    if (!RESETN) begin
-      read_en <= 1'b0;
-    end else begin
-      if (delay_cnt >= DELAY_CLK) begin
-        read_en <= 1'b1;    
-      end else begin
+      .NOT_EMPTY(),
+      .FULL(full)
+    );
+    
+    always @(posedge CLK ) begin
+      if (!RESETN) begin
         read_en <= 1'b0;
+        delay_cnt <= 0;
+      end else begin
+        if (delay_cnt >= DELAY_CLK) begin
+          delay_cnt <= delay_cnt;
+          read_en <= 1'b1;
+        end else begin
+          delay_cnt <= delay_cnt + 1;
+          read_en <= 1'b0;
+        end
       end
     end
-  end
 
-  always @(posedge CLK ) begin
-    if (!RESETN) begin
-      write_en <= 1'b0;
-    end else begin
-      if (!fifo_full) begin
-        write_en <= 1'b1;
-      end else begin
+    always @(posedge CLK) begin
+      if (!RESETN) begin
         write_en <= 1'b0;
+      end else begin
+        write_en <= write_enD;
       end
-    end 
+    end
+  
   end
+  endgenerate
 
 endmodule

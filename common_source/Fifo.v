@@ -2,8 +2,7 @@
 
 module Fifo # (
     parameter integer WIDTH = 8,
-    parameter integer DEPTH = 32,
-    parameter integer ALMOST_FULL_ASSERT_RATE = 95
+    parameter integer DEPTH = 32
 )
 (
     input wire CLK,
@@ -26,7 +25,6 @@ module Fifo # (
 
   localparam integer DEPTH_BIT_WIDTH = clogb2(DEPTH-1);
   localparam integer ACTUAL_DEPTH = 2**DEPTH_BIT_WIDTH;
-  localparam integer ALMOST_FULL_ASSERT_DIFF = (ACTUAL_DEPTH*ALMOST_FULL_ASSERT_RATE)/100;
 
   integer i;
 
