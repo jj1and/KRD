@@ -1,0 +1,70 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "verilog compile",
+            "type": "shell",
+            "command": "iverilog",
+            "args": [
+                "-y",
+                "./",
+                "-y",
+                "../common_source",
+                "-g2",
+                "-o",
+                "${fileBasenameNoExtension}.out",
+                "-s",
+                "${fileBasenameNoExtension}",
+                "${fileBasename}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "run icarus simulation",
+            "type": "shell",
+            "command": "vvp ${fileBasenameNoExtension}.out",
+            "group": "test",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "verilog compile"
+            ]
+        },
+        {
+            "label": "show wave form",
+            "type": "shell",
+            "command": "gtkwave ${fileBasenameNoExtension}.vcd",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "run icarus simulation"
+            ]
+        }
+    ]
+}
