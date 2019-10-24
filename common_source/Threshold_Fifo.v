@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 
-module Fifo # (
+module Custom_Fifo # (
     parameter integer WIDTH = 8,
     parameter integer DEPTH = 32,
     parameter integer ALMOST_FULL_ASSERT_RATE = 95
@@ -13,6 +13,7 @@ module Fifo # (
     input wire WE,
     input wire RE,
     output wire NOT_EMPTY,
+    output wire ALMOST_FULL,
     output wire FULL
 );
 
@@ -43,6 +44,10 @@ module Fifo # (
   wire not_emptyD;
   reg not_empty;
 
+  wire diff;
+  wire almost_fullD;
+  reg almost_full;
+
   wire fullD;
   reg full;
 
@@ -57,8 +62,11 @@ module Fifo # (
 
   assign fullD = (wpD[ACTUAL_DEPTH] != rpD[ACTUAL_DEPTH])&&(wpD[ACTUAL_DEPTH-1:0] != rpD[ACTUAL_DEPTH-1:0]);
   assign not_emptyD = (wpD != rpD);
+  assign diff = (wpD - rpD);
+  assign almost_fullD = (diff > ALMOST_FULL_ASSERT_DIFF);
 
   assign NOT_EMPTY = not_empty;
+  assign ALMOST_FULL = almost_full;
   assign FULL = full;
 
   
@@ -83,9 +91,11 @@ module Fifo # (
   always @(posedge CLK ) begin
     if (!RESETN) begin
       full <=1'b0;
+      almost_full <= 1'b0;
       not_empty <= 1'b0;
     end else begin
       full <= fullD;
+      almost_full <= almost_fullD;
       not_empty <= not_emptyD;
     end
   end

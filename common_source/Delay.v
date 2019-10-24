@@ -7,7 +7,7 @@ module Delay # (
 )
 (
     input wire CLK,
-    input wire RESETn,
+    input wire RESETN,
     input wire [WIDTH-1:0] DIN,
     output wire [WIDTH-1:0] DOUT
 );
@@ -22,18 +22,53 @@ module Delay # (
 
   localparam integer DELAY_CNT_WIDTH = clogb2(DELAY_CLK);
 
-  reg [DELAY_CNT_WIDTH-1:0] delay_cnt; 
-  wire fifo_full;
-  wire fifo_empty;
-  reg read_en;
-  reg write_en;
+  generate
+  if (DELAY_CLK <= 1) begin
+    
+    reg [WIDTH-1:0] dout;
+    assign DOUT = dout;
+
+    always @(posedge CLK ) begin
+      dout <= DIN;
+    end
+
+  end else begin
+    
+    reg [DELAY_CNT_WIDTH-1:0] delay_cnt;
+    
+    wire full;
+
+    wire write_enD;
+    reg write_en;
+
+    assign write_enD = !full;
+    
+    always @(posedge CLK ) begin
+      if (!RESETN) begin
+        delay_cnt <= 0;
+      end else begin
+        if (delay_cnt >= DELAY_CLK) begin
+          delay_cnt <= delay_cnt;
+        end else begin
+          delay_cnt <= delay_cnt + 1;
+        end
+      end
+    end
+
+  
+  end
+  endgenerate
+
+  
+
+
 
   Fifo # (
       .WIDTH(WIDTH),
       .DEPTH(DELAY_CLK+2)
   ) delay_fifo (
       .CLK(CLK),
-      .RESET(RESETn),
+      .RESET(RESETN),
       .DIN(DIN),
       .DOUT(DOUT),
       .WE(write_en),
@@ -45,7 +80,7 @@ module Delay # (
 
 
   always @(posedge CLK) begin
-    if (!RESETn) begin
+    if (!RESETN) begin
       delay_cnt <= 0;
     end else begin
       if (delay_cnt >= DELAY_CLK) begin
@@ -57,7 +92,7 @@ module Delay # (
   end
       
   always @(posedge CLK) begin
-    if (!RESETn) begin
+    if (!RESETN) begin
       read_en <= 1'b0;
     end else begin
       if (delay_cnt >= DELAY_CLK) begin
@@ -69,7 +104,7 @@ module Delay # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETn) begin
+    if (!RESETN) begin
       write_en <= 1'b0;
     end else begin
       if (!fifo_full) begin
