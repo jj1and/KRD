@@ -1,4 +1,4 @@
-`timescale 1 ns / 1ps
+`timescale 1 ns / 1 ps
 
 module SFP_module_IF # (
 
@@ -13,10 +13,46 @@ module SFP_module_IF # (
   input wire CTL_CLK,
   input wire CTL_RESETN,
 
-  input wire [S_AXIS_TDATA_WIDTH-1:0] S_AXIS_TDATA,
-  input wire S_AXIS_TUSER,
-  input wire S_AXIS_TLAST,
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S0_AXIS_TDATA,
+  input wire S0_AXIS_TUSER,
+  input wire S0_AXIS_TLAST,
+  input wire S0_AXIS_TVALID,
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S1_AXIS_TDATA,
+  input wire S1_AXIS_TUSER,
+  input wire S1_AXIS_TLAST,
+  input wire S1_AXIS_TVALID,
   
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S2_AXIS_TDATA,
+  input wire S2_AXIS_TUSER,
+  input wire S2_AXIS_TLAST,
+  input wire S2_AXIS_TVALID,
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S3_AXIS_TDATA,
+  input wire S3_AXIS_TUSER,
+  input wire S3_AXIS_TLAST,
+  input wire S3_AXIS_TVALID,
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S4_AXIS_TDATA,
+  input wire S4_AXIS_TUSER,
+  input wire S4_AXIS_TLAST,
+  input wire S4_AXIS_TVALID,
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S5_AXIS_TDATA,
+  input wire S5_AXIS_TUSER,
+  input wire S5_AXIS_TLAST,
+  input wire S5_AXIS_TVALID,
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S6_AXIS_TDATA,
+  input wire S6_AXIS_TUSER,
+  input wire S6_AXIS_TLAST,
+  input wire S6_AXIS_TVALID,    
+
+  input wire [S_AXIS_TDATA_WIDTH-1:0] S7_AXIS_TDATA,
+  input wire S7_AXIS_TUSER,
+  input wire S7_AXIS_TLAST,
+  input wire S7_AXIS_TVALID,
+
   output wire[TX_RX_M_AXIS_WIDTH-1:0] TX_M_AXIS_TDATA,
   output wire [7:0] TX_M_AXIS_TKEEP,
   output wire TX_M_AXIS_TUSER,
@@ -51,10 +87,46 @@ module SFP_module_IF # (
     .TX_ACLK(TX_ACLK),
     .TX_ARESETN(TX_ARESETN),
 
-    .S_AXIS_TDATA(S_AXIS_TDATA),
-    .S_AXIS_TUSER(S_AXIS_TUSER),
-    .S_AXIS_TLAST(S_AXIS_TLAST),
+    .S0_AXIS_TDATA(S0_AXIS_TDATA),
+    .S0_AXIS_TUSER(S0_AXIS_TUSER),
+    .S0_AXIS_TLAST(S0_AXIS_TLAST),
+    .S0_AXIS_TVALID(S0_AXIS_TVALID),
+
+    .S1_AXIS_TDATA(S1_AXIS_TDATA),
+    .S1_AXIS_TUSER(S1_AXIS_TUSER),
+    .S1_AXIS_TLAST(S1_AXIS_TLAST),
+    .S1_AXIS_TVALID(S1_AXIS_TVALID),
+
+    .S2_AXIS_TDATA(S2_AXIS_TDATA),
+    .S2_AXIS_TUSER(S2_AXIS_TUSER),
+    .S2_AXIS_TLAST(S2_AXIS_TLAST),
+    .S2_AXIS_TVALID(S2_AXIS_TVALID),    
+
+    .S3_AXIS_TDATA(S3_AXIS_TDATA),
+    .S3_AXIS_TUSER(S3_AXIS_TUSER),
+    .S3_AXIS_TLAST(S3_AXIS_TLAST),
+    .S3_AXIS_TVALID(S3_AXIS_TVALID),
+
+    .S4_AXIS_TDATA(S4_AXIS_TDATA),
+    .S4_AXIS_TUSER(S4_AXIS_TUSER),
+    .S4_AXIS_TLAST(S4_AXIS_TLAST),
+    .S4_AXIS_TVALID(S4_AXIS_TVALID),  
     
+    .S5_AXIS_TDATA(S5_AXIS_TDATA),
+    .S5_AXIS_TUSER(S5_AXIS_TUSER),
+    .S5_AXIS_TLAST(S5_AXIS_TLAST),
+    .S5_AXIS_TVALID(S5_AXIS_TVALID),
+
+    .S6_AXIS_TDATA(S6_AXIS_TDATA),
+    .S6_AXIS_TUSER(S6_AXIS_TUSER),
+    .S6_AXIS_TLAST(S6_AXIS_TLAST),
+    .S6_AXIS_TVALID(S6_AXIS_TVALID),
+
+    .S7_AXIS_TDATA(S7_AXIS_TDATA),
+    .S7_AXIS_TUSER(S7_AXIS_TUSER),
+    .S7_AXIS_TLAST(S7_AXIS_TLAST),
+    .S7_AXIS_TVALID(S7_AXIS_TVALID),
+
     .PLS_WAIT(pls_wait),
     .DATA_EMPTY(data_empty),
 
