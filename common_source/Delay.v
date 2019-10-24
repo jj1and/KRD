@@ -1,15 +1,15 @@
 `timescale 1 ns / 1 ps
 
 module Delay # (
-    parameter integer DELAY_CLK = 1,
-    parameter integer WIDTH = 1
+  parameter integer DELAY_CLK = 1,
+  parameter integer WIDTH = 1
 
 )
 (
-    input wire CLK,
-    input wire RESETN,
-    input wire [WIDTH-1:0] DIN,
-    output wire [WIDTH-1:0] DOUT
+  input wire CLK,
+  input wire RESETN,
+  input wire [WIDTH-1:0] DIN,
+  output wire [WIDTH-1:0] DOUT
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -35,12 +35,9 @@ module Delay # (
   end else begin
     
     reg [DELAY_CNT_WIDTH-1:0] delay_cnt;
-    
     wire full;
-
     wire write_enD;
     reg write_en;
-
     reg read_en;
 
     assign write_enD = !full;
