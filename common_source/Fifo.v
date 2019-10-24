@@ -47,7 +47,7 @@ module Fifo # (
       if ( WE & (WP+1 != RP)) begin
         SRAM[WP] <= DIN; 
       end else begin
-        for ( i=0 ; i<WIDTH ; i=i+1 )
+        for ( i=0 ; i<DEPTH ; i=i+1 )
           begin
             SRAM[i] <= SRAM[i];
           end 
