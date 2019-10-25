@@ -1,13 +1,14 @@
 `timescale 1 ns / 1 ps
 
-module Delay # (
-  parameter integer DELAY_CLK = 1,
+module Variable_delay # (
+  parameter integer MAX_DELAY_CLK = 100,
   parameter integer WIDTH = 1
 
 )
 (
   input wire CLK,
   input wire RESETN,
+  input wire [MAX_DELAY_CNT_WIDTH-1:0] DELAY_CLK,
   input wire [WIDTH-1:0] DIN,
   output wire [WIDTH-1:0] DOUT,
   output wire READY,
@@ -22,32 +23,13 @@ module Delay # (
     end
   endfunction
 
-  localparam integer DELAY_CNT_WIDTH = clogb2(DELAY_CLK);
-
-  generate
-  if (DELAY_CLK <= 1) begin
-    
-    reg [WIDTH-1:0] dout;
-    reg valid;
-    assign DOUT = dout;
-    assign VALID = valid;
-
-    always @(posedge CLK ) begin
-      if (!RESETN) begin
-        dout <= 0;
-        valid <= 1'b0;
-      end else begin
-        dout <= DIN;
-        valid <= 1'b1;
-      end
-    end
-
-  end else begin
+  localparam integer MAX_DELAY_CNT_WIDTH = clogb2(MAX_DELAY_CLK);
 
     wire full;
     wire not_empty;
-  
-    reg [DELAY_CNT_WIDTH-1:0] delay_cnt;
+
+    reg [MAX_DELAY_CNT_WIDTH-1:0] delay_cnt;
+    reg [MAX_DELAY_CNT_WIDTH-1:0] delay_clk;
     reg write_en;
     reg read_en;
     reg valid;
@@ -56,7 +38,7 @@ module Delay # (
 
     Fifo # (
       .WIDTH(WIDTH),
-      .DEPTH(DELAY_CLK)
+      .DEPTH(MAX_DELAY_CLK)
     ) delay_buff (
       .CLK(CLK),
       .RESETN(RESETN),
@@ -72,8 +54,9 @@ module Delay # (
       if (!RESETN) begin
         read_en <= 1'b0;
         delay_cnt <= 0;
+        delay_clk <= DELAY_CLK;
       end else begin
-        if (delay_cnt >= DELAY_CLK) begin
+        if (delay_cnt >= delay_clk) begin
           delay_cnt <= delay_cnt;
           read_en <= 1'b1;
         end else begin
@@ -99,15 +82,12 @@ module Delay # (
       if (!RESETN) begin
         valid <= 1'b0;
       end else begin
-        if (not_empty && (delay_cnt >= DELAY_CLK)) begin
+        if (not_empty && (delay_cnt >= delay_clk)) begin
           valid <= 1'b1;
         end else begin
           valid <= 1'b0;
         end
       end
     end
-  
-  end
-  endgenerate
 
 endmodule
