@@ -59,27 +59,33 @@ module MM_trg # (
   localparam signed THRESHOLD_VAL = (ADC_MAX_VAL-ADC_MIN_VAL)*THRESHOLD/100;
 
   //  exec state
-  localparam [1:0] INIT = 2'b00, // ADC < THRESHOLD_VAL
-                    TRG = 2'b11; // ADC > THRESHOLD_VAL
+  localparam [1:0] INIT = 2'b00, // whole minimum trigger module is INITIALIZING STATE
+                    TRG = 2'b11; // (AUTO) TRIGGER STATE
   
   // triggered
   wire triggeredD;
   reg triggered;
 
-  // hit flag 
+  // hit flag
+  wire hit_flag_posedge;
+  wire hit_flag_negedge;
   wire hit_flagD;
   reg hit_flag;
 
   // triggered after hit end
+  wire finalize_flagD;
   reg finalize_flag;
   // triggered length overwhelms AQUI_LEN
+  wire over_len_flagD;
   reg over_len_flag;
   // array for divide S_AXIS_TDATA
   wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
   // POST ACQUIASION COUNTER
-  reg [POST_COUNTER_WIDTH-1:0] post_count = 0;
+  wire [POST_COUNTER_WIDTH-1:0] post_count;
+  reg [POST_COUNTER_WIDTH-1:0] tmp_post_count = 0;
   // ACQUASION COUNTER
-  reg [FULL_COUNTER_WIDTH-1:0] full_count = 0;
+  wire [FULL_COUNTER_WIDTH-1:0] full_count; 
+  reg [FULL_COUNTER_WIDTH-1:0] tmp_full_count = 0;
   // comparing ADC value with THRESHOLD_VAL
   wire [SAMPLE_PER_TDATA-1:0] compare_result;
 
@@ -88,8 +94,8 @@ module MM_trg # (
   reg [TIME_STAMP_WIDTH-1:0] time_stamp;
 
   // baseline when hit
-  reg [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD;
-  reg [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit;
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD;
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit;
 
   // delay for timing much
   reg data;
@@ -98,7 +104,16 @@ module MM_trg # (
   assign VALID = valid;
 
   assign hit_flagD = (|compare_result);
-  assign triggeredD = S_AXIS_TVALID&&(!over_len_flag) ? (hit_flag||finalize_flag): 1'b0;
+  assign finalize_flagD = (post_count <= POST_ACQUI_LEN);
+  assign over_len_flagD = (full_count >= ACQUI_LEN);
+
+  assign triggeredD = S_AXIS_TVALID&&(!over_len_flagD) ? (hit_flagD||finalize_flagD): 1'b0;
+  assign hit_flag_posedge = (hit_flag == 1'b0)&&(hit_flagD == 1'b1);
+  assign hit_flag_negedge = (hit_flag == 1'b1)&&(hit_flagD == 1'b0);
+
+  assign TRIGGERED = triggered;
+  assign BASELINE_WHEN_HIT = baseline_when_hit;
+  assign TIME_STAMP = time_stamp;
 
   // time-stampの取得
   always @(posedge hit_flagD) begin
@@ -116,34 +131,29 @@ module MM_trg # (
     end
   end
 
-  // post count and finalizing flag
-  always @(posedge AXIS_ACLK or negedge hit_flagD) begin  
-    if (!hit_flagD) begin
-      post_count <= 0;
-      finalize_flag <= 1'b1;
+  // post count
+  always @(posedge AXIS_ACLK) begin  
+    if (hit_flag_negedge) begin
+      tmp_post_count <= 0;
     end else begin
-      if (post_count >= POST_ACQUI_LEN) begin
-        post_count <= post_count;
-        finalize_flag <= 1'b0;
+      if (tmp_post_count >= POST_ACQUI_LEN) begin
+        tmp_post_count <= tmp_post_count;
       end else begin
-        post_count <= post_count + 1;
-        finalize_flag <= 1'b1;
+        tmp_post_count <= tmp_post_count + 1;
       end
     end
   end
 
-  // full count and over_len_flag
-  always @(posedge AXIS_ACLK or posedge hit_flagD ) begin
-    if (hit_flagD) begin
-      full_count <= 0;
-      over_len_flag <= 1'b0;
+
+  // full count
+  always @(posedge AXIS_ACLK) begin
+    if (hit_flag_posedge) begin
+      tmp_full_count <= 0;
     end else begin
-      if (full_count >= ACQUI_LEN) begin
-        full_count <= full_count;
-        over_len_flag <= 1'b1;
+      if (tmp_full_count >= ACQUI_LEN) begin
+        tmp_full_count <= tmp_full_count;
       end else begin
-        full_count <= full_count + 1;
-        over_len_flag <= 1'b0;
+        tmp_full_count <= tmp_full_count + 1;
       end
     end
   end
@@ -190,7 +200,5 @@ module MM_trg # (
       assign compare_result[i] = ((s_axis_tdata_word[i]-BASELINE) >= THRESHOLD_VAL);
     end
   endgenerate
-
-  assign TIME_STAMP = time_stamp;
 
 endmodule
