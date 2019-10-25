@@ -57,7 +57,7 @@ module Variable_delay # (
         delay_clk <= DELAY_CLK;
       end else begin
         if (delay_cnt >= delay_clk) begin
-          delay_cnt <= delay_cnt;
+          delay_cnt <= delay_clk;
           read_en <= 1'b1;
         end else begin
           delay_cnt <= delay_cnt + 1;

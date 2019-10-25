@@ -74,7 +74,7 @@ module Delay # (
         delay_cnt <= 0;
       end else begin
         if (delay_cnt >= DELAY_CLK) begin
-          delay_cnt <= delay_cnt;
+          delay_cnt <= DELAY_CLK;
           read_en <= 1'b1;
         end else begin
           delay_cnt <= delay_cnt + 1;
