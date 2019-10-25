@@ -65,13 +65,18 @@ module fifo_tb;
   // ------ data generation task -------
   task gen_data;
   begin
-    read_en <= 1'b1;
+    read_en <= 1'b0;
     din <= 0;
     repeat(1) @(posedge clk);
     write_en <= 1'b1;
     for ( i=1 ; i<=MAX_VAL ; i=i+1 ) begin
       repeat(1) @(posedge clk);
       din <= i;
+      if (full) begin
+        read_en <= 1'b1;
+      end else begin
+        read_en <=read_en;
+      end
     end
   end
   endtask
