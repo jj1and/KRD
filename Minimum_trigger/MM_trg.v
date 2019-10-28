@@ -32,13 +32,11 @@ module MM_trg # (
   output wire [S_AXIS_TDATA_WIDTH-1:0] DATA,
   // recived data valid signal
   output wire VALID,
-
   // Ports of Axi Slave Bus Interface S00_AXIS　
   input wire  AXIS_ACLK,
   input wire  AXIS_ARESETN,
   input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
   input wire S_AXIS_TVALID
-
 );
 
   // function called clogb2 that returns an integer which has the 

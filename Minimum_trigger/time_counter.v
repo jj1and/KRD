@@ -16,11 +16,9 @@ module time_counter # (
 
     // exec statte
     input wire [1:0] EXEC_STATE,
-
     // Ports of Axi-stream Bus Interface
     input wire  AXIS_ACLK,
     input wire  AXIS_ARESETN,
-    
     // current time
     output wire [TIME_STAMP_WIDTH-1:0] CURRENT_TIME
 );
