@@ -13,8 +13,9 @@ module Ring_buffer_tb;
   // ------ parameter definition ------
   // --- for DUT ---
   parameter integer WIDTH = 8;
-  parameter integer FIFO_DEPTH = 80;
+  parameter integer FIFO_DEPTH = 20;
   parameter integer MAX_BACK_LEN = 10;
+  parameter integer ALMOST_FULL_ASSERT_RATE = 10;
   
 
   localparam integer MAX_VAL = 2**WIDTH -1;
@@ -36,6 +37,7 @@ module Ring_buffer_tb;
   reg read_en;
 
   wire [WIDTH-1:0] dout;
+  wire almost_full;
   wire valid;
   wire ready;
 
@@ -53,7 +55,8 @@ module Ring_buffer_tb;
   Ring_buffer # (
     .WIDTH(WIDTH),
     .FIFO_DEPTH(FIFO_DEPTH),
-    .MAX_BACK_LEN(MAX_BACK_LEN)
+    .MAX_BACK_LEN(MAX_BACK_LEN),
+    .ALMOST_FULL_ASSERT_RATE(ALMOST_FULL_ASSERT_RATE)
   ) DUT (
     .CLK(clk),
     .RESETN(resetn),
@@ -63,7 +66,8 @@ module Ring_buffer_tb;
     .WE(write_en),
     .RE(read_en),
     .BUFF_WRITE_READY(ready),
-    .BUFF_READ_VALID(valid)
+    .BUFF_READ_VALID(valid),
+    .BUFF_ALMOST_FULL(almost_full)
   );
 
   // ------ reset task ------
@@ -83,11 +87,11 @@ module Ring_buffer_tb;
     begin
       read_en <= 1'b0;
       repeat(40) @(posedge clk);
-      for ( j=1 ; j<9 ; j=j+1 ) begin
+      for ( j=0 ; j<2 ; j=j+1 ) begin
         read_en <=1'b0;
-        repeat(20) @(posedge clk);
+        repeat(80) @(posedge clk);
         read_en <=1'b1;
-        repeat(20) @(posedge clk);        
+        repeat(80) @(posedge clk);        
       end
     end
   endtask
@@ -144,6 +148,8 @@ module Ring_buffer_tb;
       gen_busy_sig;
       gen_noise;
       gen_normal_sig;
+      gen_noise;
+      gen_normal_sig;      
     end
   endtask
 

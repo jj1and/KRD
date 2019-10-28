@@ -3,7 +3,8 @@
 module Ring_buffer # (
     parameter integer WIDTH = 128,
     parameter integer FIFO_DEPTH = 100,
-    parameter integer MAX_BACK_LEN = 40
+    parameter integer MAX_BACK_LEN = 40,
+    parameter integer ALMOST_FULL_ASSERT_RATE = 50
 )
 (
     input wire CLK,
@@ -14,7 +15,8 @@ module Ring_buffer # (
     input wire WE,
     input wire RE,
     output wire BUFF_WRITE_READY,
-    output wire BUFF_READ_VALID
+    output wire BUFF_READ_VALID,
+    output wire BUFF_ALMOST_FULL
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -36,13 +38,16 @@ module Ring_buffer # (
   wire [WIDTH-1:0] dout;
 
   wire not_empty;
-  wire write_enD;
+  wire read_en;
+  wire write_en;
+  wire almost_full;
 
   assign write_en = WE&&delay_valid;
   assign read_en = RE;
   
   assign BUFF_WRITE_READY = (!full)&&delay_ready;
   assign BUFF_READ_VALID = not_empty;
+  assign BUFF_ALMOST_FULL = almost_full;
   
   Variable_delay # (
     .MAX_DELAY_CLK(MAX_BACK_LEN),
@@ -57,9 +62,10 @@ module Ring_buffer # (
     .DELAY_VALID(delay_valid)
   );
 
-  Fifo # (
+  Threshold_Fifo # (
     .WIDTH(WIDTH),
-    .DEPTH(FIFO_DEPTH)
+    .DEPTH(FIFO_DEPTH),
+    .ALMOST_FULL_ASSERT_RATE(ALMOST_FULL_ASSERT_RATE)
   ) buff_fifo (
     .CLK(CLK),
     .RESETN(RESETN),
@@ -68,6 +74,7 @@ module Ring_buffer # (
     .WE(write_en),
     .RE(read_en),
     .NOT_EMPTY(not_empty),
+    .ALMOST_FULL(almost_full),
     .FULL(full)
   );
 
