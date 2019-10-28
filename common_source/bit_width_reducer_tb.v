@@ -13,8 +13,8 @@ module bit_width_reducer_tb;
   
   // ------ parameter definition ------
   // --- for DUT ---
-  parameter integer DIN_WIDTH = 16;
-  parameter integer DOUT_WIDTH = 8;
+  parameter integer DIN_WIDTH = 64;
+  parameter integer DOUT_WIDTH = 16;
   parameter integer CONVERT_MARGIN = 2;
 
   // --- for test bench ---
@@ -40,8 +40,7 @@ module bit_width_reducer_tb;
       clk <= ~clk;
   end
 
-
-  bit_width_reducer_tb # (
+  bit_width_reducer # (
     .DIN_WIDTH(DIN_WIDTH),
     .DOUT_WIDTH(DOUT_WIDTH),
     // internal fifo depth = (DIN_WIDTH/DOUT_WIDTH)+CONVERT_MARGIN
@@ -65,6 +64,15 @@ module bit_width_reducer_tb;
     end
   endtask
 
+
+  // ------- 信号部生成タスク ------
+  task gen_signal;
+  begin
+    din <= {{16{1'b1}}, {16{1'b0}}, {2{8'd50}}, {2{8'b100}}};
+  end
+  endtask
+
+
   // ------ テストベンチ本体 ------
   initial
   begin
@@ -72,6 +80,8 @@ module bit_width_reducer_tb;
     $dumpvars(0, bit_width_reducer_tb);
     
     reset;
+    gen_signal;
+    repeat(100) @(posedge clk);
 
     $finish;
 
