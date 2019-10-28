@@ -1,9 +1,6 @@
 `timescale 1 ns / 1 ps
 
 module MM_trg # (
-
-    // threshold ( percentage of max value = 2^12)
-    parameter integer THRESHOLD = 10,
     // acquiasion length settings
     parameter integer POST_ACQUI_LEN = 76/2,
     // acquiasion length settings
@@ -15,9 +12,14 @@ module MM_trg # (
     // RF Data Converter data stream bus width
     parameter integer S_AXIS_TDATA_WIDTH	= 128
 )
-(    
-  // exec statte
-  input wire [1:0] EXEC_STATE,
+( 
+  // Ports of Axi Slave Bus Interface S00_AXIS　
+  input wire  AXIS_ACLK,
+  input wire  AXIS_ARESETN,
+  input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
+  input wire S_AXIS_TVALID,
+  // Threshold_value
+  input wire signed [ADC_RESOLUTION_WIDTH-1:0] THRESHOLD_VAL,
   // Baseline value
   input wire signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
   // current time
@@ -25,18 +27,15 @@ module MM_trg # (
   // hit time stamp
   output wire [TIME_STAMP_WIDTH-1:0] TIME_STAMP,
   // baseline value when hit
-  output wire [ADC_RESOLUTION_WIDTH-1:0] BASELINE_WHEN_HIT,
+  output wire  signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE_WHEN_HIT,
+  // threshold when hit
+  output wire  signed [ADC_RESOLUTION_WIDTH-1:0] THRESHOLD_WHEN_HIT,
   // trigger output
   output wire TRIGGERED,
   // recieved data
   output wire [S_AXIS_TDATA_WIDTH-1:0] DATA,
   // recived data valid signal
-  output wire VALID,
-  // Ports of Axi Slave Bus Interface S00_AXIS　
-  input wire  AXIS_ACLK,
-  input wire  AXIS_ARESETN,
-  input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
-  input wire S_AXIS_TVALID
+  output wire VALID
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -54,11 +53,6 @@ module MM_trg # (
   localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
   localparam signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
   localparam signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
-  localparam signed THRESHOLD_VAL = (ADC_MAX_VAL-ADC_MIN_VAL)*THRESHOLD/100;
-
-  //  exec state
-  localparam [1:0] INIT = 2'b00, // whole minimum trigger module is INITIALIZING STATE
-                    TRG = 2'b11; // (AUTO) TRIGGER STATE
   
   // triggered
   wire triggeredD;
@@ -89,6 +83,10 @@ module MM_trg # (
   reg [TIME_STAMP_WIDTH-1:0] time_stampD = 0;
   reg [TIME_STAMP_WIDTH-1:0] time_stamp = 0;
 
+  // threshold when hit
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hitD;
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hit;
+
   // baseline when hit
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD = ADC_MAX_VAL;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit = ADC_MAX_VAL;
@@ -100,7 +98,7 @@ module MM_trg # (
   assign DATA = data;
   assign VALID = valid;
 
-  assign hit_flagD = (|compare_result);
+  assign hit_flagD = AXIS_ARESETN ? (|compare_result): 1'b0;
   assign hit_flag_posedge = (hit_flag == 1'b0)&&(hit_flagD == 1'b1);
   assign hit_flag_negedge = (hit_flag == 1'b1)&&(hit_flagD == 1'b0); 
   
@@ -111,12 +109,14 @@ module MM_trg # (
 
   assign TRIGGERED = triggered;
   assign BASELINE_WHEN_HIT = baseline_when_hit;
+  assign THRESHOLD_WHEN_HIT = threshold_when_hit;
   assign TIME_STAMP = time_stamp;
 
   // time-stampの取得
   always @(posedge hit_flagD) begin
     time_stampD <= CURRENT_TIME;
     baseline_when_hitD <= BASELINE;
+    threshold_when_hitD <= THRESHOLD_VAL;
   end
 
   always @(posedge AXIS_ACLK) begin
@@ -126,6 +126,7 @@ module MM_trg # (
     end else begin
       time_stamp <= time_stampD;
       baseline_when_hit <= baseline_when_hitD;
+      threshold_when_hit <= threshold_when_hitD;
     end
   end
 
@@ -155,8 +156,8 @@ module MM_trg # (
     end
   end
 
-  always @(posedge acqui_count_done or posedge hit_flagD) begin
-    if (hit_flagD || (!AXIS_ARESETN)) begin
+  always @(posedge acqui_count_done or posedge hit_flag_posedge) begin
+    if (hit_flag_posedge || (!AXIS_ARESETN)) begin
       over_len_flagD <= 1'b0;
     end else begin
       if (acqui_count_done) begin
@@ -167,11 +168,11 @@ module MM_trg # (
     end
   end
 
-  always @(posedge post_count_done or negedge hit_flagD) begin
-    if (post_count_done||(!AXIS_ARESETN)) begin
+  always @(posedge post_count_done or posedge hit_flag_negedge) begin
+    if (post_count_done || (!AXIS_ARESETN)) begin
         finalize_flagD <= 1'b0;
     end else begin
-      if (!hit_flagD) begin
+      if (hit_flag_negedge) begin
         finalize_flagD <= 1'b1;
       end else begin
         finalize_flagD <= finalize_flagD;
