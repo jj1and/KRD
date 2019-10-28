@@ -64,52 +64,52 @@ module MM_trg # (
   
   // triggered
   wire triggeredD;
-  reg triggered;
+  reg triggered = 1'b0;
 
   // hit flag
+  wire hit_flagD;
   wire hit_flag_posedge;
   wire hit_flag_negedge;
-  wire hit_flagD;
-  reg hit_flag;
+  reg hit_flag = 1'b0;
 
   // triggered after hit end
-  wire finalize_flagD;
-  reg finalize_flag;
+  reg finalize_flagD = 1'b0;
   // triggered length overwhelms AQUI_LEN
-  wire over_len_flagD;
-  reg over_len_flag;
+  reg over_len_flagD = 1'b0;
   // array for divide S_AXIS_TDATA
   wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
   // POST ACQUIASION COUNTER
-  wire [POST_COUNTER_WIDTH-1:0] post_count;
-  reg [POST_COUNTER_WIDTH-1:0] tmp_post_count = 0;
+  reg [POST_COUNTER_WIDTH-1:0] post_count = 0;
+  wire post_count_done;
   // ACQUASION COUNTER
-  wire [FULL_COUNTER_WIDTH-1:0] full_count; 
-  reg [FULL_COUNTER_WIDTH-1:0] tmp_full_count = 0;
+  reg [FULL_COUNTER_WIDTH-1:0] acqui_count = 0;
+  wire acqui_count_done;
   // comparing ADC value with THRESHOLD_VAL
   wire [SAMPLE_PER_TDATA-1:0] compare_result;
 
   // trigger time stamp
-  reg [TIME_STAMP_WIDTH-1:0] time_stampD;
-  reg [TIME_STAMP_WIDTH-1:0] time_stamp;
+  reg [TIME_STAMP_WIDTH-1:0] time_stampD = 0;
+  reg [TIME_STAMP_WIDTH-1:0] time_stamp = 0;
 
   // baseline when hit
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit;
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD = ADC_MAX_VAL;
+  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit = ADC_MAX_VAL;
 
   // delay for timing much
-  reg data;
+  reg [S_AXIS_TDATA_WIDTH-1 : 0] data;
+  reg valid = 1'b0;
+  
   assign DATA = data;
-  reg valid;
   assign VALID = valid;
 
   assign hit_flagD = (|compare_result);
-  assign finalize_flagD = (post_count <= POST_ACQUI_LEN);
-  assign over_len_flagD = (full_count >= ACQUI_LEN);
-
-  assign triggeredD = S_AXIS_TVALID&&(!over_len_flagD) ? (hit_flagD||finalize_flagD): 1'b0;
   assign hit_flag_posedge = (hit_flag == 1'b0)&&(hit_flagD == 1'b1);
-  assign hit_flag_negedge = (hit_flag == 1'b1)&&(hit_flagD == 1'b0);
+  assign hit_flag_negedge = (hit_flag == 1'b1)&&(hit_flagD == 1'b0); 
+  
+  assign post_count_done = (post_count == POST_ACQUI_LEN) ? 1'b1: 1'b0;
+  assign acqui_count_done = (acqui_count == ACQUI_LEN) ? 1'b1: 1'b0;
+  
+  assign triggeredD = S_AXIS_TVALID&&(!over_len_flagD) ? (hit_flagD||finalize_flagD): 1'b0;
 
   assign TRIGGERED = triggered;
   assign BASELINE_WHEN_HIT = baseline_when_hit;
@@ -134,26 +134,49 @@ module MM_trg # (
   // post count
   always @(posedge AXIS_ACLK) begin  
     if (hit_flag_negedge) begin
-      tmp_post_count <= 0;
+      post_count <= 0;
     end else begin
-      if (tmp_post_count >= POST_ACQUI_LEN) begin
-        tmp_post_count <= tmp_post_count;
+      if (post_count >= POST_ACQUI_LEN) begin
+        post_count <= POST_ACQUI_LEN+1;
       end else begin
-        tmp_post_count <= tmp_post_count + 1;
+        post_count <= post_count + 1;
       end
     end
   end
 
-
   // full count
   always @(posedge AXIS_ACLK) begin
     if (hit_flag_posedge) begin
-      tmp_full_count <= 0;
+      acqui_count <= 0;
     end else begin
-      if (tmp_full_count >= ACQUI_LEN) begin
-        tmp_full_count <= tmp_full_count;
+      if (acqui_count >= ACQUI_LEN) begin
+        acqui_count <= ACQUI_LEN+1;
       end else begin
-        tmp_full_count <= tmp_full_count + 1;
+        acqui_count <= acqui_count + 1;
+      end
+    end
+  end
+
+  always @(posedge acqui_count_done or posedge hit_flagD) begin
+    if (hit_flagD || (!AXIS_ARESETN)) begin
+      over_len_flagD <= 1'b0;
+    end else begin
+      if (acqui_count_done) begin
+        over_len_flagD <= 1'b1;
+      end else begin
+        over_len_flagD <= over_len_flagD;
+      end
+    end
+  end
+
+  always @(posedge post_count_done or negedge hit_flagD) begin
+    if (post_count_done||(!AXIS_ARESETN)) begin
+        finalize_flagD <= 1'b0;
+    end else begin
+      if (!hit_flagD) begin
+        finalize_flagD <= 1'b1;
+      end else begin
+        finalize_flagD <= finalize_flagD;
       end
     end
   end
