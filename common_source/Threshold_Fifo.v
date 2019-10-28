@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 
-module Custom_Fifo # (
+module Threshold_Fifo # (
     parameter integer WIDTH = 8,
     parameter integer DEPTH = 32,
     parameter integer ALMOST_FULL_ASSERT_RATE = 95
@@ -44,7 +44,7 @@ module Custom_Fifo # (
   wire not_emptyD;
   reg not_empty;
 
-  wire diff;
+  wire [DEPTH_BIT_WIDTH:0] diff;
   wire almost_fullD;
   reg almost_full;
 
@@ -60,7 +60,7 @@ module Custom_Fifo # (
   assign wpD = wp + {{ACTUAL_DEPTH-1{1'b0}}, wp_inc};
   assign rpD = rp + {{ACTUAL_DEPTH-1{1'b0}}, rp_inc};
 
-  assign fullD = (wpD[ACTUAL_DEPTH] != rpD[ACTUAL_DEPTH])&&(wpD[ACTUAL_DEPTH-1:0] != rpD[ACTUAL_DEPTH-1:0]);
+  assign fullD = ( (wpD[DEPTH_BIT_WIDTH] != rpD[DEPTH_BIT_WIDTH]) && (wpD[DEPTH_BIT_WIDTH-1:0] == rpD[DEPTH_BIT_WIDTH-1:0]) );
   assign not_emptyD = (wpD != rpD);
   assign diff = (wpD - rpD);
   assign almost_fullD = (diff > ALMOST_FULL_ASSERT_DIFF);
