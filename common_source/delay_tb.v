@@ -42,8 +42,8 @@ module delay_tb;
     .RESETN(resetn),
     .DIN(din),
     .DOUT(dout),
-    .READY(ready),
-    .VALID(valid)
+    .DELAY_READY(ready),
+    .DELAY_VALID(valid)
   );
 
   // ------ reset task ------

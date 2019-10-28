@@ -53,8 +53,8 @@ module Ring_buffer # (
     .DELAY_CLK(BACK_LEN),
     .DIN(DIN),
     .DOUT(delay_dout),
-    .READY(delay_ready),
-    .VALID(delay_valid)
+    .DELAY_READY(delay_ready),
+    .DELAY_VALID(delay_valid)
   );
 
   Fifo # (

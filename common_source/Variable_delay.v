@@ -11,8 +11,8 @@ module Variable_delay # (
   input wire [MAX_DELAY_CNT_WIDTH-1:0] DELAY_CLK,
   input wire [WIDTH-1:0] DIN,
   output wire [WIDTH-1:0] DOUT,
-  output wire READY,
-  output wire VALID
+  output wire DELAY_READY,
+  output wire DELAY_VALID
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -33,8 +33,8 @@ module Variable_delay # (
     reg write_en;
     reg read_en;
     reg valid;
-    assign VALID = valid;
-    assign READY = write_en;
+    assign DELAY_VALID = valid;
+    assign DELAY_READY = write_en;
 
     Fifo # (
       .WIDTH(WIDTH),

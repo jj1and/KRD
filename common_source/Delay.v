@@ -10,8 +10,8 @@ module Delay # (
   input wire RESETN,
   input wire [WIDTH-1:0] DIN,
   output wire [WIDTH-1:0] DOUT,
-  output wire READY,
-  output wire VALID
+  output wire DELAY_READY,
+  output wire DELAY_VALID
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -29,16 +29,20 @@ module Delay # (
     
     reg [WIDTH-1:0] dout;
     reg valid;
+    reg ready;
     assign DOUT = dout;
-    assign VALID = valid;
+    assign DELAY_VALID = valid;
+    assign DELAY_READY = ready;
 
     always @(posedge CLK ) begin
       if (!RESETN) begin
         dout <= 0;
         valid <= 1'b0;
+        ready <= 1'b0;
       end else begin
         dout <= DIN;
         valid <= 1'b1;
+        ready <= 1'b1;
       end
     end
 
@@ -51,8 +55,8 @@ module Delay # (
     reg write_en;
     reg read_en;
     reg valid;
-    assign VALID = valid;
-    assign READY = write_en;
+    assign DELAY_VALID = valid;
+    assign DELAY_READY = write_en;
 
     Fifo # (
       .WIDTH(WIDTH),

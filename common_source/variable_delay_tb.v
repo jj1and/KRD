@@ -55,8 +55,8 @@ module variable_delay_tb;
     .DELAY_CLK(delay_clk),
     .DIN(din),
     .DOUT(dout),
-    .READY(ready),
-    .VALID(valid)
+    .DELAY_READY(ready),
+    .DELAY_VALID(valid)
   );
 
   // ------ reset task ------
