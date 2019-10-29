@@ -46,7 +46,7 @@ module MM_Trg_tb;
 
   reg [TIME_STAMP_WIDTH-1:0] current_time;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_val = THRESHOLD_VAL;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
   
   reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata = 0;
   reg s_axis_tvalid = 1'b0;
@@ -56,7 +56,7 @@ module MM_Trg_tb;
   wire triggered_signal;
   wire [TIME_STAMP_WIDTH-1:0] time_stamp;
   wire [ADC_RESOLUTION_WIDTH-1:0] bl_when_hit;
-  wire [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hit;
+  wire [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
 
   reg signed [ADC_RESOLUTION_WIDTH-1:0] bl_min = BL_MIN;
@@ -182,7 +182,7 @@ module MM_Trg_tb;
       $dumpfile("MM_Trg_tb.vcd");
       $dumpvars(0, MM_Trg_tb);
       for ( k=0 ; k<SAMPLE_PER_TDATA ; k=k+1 ) begin
-        $dumpvars(1, MM_Trg_tb.DUT.s_axis_tdata_word[k]);
+        $dumpvars(1, MM_Trg_tb.DUT.delta_val[k]);
       end
 
       s_axis_tvalid <= 1'b0;

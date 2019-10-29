@@ -19,7 +19,7 @@ module MM_trg # (
   input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
   input wire S_AXIS_TVALID,
   // Threshold_value
-  input wire signed [ADC_RESOLUTION_WIDTH-1:0] THRESHOLD_VAL,
+  input wire signed [ADC_RESOLUTION_WIDTH+1-1:0] THRESHOLD_VAL,
   // Baseline value
   input wire signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
   // current time
@@ -29,7 +29,7 @@ module MM_trg # (
   // baseline value when hit
   output wire  signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE_WHEN_HIT,
   // threshold when hit
-  output wire  signed [ADC_RESOLUTION_WIDTH-1:0] THRESHOLD_WHEN_HIT,
+  output wire  signed [ADC_RESOLUTION_WIDTH+1-1:0] THRESHOLD_WHEN_HIT,
   // trigger output
   output wire TRIGGERED,
   // recieved data
@@ -84,15 +84,19 @@ module MM_trg # (
   reg [TIME_STAMP_WIDTH-1:0] time_stamp = 0;
 
   // threshold when hit
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hitD;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hit;
+  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hitD;
+  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   // baseline when hit
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD = ADC_MAX_VAL;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit = ADC_MAX_VAL;
 
+  // s_axis_tdata_word - baseline
+  wire signed [ADC_RESOLUTION_WIDTH+1-1:0] delta_val[SAMPLE_PER_TDATA-1:0];
+
   // delay for timing much
   reg [S_AXIS_TDATA_WIDTH-1 : 0] data;
+  wire [S_AXIS_TDATA_WIDTH-1 : 0] dataD;
   reg valid = 1'b0;
   
   assign DATA = data;
@@ -208,7 +212,7 @@ module MM_trg # (
     if (!AXIS_ARESETN) begin
       data <= {S_AXIS_TDATA_WIDTH{1'b1}};
     end else begin
-      data <= S_AXIS_TDATA;
+      data <= dataD;
     end
   end
 
@@ -217,13 +221,15 @@ module MM_trg # (
   generate
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
       assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
+      assign delta_val[i] = s_axis_tdata_word[i] - BASELINE;
+      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{1'b0}}, S_AXIS_TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
     end
-  endgenerate  
+  endgenerate
 
   // Thresoldの値との比較
   generate
     for(i=0;i<SAMPLE_PER_TDATA;i=i+1) begin
-      assign compare_result[i] = ((s_axis_tdata_word[i]-BASELINE) >= THRESHOLD_VAL);
+      assign compare_result[i] = ( delta_val[i] >= THRESHOLD_VAL);
     end
   endgenerate
 
