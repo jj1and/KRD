@@ -86,7 +86,7 @@ module add_header_footer #
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      dout <= 0;
+      dout <= {DATA_WIDTH{1'b1}};
       adding_valid <= 1'b0;
     end else begin
       dout <= doutD;
@@ -97,7 +97,7 @@ module add_header_footer #
   always @(posedge CLK ) begin
     if (!RESETN) begin
       delayed_triggered <= 1'b0;
-      delayed_data <= 0;
+      delayed_data <= {DATA_WIDTH{1'b1}};
     end else begin
       delayed_triggered <= TRIGGERED;
       delayed_data <= DIN;

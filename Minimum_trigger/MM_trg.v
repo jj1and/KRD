@@ -205,7 +205,11 @@ module MM_trg # (
   end
 
   always @(posedge AXIS_ACLK ) begin
-    data <= S_AXIS_TDATA;
+    if (!AXIS_ARESETN) begin
+      data <= {S_AXIS_TDATA_WIDTH{1'b1}};
+    end else begin
+      data <= S_AXIS_TDATA;
+    end
   end
 
   // S_AXIS_TDATAの分割

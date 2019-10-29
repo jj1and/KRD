@@ -68,6 +68,7 @@ module Trg_and_Adding_tb;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] snd_height = SND_HEIGHT;
 
   wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
+  wire signed [ADC_RESOLUTION_WIDTH-1:0] data_word[SAMPLE_PER_TDATA-1:0];
 
 
   // ------ クロックの生成 ------
@@ -195,6 +196,14 @@ add_header_footer # (
       for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
       begin
           assign s_axis_tdata_word[j] = s_axis_tdata[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
+      end
+  endgenerate
+
+  // DATAの分割
+  generate
+      for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
+      begin
+          assign data_word[j] = dout[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
       end
   endgenerate
 
