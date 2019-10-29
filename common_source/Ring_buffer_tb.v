@@ -55,7 +55,7 @@ module Ring_buffer_tb;
   Ring_buffer # (
     .WIDTH(WIDTH),
     .FIFO_DEPTH(FIFO_DEPTH),
-    .MAX_BACK_LEN(MAX_BACK_LEN),
+    .MAX_BACK_LEN_WIDTH(MAX_BACK_CNT_WIDTH),
     .ALMOST_FULL_ASSERT_RATE(ALMOST_FULL_ASSERT_RATE)
   ) DUT (
     .CLK(clk),

@@ -10,6 +10,7 @@ module MM_trigger_total_tb;
   // threshold ( percentage of max value = 2^12)
   parameter integer THRESHOLD = 80;
   // acquiasion length settings
+  parameter integer MAX_EXTEND_LEN_WIDTH = 5;
   parameter integer PRE_ACQUI_LEN = 24/2;
   // acquiasion length settings
   parameter integer POST_ACQUI_LEN = 76/2;
@@ -23,7 +24,7 @@ module MM_trigger_total_tb;
   parameter integer S_AXIS_TDATA_WIDTH	= 128;
   parameter integer DOUT_WIDTH	= 64;
   parameter integer FIFO_DEPTH = 200;
-  parameter integer MAX_BACK_LEN = 60/2;
+  parameter integer MAX_BACK_LEN_WIDTH = 5;
   parameter integer BACK_LEN = 24/2;
   parameter integer ALMOST_FULL_ASSERT_RATE = 80;
   parameter integer CONVERT_MARGIN = 2;
@@ -68,6 +69,7 @@ module MM_trigger_total_tb;
   wire signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   wire exepand_trg_signal;
+  reg [MAX_EXTEND_LEN_WIDTH-1:0] extend_len = PRE_ACQUI_LEN;
 
   wire [S_AXIS_TDATA_WIDTH-1:0] adding_dout;
   wire adding_valid;
@@ -140,10 +142,11 @@ module MM_trigger_total_tb;
   );
 
   signal_expansioner # (
-    .EXTEND_CLK(PRE_ACQUI_LEN)
+    .MAX_EXTEND_LEN_WIDTH(MAX_EXTEND_LEN_WIDTH)
   ) sig_expa_inst (
     .CLK(axis_aclk),
     .RESETN(axis_aresetn),
+    .EXTEND_LEN(extend_len),
     .SIG_IN(triggered_signal),
     .SIG_OUT(exepand_trg_signal)
   );
@@ -155,7 +158,7 @@ module MM_trigger_total_tb;
     .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
     .CHANNEL_ID(0),    
     .FIFO_DEPTH(FIFO_DEPTH),
-    .MAX_BACK_LEN(MAX_BACK_LEN),
+    .MAX_BACK_LEN_WIDTH(MAX_BACK_LEN_WIDTH),
     .ALMOST_FULL_ASSERT_RATE(ALMOST_FULL_ASSERT_RATE)
   ) Trig_buffer_inst (
     .CLK(axis_aclk),

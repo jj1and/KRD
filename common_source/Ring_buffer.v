@@ -3,7 +3,7 @@
 module Ring_buffer # (
     parameter integer WIDTH = 128,
     parameter integer FIFO_DEPTH = 100,
-    parameter integer MAX_BACK_LEN = 40,
+    parameter integer MAX_BACK_LEN_WIDTH = 6,
     parameter integer ALMOST_FULL_ASSERT_RATE = 50
 )
 (
@@ -29,7 +29,6 @@ module Ring_buffer # (
   endfunction
 
   localparam integer DEPTH_WIDTH = clogb2(FIFO_DEPTH-1);
-  localparam integer MAX_BACK_LEN_WIDTH = clogb2(MAX_BACK_LEN);
 
   wire [WIDTH-1:0] delay_dout;
   wire delay_ready;
@@ -50,12 +49,12 @@ module Ring_buffer # (
   assign BUFF_ALMOST_FULL = almost_full;
   
   Variable_delay # (
-    .MAX_DELAY_CLK(MAX_BACK_LEN),
+    .MAX_DELAY_CNT_WIDTH(MAX_BACK_LEN_WIDTH),
     .WIDTH(WIDTH)
   ) back_delay (
     .CLK(CLK),
     .RESETN(RESETN),
-    .DELAY_CLK(BACK_LEN),
+    .DELAY(BACK_LEN),
     .DIN(DIN),
     .DOUT(delay_dout),
     .DELAY_READY(delay_ready),

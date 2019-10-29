@@ -47,12 +47,12 @@ module variable_delay_tb;
 
   // ------ DUT ------
   Variable_delay # (
-    .MAX_DELAY_CLK(MAX_DELAY_CLK),
+    .MAX_DELAY_CNT_WIDTH(MAX_DELAY_CNT_WIDTH),
     .WIDTH(WIDTH)
   ) DUT (
     .CLK(clk),
     .RESETN(resetn),
-    .DELAY_CLK(delay_clk),
+    .DELAY(delay_clk),
     .DIN(din),
     .DOUT(dout),
     .DELAY_READY(ready),

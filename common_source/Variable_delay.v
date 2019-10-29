@@ -1,14 +1,14 @@
 `timescale 1 ns / 1 ps
 
 module Variable_delay # (
-  parameter integer MAX_DELAY_CLK = 100,
+  parameter integer MAX_DELAY_CNT_WIDTH = 7,
   parameter integer WIDTH = 1
 
 )
 (
   input wire CLK,
   input wire RESETN,
-  input wire [MAX_DELAY_CNT_WIDTH-1:0] DELAY_CLK,
+  input wire [MAX_DELAY_CNT_WIDTH-1:0] DELAY,
   input wire [WIDTH-1:0] DIN,
   output wire [WIDTH-1:0] DOUT,
   output wire DELAY_READY,
@@ -23,71 +23,69 @@ module Variable_delay # (
     end
   endfunction
 
-  localparam integer MAX_DELAY_CNT_WIDTH = clogb2(MAX_DELAY_CLK);
+  wire full;
+  wire not_empty;
 
-    wire full;
-    wire not_empty;
+  reg [MAX_DELAY_CNT_WIDTH-1:0] delay_cnt;
+  reg [MAX_DELAY_CNT_WIDTH-1:0] delay;
+  reg write_en;
+  reg read_en;
+  reg valid;
+  assign DELAY_VALID = valid;
+  assign DELAY_READY = write_en;
 
-    reg [MAX_DELAY_CNT_WIDTH-1:0] delay_cnt;
-    reg [MAX_DELAY_CNT_WIDTH-1:0] delay_clk;
-    reg write_en;
-    reg read_en;
-    reg valid;
-    assign DELAY_VALID = valid;
-    assign DELAY_READY = write_en;
-
-    Fifo # (
-      .WIDTH(WIDTH),
-      .DEPTH(MAX_DELAY_CLK)
-    ) delay_buff (
-      .CLK(CLK),
-      .RESETN(RESETN),
-      .DIN(DIN),
-      .DOUT(DOUT),
-      .WE(write_en),
-      .RE(read_en),
-      .NOT_EMPTY(not_empty),
-      .FULL(full)
-    );
-    
-    always @(posedge CLK ) begin
-      if (!RESETN) begin
+  Fifo # (
+    .WIDTH(WIDTH),
+    .DEPTH(2**MAX_DELAY_CNT_WIDTH)
+  ) delay_buff (
+    .CLK(CLK),
+    .RESETN(RESETN),
+    .DIN(DIN),
+    .DOUT(DOUT),
+    .WE(write_en),
+    .RE(read_en),
+    .NOT_EMPTY(not_empty),
+    .FULL(full)
+  );
+  
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      read_en <= 1'b0;
+      delay_cnt <= 0;
+      delay <= DELAY;
+    end else begin
+      if (delay_cnt >= delay) begin
+        delay_cnt <= delay;
+        read_en <= 1'b1;
+      end else begin
+        delay_cnt <= delay_cnt + 1;
         read_en <= 1'b0;
-        delay_cnt <= 0;
-        delay_clk <= DELAY_CLK;
-      end else begin
-        if (delay_cnt >= delay_clk) begin
-          delay_cnt <= delay_clk;
-          read_en <= 1'b1;
-        end else begin
-          delay_cnt <= delay_cnt + 1;
-          read_en <= 1'b0;
-        end
       end
     end
+  end
 
-    always @(posedge CLK) begin
-      if (!RESETN) begin
+  always @(posedge CLK) begin
+    if (!RESETN) begin
+      write_en <= 1'b0;
+    end else begin
+      if (!full) begin
+        write_en <= 1'b1;
+      end else begin
         write_en <= 1'b0;
-      end else begin
-        if (!full) begin
-          write_en <= 1'b1;
-        end else begin
-          write_en <= 1'b0;
-        end
       end
     end
+  end
 
-    always @(posedge CLK) begin
-      if (!RESETN) begin
-        valid <= 1'b0;
+  always @(posedge CLK) begin
+    if (!RESETN) begin
+      valid <= 1'b0;
+    end else begin
+      if (not_empty && (delay_cnt >= delay)) begin
+        valid <= 1'b1;
       end else begin
-        if (not_empty && (delay_cnt >= delay_clk)) begin
-          valid <= 1'b1;
-        end else begin
-          valid <= 1'b0;
-        end
+        valid <= 1'b0;
       end
     end
+  end
 
 endmodule
