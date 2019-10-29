@@ -1,0 +1,78 @@
+`timescale 1 ps / 1 ps
+
+module sig_exp_tb;
+
+  // ------ parameter definition ------
+  // --- for DUT ---
+  parameter integer EXTEND_CLK = 10;
+
+  // --- for test bench ---
+  integer i;
+  parameter integer CLK_PERIOD = 2E3;
+  parameter integer RESET_TIME = 5;
+  
+  // ------ reg/wireの生成 -------
+  reg clk = 1'b0;
+  reg resetn = 1'b0;
+  reg sig_in = 1'b0;
+
+  wire sig_out;
+  wire valid;
+  wire ready;
+
+  // ------ クロックの生成 ------
+  initial begin
+    clk = 1'b0;
+  end
+
+  always #( CLK_PERIOD/2 ) begin
+      clk <= ~clk;
+  end
+
+
+  // ------ DUT ------
+  signal_expansioner # (
+    .EXTEND_CLK(EXTEND_CLK)
+  ) DUT (
+    .CLK(clk),
+    .RESETN(resetn),
+    .SIG_IN(sig_in),
+    .SIG_OUT(sig_out)
+  );
+
+  // ------ reset task ------
+  task reset;
+  begin
+    resetn <= 1'b0;
+    repeat(RESET_TIME) @(posedge clk);
+    resetn <= 1'b1;
+    repeat(1) @(posedge clk);
+  end
+  endtask
+
+  // ------ data generation task -------
+  task gen_data;
+  begin
+    sig_in <= 1'b1;
+    repeat(20) @(posedge clk);
+    sig_in <= 1'b0;
+    repeat(20) @(posedge clk);
+  end
+  endtask
+
+  // ------ テストベンチ本体 ------
+  initial
+  begin
+      $dumpfile("sig_exp_tb.vcd");
+      $dumpvars(0, sig_exp_tb);
+
+      reset;
+      gen_data;
+      reset;
+      gen_data;
+
+      $finish;
+
+  end
+
+endmodule
