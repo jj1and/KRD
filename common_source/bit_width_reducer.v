@@ -10,6 +10,7 @@ module bit_width_reducer # (
   input wire CLK,
   input wire RESETN,
   input wire [DIN_WIDTH-1:0] DIN,
+  input wire DIN_VALID,
   output wire [DOUT_WIDTH-1:0] DOUT,
   output wire CONVERT_READY,
   output wire CONVERT_VALID
@@ -31,7 +32,7 @@ module bit_width_reducer # (
   wire fifo_full;
 
   reg [BIT_CONV_COUNT_WIDTH-1:0] conv_count = 0;
-  reg write_en = 1'b0;
+  wire write_en;
   wire read_en;
 
   wire [DOUT_WIDTH-1:0] divide_dout[BIT_DIFF-1:0];
@@ -43,6 +44,7 @@ module bit_width_reducer # (
   assign DOUT = divide_dout[conv_count];
   assign CONVERT_VALID = valid;
   assign CONVERT_READY = ready;
+  assign write_en = DIN_VALID;
 
   Fifo # (
     .WIDTH(DIN_WIDTH),
@@ -80,11 +82,9 @@ module bit_width_reducer # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      write_en <= 1'b0;
       valid <= 1'b0;
       ready <= 1'b0;
     end else begin
-      write_en <= 1'b1;
       valid <= fifo_not_empty;
       ready <= !fifo_full;
     end

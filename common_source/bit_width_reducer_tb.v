@@ -26,6 +26,7 @@ module bit_width_reducer_tb;
   reg clk = 1'b0;
   reg resetn = 1'b0;
   reg [DIN_WIDTH-1:0] din;
+  reg din_valid;
 
   wire [DOUT_WIDTH-1:0] dout;
   wire valid;
@@ -49,6 +50,7 @@ module bit_width_reducer_tb;
     .CLK(clk),
     .RESETN(resetn),
     .DIN(din),
+    .DIN_VALID(din_valid),
     .DOUT(dout),
     .CONVERT_READY(ready),
     .CONVERT_VALID(valid)
@@ -58,6 +60,7 @@ module bit_width_reducer_tb;
   task reset;
     begin
       resetn <= 1'b0;
+      din_valid <= 1'b0;
       repeat(RESET_TIME) @(posedge clk);
       resetn <= 1'b1;
       repeat(1) @(posedge clk);
@@ -68,6 +71,7 @@ module bit_width_reducer_tb;
   // ------- 信号部生成タスク ------
   task gen_signal;
   begin
+    din_valid <= 1'b1;
     din <= {{16{1'b1}}, {16{1'b0}}, {2{8'd50}}, {2{8'b100}}};
   end
   endtask
