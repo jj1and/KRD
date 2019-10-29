@@ -46,19 +46,20 @@ module add_header_footer #
 
   wire trg_delay_ready;
   wire trg_delay_valid;
-  reg delayed_triggered;
+  reg delayed_triggered = 1'b0;
+  reg delayed_delay_triggered = 1'b0;
 
   wire data_delay_ready;
   wire data_delay_valid;
-  reg [DATA_WIDTH-1:0] delayed_data;
+  reg [DATA_WIDTH-1:0] delayed_data = {DATA_WIDTH{1'b1}};
 
   wire triggered_posedge;
   wire triggered_negedge;
 
-  reg [DATA_WIDTH-1:0] doutD;
-  reg [DATA_WIDTH-1:0] dout;
+  reg [DATA_WIDTH-1:0] doutD = {DATA_WIDTH{1'b1}};
+  reg [DATA_WIDTH-1:0] dout = {DATA_WIDTH{1'b1}};
   wire adding_validD;
-  reg adding_valid;
+  reg adding_valid = 1'b0;
 
   assign ch_id_fst_time_stamp_set = {ch_id, TIME_STAMP[TIME_STAMP_WIDTH-1 -:FIRST_TIME_STAMP_WIDTH]};
   assign lat_time_stamp = TIME_STAMP[LATER_TIME_STAMP_WIDTH-1:0];
@@ -71,11 +72,11 @@ module add_header_footer #
 
   assign triggered_posedge = (delayed_triggered == 1'b0 )&&( TRIGGERED == 1'b1);
   assign triggered_negedge = (delayed_triggered == 1'b1 )&&( TRIGGERED == 1'b0);
-  assign adding_validD = TRIGGERED||delayed_triggered;
+  assign adding_validD = delayed_triggered||delayed_delay_triggered;
   assign DOUT = dout;
-  assign ADDING_VALID = adding_valid; 
+  assign ADDING_VALID = adding_valid;
 
-  always @( posedge CLK or posedge triggered_posedge or posedge triggered_negedge) begin
+  always @( posedge CLK) begin
     if (triggered_posedge) begin
       doutD <= combined_header;
     end else begin
@@ -100,9 +101,11 @@ module add_header_footer #
   always @(posedge CLK ) begin
     if (!RESETN) begin
       delayed_triggered <= 1'b0;
+      delayed_delay_triggered <= 1'b0;
       delayed_data <= {DATA_WIDTH{1'b1}};
     end else begin
       delayed_triggered <= TRIGGERED;
+      delayed_delay_triggered <= delayed_triggered;
       delayed_data <= DIN;
     end
   end
