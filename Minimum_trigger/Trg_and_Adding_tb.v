@@ -46,7 +46,7 @@ module Trg_and_Adding_tb;
 
   reg [TIME_STAMP_WIDTH-1:0] current_time;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] threshold_val = THRESHOLD_VAL;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
   
   reg [S_AXIS_TDATA_WIDTH-1:0] s_axis_tdata = 0;
   reg s_axis_tvalid = 1'b0;
@@ -56,7 +56,7 @@ module Trg_and_Adding_tb;
   wire triggered_signal;
   wire [TIME_STAMP_WIDTH-1:0] time_stamp;
   wire [ADC_RESOLUTION_WIDTH-1:0] bl_when_hit;
-  wire [ADC_RESOLUTION_WIDTH-1:0] threshold_when_hit;
+  wire signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   wire [S_AXIS_TDATA_WIDTH-1:0] dout;
   wire adding_valid;
@@ -68,7 +68,7 @@ module Trg_and_Adding_tb;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] snd_height = SND_HEIGHT;
 
   wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
-  wire signed [ADC_RESOLUTION_WIDTH-1:0] data_word[SAMPLE_PER_TDATA-1:0];
+  wire signed [16-1:0] data_word[SAMPLE_PER_TDATA-1:0];
 
 
   // ------ クロックの生成 ------
@@ -195,7 +195,7 @@ add_header_footer # (
   generate
       for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
       begin
-          assign s_axis_tdata_word[j] = s_axis_tdata[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
+        assign s_axis_tdata_word[j] = s_axis_tdata[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
       end
   endgenerate
 
@@ -203,7 +203,7 @@ add_header_footer # (
   generate
       for ( j=0 ; j<SAMPLE_PER_TDATA ; j=j+1 )
       begin
-          assign data_word[j] = dout[16*(j+1)-1 -:ADC_RESOLUTION_WIDTH];
+        assign data_word[j] = dout[16*(j+1)-1 -:16];
       end
   endgenerate
 
@@ -213,7 +213,7 @@ add_header_footer # (
       $dumpfile("Trg_and_Adding_tb.vcd");
       $dumpvars(0, Trg_and_Adding_tb);
       for ( k=0 ; k<SAMPLE_PER_TDATA ; k=k+1 ) begin
-        $dumpvars(1, Trg_and_Adding_tb.MM_Trg_inst.s_axis_tdata_word[k]);
+        $dumpvars(1, Trg_and_Adding_tb.data_word[k]);
       end
 
       s_axis_tvalid <= 1'b0;

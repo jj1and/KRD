@@ -5,6 +5,7 @@ module add_header_footer #
   parameter integer DATA_WIDTH = 128,
   parameter integer HEADER_FOOTER_WIDTH = 64,
   parameter integer TIME_STAMP_WIDTH = 49,
+  parameter integer FIRST_TIME_STAMP_WIDTH = 26,
   parameter integer ADC_RESOLUTION_WIDTH = 12,
   parameter integer CHANNEL_ID  = 0
 )(
@@ -13,7 +14,7 @@ module add_header_footer #
   input wire DIN_VALID,
   input wire TRIGGERED,
   input wire [TIME_STAMP_WIDTH-1:0] TIME_STAMP,
-  input wire [ADC_RESOLUTION_WIDTH-1:0] THRESHOLD_WHEN_HIT,
+  input wire [ADC_RESOLUTION_WIDTH+1-1:0] THRESHOLD_WHEN_HIT,
   input wire [ADC_RESOLUTION_WIDTH-1:0] BASELINE_WHEN_HIT,
   input wire [DATA_WIDTH-1:0] DIN,
   output wire [DATA_WIDTH-1:0] DOUT,
@@ -21,26 +22,27 @@ module add_header_footer #
 );
 
   localparam integer ONE_FILL_WIDTH = 16 -ADC_RESOLUTION_WIDTH;
-  localparam integer HEAD_FOOT_ID_WIDTH = 4;
+  localparam integer HEAD_FOOT_ID_WIDTH = 8;
+  localparam integer LATER_TIME_STAMP_WIDTH = TIME_STAMP_WIDTH-FIRST_TIME_STAMP_WIDTH;
   localparam integer CHANNEL_ID_WIDTH = 4;
   localparam integer DATA_DELAY_CLK = 1;
 
   reg [HEADER_FOOTER_WIDTH-1:0] dummy_header_footer = {HEADER_FOOTER_WIDTH{1'b1}};
   reg [ONE_FILL_WIDTH-1:0] one_fill = {ONE_FILL_WIDTH{1'b1}};
-  reg [HEAD_FOOT_ID_WIDTH-1:0] header_id = {{2{1'b1}}, {HEAD_FOOT_ID_WIDTH-2{1'b0}}};
-  reg [HEAD_FOOT_ID_WIDTH-1:0] footer_id = {{HEAD_FOOT_ID_WIDTH-2{1'b0}}, {2{1'b1}}};
+  reg [HEAD_FOOT_ID_WIDTH-1:0] header_id = {HEAD_FOOT_ID_WIDTH{1'b1}};
+  reg [HEAD_FOOT_ID_WIDTH-1:0] footer_id = {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
   reg [CHANNEL_ID_WIDTH-1:0] ch_id = CHANNEL_ID;
-  reg [HEADER_FOOTER_WIDTH-ONE_FILL_WIDTH*2-CHANNEL_ID_WIDTH-TIME_STAMP_WIDTH-HEAD_FOOT_ID_WIDTH-1:0] header_zero_pad = 0;
-  reg [HEADER_FOOTER_WIDTH-ONE_FILL_WIDTH*2-ADC_RESOLUTION_WIDTH*2-HEAD_FOOT_ID_WIDTH-1:0] footer_zero_pad = 0;
+  reg [HEADER_FOOTER_WIDTH-CHANNEL_ID_WIDTH-FIRST_TIME_STAMP_WIDTH-HEAD_FOOT_ID_WIDTH-1:0] header_zero_pad = 0;
+  reg [HEADER_FOOTER_WIDTH-ONE_FILL_WIDTH*2-ADC_RESOLUTION_WIDTH*2-HEAD_FOOT_ID_WIDTH-LATER_TIME_STAMP_WIDTH-1:0] footer_zero_pad = 0;
 
   wire [DATA_WIDTH-1:0] combined_header;
   wire [DATA_WIDTH-1:0] combined_footer;
   wire [HEADER_FOOTER_WIDTH-1:0] header;
   wire [HEADER_FOOTER_WIDTH-1:0] footer;
-  wire [ONE_FILL_WIDTH+CHANNEL_ID_WIDTH-1:0] ch_id_set = {one_fill, ch_id};
-  wire [ONE_FILL_WIDTH+TIME_STAMP_WIDTH-1:0] time_stamp_set;
+  wire [CHANNEL_ID_WIDTH+FIRST_TIME_STAMP_WIDTH-1:0] ch_id_fst_time_stamp_set;
+  wire [LATER_TIME_STAMP_WIDTH-1:0] lat_time_stamp;
   wire [ONE_FILL_WIDTH+ADC_RESOLUTION_WIDTH-1:0] baseline_set;
-  wire [ONE_FILL_WIDTH+ADC_RESOLUTION_WIDTH-1:0] threshold_set;
+  wire [ONE_FILL_WIDTH-1+ADC_RESOLUTION_WIDTH+1-1:0] threshold_set;
 
   wire trg_delay_ready;
   wire trg_delay_valid;
@@ -58,13 +60,14 @@ module add_header_footer #
   wire adding_validD;
   reg adding_valid;
 
-  assign time_stamp_set = {one_fill, TIME_STAMP};
+  assign ch_id_fst_time_stamp_set = {ch_id, TIME_STAMP[TIME_STAMP_WIDTH-1 -:FIRST_TIME_STAMP_WIDTH]};
+  assign lat_time_stamp = TIME_STAMP[LATER_TIME_STAMP_WIDTH-1:0];
   assign baseline_set = {one_fill, BASELINE_WHEN_HIT};
-  assign threshold_set = {one_fill, THRESHOLD_WHEN_HIT};
-  assign header = {ch_id_set, time_stamp_set, header_zero_pad, header_id};
-  assign footer = {baseline_set, threshold_set, footer_zero_pad, footer_id};
+  assign threshold_set = {{ONE_FILL_WIDTH-1{1'b1}}, THRESHOLD_WHEN_HIT};
+  assign header = {header_id, ch_id_fst_time_stamp_set, header_zero_pad};
+  assign footer = {baseline_set, threshold_set, footer_zero_pad, lat_time_stamp, footer_id};
   assign combined_header = {dummy_header_footer, header};
-  assign combined_footer = {dummy_header_footer, footer};
+  assign combined_footer = {footer, dummy_header_footer};
 
   assign triggered_posedge = (delayed_triggered == 1'b0 )&&( TRIGGERED == 1'b1);
   assign triggered_negedge = (delayed_triggered == 1'b1 )&&( TRIGGERED == 1'b0);
@@ -72,14 +75,14 @@ module add_header_footer #
   assign DOUT = dout;
   assign ADDING_VALID = adding_valid; 
 
-  always @( triggered_posedge or triggered_negedge) begin
+  always @( posedge CLK or posedge triggered_posedge or posedge triggered_negedge) begin
     if (triggered_posedge) begin
-      doutD = combined_header;
+      doutD <= combined_header;
     end else begin
       if (triggered_negedge) begin
-        doutD = combined_footer;
+        doutD <= combined_footer;
       end else begin
-        doutD = delayed_data;
+        doutD <= delayed_data;
       end
     end
   end
