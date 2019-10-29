@@ -128,45 +128,6 @@ module Minimum_trigger # (
         .S_AXIS_TDATA(S_AXIS_TDATA)
     );
 
-  base_calc # (
-      .THRESHOLD(THRESHOLD),
-      .BASELINE_CALC_LEN(BASELINE_CALC_LEN),
-      .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
-      .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
-    ) base_calc_inst (    
-      .EXEC_STATE(exec_machine_state),
-      .O_BASELINE(base_line),
-      .O_CALC_COMPLETE(bl_calc_comp),
-      .AXIS_ACLK(AXIS_ACLK),
-      .AXIS_ARESETN(AXIS_ARESETN),
-      .S_AXIS_TDATA(S_AXIS_TDATA),
-      .S_AXIS_TVALID(S_AXIS_TVALID)
-  );
-
-  m_axis_IF # (
-      .THRESHOLD(THRESHOLD),
-      .PRE_ACQUI_LEN(PRE_ACQUI_LEN),
-      .POST_ACQUI_LEN(POST_ACQUI_LEN),
-      .ACQUI_LEN(ACQUI_LEN),
-      .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
-      .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
-      .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH),
-      .M_AXIS_TDATA_WIDTH(M_AXIS_TDATA_WIDTH)
-    ) m_axis_IF_inst (    
-      .TIME_STAMP(time_stamp),
-      .TRIGGERD_FLAG(triggerd_flag),
-      .O_FIFO_FULL(O_INTERNAL_FIFO_FULL),
-      .AXIS_ACLK(AXIS_ACLK),
-      .AXIS_ARESETN(AXIS_ARESETN),
-      .S_AXIS_TREADY(s_axis_tready),
-      .S_AXIS_TDATA(S_AXIS_TDATA),
-      .S_AXIS_TVALID(S_AXIS_TVALID),
-      .M_AXIS_TDATA(M_AXIS_TDATA),
-      .M_AXIS_TVALID(M_AXIS_TVALID),
-      .M_AXIS_TLAST(M_AXIS_TLAST),
-      .M_AXIS_TUSER(M_AXIS_TUSER),
-      .M_AXIS_TREADY(M_AXIS_TREADY)
-  );
 
   time_counter # (
       .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
@@ -176,7 +137,7 @@ module Minimum_trigger # (
       .EXEC_STATE(exec_machine_state),
       .AXIS_ACLK(AXIS_ACLK),
       .AXIS_ARESETN(AXIS_ARESETN),
-      .O_CURRENT_TIME(curr_time)
+      .CURRENT_TIME(curr_time)
   );
 
 endmodule
