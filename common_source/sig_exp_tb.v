@@ -4,7 +4,7 @@ module sig_exp_tb;
 
   // ------ parameter definition ------
   // --- for DUT ---
-  parameter integer EXTEND_CLK = 10;
+  parameter integer EXTEND_LEN_WIDTH = 5;
 
   // --- for test bench ---
   integer i;
@@ -14,6 +14,7 @@ module sig_exp_tb;
   // ------ reg/wireの生成 -------
   reg clk = 1'b0;
   reg resetn = 1'b0;
+  reg [EXTEND_LEN_WIDTH-1:0] extend_len = 10;
   reg sig_in = 1'b0;
 
   wire sig_out;
@@ -32,10 +33,11 @@ module sig_exp_tb;
 
   // ------ DUT ------
   signal_expansioner # (
-    .EXTEND_CLK(EXTEND_CLK)
+    .MAX_EXTEND_LEN_WIDTH(EXTEND_LEN_WIDTH)
   ) DUT (
     .CLK(clk),
     .RESETN(resetn),
+    .EXTEND_LEN(extend_len),
     .SIG_IN(sig_in),
     .SIG_OUT(sig_out)
   );
