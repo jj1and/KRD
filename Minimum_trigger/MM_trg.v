@@ -10,14 +10,14 @@ module MM_trg # (
     // RFSoC ADC resolution
     parameter integer ADC_RESOLUTION_WIDTH = 12,
     // RF Data Converter data stream bus width
-    parameter integer S_AXIS_TDATA_WIDTH	= 128
+    parameter integer TDATA_WIDTH	= 128
 )
 ( 
   // Ports of Axi Slave Bus Interface S00_AXIS　
-  input wire  AXIS_ACLK,
-  input wire  AXIS_ARESETN,
-  input wire [S_AXIS_TDATA_WIDTH-1 : 0] S_AXIS_TDATA,
-  input wire S_AXIS_TVALID,
+  input wire  CLK,
+  input wire  RESETN,
+  input wire [TDATA_WIDTH-1 : 0] TDATA,
+  input wire TVALID,
   // Threshold_value
   input wire signed [ADC_RESOLUTION_WIDTH+1-1:0] THRESHOLD_VAL,
   // Baseline value
@@ -33,7 +33,7 @@ module MM_trg # (
   // trigger output
   output wire TRIGGERED,
   // recieved data
-  output wire [S_AXIS_TDATA_WIDTH-1:0] DATA,
+  output wire [TDATA_WIDTH-1:0] DATA,
   // recived data valid signal
   output wire VALID
 );
@@ -49,7 +49,7 @@ module MM_trg # (
 
   localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN); 
   localparam integer FULL_COUNTER_WIDTH = clogb2(ACQUI_LEN);
-  localparam integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
+  localparam integer SAMPLE_PER_TDATA = TDATA_WIDTH/16;
   localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
   localparam signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
   localparam signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
@@ -60,6 +60,8 @@ module MM_trg # (
 
   // hit flag
   wire hit_flagD;
+  wire hit_flag_posedge;
+  wire hit_flag_negedge;
   reg [1:0] hit_edge;
   reg hit_flag = 1'b0;
 
@@ -68,7 +70,7 @@ module MM_trg # (
   // triggered length overwhelms AQUI_LEN
   reg over_len_flagD = 1'b0;
   // array for divide S_AXIS_TDATA
-  wire signed [ADC_RESOLUTION_WIDTH-1:0] s_axis_tdata_word[SAMPLE_PER_TDATA-1:0];
+  wire signed [ADC_RESOLUTION_WIDTH-1:0] tdata_word[SAMPLE_PER_TDATA-1:0];
   // POST ACQUIASION COUNTER
   reg [POST_COUNTER_WIDTH-1:0] post_count = 0;
   wire post_count_done;
@@ -90,23 +92,26 @@ module MM_trg # (
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD = ADC_MAX_VAL;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit = ADC_MAX_VAL;
 
-  // s_axis_tdata_word - baseline
+  // tdata_word - baseline
   wire signed [ADC_RESOLUTION_WIDTH+1-1:0] delta_val[SAMPLE_PER_TDATA-1:0];
 
   // delay for timing much
-  reg [S_AXIS_TDATA_WIDTH-1 : 0] data;
-  wire [S_AXIS_TDATA_WIDTH-1 : 0] dataD;
+  reg signed [TDATA_WIDTH-1:0] tdata;
+  reg [TDATA_WIDTH-1 : 0] data;
+  wire [TDATA_WIDTH-1 : 0] dataD;
   reg valid = 1'b0;
   
   assign DATA = data;
   assign VALID = valid;
 
   assign hit_flagD = (|compare_result);
+  assign hit_flag_posedge = (hit_edge == 2'b01);
+  assign hit_flag_negedge = (hit_edge == 2'b10);
   
-  assign post_count_done = (post_count == POST_ACQUI_LEN) ? 1'b1: 1'b0;
-  assign acqui_count_done = (acqui_count == ACQUI_LEN) ? 1'b1: 1'b0;
+  assign post_count_done = (post_count == POST_ACQUI_LEN+1);
+  assign acqui_count_done = (acqui_count == ACQUI_LEN);
   
-  assign triggeredD = S_AXIS_TVALID&&(!over_len_flagD) ? (hit_flagD||finalize_flagD): 1'b0;
+  assign triggeredD = TVALID&&(!over_len_flagD) ? (hit_flag||finalize_flagD): 1'b0;
 
   assign TRIGGERED = triggered;
   assign BASELINE_WHEN_HIT = baseline_when_hit;
@@ -114,8 +119,12 @@ module MM_trg # (
   assign TIME_STAMP = time_stamp;
 
   // edge detection
-  always @( hit_flagD ) begin
-    hit_edge <= {hit_edge[0], hit_flagD};
+  always @( negedge CLK or negedge RESETN ) begin
+    if (!RESETN) begin
+      hit_edge <= 2'b00;
+    end else begin
+      hit_edge <= {hit_edge[0], hit_flagD};
+    end
   end
 
   // time-stampの取得
@@ -125,8 +134,8 @@ module MM_trg # (
     threshold_when_hitD <= THRESHOLD_VAL;
   end
 
-  always @(posedge AXIS_ACLK) begin
-    if (!AXIS_ARESETN) begin
+  always @(posedge CLK) begin
+    if (!RESETN) begin
       time_stamp <= 0;
       baseline_when_hit <= 0; 
     end else begin
@@ -137,12 +146,12 @@ module MM_trg # (
   end
 
   // post count
-  always @(posedge AXIS_ACLK) begin  
+  always @(negedge CLK or negedge hit_flag_negedge) begin  
     if (hit_flag_negedge) begin
       post_count <= 0;
     end else begin
-      if (post_count >= POST_ACQUI_LEN) begin
-        post_count <= POST_ACQUI_LEN+1;
+      if (post_count >= POST_ACQUI_LEN+1) begin
+        post_count <= POST_ACQUI_LEN+2;
       end else begin
         post_count <= post_count + 1;
       end
@@ -150,7 +159,7 @@ module MM_trg # (
   end
 
   // full count
-  always @(posedge AXIS_ACLK) begin
+  always @(negedge CLK or negedge hit_flag_posedge) begin
     if (hit_flag_posedge) begin
       acqui_count <= 0;
     end else begin
@@ -186,35 +195,37 @@ module MM_trg # (
     end
   end
 
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
       hit_flag <= 1'b0;
     end else begin
       hit_flag <= hit_flagD;
     end
   end
 
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
       triggered <= 1'b0;
     end else begin
       triggered <= triggeredD;
     end
   end
 
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
       valid <= 1'b0;
     end else begin
-      valid <= S_AXIS_TVALID;
+      valid <= TVALID;
     end
   end
 
-  always @(posedge AXIS_ACLK ) begin
-    if (!AXIS_ARESETN) begin
-      data <= {S_AXIS_TDATA_WIDTH{1'b1}};
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      data <= {TDATA_WIDTH{1'b1}};
+      tdata <= {TDATA_WIDTH{1'b1}};
     end else begin
       data <= dataD;
+      tdata <= TDATA;
     end
   end
 
@@ -222,9 +233,9 @@ module MM_trg # (
   genvar i;
   generate
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
-      assign s_axis_tdata_word[i] = S_AXIS_TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
-      assign delta_val[i] = s_axis_tdata_word[i] - BASELINE;
-      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{1'b0}}, S_AXIS_TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
+      assign tdata_word[i] = TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
+      assign delta_val[i] = tdata_word[i] - BASELINE;
+      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{1'b0}}, tdata[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
     end
   endgenerate
 
