@@ -47,7 +47,8 @@ module add_header_footer #
   wire trg_delay_ready;
   wire trg_delay_valid;
   reg delayed_triggered = 1'b0;
-  reg delayed_delay_triggered = 1'b0;
+  reg [1:0] extend_len = 2'd2;
+  wire expa_delayed_triggered;
 
   wire data_delay_ready;
   wire data_delay_valid;
@@ -55,6 +56,8 @@ module add_header_footer #
 
   wire triggered_posedge;
   wire triggered_negedge;
+  reg triggered_negedge_delay;
+  reg [1:0] triggered_edge;
 
   reg [DATA_WIDTH-1:0] doutD = {DATA_WIDTH{1'b1}};
   reg [DATA_WIDTH-1:0] dout = {DATA_WIDTH{1'b1}};
@@ -70,17 +73,35 @@ module add_header_footer #
   assign combined_header = {dummy_header_footer, header};
   assign combined_footer = {footer, dummy_header_footer};
 
-  assign triggered_posedge = (delayed_triggered == 1'b0 )&&( TRIGGERED == 1'b1);
-  assign triggered_negedge = (delayed_triggered == 1'b1 )&&( TRIGGERED == 1'b0);
-  assign adding_validD = delayed_triggered||delayed_delay_triggered;
+  assign triggered_posedge = (triggered_edge == 2'b01);
+  assign triggered_negedge = (triggered_edge == 2'b10);
+  assign adding_validD = expa_delayed_triggered;
   assign DOUT = dout;
   assign ADDING_VALID = adding_valid;
 
-  always @( posedge CLK) begin
+  signal_expansioner # (
+    .MAX_EXTEND_LEN_WIDTH(2)
+  ) delayed_trg_expa (
+    .CLK(CLK),
+    .RESETN(RESETN),
+    .EXTEND_LEN(extend_len),
+    .SIG_IN(delayed_triggered),
+    .SIG_OUT(expa_delayed_triggered)
+  );
+
+  always @(negedge CLK ) begin
+    if (!RESETN) begin
+      triggered_edge <= 2'b00;
+    end else begin
+      triggered_edge <= {triggered_edge[0], TRIGGERED};
+    end
+  end
+
+  always @( posedge CLK ) begin
     if (triggered_posedge) begin
       doutD <= combined_header;
     end else begin
-      if (triggered_negedge) begin
+      if (triggered_negedge_delay) begin
         doutD <= combined_footer;
       end else begin
         doutD <= delayed_data;
@@ -101,13 +122,15 @@ module add_header_footer #
   always @(posedge CLK ) begin
     if (!RESETN) begin
       delayed_triggered <= 1'b0;
-      delayed_delay_triggered <= 1'b0;
       delayed_data <= {DATA_WIDTH{1'b1}};
     end else begin
       delayed_triggered <= TRIGGERED;
-      delayed_delay_triggered <= delayed_triggered;
       delayed_data <= DIN;
     end
+  end
+
+  always @(negedge CLK ) begin
+    triggered_negedge_delay <= triggered_negedge;
   end
 
 endmodule 

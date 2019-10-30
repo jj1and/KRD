@@ -99,12 +99,12 @@ module Trg_and_Adding_tb;
     .ACQUI_LEN(ACQUI_LEN),
     .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
     .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
-    .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
+    .TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
   ) MM_Trg_inst (
-    .AXIS_ACLK(axis_aclk),
-    .AXIS_ARESETN(axis_aresetn),
-    .S_AXIS_TDATA(s_axis_tdata),
-    .S_AXIS_TVALID(s_axis_tvalid),
+    .CLK(axis_aclk),
+    .RESETN(axis_aresetn),
+    .TDATA(s_axis_tdata),
+    .TVALID(s_axis_tvalid),
     .THRESHOLD_VAL(threshold_val),
     .BASELINE(base_line),
     .CURRENT_TIME(current_time),

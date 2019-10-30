@@ -51,7 +51,7 @@ module Trig_buffer # (
   assign read_en = RE;
   
   assign BUFF_WRITE_READY = (!full)&&delay_ready;
-  assign BUFF_READ_VALID = not_empty;
+  assign BUFF_READ_VALID = not_empty&read_en;
   assign BUFF_ALMOST_FULL = almost_full;
 
   Variable_delay # (

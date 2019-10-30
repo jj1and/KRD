@@ -3,8 +3,8 @@
 module bit_width_reducer # (
   parameter integer DIN_WIDTH = 128,
   parameter integer DOUT_WIDTH =64,
-  // internal fifo depth = (DIN_WIDTH/DOUT_WIDTH)+CONVERT_MARGIN
-  parameter integer CONVERT_MARGIN = 2
+  // internal fifo depth = (DIN_WIDTH/DOUT_WIDTH)*CONVERT_MARGIN
+  parameter integer CONVERT_MARGIN = 200/2
 )
 (
   input wire CLK,
@@ -26,10 +26,12 @@ module bit_width_reducer # (
 
   localparam integer BIT_DIFF = DIN_WIDTH/DOUT_WIDTH;
   localparam integer BIT_CONV_COUNT_WIDTH = clogb2(BIT_DIFF-1);
+  localparam integer ALMOST_FULL_ASSERT_RATE = 90;
 
   wire [DIN_WIDTH-1:0] fifo_dout;
   wire fifo_not_empty;
   wire fifo_full;
+  wire fifo_almost_full;
 
   reg [BIT_CONV_COUNT_WIDTH-1:0] conv_count = 0;
   wire write_en;
@@ -46,9 +48,10 @@ module bit_width_reducer # (
   assign CONVERT_READY = ready;
   assign write_en = DIN_VALID;
 
-  Fifo # (
+  Threshold_Fifo # (
     .WIDTH(DIN_WIDTH),
-    .DEPTH(BIT_DIFF+CONVERT_MARGIN)
+    .DEPTH(BIT_DIFF*CONVERT_MARGIN),
+    .ALMOST_FULL_ASSERT_RATE(ALMOST_FULL_ASSERT_RATE)
   ) convert_buff_inst (
     .CLK(CLK),
     .RESETN(RESETN),
@@ -57,6 +60,7 @@ module bit_width_reducer # (
     .WE(write_en),
     .RE(read_en),
     .NOT_EMPTY(fifo_not_empty),
+    .ALMOST_FULL(fifo_almost_full),
     .FULL(fifo_full)
   );
 
@@ -86,7 +90,7 @@ module bit_width_reducer # (
       ready <= 1'b0;
     end else begin
       valid <= fifo_not_empty;
-      ready <= !fifo_full;
+      ready <= !fifo_almost_full;
     end
   end
 
