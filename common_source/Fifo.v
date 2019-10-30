@@ -61,12 +61,18 @@ module Fifo # (
 
   
   always @(posedge CLK ) begin
-    if (wp_inc) begin
-      sram[wp[DEPTH_BIT_WIDTH-1:0]] <= DIN; 
-    end else begin
+    if (!RESETN) begin
       for ( i=0 ; i<ACTUAL_DEPTH ; i=i+1 ) begin
-          sram[i] <= sram[i];
-        end
+          sram[i] <= 0;
+        end      
+    end else begin
+      if (wp_inc) begin
+        sram[wp[DEPTH_BIT_WIDTH-1:0]] <= DIN; 
+      end else begin
+        for ( i=0 ; i<ACTUAL_DEPTH ; i=i+1 ) begin
+            sram[i] <= sram[i];
+          end
+      end      
     end
   end
 
