@@ -19,38 +19,74 @@ module signal_expansioner # (
     end
   endfunction
 
+  wire count_done;
   reg [MAX_EXTEND_LEN_WIDTH:0] count = 0;
   reg [MAX_EXTEND_LEN_WIDTH-1:0] extend_len;
   reg delayed_sig_in;
-  wire sig_outD;
-  reg sig_out;
+  reg post_sig = 1'b0;
+  wire ex_sigD;
+  reg ex_sig = 1'b0;
+  reg [1:0] sig_edge;
   wire sig_in_negedge;
 
-  assign sig_in_negedge = (delayed_sig_in == 1'b1)&&(SIG_IN == 1'b0);
-  assign SIG_OUT = |{sig_out, SIG_IN};
+  assign sig_in_negedge = (sig_edge == 2'b10);
+  assign ex_sigD = delayed_sig_in|post_sig;
+  assign SIG_OUT = SIG_IN|ex_sig;
+  assign count_done = (count == extend_len-1);
 
-  always @(posedge CLK ) begin
+always @(negedge CLK) begin
+  if (!RESETN) begin
+    sig_edge <= 2'b00;
+  end else begin
+    sig_edge <= {sig_edge[0], SIG_IN}; 
+  end
+end
+
+  always @(posedge CLK) begin
     if (!RESETN) begin
       extend_len <= EXTEND_LEN;
-      delayed_sig_in <= 1'b0;
     end else begin
-      delayed_sig_in <= SIG_IN;
       extend_len <= extend_len;
     end
   end
 
-  always @(posedge CLK or negedge sig_in_negedge) begin
-    if (sig_in_negedge) begin
-      count <=0;
-      sig_out <= !SIG_IN;
+  always @(negedge CLK ) begin
+    if (!RESETN) begin
+      delayed_sig_in <= 1'b0;
     end else begin
-      if ( (count >= extend_len-1) || !RESETN ) begin
-        count <= extend_len;
-        sig_out <= SIG_IN;
+      delayed_sig_in <= SIG_IN;
+    end
+  end
+
+  always @(posedge CLK or negedge sig_in_negedge ) begin
+    if (sig_in_negedge) begin
+      count <= 0;
+    end else begin
+      if (count >= extend_len) begin
+        count <= extend_len + 1;
       end else begin
         count <= count + 1;
-        sig_out <= !SIG_IN;
       end
+    end
+  end
+
+  always @(posedge count_done or negedge SIG_IN) begin
+    if (delayed_sig_in) begin
+      post_sig <= 1'b1;
+    end else begin
+      if (count_done) begin
+        post_sig <= 1'b0;
+      end else begin
+        post_sig <= 1'b0;
+      end
+    end
+  end
+
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      ex_sig <= 1'b0;
+    end else begin
+      ex_sig <= ex_sigD;
     end
   end
 

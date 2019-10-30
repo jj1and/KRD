@@ -14,7 +14,7 @@ module sig_exp_tb;
   // ------ reg/wireの生成 -------
   reg clk = 1'b0;
   reg resetn = 1'b0;
-  reg [EXTEND_LEN_WIDTH-1:0] extend_len = 10;
+  reg [EXTEND_LEN_WIDTH-1:0] extend_len = 4;
   reg sig_in = 1'b0;
 
   wire sig_out;
