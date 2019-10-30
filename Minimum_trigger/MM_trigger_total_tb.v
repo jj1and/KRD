@@ -8,7 +8,7 @@ module MM_trigger_total_tb;
   // AXIS_ACLK frequency
   parameter AXIS_ACLK_FREQ = 500E6;
   // threshold ( percentage of max value = 2^12)
-  parameter integer THRESHOLD = 80;
+  parameter integer THRESHOLD = 70;
   // acquiasion length settings
   parameter integer MAX_EXTEND_LEN_WIDTH = 5;
   parameter integer PRE_ACQUI_LEN = 24/2;
@@ -23,28 +23,28 @@ module MM_trigger_total_tb;
   // RF Data Converter data stream bus width
   parameter integer S_AXIS_TDATA_WIDTH	= 128;
   parameter integer DOUT_WIDTH	= 64;
-  parameter integer FIFO_DEPTH = 200;
+  parameter integer FIFO_DEPTH = 100;
   parameter integer MAX_BACK_LEN_WIDTH = 5;
   parameter integer BACK_LEN = 24/2;
   parameter integer ALMOST_FULL_ASSERT_RATE = 80;
-  parameter integer CONVERT_MARGIN = 2;
+  parameter integer CONVERT_MARGIN = 200/2;
 
   // --- function/task用 ---
   parameter signed ADC_MAX_VAL = 2**(ADC_RESOLUTION_WIDTH-1)-1;
   parameter signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
   parameter integer ACLK_PERIOD = 1E12/AXIS_ACLK_FREQ;
   parameter RESET_TIME = 10;
-  parameter PRE_SIG = 10;
+  parameter PRE_SIG = 20;
   parameter POST_SIG = 10;
   parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
-  parameter signed FST_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*80/100 + BL;
-  parameter signed SND_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*10/100 + BL;
+  parameter signed FST_HEIGHT = (ADC_MAX_VAL+BL)*80/100;
+  parameter signed SND_HEIGHT = (ADC_MAX_VAL+BL)*10/100;
   parameter FST_WIDTH = 10;
-  parameter SND_WIDTH = 20;
+  parameter SND_WIDTH = 38;
   parameter SIGNAL_INTERVAL = 100; 
   parameter signed BL_MIN = 10 + ADC_MIN_VAL;
   parameter signed BL_MAX = 12 + ADC_MIN_VAL;
-  parameter signed BL = 11 + ADC_MIN_VAL;
+  parameter signed BL = 0;
   parameter integer SAMPLE_PER_TDATA = S_AXIS_TDATA_WIDTH/16;
   parameter integer SAMPLE_PER_DOUT = DOUT_WIDTH/16;
   integer i;
@@ -124,12 +124,12 @@ module MM_trigger_total_tb;
     .ACQUI_LEN(ACQUI_LEN),
     .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
     .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
-    .S_AXIS_TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
+    .TDATA_WIDTH(S_AXIS_TDATA_WIDTH)
   ) MM_Trg_inst (
-    .AXIS_ACLK(axis_aclk),
-    .AXIS_ARESETN(axis_aresetn),
-    .S_AXIS_TDATA(s_axis_tdata),
-    .S_AXIS_TVALID(s_axis_tvalid),
+    .CLK(axis_aclk),
+    .RESETN(axis_aresetn),
+    .TDATA(s_axis_tdata),
+    .TVALID(s_axis_tvalid),
     .THRESHOLD_VAL(threshold_val),
     .BASELINE(base_line),
     .CURRENT_TIME(current_time),
