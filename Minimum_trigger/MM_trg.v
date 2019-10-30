@@ -60,8 +60,7 @@ module MM_trg # (
 
   // hit flag
   wire hit_flagD;
-  wire hit_flag_posedge;
-  wire hit_flag_negedge;
+  reg [1:0] hit_edge;
   reg hit_flag = 1'b0;
 
   // triggered after hit end
@@ -102,9 +101,7 @@ module MM_trg # (
   assign DATA = data;
   assign VALID = valid;
 
-  assign hit_flagD = AXIS_ARESETN ? (|compare_result): 1'b0;
-  assign hit_flag_posedge = (hit_flag == 1'b0)&&(hit_flagD == 1'b1);
-  assign hit_flag_negedge = (hit_flag == 1'b1)&&(hit_flagD == 1'b0); 
+  assign hit_flagD = (|compare_result);
   
   assign post_count_done = (post_count == POST_ACQUI_LEN) ? 1'b1: 1'b0;
   assign acqui_count_done = (acqui_count == ACQUI_LEN) ? 1'b1: 1'b0;
@@ -115,6 +112,11 @@ module MM_trg # (
   assign BASELINE_WHEN_HIT = baseline_when_hit;
   assign THRESHOLD_WHEN_HIT = threshold_when_hit;
   assign TIME_STAMP = time_stamp;
+
+  // edge detection
+  always @( hit_flagD ) begin
+    hit_edge <= {hit_edge[0], hit_flagD};
+  end
 
   // time-stampの取得
   always @(posedge hit_flagD) begin
@@ -161,7 +163,7 @@ module MM_trg # (
   end
 
   always @(posedge acqui_count_done or posedge hit_flag_posedge) begin
-    if (hit_flag_posedge || (!AXIS_ARESETN)) begin
+    if (hit_flag_posedge) begin
       over_len_flagD <= 1'b0;
     end else begin
       if (acqui_count_done) begin
@@ -173,7 +175,7 @@ module MM_trg # (
   end
 
   always @(posedge post_count_done or posedge hit_flag_negedge) begin
-    if (post_count_done || (!AXIS_ARESETN)) begin
+    if (post_count_done) begin
         finalize_flagD <= 1'b0;
     end else begin
       if (hit_flag_negedge) begin
