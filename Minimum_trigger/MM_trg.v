@@ -120,7 +120,7 @@ module MM_trg # (
 
   // edge detection
   always @( negedge CLK or negedge RESETN ) begin
-    if (!RESETN) begin
+    if ((!RESETN)|(!TVALID)) begin
       hit_edge <= 2'b00;
     end else begin
       hit_edge <= {hit_edge[0], hit_flagD};
@@ -196,7 +196,7 @@ module MM_trg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if ((!RESETN)|(!TVALID)) begin
       hit_flag <= 1'b0;
     end else begin
       hit_flag <= hit_flagD;
@@ -212,7 +212,7 @@ module MM_trg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if ((!RESETN)|(!TVALID)) begin
       valid <= 1'b0;
     end else begin
       valid <= TVALID;
@@ -220,7 +220,7 @@ module MM_trg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if ((!RESETN)|(!TVALID)) begin
       data <= {TDATA_WIDTH{1'b1}};
       tdata <= {TDATA_WIDTH{1'b1}};
     end else begin
