@@ -79,8 +79,7 @@ module Trimmer_tb;
     .DIN(s_axis_tdata),
     .DIN_VALID(s_axis_tvalid),
     .DOUT(dout),
-    .TRIMMER_VALID(trim_valid),
-    .TRIMMER_READY(trim_ready)
+    .TRIMMER_VALID(trim_valid)
   );
 
   // ------ リセットタスク ------
@@ -166,6 +165,7 @@ module Trimmer_tb;
 
       s_axis_tvalid <= 1'b0;
       reset;
+      repeat(1) @(posedge axis_aclk);
       s_axis_tvalid <= 1'b1;
 
       gen_signal_set;

@@ -8,59 +8,38 @@ module data_trimmer # (
   input wire [DATA_WIDTH-1:0] DIN,
   input wire DIN_VALID,
   output wire [DATA_WIDTH-1:0] DOUT,
-  output wire TRIMMER_VALID,
-  output wire TRIMMER_READY
+  output wire TRIMMER_VALID
 );
   
-  localparam integer FIFO_DEPTH = 3;
 
-  wire [DATA_WIDTH-1:0] doutD;
-  reg [DATA_WIDTH-1:0] dout;
-  
   wire trimmer_validD;
   reg trimmer_valid;
-  
-  wire trimmer_readyD;
-  reg trimmer_ready;
+  reg din_valid;
+  reg [DATA_WIDTH-1:0] dout;
+  reg [DATA_WIDTH-1:0] din;
 
-  wire write_en;
-  wire read_en;
-  wire not_empty;
-  wire full;
-
-  assign write_en = (~&DIN)&&(DIN_VALID);
-  assign read_en = not_empty;
-  assign trimmer_validD = not_empty;
-  assign trimmer_readyD = !full;
-
-  assign DOUT = dout;
+  assign trimmer_validD = (~&din)&(din_valid);
   assign TRIMMER_VALID = trimmer_valid;
-  assign TRIMMER_READY = trimmer_ready;
-
+  assign DOUT = dout;
+  
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      trimmer_valid <= 1'b0;
-      trimmer_ready <= 1'b0;
-      dout <= {DATA_WIDTH{1'b1}};
+      din <= #1 {DATA_WIDTH{1'b1}};
+      dout <= #1 {DATA_WIDTH{1'b1}};
     end else begin
-      trimmer_valid <= trimmer_validD;
-      trimmer_ready <= trimmer_readyD;
-      dout <= doutD;
+      din <= #1 DIN;
+      dout <= #1 din;
     end
   end
 
-  Fifo # (
-    .WIDTH(DATA_WIDTH),
-    .DEPTH(FIFO_DEPTH)
-  ) trimmer_fifo_inst (
-    .CLK(CLK),
-    .RESETN(RESETN),
-    .DIN(DIN),
-    .DOUT(doutD),
-    .WE(write_en),
-    .RE(read_en),
-    .NOT_EMPTY(not_empty),
-    .FULL(full)
-  );
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      trimmer_valid <= #1 1'b0;
+      din_valid <= #1 1'b0;
+    end else begin
+      trimmer_valid <= #1 trimmer_validD;
+      din_valid <= #1 DIN_VALID;
+    end
+  end
 
 endmodule
