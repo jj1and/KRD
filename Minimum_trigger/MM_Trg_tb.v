@@ -187,6 +187,7 @@ module MM_Trg_tb;
 
       s_axis_tvalid <= 1'b0;
       reset;
+      repeat(1) @(posedge axis_aclk);
       s_axis_tvalid <= 1'b1;
 
       gen_signal_set;

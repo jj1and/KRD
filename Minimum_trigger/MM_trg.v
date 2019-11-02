@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1 ps / 1 ps
 
 module MM_trg # (
     // acquiasion length settings
@@ -121,39 +121,39 @@ module MM_trg # (
   // edge detection
   always @( negedge CLK or negedge RESETN ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_edge <= 2'b00;
+      hit_edge <= #1 2'b00;
     end else begin
-      hit_edge <= {hit_edge[0], hit_flagD};
+      hit_edge <= #1 {hit_edge[0], hit_flagD};
     end
   end
 
   // time-stampの取得
   always @(posedge hit_flagD) begin
-    time_stampD <= CURRENT_TIME;
-    baseline_when_hitD <= BASELINE;
-    threshold_when_hitD <= THRESHOLD_VAL;
+    time_stampD <= #1 CURRENT_TIME;
+    baseline_when_hitD <= #1 BASELINE;
+    threshold_when_hitD <= #1 THRESHOLD_VAL;
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      time_stamp <= 0;
-      baseline_when_hit <= 0; 
+      time_stamp <= #1 0;
+      baseline_when_hit <= #1 0; 
     end else begin
-      time_stamp <= time_stampD;
-      baseline_when_hit <= baseline_when_hitD;
-      threshold_when_hit <= threshold_when_hitD;
+      time_stamp <= #1 time_stampD;
+      baseline_when_hit <= #1 baseline_when_hitD;
+      threshold_when_hit <= #1 threshold_when_hitD;
     end
   end
 
   // post count
   always @(negedge CLK or negedge hit_flag_negedge) begin  
     if (hit_flag_negedge) begin
-      post_count <= 0;
+      post_count <= #1 0;
     end else begin
       if (post_count >= POST_ACQUI_LEN+1) begin
-        post_count <= POST_ACQUI_LEN+2;
+        post_count <= #1 POST_ACQUI_LEN+2;
       end else begin
-        post_count <= post_count + 1;
+        post_count <= #1 post_count + 1;
       end
     end
   end
@@ -161,71 +161,71 @@ module MM_trg # (
   // full count
   always @(negedge CLK or negedge hit_flag_posedge) begin
     if (hit_flag_posedge) begin
-      acqui_count <= 0;
+      acqui_count <= #1 0;
     end else begin
       if (acqui_count >= ACQUI_LEN) begin
-        acqui_count <= ACQUI_LEN+1;
+        acqui_count <= #1 ACQUI_LEN+1;
       end else begin
-        acqui_count <= acqui_count + 1;
+        acqui_count <= #1 acqui_count + 1;
       end
     end
   end
 
   always @(posedge acqui_count_done or posedge hit_flag_posedge) begin
     if (hit_flag_posedge) begin
-      over_len_flagD <= 1'b0;
+      over_len_flagD <= #1 1'b0;
     end else begin
       if (acqui_count_done) begin
-        over_len_flagD <= 1'b1;
+        over_len_flagD <= #1 1'b1;
       end else begin
-        over_len_flagD <= over_len_flagD;
+        over_len_flagD <= #1 over_len_flagD;
       end
     end
   end
 
   always @(posedge post_count_done or posedge hit_flag_negedge) begin
     if (post_count_done) begin
-        finalize_flagD <= 1'b0;
+        finalize_flagD <= #1 1'b0;
     end else begin
       if (hit_flag_negedge) begin
-        finalize_flagD <= 1'b1;
+        finalize_flagD <= #1 1'b1;
       end else begin
-        finalize_flagD <= finalize_flagD;
+        finalize_flagD <= #1 finalize_flagD;
       end
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_flag <= 1'b0;
+      hit_flag <= #1 1'b0;
     end else begin
-      hit_flag <= hit_flagD;
+      hit_flag <= #1 hit_flagD;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      triggered <= 1'b0;
+      triggered <= #1 1'b0;
     end else begin
-      triggered <= triggeredD;
+      triggered <= #1 triggeredD;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      valid <= 1'b0;
+      valid <= #1 1'b0;
     end else begin
-      valid <= TVALID;
+      valid <= #1 TVALID;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      data <= {TDATA_WIDTH{1'b1}};
-      tdata <= {TDATA_WIDTH{1'b1}};
+      data <= #1 {TDATA_WIDTH{1'b1}};
+      tdata <= #1 {TDATA_WIDTH{1'b1}};
     end else begin
-      data <= dataD;
-      tdata <= TDATA;
+      data <= #1 dataD;
+      tdata <= #1 TDATA;
     end
   end
 
