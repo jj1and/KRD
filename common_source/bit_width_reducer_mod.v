@@ -48,11 +48,13 @@ module bit_width_reducer_mod # (
   reg [DOUT_WIDTH-1:0] dout;
   wire [DOUT_WIDTH-1:0] divide_dout[BIT_DIFF-1:0];
   // wire [DOUT_WIDTH-1:0] reduced_dout;
+  wire fast_not_empty_posedge;
   reg fifo_not_empty;
   reg valid;
   reg ready;
 
-  assign read_en = FIFO_NOT_EMPTY&divide_en;
+  assign fast_not_empty_posedge = (fifo_not_empty == 1'b0)&(FIFO_NOT_EMPTY == 1'b1);
+  assign read_en = fifo_not_empty&divide_en;
 
   assign doutD = divide_dout[conv_count];
   assign DOUT = dout;
@@ -69,19 +71,28 @@ module bit_width_reducer_mod # (
   // end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if ((!RESETN)|(fast_not_empty_posedge)) begin
       conv_count <= #1 0;
-      divide_en <= #1 1'b0;
     end else begin
-        if (conv_count >= BIT_DIFF-1) begin
-          conv_count <= #1 0;
-          divide_en <= #1 1'b1;
-        end else begin
-          conv_count <= #1 conv_count + 1;
-          divide_en <= #1 1'b0;
-        end;
+      if (conv_count >= BIT_DIFF-1) begin
+        conv_count <= #1 0;
+      end else begin
+        conv_count <= #1 conv_count + 1;
+      end
     end
   end
+  
+  always @(posedge CLK ) begin
+    if ((!RESETN)|(fast_not_empty_posedge)) begin
+      divide_en <= #1 1'b0;
+    end else begin
+      if (conv_count == 0) begin
+        divide_en <= #1 1'b1;
+      end else begin
+        divide_en <= #1 1'b0;
+      end
+    end
+  end  
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
