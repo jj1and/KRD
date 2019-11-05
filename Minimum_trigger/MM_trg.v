@@ -80,7 +80,8 @@ module MM_trg # (
   reg [FULL_COUNTER_WIDTH-1:0] acqui_count = 0;
   wire acqui_count_done;
   // comparing ADC value with THRESHOLD_VAL
-  wire [SAMPLE_PER_TDATA-1:0] compare_result;
+  reg [SAMPLE_PER_TDATA-1:0] compare_result;
+  wire [SAMPLE_PER_TDATA-1:0] compare_resultD;
 
   // trigger time stamp
   reg [TIME_STAMP_WIDTH-1:0] time_stampD = 0;
@@ -100,6 +101,7 @@ module MM_trg # (
   // delay for timing much
   reg signed [TDATA_WIDTH-1:0] tdata;
   reg [TDATA_WIDTH-1 : 0] data;
+  reg [TDATA_WIDTH-1:0] delayed_data;
   wire [TDATA_WIDTH-1 : 0] dataD;
   reg valid = 1'b0;
   
@@ -247,10 +249,20 @@ module MM_trg # (
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
       data <= #10 {TDATA_WIDTH{1'b1}};
+      delayed_data <= #10 {TDATA_WIDTH{1'b1}};
       tdata <= #10 {TDATA_WIDTH{1'b1}};
     end else begin
-      data <= #10 dataD;
+      data <= #10 delayed_data;
+      delayed_data <= #10 dataD;
       tdata <= #10 TDATA;
+    end
+  end
+
+  always @(posedge CLK ) begin
+    if ((!RESETN)|(!TVALID)) begin
+      compare_result <= #10 0;
+    end else begin
+      compare_result <= #10 compare_resultD;
     end
   end
 
@@ -267,7 +279,7 @@ module MM_trg # (
   // Thresoldの値との比�?
   generate
     for(i=0;i<SAMPLE_PER_TDATA;i=i+1) begin
-      assign compare_result[i] = ( delta_val[i] >= THRESHOLD_VAL);
+      assign compare_resultD[i] = ( delta_val[i] >= THRESHOLD_VAL);
     end
   endgenerate
 
