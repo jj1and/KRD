@@ -2,7 +2,7 @@
 
 module time_counter # (
   // TIME STAMP DATA WIDTH
-  parameter integer TIME_STAMP_WIDTH = 16,
+  parameter integer TIME_STAMP_WIDTH = 48,
   // AXIS_ACLK frequency (Hz)
   parameter integer CLK_FREQ = 500E6,
   // timer resolution freq (HZ )(must be < AXIS_ACLK_FREQ )
