@@ -6,14 +6,14 @@ module MM_trg # (
     // acquiasion length settings
     parameter integer ACQUI_LEN = 200/2,
     // TIME STAMP DATA WIDTH
-    parameter integer TIME_STAMP_WIDTH = 44,
+    parameter integer TIME_STAMP_WIDTH = 48,
     // RFSoC ADC resolution
     parameter integer ADC_RESOLUTION_WIDTH = 12,
     // RF Data Converter data stream bus width
     parameter integer TDATA_WIDTH	= 128
 )
 ( 
-  // Ports of Axi Slave Bus Interface S00_AXIS　
+  // Ports of Axi Slave Bus Interface S00_AXIS�?
   input wire  CLK,
   input wire  RESETN,
   input wire [TDATA_WIDTH-1 : 0] TDATA,
@@ -55,20 +55,22 @@ module MM_trg # (
   localparam signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
   
   // triggered
-  wire triggeredD;
+  reg triggeredD;
   reg triggered = 1'b0;
 
   // hit flag
   wire hit_flagD;
   wire hit_flag_posedge;
+  wire fast_hit_flag_posedge;
   wire hit_flag_negedge;
+  // wire fast_hit_flag_negedge;
   reg [1:0] hit_edge;
   reg hit_flag = 1'b0;
 
   // triggered after hit end
-  reg finalize_flagD = 1'b0;
+  reg finalize_flag = 1'b0;
   // triggered length overwhelms AQUI_LEN
-  reg over_len_flagD = 1'b0;
+  reg over_len_flag = 1'b0;
   // array for divide S_AXIS_TDATA
   wire signed [ADC_RESOLUTION_WIDTH-1:0] tdata_word[SAMPLE_PER_TDATA-1:0];
   // POST ACQUIASION COUNTER
@@ -107,11 +109,11 @@ module MM_trg # (
   assign hit_flagD = (|compare_result);
   assign hit_flag_posedge = (hit_edge == 2'b01);
   assign hit_flag_negedge = (hit_edge == 2'b10);
+  assign fast_hit_flag_posedge = (hit_flagD == 1'b1)&(hit_flag == 1'b0);
+  // assign fast_hit_flag_negedge = (hit_flagD == 1'b0)&(hit_flag == 1'b1);  
   
-  assign post_count_done = (post_count == POST_ACQUI_LEN+1);
-  assign acqui_count_done = (acqui_count == ACQUI_LEN);
-  
-  assign triggeredD = TVALID&&(!over_len_flagD) ? (hit_flag||finalize_flagD): 1'b0;
+  assign post_count_done = (post_count == POST_ACQUI_LEN-2);
+  assign acqui_count_done = (acqui_count == ACQUI_LEN-1);
 
   assign TRIGGERED = triggered;
   assign BASELINE_WHEN_HIT = baseline_when_hit;
@@ -119,117 +121,140 @@ module MM_trg # (
   assign TIME_STAMP = time_stamp;
 
   // edge detection
-  always @( negedge CLK or negedge RESETN ) begin
+  always @( posedge CLK or negedge RESETN ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_edge <= #1 2'b00;
+      hit_edge <= #10 2'b00;
     end else begin
-      hit_edge <= #1 {hit_edge[0], hit_flagD};
+      hit_edge <= #10 {hit_edge[0], hit_flagD};
     end
-  end
-
-  // time-stampの取得
-  always @(posedge hit_flagD) begin
-    time_stampD <= #1 CURRENT_TIME;
-    baseline_when_hitD <= #1 BASELINE;
-    threshold_when_hitD <= #1 THRESHOLD_VAL;
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      time_stamp <= #1 0;
-      baseline_when_hit <= #1 0; 
+      time_stamp <= #10 0;
+      baseline_when_hit <= #10 0; 
     end else begin
-      time_stamp <= #1 time_stampD;
-      baseline_when_hit <= #1 baseline_when_hitD;
-      threshold_when_hit <= #1 threshold_when_hitD;
+      if (hit_flag_posedge) begin
+        time_stamp <= #10 CURRENT_TIME;
+        baseline_when_hit <= #10 BASELINE;
+        threshold_when_hit <= #10 THRESHOLD_VAL;
+      end else begin
+        time_stamp <= #10 time_stamp;
+        baseline_when_hit <= #10 baseline_when_hit;
+        threshold_when_hit <= #10 threshold_when_hit;      
+      end
     end
   end
 
   // post count
-  always @(negedge CLK or negedge hit_flag_negedge) begin  
-    if (hit_flag_negedge) begin
-      post_count <= #1 0;
+  always @(posedge CLK) begin  
+    if (!RESETN) begin
+      post_count <= #10 0;
     end else begin
-      if (post_count >= POST_ACQUI_LEN+1) begin
-        post_count <= #1 POST_ACQUI_LEN+2;
+      if (hit_flag_negedge) begin
+        post_count <= #10 0;
       end else begin
-        post_count <= #1 post_count + 1;
-      end
+        if (post_count >= POST_ACQUI_LEN-2) begin
+          post_count <= #10 POST_ACQUI_LEN;
+        end else begin
+          post_count <= #10 post_count + 1;
+        end
+      end      
     end
   end
 
   // full count
-  always @(negedge CLK or negedge hit_flag_posedge) begin
-    if (hit_flag_posedge) begin
-      acqui_count <= #1 0;
+  always @(posedge CLK) begin
+    if (!RESETN) begin
+      acqui_count <= #10 0;
     end else begin
-      if (acqui_count >= ACQUI_LEN) begin
-        acqui_count <= #1 ACQUI_LEN+1;
+      if (fast_hit_flag_posedge) begin
+        acqui_count <= #10 0;
       end else begin
-        acqui_count <= #1 acqui_count + 1;
-      end
+        if (acqui_count >= ACQUI_LEN-1) begin
+          acqui_count <= #10 ACQUI_LEN;
+        end else begin
+          acqui_count <= #10 acqui_count + 1;
+        end
+      end      
     end
   end
 
-  always @(posedge acqui_count_done or posedge hit_flag_posedge) begin
-    if (hit_flag_posedge) begin
-      over_len_flagD <= #1 1'b0;
+  always @(posedge CLK) begin
+    if (!RESETN) begin
+      over_len_flag <= #10 1'b0;
     end else begin
       if (acqui_count_done) begin
-        over_len_flagD <= #1 1'b1;
+        over_len_flag <= #10 1'b1;
       end else begin
-        over_len_flagD <= #1 over_len_flagD;
+        if (fast_hit_flag_posedge) begin
+          over_len_flag <= #10 1'b0;
+        end else begin
+          over_len_flag <= #10 over_len_flag;
+        end
       end
     end
   end
 
-  always @(posedge post_count_done or posedge hit_flag_negedge) begin
-    if (post_count_done) begin
-        finalize_flagD <= #1 1'b0;
+  always @(posedge CLK) begin
+    if (!RESETN) begin
+      finalize_flag <= #10 1'b0;
     end else begin
-      if (hit_flag_negedge) begin
-        finalize_flagD <= #1 1'b1;
+      if (post_count_done) begin
+          finalize_flag <= #10 1'b0;
       end else begin
-        finalize_flagD <= #1 finalize_flagD;
-      end
+        if (hit_flag_negedge) begin
+          finalize_flag <= #10 1'b1;
+        end else begin
+          finalize_flag <= #10 finalize_flag;
+        end
+      end      
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_flag <= #1 1'b0;
+      hit_flag <= #10 1'b0;
     end else begin
-      hit_flag <= #1 hit_flagD;
+      hit_flag <= #10 hit_flagD;
+    end
+  end
+
+  always @(* ) begin
+    if (TVALID&(!over_len_flag)) begin
+      triggeredD = |{hit_flag, hit_flag_negedge, finalize_flag};
+    end else begin
+      triggeredD = 1'b0;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      triggered <= #1 1'b0;
+      triggered <= #10 1'b0;
     end else begin
-      triggered <= #1 triggeredD;
+      triggered <= #10 triggeredD;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      valid <= #1 1'b0;
+      valid <= #10 1'b0;
     end else begin
-      valid <= #1 TVALID;
+      valid <= #10 TVALID;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      data <= #1 {TDATA_WIDTH{1'b1}};
-      tdata <= #1 {TDATA_WIDTH{1'b1}};
+      data <= #10 {TDATA_WIDTH{1'b1}};
+      tdata <= #10 {TDATA_WIDTH{1'b1}};
     end else begin
-      data <= #1 dataD;
-      tdata <= #1 TDATA;
+      data <= #10 dataD;
+      tdata <= #10 TDATA;
     end
   end
 
-  // S_AXIS_TDATAの分割
+  // S_AXIS_TDATAの�?割
   genvar i;
   generate
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
@@ -239,7 +264,7 @@ module MM_trg # (
     end
   endgenerate
 
-  // Thresoldの値との比較
+  // Thresoldの値との比�?
   generate
     for(i=0;i<SAMPLE_PER_TDATA;i=i+1) begin
       assign compare_result[i] = ( delta_val[i] >= THRESHOLD_VAL);
