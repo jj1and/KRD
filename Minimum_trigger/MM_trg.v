@@ -84,15 +84,12 @@ module MM_trg # (
   wire [SAMPLE_PER_TDATA-1:0] compare_resultD;
 
   // trigger time stamp
-  reg [TIME_STAMP_WIDTH-1:0] time_stampD = 0;
   reg [TIME_STAMP_WIDTH-1:0] time_stamp = 0;
 
   // threshold when hit
-  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hitD;
   reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   // baseline when hit
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hitD = ADC_MAX_VAL;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline_when_hit = ADC_MAX_VAL;
 
   // tdata_word - baseline
