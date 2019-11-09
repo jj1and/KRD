@@ -6,7 +6,8 @@ module led_chika_tb;
   parameter integer INTERVAL_MSEC = 1;
 
   parameter integer CLK_PERIOD = (10**6)/CLK_FREQ_MHz;
-
+  integer k;
+  
   reg clk;
   reg resetn = 1'b0;
   wire led_out;
@@ -36,6 +37,9 @@ module led_chika_tb;
   initial begin
     $dumpfile("led_chika_tb.vcd");
     $dumpvars(0, led_chika_tb);
+    for ( k=0 ; k<led_chika_tb.DUT.NUM_OF_4BIT ; k=k+1 ) begin
+      $dumpvars(1, led_chika_tb.DUT.lower_bits[k]);
+    end
 
     resetn <= 1'b0;
     repeat(10) @(posedge clk);

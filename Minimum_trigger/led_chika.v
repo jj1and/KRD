@@ -22,15 +22,15 @@ module led_chika # (
   localparam integer COUNT_MAX = CLOCK_FREQ_MHZ*INTERVAL_MSEC;
   
   localparam integer COUNT_WIDTH = clogb2(COUNT_MAX-1);
-  localparam integer TOP_BITS = COUNT_WIDTH%8;
-  localparam integer NUM_OF_8BIT = (COUNT_WIDTH-TOP_BITS)/8;
+  localparam integer TOP_BITS = COUNT_WIDTH%4;
+  localparam integer NUM_OF_4BIT = (COUNT_WIDTH-TOP_BITS)/4;
 
-  wire [NUM_OF_8BIT*8-1:0] lower_count;
+  wire [NUM_OF_4BIT*4-1:0] lower_count;
   wire [COUNT_WIDTH-1:0] count;
-  reg [7:0] lower_bits[NUM_OF_8BIT-1:0];
+  reg [3:0] lower_bits[NUM_OF_4BIT-1:0];
   reg [TOP_BITS-1:0] top_bits;
-  reg [0:0] shift_up[NUM_OF_8BIT-1:0];
-  wire [0:0] shift_upD[NUM_OF_8BIT-1:0];
+  reg [NUM_OF_4BIT-1:0] shift_up;
+  wire [NUM_OF_4BIT-1:0] shift_upD;
   reg led_out;
   reg blink;
   wire blinkD;
@@ -41,14 +41,14 @@ module led_chika # (
 
   genvar i;
   generate
-    for ( i=0 ; i<NUM_OF_8BIT ; i=i+1 ) begin
-      assign shift_upD[i] = (lower_bits[i] == {{7{1'b1}}, 1'b0});
-      assign lower_count[8*i +:8] = lower_bits[i];
+    for ( i=0 ; i<NUM_OF_4BIT ; i=i+1 ) begin
+      assign shift_upD[i] = (lower_bits[i] == {{3{1'b1}}, 1'b0});
+      assign lower_count[4*i +:4] = lower_bits[i];
     end
   endgenerate
 
   generate
-    for ( i=0 ; i<NUM_OF_8BIT ; i=i+1 ) begin
+    for ( i=0 ; i<NUM_OF_4BIT ; i=i+1 ) begin
       always @(posedge CLK) begin
         if (!RESETN) begin
           shift_up[i] <= #10 0;
@@ -60,12 +60,12 @@ module led_chika # (
   endgenerate
 
   generate
-    for ( i=1 ; i<NUM_OF_8BIT ; i=i+1 ) begin
+    for ( i=1 ; i<NUM_OF_4BIT ; i=i+1 ) begin
       always @(posedge CLK ) begin
         if ((!RESETN)|blink) begin
           lower_bits[i] <= #10 0;
         end else begin
-          if (shift_up[i-1]) begin
+          if (&shift_up[i-1:0]) begin
             lower_bits[i] <= #10 lower_bits[i] + 1;
           end else begin
             lower_bits[i] <= #10 lower_bits[i];
@@ -87,7 +87,7 @@ module led_chika # (
     if ((!RESETN)|blink) begin
       top_bits <= #10 0;
     end else begin
-      if (shift_up[NUM_OF_8BIT-1]) begin
+      if (&shift_up) begin
         top_bits <= #10 top_bits + 1;
       end else begin
         top_bits <= #10 top_bits;
