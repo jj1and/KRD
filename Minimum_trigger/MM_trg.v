@@ -105,7 +105,7 @@ module MM_trg # (
   assign DATA = data;
   assign VALID = valid;
 
-  assign hit_flagD = (|compare_result);
+  assign hit_flagD = (&compare_result);
   assign hit_flag_posedge = (hit_edge == 2'b01);
   assign hit_flag_negedge = (hit_edge == 2'b10);
   assign fast_hit_flag_posedge = (hit_flagD == 1'b1)&(hit_flag == 1'b0);
