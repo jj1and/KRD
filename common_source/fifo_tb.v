@@ -11,6 +11,7 @@ module fifo_tb;
 
   // --- for test bench ---
   integer i;
+  integer j;
   parameter integer CLK_PERIOD = 2E3;
   parameter integer RESET_TIME = 5;
   
@@ -38,7 +39,10 @@ module fifo_tb;
   // ------ DUT ------
   Fifo # (
     .WIDTH(WIDTH),
-    .DEPTH(DEPTH)
+    .DEPTH(DEPTH),
+    .PROG_FULL_THRE(30),
+    .PROG_EMPTY_THRE(2),
+    .INIT_VALUE(8'h0F)
   ) DUT (
     .CLK(clk),
     .RESETN(resetn),
@@ -47,17 +51,19 @@ module fifo_tb;
     .WE(write_en),
     .RE(read_en),
     .NOT_EMPTY(not_empty),
-    .FULL(full)
+    .FULL(full),
+    .PROGRAMMABLE_FULL(),
+    .PROGRAMMABLE_EMPTY()
   );
 
   // ------ reset task ------
   task reset;
   begin
-    resetn <= 1'b0;
-    write_en <= 1'b0;
-    read_en <= 1'b0;
+    resetn <= #400 1'b0;
+    write_en <= #400 1'b0;
+    read_en <= #400 1'b0;
     repeat(RESET_TIME) @(posedge clk);
-    resetn <= 1'b1;
+    resetn <= #400 1'b1;
     repeat(1) @(posedge clk);
   end
   endtask
@@ -65,19 +71,38 @@ module fifo_tb;
   // ------ data generation task -------
   task gen_data;
   begin
-    read_en <= 1'b0;
-    din <= 0;
+    din <= #400 0;
     repeat(1) @(posedge clk);
-    write_en <= 1'b1;
+    write_en <= #400 1'b1;
     for ( i=1 ; i<=MAX_VAL ; i=i+1 ) begin
       repeat(1) @(posedge clk);
-      din <= i;
-      if (full) begin
-        read_en <= 1'b1;
-      end else begin
-        read_en <=read_en;
-      end
+      din <= #400 i;
     end
+  end
+  endtask
+
+  // read out task
+  task readout;
+  begin
+    read_en <= 1'b0;
+    repeat(10) @(posedge clk);
+    read_en <= #400 1'b1;
+    repeat(25) @(posedge clk);
+    read_en <= #400 1'b0;
+    repeat(3) @(posedge clk);
+    read_en <= #400 1'b1;
+  end
+  endtask
+
+  task writein;
+  begin
+    write_en <= 1'b1;
+    repeat(30) @(posedge clk);
+    write_en <= #400 1'b0;
+    repeat(10) @(posedge clk);
+    write_en <= #400 1'b1;
+    repeat(5) @(posedge clk);
+    write_en <= #400 1'b0;   
   end
   endtask
 
@@ -86,9 +111,22 @@ module fifo_tb;
   begin
       $dumpfile("fifo_tb.vcd");
       $dumpvars(0, fifo_tb);
+      for ( j=0 ; j<DEPTH ; j=j+1 ) begin
+        $dumpvars(1, fifo_tb.DUT.sram[j]);
+      end
 
       reset;
-      gen_data;
+      fork
+      begin
+        gen_data;
+      end
+      begin
+        readout;
+      end
+      begin
+        writein;
+      end
+      join
 
       $finish;
 
