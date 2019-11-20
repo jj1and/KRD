@@ -35,7 +35,9 @@ module MM_trg # (
   // recieved data
   output wire [TDATA_WIDTH-1:0] DATA,
   // recived data valid signal
-  output wire VALID
+  output wire VALID,
+  // all module ready if not, trigger will be interrupted
+  input wire ALL_MODULE_READY
 );
 
   // function called clogb2 that returns an integer which has the 
@@ -221,7 +223,7 @@ module MM_trg # (
 
   always @(* ) begin
     if (TVALID&(!over_len_flag)) begin
-      triggeredD = |{hit_flag, hit_flag_negedge, finalize_flag};
+      triggeredD = (|{hit_flag, hit_flag_negedge, finalize_flag})&ALL_MODULE_READY;
     end else begin
       triggeredD = 1'b0;
     end
