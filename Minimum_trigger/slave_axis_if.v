@@ -13,7 +13,7 @@ module slave_axis_if # (
   output wire RESETN,
   output wire [S_AXIS_TDATA_WIDTH-1:0] TDATA,
   output wire TVALID,
-  input wire ALL_MODULE_READY
+  input wire MODULE_READY
 );
 
 // wire s_axis_treadyD;
@@ -31,7 +31,7 @@ assign CLK = AXIS_ACLK;
 assign RESETN = AXIS_ARESETN;
 assign TDATA = S_AXIS_TDATA;
 assign TVALID = S_AXIS_TVALID;
-assign S_AXIS_TREADY = ALL_MODULE_READY;
+assign S_AXIS_TREADY = MODULE_READY;
 
 // Bellow code violated to timing constrains
 // always @(posedge CLK ) begin

@@ -124,25 +124,25 @@ module MM_trg # (
   // edge detection
   always @( posedge CLK or negedge RESETN ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_edge <= #10 2'b00;
+      hit_edge <= #400 2'b00;
     end else begin
-      hit_edge <= #10 {hit_edge[0], hit_flagD};
+      hit_edge <= #400 {hit_edge[0], hit_flagD};
     end
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      time_stamp <= #10 0;
-      baseline_when_hit <= #10 0; 
+      time_stamp <= #400 0;
+      baseline_when_hit <= #400 0; 
     end else begin
       if (hit_flag_posedge) begin
-        time_stamp <= #10 CURRENT_TIME;
-        baseline_when_hit <= #10 BASELINE;
-        threshold_when_hit <= #10 THRESHOLD_VAL;
+        time_stamp <= #400 CURRENT_TIME;
+        baseline_when_hit <= #400 BASELINE;
+        threshold_when_hit <= #400 THRESHOLD_VAL;
       end else begin
-        time_stamp <= #10 time_stamp;
-        baseline_when_hit <= #10 baseline_when_hit;
-        threshold_when_hit <= #10 threshold_when_hit;      
+        time_stamp <= #400 time_stamp;
+        baseline_when_hit <= #400 baseline_when_hit;
+        threshold_when_hit <= #400 threshold_when_hit;      
       end
     end
   end
@@ -150,15 +150,15 @@ module MM_trg # (
   // post count
   always @(posedge CLK) begin  
     if (!RESETN) begin
-      post_count <= #10 0;
+      post_count <= #400 0;
     end else begin
       if (hit_flag_negedge) begin
-        post_count <= #10 0;
+        post_count <= #400 0;
       end else begin
         if (post_count >= POST_ACQUI_LEN-2) begin
-          post_count <= #10 POST_ACQUI_LEN;
+          post_count <= #400 POST_ACQUI_LEN;
         end else begin
-          post_count <= #10 post_count + 1;
+          post_count <= #400 post_count + 1;
         end
       end      
     end
@@ -167,15 +167,15 @@ module MM_trg # (
   // full count
   always @(posedge CLK) begin
     if (!RESETN) begin
-      acqui_count <= #10 0;
+      acqui_count <= #400 0;
     end else begin
       if (fast_hit_flag_posedge) begin
-        acqui_count <= #10 0;
+        acqui_count <= #400 0;
       end else begin
         if (acqui_count >= ACQUI_LEN-1) begin
-          acqui_count <= #10 ACQUI_LEN;
+          acqui_count <= #400 ACQUI_LEN;
         end else begin
-          acqui_count <= #10 acqui_count + 1;
+          acqui_count <= #400 acqui_count + 1;
         end
       end      
     end
@@ -183,15 +183,15 @@ module MM_trg # (
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      over_len_flag <= #10 1'b0;
+      over_len_flag <= #400 1'b0;
     end else begin
       if (acqui_count_done) begin
-        over_len_flag <= #10 1'b1;
+        over_len_flag <= #400 1'b1;
       end else begin
         if (fast_hit_flag_posedge) begin
-          over_len_flag <= #10 1'b0;
+          over_len_flag <= #400 1'b0;
         end else begin
-          over_len_flag <= #10 over_len_flag;
+          over_len_flag <= #400 over_len_flag;
         end
       end
     end
@@ -199,15 +199,15 @@ module MM_trg # (
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      finalize_flag <= #10 1'b0;
+      finalize_flag <= #400 1'b0;
     end else begin
       if (post_count_done) begin
-          finalize_flag <= #10 1'b0;
+          finalize_flag <= #400 1'b0;
       end else begin
         if (hit_flag_negedge) begin
-          finalize_flag <= #10 1'b1;
+          finalize_flag <= #400 1'b1;
         end else begin
-          finalize_flag <= #10 finalize_flag;
+          finalize_flag <= #400 finalize_flag;
         end
       end      
     end
@@ -215,9 +215,9 @@ module MM_trg # (
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      hit_flag <= #10 1'b0;
+      hit_flag <= #400 1'b0;
     end else begin
-      hit_flag <= #10 hit_flagD;
+      hit_flag <= #400 hit_flagD;
     end
   end
 
@@ -231,37 +231,37 @@ module MM_trg # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      triggered <= #10 1'b0;
+      triggered <= #400 1'b0;
     end else begin
-      triggered <= #10 triggeredD;
+      triggered <= #400 triggeredD;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      valid <= #10 1'b0;
+      valid <= #400 1'b0;
     end else begin
-      valid <= #10 TVALID;
+      valid <= #400 TVALID;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      data <= #10 {TDATA_WIDTH{1'b1}};
-      delayed_data <= #10 {TDATA_WIDTH{1'b1}};
-      tdata <= #10 {TDATA_WIDTH{1'b1}};
+      data <= #400 {TDATA_WIDTH{1'b1}};
+      delayed_data <= #400 {TDATA_WIDTH{1'b1}};
+      tdata <= #400 {TDATA_WIDTH{1'b1}};
     end else begin
-      data <= #10 delayed_data;
-      delayed_data <= #10 dataD;
-      tdata <= #10 TDATA;
+      data <= #400 delayed_data;
+      delayed_data <= #400 dataD;
+      tdata <= #400 TDATA;
     end
   end
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(!TVALID)) begin
-      compare_result <= #10 0;
+      compare_result <= #400 0;
     end else begin
-      compare_result <= #10 compare_resultD;
+      compare_result <= #400 compare_resultD;
     end
   end
 
