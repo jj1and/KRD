@@ -103,21 +103,26 @@ module dual_ch_mixer_tb;
   // ------ reset task ------
   task reset;
   begin
-    ready <= #400 1'b0;
-    resetn <= #400 1'b0;
-    ch0_we <= #400 1'b0;
-    ch1_we <= #400 1'b0;
+    #400
+    ready <= 1'b0;
+    resetn <= 1'b0;
+    ch0_we <= 1'b0;
+    ch1_we <= 1'b0;
     repeat(RESET_TIME) @(posedge clk);
-    resetn <= #400 1'b1;
+    #400
+    resetn <= 1'b1;
     repeat(5) @(posedge clk);
-    ready <= #400 1'b1;
-    repeat(1) @(posedge clk);
+    #400
+    ready <= 1'b1;
+    // wait for Asyncronus FIFO reset
+    repeat(100) @(posedge clk);
   end
   endtask
 
     // ------ ch0 noise generation -------
   task ch0_gen_noise;
     begin
+      #400
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
         ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_min};
       end
@@ -130,21 +135,23 @@ module dual_ch_mixer_tb;
   // ------- ch0 signal generation ------
   task ch0_gen_signal;
     begin
+      #400
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
       end
       repeat(FST_WIDTH) @(posedge clk);
         
+      #400
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
@@ -153,17 +160,20 @@ module dual_ch_mixer_tb;
   // ------ ch0 data frame generation ------
   task ch0_gen_dframe;
   begin
-      ch0_din <= #400 {8'hFF, 4'h0, current_time[47:24], {WIDTH-36{1'b0}}};
-      ch0_we <= #400 1'b1;
+      #400
+      ch0_din <= {8'hFF, 4'h0, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch0_gen_noise;
       repeat(PRE_SIG) @(posedge clk);
       ch0_gen_signal;
       ch0_gen_noise;
       repeat(POST_SIG) @(posedge clk);
-      ch0_din <= #400 {4'hF, bl_min, 4'hF, threshold_val, current_time[23:0], 8'h0F};
+      #400
+      ch0_din <= {4'hF, bl_min, 4'hF, threshold_val, current_time[23:0], 8'h0F};
       repeat(1) @(posedge clk);
-      ch0_we <= #400 1'b0;
+      #400
+      ch0_we <= 1'b0;
       repeat(1) @(posedge clk);
   end
   endtask
@@ -171,11 +181,12 @@ module dual_ch_mixer_tb;
     // ------ ch1 noise generation -------
   task ch1_gen_noise;
     begin
+      #400
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
       end
     end
   endtask
@@ -183,21 +194,23 @@ module dual_ch_mixer_tb;
   // ------- ch1 signal generation ------
   task ch1_gen_signal;
     begin
+      #400
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
       end
       repeat(FST_WIDTH) @(posedge clk);
         
+      #400 
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
@@ -206,17 +219,20 @@ module dual_ch_mixer_tb;
   // ------ ch1 data frame generation ------
   task ch1_gen_dframe;
   begin
-      ch1_din <= #400 {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
-      ch1_we <= #400 1'b1;
+      #400
+      ch1_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch1_gen_noise;
       repeat(PRE_SIG) @(posedge clk);
       ch1_gen_signal;
       ch1_gen_noise;
       repeat(POST_SIG) @(posedge clk);
-      ch1_din <= #400 {4'hF, bl_max, 4'hF, threshold_val, current_time[23:0], 8'h0F};
+      #400
+      ch1_din <= {4'hF, bl_max, 4'hF, threshold_val, current_time[23:0], 8'h0F};
       repeat(1) @(posedge clk);
-      ch1_we <= #400 1'b0;
+      #400
+      ch1_we <= 1'b0;
       repeat(1) @(posedge clk);
   end
   endtask

@@ -39,8 +39,7 @@ module dual_ch_mixer # (
   wire ch0_footer_lostD;
   reg ch0_header_lost;
   reg ch0_footer_lost;  
-  reg [1:0] ch0_head_foot_id_hist;
-  wire ch0_read_start;
+  reg [2:0] ch0_head_foot_id_hist;
 
   reg [DATA_WIDTH-1:0] ch1_din;
   reg ch1_read_request_delay;
@@ -56,7 +55,7 @@ module dual_ch_mixer # (
   wire ch1_footer_lostD;
   reg ch1_header_lost;
   reg ch1_footer_lost;  
-  reg [1:0] ch1_head_foot_id_hist;
+  reg [2:0] ch1_head_foot_id_hist;
 
   wire [1:0] read_request;
   assign read_request = {CH1_READ_REQUEST, CH0_READ_REQUEST};
@@ -66,7 +65,8 @@ module dual_ch_mixer # (
   reg read_enables_negedge;
 
   wire ch_send_readys;
-  assign ch_send_readys = (ch0_head_foot_id_hist!=2'b01)|(ch1_head_foot_id_hist!=2'b01);
+  // "chX_head_foot_id_hist != 0XX & X10"
+  assign ch_send_readys = (&{ch0_head_foot_id_hist[2], (ch0_head_foot_id_hist[1:0]!=2'b10)})|(&{ch1_head_foot_id_hist[2], (ch1_head_foot_id_hist[1:0]!=2'b10)});
 
   reg sending;
   reg [DATA_WIDTH-1:0] dout;
@@ -76,16 +76,16 @@ module dual_ch_mixer # (
   assign ch1_header_foundD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]=={7{1'b1}});
 
   // 8'hFE or 8'hFF = 7'b1111111
-  assign ch0_header_lostD = (CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]!={7{1'b1}})&(ch0_head_foot_id_hist[0]==1'b0);
-  assign ch1_header_lostD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]!={7{1'b1}})&(ch1_head_foot_id_hist[0]==1'b0);  
+  assign ch0_header_lostD = (CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]!={7{1'b1}})&(ch0_head_foot_id_hist&3'b101==3'b100);
+  assign ch1_header_lostD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]!={7{1'b1}})&(ch1_head_foot_id_hist&3'b101==3'b100);  
 
   // 8'hEF or 8'h0F = 5'b01111
   assign ch0_footer_foundD = (CH0_DIN[HEADER_FOOTER_ID_WIDTH-4:0]==5'b01111)&(CH0_DIN[DATA_WIDTH-1 -:2]==2'b11);
   assign ch1_footer_foundD = (CH1_DIN[HEADER_FOOTER_ID_WIDTH-4:0]==5'b01111)&(CH1_DIN[DATA_WIDTH-1 -:2]==2'b11);
 
   // 8'hFE or 8'hFF = 7'b1111111
-  assign ch0_footer_lostD = (CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]=={7{1'b1}})&(ch0_head_foot_id_hist[0]==1'b1);
-  assign ch1_footer_lostD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]=={7{1'b1}})&(ch1_head_foot_id_hist[0]==1'b1);
+  assign ch0_footer_lostD = (CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]=={7{1'b1}})&(ch0_head_foot_id_hist&3'b101==3'b101);
+  assign ch1_footer_lostD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH-1]=={7{1'b1}})&(ch1_head_foot_id_hist&3'b101==3'b101);
 
   assign ch0_request_fast_posedge = (CH0_READ_REQUEST == 1'b1)&(ch0_read_request_delay == 1'b0);
   assign ch1_request_fast_posedge = (CH1_READ_REQUEST == 1'b1)&(ch1_read_request_delay == 1'b0);
@@ -130,14 +130,14 @@ module dual_ch_mixer # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      ch0_head_foot_id_hist <= #400 2'b10;
+      ch0_head_foot_id_hist <= #400 3'b000;
     end else begin
       if (ch0_re) begin
         if (ch0_header_foundD) begin
-          ch0_head_foot_id_hist <= #400 {ch0_head_foot_id_hist[0], 1'b1 };
+          ch0_head_foot_id_hist <= #400 {1'b1, ch0_head_foot_id_hist[0], 1'b1 };
         end else begin
           if (ch0_footer_foundD) begin
-            ch0_head_foot_id_hist <= #400 {ch0_head_foot_id_hist[0], 1'b0 };
+            ch0_head_foot_id_hist <= #400 {1'b1,ch0_head_foot_id_hist[0], 1'b0 };
           end else begin
             ch0_head_foot_id_hist <= #400 ch0_head_foot_id_hist;
           end
@@ -150,14 +150,14 @@ module dual_ch_mixer # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      ch1_head_foot_id_hist <= 2'b10;
+      ch1_head_foot_id_hist <= #400 3'b000;
     end else begin
       if (ch1_re) begin
         if (ch1_header_foundD) begin
-          ch1_head_foot_id_hist <= #400 {ch1_head_foot_id_hist[0], 1'b1 };
+          ch1_head_foot_id_hist <= #400 {1'b1, ch1_head_foot_id_hist[0], 1'b1 };
         end else begin
           if (ch1_footer_foundD) begin
-            ch1_head_foot_id_hist <= #400 {ch1_head_foot_id_hist[0], 1'b0 };
+            ch1_head_foot_id_hist <= #400 {1'b1, ch1_head_foot_id_hist[0], 1'b0 };
           end else begin
             ch1_head_foot_id_hist <= #400 ch1_head_foot_id_hist;
           end
