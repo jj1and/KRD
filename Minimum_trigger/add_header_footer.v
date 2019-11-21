@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1 ps / 1 ps
 
 module add_header_footer #
 (
@@ -115,40 +115,40 @@ module add_header_footer #
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      pre_extend_len <= DELAY;
-      extend_len <= DELAY+{{MAX_DELAY_CNT_WIDTH-2{1'b0}}, 2'd2};
+      pre_extend_len <= #400 DELAY;
+      extend_len <= #400 DELAY+{{MAX_DELAY_CNT_WIDTH-2{1'b0}}, 2'd2};
     end else begin
-      pre_extend_len <= pre_extend_len;
-      extend_len <= extend_len;
+      pre_extend_len <= #400 pre_extend_len;
+      extend_len <= #400 extend_len;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      pre_extend_triggered_delay <= 1'b0;
-      triggered_delay <= 1'b0;
+      pre_extend_triggered_delay <= #400 1'b0;
+      triggered_delay <= #400 1'b0;
     end else begin
-      pre_extend_triggered_delay <= pre_extend_triggered;
-      triggered_delay <= TRIGGERED;
+      pre_extend_triggered_delay <= #400 pre_extend_triggered;
+      triggered_delay <= #400 TRIGGERED;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      din <= {DATA_WIDTH{1'b1}};
+      din <= #400 {DATA_WIDTH{1'b1}};
     end else begin
-      din <= DIN;
+      din <= #400 DIN;
     end
   end  
 
   always @( posedge CLK ) begin
     if (fast_triggered_posedge) begin
-      dout <= combined_header;
+      dout <= #400 combined_header;
     end else begin
       if (fast_pre_extend_negedge) begin
-        dout <= combined_footer;
+        dout <= #400 combined_footer;
       end else begin
-        dout <= din;
+        dout <= #400 din;
       end
     end
   end

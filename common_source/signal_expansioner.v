@@ -35,31 +35,31 @@ module signal_expansioner # (
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      extend_len <= EXTEND_LEN;
+      extend_len <= #400 EXTEND_LEN;
     end else begin
-      extend_len <= extend_len;
+      extend_len <= #400 extend_len;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      sig_in <= 1'b0;
+      sig_in <= #400 1'b0;
     end else begin
-      sig_in <= SIG_IN;
+      sig_in <= #400 SIG_IN;
     end
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      count <= 0;
+      count <= #400 0;
     end else begin
       if (fast_sig_in_negedge) begin
-        count <= 0;
+        count <= #400 0;
       end else begin
         if (count >= extend_len-2) begin
-          count <= extend_len-1;
+          count <= #400 extend_len-1;
         end else begin
-          count <= count + 1;
+          count <= #400 count + 1;
         end
       end  
     end
@@ -67,15 +67,15 @@ module signal_expansioner # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      post_sig <= 1'b0;
+      post_sig <= #400 1'b0;
     end else begin
       if (fast_sig_in_negedge) begin
-          post_sig <= 1'b1;
+          post_sig <= #400 1'b1;
       end else begin
         if (count_done) begin
-          post_sig <= 1'b0;
+          post_sig <= #400 1'b0;
         end else begin
-          post_sig <= post_sig;
+          post_sig <= #400 post_sig;
         end
       end
     end
@@ -83,9 +83,9 @@ module signal_expansioner # (
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      sig_out <= 1'b0;
+      sig_out <= #400 1'b0;
     end else begin
-      sig_out <= sig_outD;
+      sig_out <= #400 sig_outD;
     end
   end
 

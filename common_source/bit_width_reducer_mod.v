@@ -72,39 +72,39 @@ module bit_width_reducer_mod # (
 
   always @(posedge CLK ) begin
     if ((!RESETN)|(fast_not_empty_posedge)) begin
-      conv_count <= #1 0;
+      conv_count <= #400 0;
     end else begin
       if (conv_count >= BIT_DIFF-1) begin
-        conv_count <= #1 0;
+        conv_count <= #400 0;
       end else begin
-        conv_count <= #1 conv_count + 1;
+        conv_count <= #400 conv_count + 1;
       end
     end
   end
   
   always @(posedge CLK ) begin
     if ((!RESETN)|(fast_not_empty_posedge)) begin
-      divide_en <= #1 1'b0;
+      divide_en <= #400 1'b0;
     end else begin
       if (conv_count == 0) begin
-        divide_en <= #1 1'b1;
+        divide_en <= #400 1'b1;
       end else begin
-        divide_en <= #1 1'b0;
+        divide_en <= #400 1'b0;
       end
     end
   end  
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      fifo_not_empty <= #1 1'b0; 
-      valid <= #1 1'b0;
-      ready <= #1 1'b0;
-      dout <= #1 {DOUT_WIDTH{1'b1}};
+      fifo_not_empty <= #400 1'b0; 
+      valid <= #400 1'b0;
+      ready <= #400 1'b0;
+      dout <= #400 {DOUT_WIDTH{1'b1}};
     end else begin
-      fifo_not_empty <= #1 FIFO_NOT_EMPTY;
-      valid <= #1 fifo_not_empty;
-      ready <= #1 !(FIFO_ALMOST_FULL|FIFO_FULL);
-      dout <= #1 doutD;
+      fifo_not_empty <= #400 FIFO_NOT_EMPTY;
+      valid <= #400 fifo_not_empty;
+      ready <= #400 !(FIFO_ALMOST_FULL|FIFO_FULL);
+      dout <= #400 doutD;
     end
   end
 

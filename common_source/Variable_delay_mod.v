@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1 ps / 1 ps
 
 module Variable_delay_mod # (
   parameter integer MAX_DELAY_CNT_WIDTH = 7,
@@ -48,40 +48,40 @@ module Variable_delay_mod # (
   
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      read_en <= 1'b0;
-      delay_cnt <= 0;
-      delay <= DELAY;
+      read_en <= #400 1'b0;
+      delay_cnt <= #400 0;
+      delay <= #400 DELAY;
     end else begin
       if (delay_cnt >= delay) begin
-        delay_cnt <= delay;
-        read_en <= 1'b1;
+        delay_cnt <= #400 delay;
+        read_en <= #400 1'b1;
       end else begin
-        delay_cnt <= delay_cnt + 1;
-        read_en <= 1'b0;
+        delay_cnt <= #400 delay_cnt + 1;
+        read_en <= #400 1'b0;
       end
     end
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      write_en <= 1'b0;
+      write_en <= #400 1'b0;
     end else begin
       if (!full) begin
-        write_en <= 1'b1;
+        write_en <= #400 1'b1;
       end else begin
-        write_en <= 1'b0;
+        write_en <= #400 1'b0;
       end
     end
   end
 
   always @(posedge CLK) begin
     if (!RESETN) begin
-      valid <= 1'b0;
+      valid <= #400 1'b0;
     end else begin
       if (not_empty && (delay_cnt >= delay)) begin
-        valid <= 1'b1;
+        valid <= #400 1'b1;
       end else begin
-        valid <= 1'b0;
+        valid <= #400 1'b0;
       end
     end
   end

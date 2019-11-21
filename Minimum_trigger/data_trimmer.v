@@ -24,21 +24,21 @@ module data_trimmer # (
   
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      din <= #1 {DATA_WIDTH{1'b1}};
-      dout <= #1 {DATA_WIDTH{1'b1}};
+      din <= #400 {DATA_WIDTH{1'b1}};
+      dout <= #400 {DATA_WIDTH{1'b1}};
     end else begin
-      din <= #1 DIN;
-      dout <= #1 din;
+      din <= #400 DIN;
+      dout <= #400 din;
     end
   end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      trimmer_valid <= #1 1'b0;
-      din_valid <= #1 1'b0;
+      trimmer_valid <= #400 1'b0;
+      din_valid <= #400 1'b0;
     end else begin
-      trimmer_valid <= #1 trimmer_validD;
-      din_valid <= #1 DIN_VALID;
+      trimmer_valid <= #400 trimmer_validD;
+      din_valid <= #400 DIN_VALID;
     end
   end
 

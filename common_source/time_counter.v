@@ -1,4 +1,4 @@
-`timescale 1 ns / 1 ps
+`timescale 1 ps / 1 ps
 
 module time_counter # (
   // TIME STAMP DATA WIDTH
@@ -47,12 +47,12 @@ module time_counter # (
   // time counter
   always @(posedge CLK) begin
     if (!RESETN) begin
-      current_time <= 0;
+      current_time <= #400 0;
     end else begin
       if (!counter_en) begin
-        current_time <= 1;
+        current_time <= #400 1;
       end else begin
-        current_time <= current_timeD;
+        current_time <= #400 current_timeD;
       end
     end
   end
@@ -60,12 +60,12 @@ module time_counter # (
   // clock divide
   always @(posedge CLK or negedge counter_en) begin
     if ( (!RESETN) || (!counter_en)) begin
-       divide_clk <= 0;
+       divide_clk <= #400 0;
     end else begin
       if (divide_clk >= CLK_DIVIDE-1) begin
-        divide_clk <= 0;
+        divide_clk <= #400 0;
       end else begin
-        divide_clk <= divide_clk + 1;
+        divide_clk <= #400 divide_clk + 1;
       end
     end
   end
