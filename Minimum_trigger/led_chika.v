@@ -17,9 +17,9 @@ module led_chika # (
     end
   endfunction
 
-  // localparam integer COUNT_MAX = CLOCK_FREQ_MHZ*INTERVAL_MSEC*(10**3);
+  localparam integer COUNT_MAX = CLOCK_FREQ_MHZ*INTERVAL_MSEC*(10**3);
   // for test
-  localparam integer COUNT_MAX = CLOCK_FREQ_MHZ*INTERVAL_MSEC;
+  // localparam integer COUNT_MAX = CLOCK_FREQ_MHZ*INTERVAL_MSEC;
   
   localparam integer COUNT_WIDTH = clogb2(COUNT_MAX-1);
   localparam integer TOP_BITS = COUNT_WIDTH%4;
