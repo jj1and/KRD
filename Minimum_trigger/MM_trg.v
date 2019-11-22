@@ -265,7 +265,6 @@ module MM_trg # (
     end
   end
 
-  // S_AXIS_TDATAの�?割
   genvar i;
   generate
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
@@ -275,7 +274,6 @@ module MM_trg # (
     end
   endgenerate
 
-  // Thresoldの値との比�?
   generate
     for(i=0;i<SAMPLE_PER_TDATA;i=i+1) begin
       assign compare_resultD[i] = ( delta_val[i] >= THRESHOLD_VAL);
