@@ -44,6 +44,8 @@ module Fifo # (
   wire [DEPTH_BIT_WIDTH:0] rpD;
   reg [DEPTH_BIT_WIDTH:0] rp;
 
+  reg first_re;
+
   wire wp_inc;
   wire rp_inc;
    
@@ -62,15 +64,32 @@ module Fifo # (
   assign PROGRAMMABLE_EMPTY = ((wp-rp)<=PROG_EMPTY_THRE);
   assign PROGRAMMABLE_FULL = ((wp-rp)>=PROG_FULL_THRE);
 
-  assign DOUT = dout;
- 
-  always @(posedge CLK) begin
+  assign DOUT = first_re ? sram[rp[DEPTH_BIT_WIDTH-1:0]]: INIT_VALUE; 
+
+  // for simulation
+  always @(posedge CLK ) begin
     if (!RESETN) begin
-      dout <= #400 INIT_VALUE;
+      first_re <= 1'b0;
     end else begin
-      dout <= #400 sram[rp[DEPTH_BIT_WIDTH-1:0]];
+      if (RE) begin
+        first_re <= 1'b1;
+      end else begin
+        first_re <= first_re;
+      end
     end
   end
+ 
+  // always @(posedge CLK) begin
+  //   if (!RESETN) begin
+  //     dout <= #400 INIT_VALUE;
+  //   end else begin
+  //     if (first_re) begin
+  //       dout <= #400 sram[rp[DEPTH_BIT_WIDTH-1:0]];
+  //     end else begin
+  //       dout <= #400 INIT_VALUE;
+  //     end
+  //   end
+  // end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
@@ -104,7 +123,7 @@ module Fifo # (
     if (!RESETN) begin
       rp <= #400 0;
     end else begin
-      if (rp_inc) begin
+      if (rp_inc&first_re) begin
         rp <= #400 rp + 1;
       end else begin
         rp <= #400 rp;
