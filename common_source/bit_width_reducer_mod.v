@@ -2,9 +2,7 @@
 
 module bit_width_reducer_mod # (
   parameter integer DIN_WIDTH = 128,
-  parameter integer DOUT_WIDTH =64,
-  // internal fifo depth = (DIN_WIDTH/DOUT_WIDTH)*CONVERT_MARGIN
-  parameter integer CONVERT_MARGIN = 200/2
+  parameter integer DOUT_WIDTH =64
 )
 (
   input wire CLK,
@@ -18,7 +16,8 @@ module bit_width_reducer_mod # (
   input wire [DIN_WIDTH-1:0] FIFO_DOUT,
   input wire FIFO_NOT_EMPTY,
   input wire FIFO_FULL,
-  input wire FIFO_ALMOST_FULL, 
+  input wire FIFO_RST_BUSY,
+  input wire MODULE_READY,
   output wire CONVERT_READY,
   output wire CONVERT_VALID
 );
@@ -34,77 +33,102 @@ module bit_width_reducer_mod # (
   localparam integer BIT_DIFF = DIN_WIDTH/DOUT_WIDTH;
   localparam integer BIT_CONV_COUNT_WIDTH = clogb2(BIT_DIFF-1);
 
-  // wire [DIN_WIDTH-1:0] fifo_dout;
-  // wire fifo_not_empty;
-  // wire fifo_full;
-  // wire fifo_almost_full;
-
-  reg [BIT_CONV_COUNT_WIDTH-1:0] conv_count = 0;
-  reg divide_en;
+  reg [BIT_CONV_COUNT_WIDTH:0] conv_count;
+  wire divide_en;
+  wire read_ready;
+  reg read_ready_delay;
+  wire fast_read_ready_posedge;
   wire write_en;
-  wire read_en;
+  reg read_en;
+  reg re_delay;
 
-  wire [DOUT_WIDTH-1:0] doutD;
+  wire [DOUT_WIDTH-1:0] convd_dataD;
+  reg [DOUT_WIDTH-1:0] convd_data;
   reg [DOUT_WIDTH-1:0] dout;
-  wire [DOUT_WIDTH-1:0] divide_dout[BIT_DIFF-1:0];
-  // wire [DOUT_WIDTH-1:0] reduced_dout;
-  wire fast_not_empty_posedge;
-  reg fifo_not_empty;
+  reg [DOUT_WIDTH-1:0] init_val = {8'h00, {DOUT_WIDTH-8{1'b1}}};
+  wire [DOUT_WIDTH-1:0] divide_dout[BIT_DIFF:0];
+  reg validD;
   reg valid;
   reg ready;
 
-  assign fast_not_empty_posedge = (fifo_not_empty == 1'b0)&(FIFO_NOT_EMPTY == 1'b1);
-  assign read_en = fifo_not_empty&divide_en;
-
-  assign doutD = divide_dout[conv_count];
+  assign read_ready = FIFO_NOT_EMPTY&MODULE_READY;
+  assign fast_read_ready_posedge = (read_ready==1'b1)&(read_ready_delay==1'b0);
+  assign divide_dout[BIT_DIFF] = init_val;
+  assign convd_dataD = divide_dout[conv_count];
   assign DOUT = dout;
   assign CONVERT_VALID = valid;
-  assign CONVERT_READY = ready;
+  assign CONVERT_READY = (!FIFO_FULL)&(!FIFO_RST_BUSY);
+  assign divide_en = (conv_count >= BIT_DIFF-1);
   assign write_en = DIN_VALID;
   assign FIFO_DIN = DIN;
   assign FIFO_WE = write_en;
   assign FIFO_RE = read_en;
 
-
-  // always @(posedge CLK) begin
-  //   reduced_dout <= divide_dout[conv_count];
-  // end
-
   always @(posedge CLK ) begin
-    if ((!RESETN)|(fast_not_empty_posedge)) begin
-      conv_count <= #400 0;
+    if (!RESETN) begin
+      re_delay <= #400 1'b0;
+      read_ready_delay <= #400 1'b0;
+      valid <= #400 validD;
+      convd_data <= #400 init_val;
+      dout <= #400 init_val;
     end else begin
-      if (conv_count >= BIT_DIFF-1) begin
-        conv_count <= #400 0;
-      end else begin
-        conv_count <= #400 conv_count + 1;
-      end
+      re_delay <= #400 read_en;
+      read_ready_delay <= #400 read_ready;
+      valid <= #400 validD;
+      convd_data <= #400 convd_dataD;
+      dout <= #400 convd_data;
     end
   end
-  
-  always @(posedge CLK ) begin
-    if ((!RESETN)|(fast_not_empty_posedge)) begin
-      divide_en <= #400 1'b0;
-    end else begin
-      if (conv_count == 0) begin
-        divide_en <= #400 1'b1;
-      end else begin
-        divide_en <= #400 1'b0;
-      end
-    end
-  end  
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
-      fifo_not_empty <= #400 1'b0; 
-      valid <= #400 1'b0;
-      ready <= #400 1'b0;
-      dout <= #400 {DOUT_WIDTH{1'b1}};
+      conv_count <= #400 BIT_DIFF;
     end else begin
-      fifo_not_empty <= #400 FIFO_NOT_EMPTY;
-      valid <= #400 fifo_not_empty;
-      ready <= #400 !(FIFO_ALMOST_FULL|FIFO_FULL);
-      dout <= #400 doutD;
+      if (read_ready) begin
+        if (divide_en) begin
+          conv_count <= #400 0;
+        end else begin
+          conv_count <= #400 conv_count + 1;
+        end
+      end else begin
+        if (divide_en) begin
+          conv_count <= #400 BIT_DIFF;
+        end else begin
+          conv_count <= #400 conv_count + 1;
+        end
+      end
+    end
+  end
+
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      read_en <= #400 1'b0;
+    end else begin
+      if (conv_count==BIT_DIFF-2) begin
+        read_en <= #400 1'b1;
+      end else begin
+        if (conv_count==BIT_DIFF) begin
+          read_en <= #400 1'b0;
+        end else begin
+          read_en <= #400 1'b0;
+        end
+      end
+    end
+  end
+
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      validD <= #400 1'b0;
+    end else begin
+      if ((!read_ready)&divide_en) begin
+        validD <= #400 1'b0;
+      end else begin
+        if (re_delay) begin
+          validD <= #400 1'b1;
+        end else begin
+          validD <= #400 validD;
+        end
+      end
     end
   end
 
