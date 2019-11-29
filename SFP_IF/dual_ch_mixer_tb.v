@@ -351,7 +351,7 @@ module dual_ch_mixer_tb;
       ch1_gen_dframe;
       interupt;
       ch1_gen_dframe;
-      repeat(600) @(posedge clk);      
+      repeat(2000) @(posedge clk);      
     end
     join
 
