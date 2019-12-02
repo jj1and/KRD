@@ -96,12 +96,14 @@ module bit_width_reducer_tb;
     .PROGRAMMABLE_EMPTY()
   );
 
-  bit_width_reducer_mod # (
+  async_bit_width_reducer_mod # (
   .DIN_WIDTH(DIN_WIDTH),
   .DOUT_WIDTH(DOUT_WIDTH)
   ) DUT (
-    .CLK(clk),
-    .RESETN(resetn),
+    .WR_CLK(clk),
+    .WR_RESETN(resetn),
+    .RD_CLK(clk),
+    .RD_RESETN(resetn),
     .DIN(din),
     .DIN_VALID(din_valid),
     .DOUT(),
@@ -111,7 +113,8 @@ module bit_width_reducer_tb;
     .FIFO_DOUT(fifo_dout),
     .FIFO_NOT_EMPTY(fifo_not_empty),
     .FIFO_FULL(fifo_full),
-    .FIFO_RST_BUSY(ready),
+    .FIFO_WR_RST_BUSY(!ready),
+    .FIFO_RD_RST_BUSY(!ready),
     .MODULE_READY(ready),
     .CONVERT_READY(),
     .CONVERT_VALID()
@@ -126,7 +129,9 @@ module bit_width_reducer_tb;
     
     reset;
     gen_signal;
-    repeat(100) @(posedge clk);
+    repeat(500) @(posedge clk);
+    din_valid <= #400 1'b0;
+    repeat(500) @(posedge clk);
 
     $finish;
 

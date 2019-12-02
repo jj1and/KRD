@@ -5,6 +5,8 @@ module async_bit_width_reducer_mod # (
   parameter integer DOUT_WIDTH =64
 )
 (
+  input wire WR_CLK,
+  input wire WR_RESETN,
   input wire RD_CLK,
   input wire RD_RESETN,
   input wire DIN_VALID,
@@ -36,46 +38,58 @@ module async_bit_width_reducer_mod # (
 
   reg [BIT_CONV_COUNT_WIDTH:0] conv_count;
   wire divide_en;
+  reg divide_en_delay;
   wire read_ready;
   reg read_ready_delay;
   wire fast_read_ready_posedge;
   reg read_en;
   reg re_delay;
 
-  // reg [DIN_WIDTH-1:0] din;
-  // reg din_valid;
+  reg [DIN_WIDTH-1:0] din;
+  reg din_valid;
 
   wire [DOUT_WIDTH-1:0] convd_dataD;
   reg [DOUT_WIDTH-1:0] convd_data;
   reg [DOUT_WIDTH-1:0] dout;
-  reg [DOUT_WIDTH-1:0] init_val = {8'h00, {DOUT_WIDTH-8{1'b1}}};
   wire [DOUT_WIDTH-1:0] divide_dout[BIT_DIFF:0];
   wire convert_readyD;
-  // reg convert_ready;
+  reg convert_ready;
   reg validD;
   reg valid;
   reg ready;
 
   assign read_ready = &{FIFO_NOT_EMPTY, MODULE_READY, ~FIFO_RD_RST_BUSY};
   assign fast_read_ready_posedge = (read_ready==1'b1)&(read_ready_delay==1'b0);
-  assign divide_dout[BIT_DIFF] = init_val;
+  assign divide_dout[BIT_DIFF] = {DOUT_WIDTH{1'b1}};
   assign convd_dataD = divide_dout[conv_count];
-  assign FIFO_DIN = DIN;
-  assign FIFO_WE = DIN_VALID;
+  assign FIFO_DIN = din;
+  assign FIFO_WE = din_valid;
   assign DOUT = dout;
   assign CONVERT_VALID = valid;
   assign convert_readyD = (~FIFO_FULL)&(~FIFO_WR_RST_BUSY);
-  assign CONVERT_READY = convert_readyD;
+  assign CONVERT_READY = convert_ready;
   assign divide_en = (conv_count >= BIT_DIFF-1);
   assign FIFO_RE = read_en;
+
+  always @(posedge WR_CLK ) begin
+    if (!WR_RESETN) begin
+      din  <= #400 {DIN_WIDTH{1'b1}};
+      din_valid <= #400 1'b1;
+      convert_ready <= #400 1'b1;
+    end else begin
+      din <= #400 DIN;
+      din_valid <= #400 DIN_VALID;
+      convert_ready <= #400 convert_readyD;
+    end
+  end
 
   always @(posedge RD_CLK ) begin
     if (!RD_RESETN) begin
       re_delay <= #400 1'b0;
       read_ready_delay <= #400 1'b0;
       valid <= #400 validD;
-      convd_data <= #400 init_val;
-      dout <= #400 init_val;
+      convd_data <= #400 {DOUT_WIDTH{1'b1}};
+      dout <= #400 {DOUT_WIDTH{1'b1}};
     end else begin
       re_delay <= #400 read_en;
       read_ready_delay <= #400 read_ready;
@@ -125,7 +139,7 @@ module async_bit_width_reducer_mod # (
     if (!RD_RESETN) begin
       validD <= #400 1'b0;
     end else begin
-      if ((!read_ready)&divide_en) begin
+      if ((!read_ready)&(conv_count==BIT_DIFF)) begin
         validD <= #400 1'b0;
       end else begin
         if (re_delay) begin
