@@ -67,26 +67,26 @@ module MM_trg # (
   wire hit_flag_negedge;
   // wire fast_hit_flag_negedge;
   reg [1:0] hit_edge;
-  reg hit_flag = 1'b0;
+  reg hit_flag;
 
   // triggered after hit end
-  reg finalize_flag = 1'b0;
+  reg finalize_flag;
   // triggered length overwhelms AQUI_LEN
-  reg over_len_flag = 1'b0;
+  reg over_len_flag;
   // array for divide S_AXIS_TDATA
   wire signed [ADC_RESOLUTION_WIDTH-1:0] tdata_word[SAMPLE_PER_TDATA-1:0];
   // POST ACQUIASION COUNTER
-  reg [POST_COUNTER_WIDTH-1:0] post_count = 0;
+  reg [POST_COUNTER_WIDTH-1:0] post_count;
   wire post_count_done;
   // ACQUASION COUNTER
-  reg [FULL_COUNTER_WIDTH-1:0] acqui_count = 0;
+  reg [FULL_COUNTER_WIDTH-1:0] acqui_count;
   wire acqui_count_done;
   // comparing ADC value with THRESHOLD_VAL
   reg [SAMPLE_PER_TDATA-1:0] compare_result;
   wire [SAMPLE_PER_TDATA-1:0] compare_resultD;
 
   // trigger time stamp
-  reg [TIME_STAMP_WIDTH-1:0] time_stamp = 0;
+  reg [TIME_STAMP_WIDTH-1:0] time_stamp;
 
   // threshold when hit
   reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;

@@ -31,11 +31,10 @@ module add_header_footer #
   localparam integer HEADER_ZERO_PAD_WIDTH = HEADER_FOOTER_WIDTH-CHANNEL_ID_WIDTH-FIRST_TIME_STAMP_WIDTH-HEAD_FOOT_ID_WIDTH;
   localparam integer FOOTER_ZERO_PAD_WIDTH = HEADER_FOOTER_WIDTH-ONE_FILL_WIDTH*2-ADC_RESOLUTION_WIDTH*2-HEAD_FOOT_ID_WIDTH-LATER_TIME_STAMP_WIDTH;
 
-  reg [HEADER_FOOTER_WIDTH-1:0] dummy_header_footer = {HEADER_FOOTER_WIDTH{1'b1}};
-  reg [ONE_FILL_WIDTH-1:0] one_fill = {ONE_FILL_WIDTH{1'b1}};
-  reg [HEAD_FOOT_ID_WIDTH-1:0] header_id = {HEAD_FOOT_ID_WIDTH{1'b1}};
-  reg [HEAD_FOOT_ID_WIDTH-1:0] footer_id = {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
-  reg [CHANNEL_ID_WIDTH-1:0] ch_id = CHANNEL_ID;
+  reg [HEADER_FOOTER_WIDTH-1:0] dummy_header_footer;
+  reg [HEAD_FOOT_ID_WIDTH-1:0] header_id;
+  reg [HEAD_FOOT_ID_WIDTH-1:0] footer_id;
+  reg [CHANNEL_ID_WIDTH-1:0] ch_id;
 
   wire [DATA_WIDTH-1:0] combined_header;
   wire [DATA_WIDTH-1:0] combined_footer;
@@ -46,29 +45,31 @@ module add_header_footer #
   wire [ONE_FILL_WIDTH+ADC_RESOLUTION_WIDTH-1:0] baseline_set;
   wire [ONE_FILL_WIDTH-1+ADC_RESOLUTION_WIDTH+1-1:0] threshold_set;
 
-  reg [MAX_DELAY_CNT_WIDTH-1:0] pre_extend_len = 12/2;
-  reg [MAX_DELAY_CNT_WIDTH-1:0] extend_len = 12/2+{{MAX_DELAY_CNT_WIDTH-2{1'b0}}, 2'd2};
-  reg triggered_delay = 1'b0;
+  reg [MAX_DELAY_CNT_WIDTH-1:0] pre_extend_len;
+  reg [MAX_DELAY_CNT_WIDTH-1:0] extend_len;
+  
+  reg triggered_delay;
   wire extend_triggered;
   wire pre_extend_triggered;
-  reg pre_extend_triggered_delay = 1'b0;
+  reg pre_extend_triggered_delay;
+  reg adding_valid;
 
-  reg [DATA_WIDTH-1:0] din = {DATA_WIDTH{1'b1}};
+  reg [DATA_WIDTH-1:0] din;
 
   wire fast_triggered_posedge;
   wire fast_pre_extend_negedge;
 
-  reg [DATA_WIDTH-1:0] dout = {DATA_WIDTH{1'b1}};
+  reg [DATA_WIDTH-1:0] dout;
+  reg [DATA_WIDTH-1:0] data_frame;
 
   assign ch_id_fst_time_stamp_set = {ch_id, TIME_STAMP[TIME_STAMP_WIDTH-1 -:FIRST_TIME_STAMP_WIDTH]};
   assign lat_time_stamp = TIME_STAMP[LATER_TIME_STAMP_WIDTH-1:0];
-  assign baseline_set = {one_fill, BASELINE_WHEN_HIT};
+  assign baseline_set = {{ONE_FILL_WIDTH{1'b1}}, BASELINE_WHEN_HIT};
   assign threshold_set = {{ONE_FILL_WIDTH-1{1'b1}}, THRESHOLD_WHEN_HIT};
   
   generate begin
     if(HEADER_ZERO_PAD_WIDTH>0) begin
-      reg [HEADER_ZERO_PAD_WIDTH-1:0] header_zero_pad = 0;
-      assign header = {header_id, ch_id_fst_time_stamp_set, header_zero_pad};
+      assign header = {header_id, ch_id_fst_time_stamp_set, {HEADER_ZERO_PAD_WIDTH{1'b0}}};
     end else begin
       assign header = {header_id, ch_id_fst_time_stamp_set}; 
     end
@@ -77,8 +78,7 @@ module add_header_footer #
   
   generate begin
     if(FOOTER_ZERO_PAD_WIDTH>0) begin
-      reg [FOOTER_ZERO_PAD_WIDTH-1:0] footer_zero_pad = 0;
-      assign footer = {baseline_set, threshold_set, footer_zero_pad, lat_time_stamp, footer_id};
+      assign footer = {baseline_set, threshold_set, {FOOTER_ZERO_PAD_WIDTH{1'b0}}, lat_time_stamp, footer_id};
     end else begin
       assign footer = {baseline_set, threshold_set, lat_time_stamp, footer_id};
     end
@@ -91,7 +91,7 @@ module add_header_footer #
   assign fast_triggered_posedge = (TRIGGERED == 1'b1)&(triggered_delay == 1'b0);
   assign fast_pre_extend_negedge = (pre_extend_triggered == 1'b0)&(pre_extend_triggered_delay == 1'b1);
   assign DOUT = dout;
-  assign ADDING_VALID = extend_triggered;
+  assign ADDING_VALID = adding_valid;
 
   signal_expansioner # (
     .MAX_EXTEND_LEN_WIDTH(MAX_DELAY_CNT_WIDTH)
@@ -112,6 +112,21 @@ module add_header_footer #
     .SIG_IN(TRIGGERED&DIN_VALID),
     .SIG_OUT(pre_extend_triggered)
   );
+
+  // initializing registers
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      dummy_header_footer <= #400 {HEADER_FOOTER_WIDTH{1'b1}};
+      header_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
+      footer_id <= #400 {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
+      ch_id <= #400 CHANNEL_ID;      
+    end else begin
+      dummy_header_footer <= #400 {HEADER_FOOTER_WIDTH{1'b1}};
+      header_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
+      footer_id <= #400 {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
+      ch_id <= #400 CHANNEL_ID;             
+    end
+  end
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
@@ -142,14 +157,28 @@ module add_header_footer #
   end  
 
   always @( posedge CLK ) begin
-    if (fast_triggered_posedge) begin
-      dout <= #400 combined_header;
+    if (!RESETN) begin
+      data_frame <= #400 {DATA_WIDTH{1'b1}};
     end else begin
-      if (fast_pre_extend_negedge) begin
-        dout <= #400 combined_footer;
+      if (fast_triggered_posedge) begin
+        data_frame <= #400 combined_header;
       end else begin
-        dout <= #400 din;
-      end
+        if (fast_pre_extend_negedge) begin
+          data_frame <= #400 combined_footer;
+        end else begin
+          data_frame <= #400 din;
+        end
+      end      
+    end
+  end
+
+  always @(posedge CLK ) begin
+    if (!RESETN) begin
+      dout <= #400 {DATA_WIDTH{1'b1}};
+      adding_valid <= #400 1'b0;
+    end else begin
+      dout <= #400 data_frame;
+      adding_valid <= #400 extend_triggered;
     end
   end
 
