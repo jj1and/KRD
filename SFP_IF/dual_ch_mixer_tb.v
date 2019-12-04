@@ -170,13 +170,55 @@ module dual_ch_mixer_tb;
       ch0_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch0_din <= {4'hF, bl_min, 4'hF, threshold_val, current_time[23:0], 8'h0F};
+      ch0_din <= {4'hF, bl_min, 3'b111, threshold_val, current_time[23:0], 8'h0F};
       repeat(1) @(posedge clk);
       #400
       ch0_we <= 1'b0;
       repeat(1) @(posedge clk);
   end
   endtask
+
+  // ------ ch0 footer lost data frame generation ------
+  task ch0_gen_footer_lost_dframe;
+  begin
+      #400
+      ch0_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_we <= 1'b1;
+      repeat(1) @(posedge clk);
+      ch0_gen_noise;
+      repeat(PRE_SIG) @(posedge clk);
+      ch0_gen_signal;
+      ch0_gen_noise;
+      repeat(POST_SIG) @(posedge clk);
+      #400
+      ch0_din <= {4'h0, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h00};
+      repeat(1) @(posedge clk);
+      #400
+      ch0_we <= 1'b0;
+      repeat(1) @(posedge clk);
+  end
+  endtask
+
+  // ------ ch0 header lost data frame generation ------
+  task ch0_gen_header_lost_dframe;
+  begin
+      #400
+      ch0_din <= {8'h00, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_we <= 1'b1;
+      repeat(1) @(posedge clk);
+      ch0_gen_noise;
+      repeat(PRE_SIG) @(posedge clk);
+      ch0_gen_signal;
+      ch0_gen_noise;
+      repeat(POST_SIG) @(posedge clk);
+      #400
+      ch0_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      repeat(1) @(posedge clk);
+      #400
+      ch0_we <= 1'b0;
+      repeat(1) @(posedge clk);
+  end
+  endtask    
 
     // ------ ch1 noise generation -------
   task ch1_gen_noise;
@@ -229,13 +271,55 @@ module dual_ch_mixer_tb;
       ch1_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch1_din <= {4'hF, bl_max, 4'hF, threshold_val, current_time[23:0], 8'h0F};
+      ch1_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
       repeat(1) @(posedge clk);
       #400
       ch1_we <= 1'b0;
       repeat(1) @(posedge clk);
   end
   endtask
+
+  // ------ ch1 footer lost data frame generation ------
+  task ch1_gen_footer_lost_dframe;
+  begin
+      #400
+      ch1_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_we <= 1'b1;
+      repeat(1) @(posedge clk);
+      ch1_gen_noise;
+      repeat(PRE_SIG) @(posedge clk);
+      ch1_gen_signal;
+      ch1_gen_noise;
+      repeat(POST_SIG) @(posedge clk);
+      #400
+      ch1_din <= {4'h0, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h00};
+      repeat(1) @(posedge clk);
+      #400
+      ch1_we <= 1'b0;
+      repeat(1) @(posedge clk);
+  end
+  endtask
+
+  // ------ ch1 header lost data frame generation ------
+  task ch1_gen_header_lost_dframe;
+  begin
+      #400
+      ch1_din <= {8'h00, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_we <= 1'b1;
+      repeat(1) @(posedge clk);
+      ch1_gen_noise;
+      repeat(PRE_SIG) @(posedge clk);
+      ch1_gen_signal;
+      ch1_gen_noise;
+      repeat(POST_SIG) @(posedge clk);
+      #400
+      ch1_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      repeat(1) @(posedge clk);
+      #400
+      ch1_we <= 1'b0;
+      repeat(1) @(posedge clk);
+  end
+  endtask  
 
   // ------ interupt -------
   task interupt;
@@ -335,23 +419,28 @@ module dual_ch_mixer_tb;
     begin
       repeat(10) @(posedge clk);
       ch0_gen_dframe;
+      ch0_gen_header_lost_dframe;   
+      ch0_gen_dframe;
+      ch0_gen_footer_lost_dframe;
+      ch0_gen_footer_lost_dframe;
+      ch0_gen_dframe;
+      interupt;   
+      interupt;
+      repeat(1000) @(posedge clk); 
+      ch0_gen_dframe;
+      ch0_gen_dframe;
+      ch0_gen_dframe;
       ch0_gen_dframe;   
-      ch0_gen_dframe;
-      ch0_gen_dframe;
-      ch0_gen_dframe;
-      ch0_gen_dframe;
-      interupt;   
-      interupt;   
     end
     begin
       ch1_gen_dframe;
       ch1_gen_dframe;
+      ch1_gen_footer_lost_dframe;
+      ch1_gen_footer_lost_dframe;
       ch1_gen_dframe;
+      ch1_gen_header_lost_dframe;
       ch1_gen_dframe;
-      ch1_gen_dframe;
-      interupt;
-      ch1_gen_dframe;
-      repeat(2000) @(posedge clk);      
+      repeat(1000) @(posedge clk);      
     end
     join
 
