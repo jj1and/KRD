@@ -45,8 +45,10 @@ module sig_exp_tb;
   // ------ reset task ------
   task reset;
   begin
+    #400
     resetn <= 1'b0;
     repeat(RESET_TIME) @(posedge clk);
+    #400
     resetn <= 1'b1;
     repeat(1) @(posedge clk);
   end
@@ -55,10 +57,30 @@ module sig_exp_tb;
   // ------ data generation task -------
   task gen_data;
   begin
+    #400
     sig_in <= 1'b1;
     repeat(20) @(posedge clk);
+    #400
     sig_in <= 1'b0;
     repeat(20) @(posedge clk);
+  end
+  endtask
+
+  // ------ data generation task -------
+  task gen_data_renzoku;
+  begin
+    #400
+    sig_in <= 1'b1;
+    repeat(2) @(posedge clk);
+    #400
+    sig_in <= 1'b0;
+    repeat(2) @(posedge clk);
+    #400
+    sig_in <= 1'b1;
+    repeat(20) @(posedge clk);
+    #400
+    sig_in <= 1'b0;
+    repeat(20) @(posedge clk);    
   end
   endtask
 
@@ -70,6 +92,7 @@ module sig_exp_tb;
 
       reset;
       gen_data;
+      gen_data_renzoku;
       reset;
       gen_data;
 
