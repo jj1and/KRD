@@ -59,11 +59,13 @@ module fifo_tb;
   // ------ reset task ------
   task reset;
   begin
-    resetn <= #400 1'b0;
-    write_en <= #400 1'b0;
-    read_en <= #400 1'b0;
+    #400 
+    resetn <= 1'b0;
+    write_en <= 1'b0;
+    read_en <= 1'b1;
     repeat(RESET_TIME) @(posedge clk);
-    resetn <= #400 1'b1;
+    #400
+    resetn <= 1'b1;
     repeat(1) @(posedge clk);
   end
   endtask
@@ -71,38 +73,55 @@ module fifo_tb;
   // ------ data generation task -------
   task gen_data;
   begin
-    din <= #400 0;
+    #400
+    din <= 0;
     repeat(1) @(posedge clk);
-    write_en <= #400 1'b1;
+    #400
+    write_en <= 1'b1;
     for ( i=1 ; i<=MAX_VAL ; i=i+1 ) begin
       repeat(1) @(posedge clk);
-      din <= #400 i;
+      #400
+      din <= i;
     end
+    repeat(1) @(posedge clk);
   end
   endtask
 
   // read out task
   task readout;
   begin
+    #400
     read_en <= 1'b0;
     repeat(10) @(posedge clk);
-    read_en <= #400 1'b1;
+    #400
+    read_en <= 1'b1;
     repeat(25) @(posedge clk);
-    read_en <= #400 1'b0;
+    #400
+    read_en <= 1'b0;
     repeat(3) @(posedge clk);
-    read_en <= #400 1'b1;
+    #400
+    read_en <= 1'b1;
+    repeat(25) @(posedge clk);
+    #400
+    read_en <= 1'b0;
+    repeat(1) @(posedge clk);
   end
   endtask
 
   task writein;
   begin
+    #400
     write_en <= 1'b1;
     repeat(30) @(posedge clk);
-    write_en <= #400 1'b0;
+    #400
+    write_en <= 1'b0;
     repeat(10) @(posedge clk);
-    write_en <= #400 1'b1;
+    #400
+    write_en <= 1'b1;
     repeat(5) @(posedge clk);
-    write_en <= #400 1'b0;   
+    #400
+    write_en <= 1'b0;
+    repeat(1) @(posedge clk); 
   end
   endtask
 
@@ -127,6 +146,15 @@ module fifo_tb;
         writein;
       end
       join
+      fork
+      begin
+        writein;
+      end
+      begin
+        gen_data;
+      end
+      join
+      readout;
 
       $finish;
 

@@ -3,8 +3,8 @@
 module Fifo # (
     parameter integer WIDTH = 8,
     parameter integer DEPTH = 32,
-    parameter integer PROG_FULL_THRE = 30,
-    parameter integer PROG_EMPTY_THRE = 2,
+    parameter integer PROG_FULL_THRE = DEPTH*0.8,
+    parameter integer PROG_EMPTY_THRE = DEPTH*0.2,
     parameter INIT_VALUE = {WIDTH{1'b1}}
 )
 (
@@ -45,6 +45,9 @@ module Fifo # (
   reg [DEPTH_BIT_WIDTH:0] rp;
 
   reg first_re;
+  reg re;
+  wire fast_re_posedge;
+  assign fast_re_posedge = (RE == 1'b1)&(re == 1'b0);
 
   wire wp_inc;
   wire rp_inc;
@@ -68,15 +71,19 @@ module Fifo # (
 
   // for simulation
   always @(posedge CLK ) begin
-    if (!RESETN) begin
-      first_re <= 1'b0;
+    if (|{~RESETN, wp==rp}) begin
+      first_re <= #400 1'b0;
     end else begin
-      if (RE) begin
-        first_re <= 1'b1;
+      if (fast_re_posedge) begin
+        first_re <= #400 1'b1;
       end else begin
-        first_re <= first_re;
+        first_re <= #400 first_re;
       end
     end
+  end
+
+  always @(posedge CLK ) begin
+    re <= #400 RE;
   end
  
   // always @(posedge CLK) begin
