@@ -93,7 +93,6 @@ module MM_Trg_tb;
   MM_trg # (
     .MAX_DELAY_CNT_WIDTH(MAX_DELAY_CNT_WIDTH),
     .POST_ACQUI_LEN(POST_ACQUI_LEN),
-    .ACQUI_LEN(ACQUI_LEN),
     .HIT_DETECTION_WINDOW_WORD(8),
     .TIME_STAMP_WIDTH(TIME_STAMP_WIDTH),
     .ADC_RESOLUTION_WIDTH(ADC_RESOLUTION_WIDTH),
@@ -108,11 +107,8 @@ module MM_Trg_tb;
     .THRESHOLD_VAL(threshold_val),
     .BASELINE(base_line),
     .CURRENT_TIME(current_time),
-    .TIME_STAMP(),
-    .THRESHOLD_WHEN_HIT(),    
-    .BASELINE_WHEN_HIT(),
     .TRIGGERED(),
-    .DATA(),
+    .DOUT(),
     .VALID()
   );
 
@@ -207,6 +203,11 @@ module MM_Trg_tb;
       gen_signal_set;
       gen_noise;
       gen_signal_set;
+      gen_noise;
+      repeat(100) @(posedge clk);
+      gen_signal;
+      gen_noise;
+      repeat(100) @(posedge clk);
       $finish;
 
   end

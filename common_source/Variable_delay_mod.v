@@ -15,7 +15,7 @@ module Variable_delay_mod # (
   output wire FIFO_WE,
   output wire FIFO_RE,
   input wire [WIDTH-1:0] FIFO_DOUT,
-  input wire FIFO_NOT_EMPTY,
+  input wire FIFO_EMPTY,
   input wire FIFO_FULL,
   input wire FIFO_RST_BUSY,
   output wire DELAY_READY,
@@ -48,8 +48,8 @@ module Variable_delay_mod # (
   assign FIFO_RE = read_en;
   
   assign write_enD = (!FIFO_FULL)&(!FIFO_RST_BUSY);
-  assign read_enD = (FIFO_NOT_EMPTY)&(read_ready);
-  assign not_empty = FIFO_NOT_EMPTY;
+  assign read_enD = (~FIFO_EMPTY)&(read_ready);
+  assign not_empty = ~FIFO_EMPTY;
   assign full = FIFO_FULL;
 
   assign DOUT = FIFO_DOUT;

@@ -5,8 +5,6 @@ module MM_trg # (
     parameter integer MAX_DELAY_CNT_WIDTH = 5,
     // acquiasion length settings
     parameter integer POST_ACQUI_LEN = 76/2,
-    // acquiasion length settings
-    parameter integer ACQUI_LEN = 200/2,
     // hit detection window (8 word = 2nsec)
     parameter integer HIT_DETECTION_WINDOW_WORD = 8,
     // TIME STAMP DATA WIDTH
@@ -14,7 +12,9 @@ module MM_trg # (
     // RFSoC ADC resolution
     parameter integer ADC_RESOLUTION_WIDTH = 12,
     // RF Data Converter data stream bus width
-    parameter integer TDATA_WIDTH	= 128
+    parameter integer TDATA_WIDTH	= 256,
+    // DOUT WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH*2 + (ADC_RESOLUTION_WIDTH+1) + ADC_RESOLUTION_WIDTH
+    parameter integer DOUT_WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH*2 + ADC_RESOLUTION_WIDTH*2 + 1
 )
 ( 
   // Ports of Axi Slave Bus Interface S00_AXIS�?
@@ -32,16 +32,10 @@ module MM_trg # (
   input wire signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
   // current time
   input wire [TIME_STAMP_WIDTH-1:0] CURRENT_TIME,
-  // hit time stamp
-  output wire [TIME_STAMP_WIDTH-1:0] TIME_STAMP,
-  // baseline value when hit
-  output wire  signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE_WHEN_HIT,
-  // threshold when hit
-  output wire  signed [ADC_RESOLUTION_WIDTH+1-1:0] THRESHOLD_WHEN_HIT,
   // trigger output
   output wire TRIGGERED,
   // recieved data
-  output wire [TDATA_WIDTH-1:0] DATA,
+  output wire [DOUT_WIDTH-1:0] DOUT,
   // recived data valid signal
   output wire VALID
 );
@@ -56,7 +50,6 @@ module MM_trg # (
   endfunction
 
   localparam integer POST_COUNTER_WIDTH = clogb2(POST_ACQUI_LEN); 
-  localparam integer FULL_COUNTER_WIDTH = clogb2(ACQUI_LEN);
   localparam integer SAMPLE_PER_TDATA = TDATA_WIDTH/16;
   localparam integer COMPARE_RESULT_SET_WIDTH = SAMPLE_PER_TDATA/HIT_DETECTION_WINDOW_WORD;
   localparam integer REDUCE_DIGIT = 16 - ADC_RESOLUTION_WIDTH;
@@ -91,10 +84,6 @@ module MM_trg # (
   reg [POST_COUNTER_WIDTH:0] post_count;
   wire post_count_done;
   wire post_count_init;
-  // ACQUASION COUNTER
-  reg [FULL_COUNTER_WIDTH:0] acqui_count;
-  wire acqui_count_done;
-  wire acqui_count_init;
   // comparing ADC value with THRESHOLD_VAL
   wire [SAMPLE_PER_TDATA-1:0] compare_resultD;
   reg [SAMPLE_PER_TDATA-1:0] compare_result;
@@ -102,6 +91,9 @@ module MM_trg # (
 
   // trigger time stamp
   reg [TIME_STAMP_WIDTH-1:0] time_stamp;
+  reg [TIME_STAMP_WIDTH-1:0] current_time;
+  reg [TIME_STAMP_WIDTH-1:0] current_time_delay;
+  reg [TIME_STAMP_WIDTH-1:0] current_time_delay_delay;
 
   // threshold when hit
   reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val;
@@ -125,7 +117,7 @@ module MM_trg # (
 
   assign all_ready = &{TVALID, ALL_MODULE_READY, pre_count_done};
   
-  assign DATA = delayed_data;
+  assign DOUT = {delayed_data, current_time_delay_delay, baseline_when_hit, threshold_val, time_stamp};
   assign VALID = delayed_valid;
 
   assign hit_flagD = (|compare_result_set);
@@ -136,13 +128,8 @@ module MM_trg # (
   assign pre_count_done = (pre_count == pre_acquiasion_len-1);
   assign post_count_done = (post_count == POST_ACQUI_LEN-1);
   assign post_count_init = (post_count == POST_ACQUI_LEN);
-  assign acqui_count_done = (acqui_count == ACQUI_LEN-2);
-  assign acqui_count_init = (acqui_count == ACQUI_LEN);
 
   assign TRIGGERED = triggered;
-  assign BASELINE_WHEN_HIT = baseline_when_hit;
-  assign THRESHOLD_WHEN_HIT = threshold_when_hit;
-  assign TIME_STAMP = time_stamp;
 
   always @(posedge CLK ) begin
     if (!RESETN) begin
@@ -182,33 +169,16 @@ module MM_trg # (
 
   // post count
   always @(posedge CLK) begin  
-    if (|{~all_ready_delay, acqui_count_done, post_count_done}) begin
+    if (|{~all_ready_delay, post_count_done}) begin
       post_count <= #400 POST_ACQUI_LEN;
     end else begin
-      if (fast_hit_flag_echo_negedge) begin
+      if (hit_flag_echo) begin
         post_count <= #400 0;
       end else begin
         if (post_count < POST_ACQUI_LEN-1) begin
           post_count <= #400 post_count + 1;
         end else begin
           post_count <= #400 post_count;
-        end
-      end      
-    end
-  end
-
-  // full count
-  always @(posedge CLK) begin
-    if (|{~all_ready_delay, acqui_count_done, post_count_done}) begin
-      acqui_count <= #400 ACQUI_LEN;
-    end else begin
-      if (fast_triggered_posedge) begin
-        acqui_count <= #400 0;
-      end else begin
-        if (acqui_count < ACQUI_LEN-2) begin
-          acqui_count <= #400 acqui_count + 1;
-        end else begin
-          acqui_count <= #400 acqui_count;
         end
       end      
     end
@@ -232,10 +202,10 @@ module MM_trg # (
     if (!all_ready_delay) begin
       triggered <= #400 1'b0;
     end else begin
-      if (acqui_count_done|post_count_done) begin
+      if (post_count_done) begin
         triggered <= #400 1'b0;
       end else begin
-        if (acqui_count_init&hit_flag_echo) begin
+        if (hit_flag_echo) begin
           triggered <= #400 1'b1; 
         end else begin
           triggered <= #400 triggered;
@@ -279,10 +249,16 @@ module MM_trg # (
       tdata <= #400 {TDATA_WIDTH{1'b1}};
       data <= #400 {TDATA_WIDTH{1'b1}};
       delayed_data <= #400 {TDATA_WIDTH{1'b1}};
+      current_time <= #400 0;
+      current_time_delay <= #400 0;
+      current_time_delay_delay <= #400 0;      
     end else begin
       tdata <= #400 TDATA;
       data <= #400 dataD;
       delayed_data <= #400 data;
+      current_time <= #400 CURRENT_TIME;
+      current_time_delay <= #400 current_time;
+      current_time_delay_delay <= #400 current_time_delay;
     end
   end
 

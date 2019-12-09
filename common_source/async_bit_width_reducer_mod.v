@@ -16,7 +16,7 @@ module async_bit_width_reducer_mod # (
   output wire FIFO_RE,
   output wire [DIN_WIDTH-1:0] FIFO_DIN,
   input wire [DIN_WIDTH-1:0] FIFO_DOUT,
-  input wire FIFO_NOT_EMPTY,
+  input wire FIFO_EMPTY,
   input wire FIFO_FULL,
   input wire FIFO_WR_RST_BUSY,
   input wire FIFO_RD_RST_BUSY,
@@ -58,7 +58,7 @@ module async_bit_width_reducer_mod # (
   reg valid;
   reg ready;
 
-  assign read_ready = &{FIFO_NOT_EMPTY, MODULE_READY, ~FIFO_RD_RST_BUSY};
+  assign read_ready = &{~FIFO_EMPTY, MODULE_READY, ~FIFO_RD_RST_BUSY};
   assign fast_read_ready_posedge = (read_ready==1'b1)&(read_ready_delay==1'b0);
   assign divide_dout[BIT_DIFF] = {DOUT_WIDTH{1'b1}};
   assign convd_dataD = divide_dout[conv_count];
