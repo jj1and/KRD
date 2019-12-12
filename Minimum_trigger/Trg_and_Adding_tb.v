@@ -69,6 +69,7 @@ module Trg_and_Adding_tb;
   wire fifo_re;
   wire fifo_not_empty;
   wire fifo_full;
+  reg fifo_rst_busy;
 
   reg signed [ADC_RESOLUTION_WIDTH-1:0] bl_min = BL_MIN;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] bl_max = BL_MAX;
@@ -148,6 +149,7 @@ add_header_footer # (
   .FIFO_RE(fifo_re),
   .FIFO_FULL(fifo_full),
   .FIFO_EMPTY(~fifo_not_empty),
+  .FIFO_RST_BUSY(fifo_rst_busy),
   .VALID(),
   .DOUT()
 );
@@ -229,12 +231,14 @@ add_header_footer # (
     resetn <= 1'b0;
     tvalid <= 1'b0;
     all_module_ready <= 1'b0;
+    fifo_rst_busy <= 1'b1;
     repeat(RESET_TIME) @(posedge clk);
     #400
     resetn <= 1'b1;
     repeat(5) @(posedge clk);
     gen_noise;
     tvalid <= 1'b1;
+    fifo_rst_busy <= 1'b0;
     repeat(10) @(posedge clk);
     all_module_ready <= 1'b1;
     repeat(1) @(posedge clk);
