@@ -103,7 +103,7 @@ module variable_delay_tb;
     .FIFO_WE(fifo_we),
     .FIFO_RE(fifo_re),
     .FIFO_DOUT(fifo_dout),
-    .FIFO_NOT_EMPTY(fifo_not_empty),
+    .FIFO_EMPTY(~fifo_not_empty),
     .FIFO_FULL(fifo_full),
     .FIFO_RST_BUSY(!resetn),
     .DELAY_READY(),
