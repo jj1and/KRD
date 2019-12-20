@@ -1,29 +1,30 @@
 `timescale 1 ps / 1 ps
 
 module MMTrg # (
+    // RFSoC ADC resolution
+    parameter integer ADC_RESOLUTION_WIDTH = 12,  
+    // hit detection window (8 word = 2nsec)
+    parameter integer HIT_DETECTION_WINDOW_WORD = 8,
     // acquiasion length settings
     parameter integer MAX_DELAY_CNT_WIDTH = 5,
     // acquiasion length settings
     parameter integer POST_ACQUI_LEN = 76/2,
-    // hit detection window (8 word = 2nsec)
-    parameter integer HIT_DETECTION_WINDOW_WORD = 8,
     // TIME STAMP DATA WIDTH
     parameter integer TIME_STAMP_WIDTH = 48,
-    // RFSoC ADC resolution
-    parameter integer ADC_RESOLUTION_WIDTH = 12,
     // RF Data Converter data stream bus width
     parameter integer TDATA_WIDTH	= 256,
     // DOUT WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH*2 + (ADC_RESOLUTION_WIDTH+1) + ADC_RESOLUTION_WIDTH
-    parameter integer DOUT_WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH*2 + ADC_RESOLUTION_WIDTH*2 + 1
+    parameter integer DOUT_WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH + ADC_RESOLUTION_WIDTH*2 + 1
 )
 ( 
-  // Ports of Axi Slave Bus Interface S00_AXIS
   input wire  CLK,
   input wire  RESETN,
+
+  /* AXI-Stream Slave signals */
   input wire [TDATA_WIDTH-1 : 0] TDATA,
   input wire TVALID,
-  // all module ready if not, trigger will be interrupted
-  input wire iREADY,
+
+  /* Trigger infomation & settings */ 
   // pre acquiasion length
   input wire [MAX_DELAY_CNT_WIDTH-1:0] PRE_ACQUIASION_LEN,
   // Threshold_value
@@ -32,9 +33,13 @@ module MMTrg # (
   input wire signed [ADC_RESOLUTION_WIDTH-1:0] BASELINE,
   // current time
   input wire [TIME_STAMP_WIDTH-1:0] CURRENT_TIME,
-  // recieved data
+  // trigger signal
+  output wire TRIGGERED,
+
+  /* handshake signals */
+  input wire iREADY,
   output wire [DOUT_WIDTH-1:0] DOUT,
-  // recived data valid signal
+  // oVALID and DOUT relation is corresponding to TVALID and TDATA
   output wire oVALID
 );
 
@@ -58,7 +63,6 @@ module MMTrg # (
   reg all_ready_delay;
   
   // triggered
-  reg triggeredD;
   reg triggered;
   reg triggered_delay;
   wire fast_triggered_posedge;
@@ -115,8 +119,9 @@ module MMTrg # (
 
   assign all_ready = &{TVALID, iREADY, pre_count_done};
   
-  assign DOUT = {delayed_data, current_time_delay_delay, baseline_when_hit, threshold_val, time_stamp};
-  assign oVALID = delayed_valid&triggered;
+  assign TRIGGERED = triggered;
+  assign DOUT = {delayed_data, current_time_delay_delay, baseline_when_hit, threshold_val};
+  assign oVALID = delayed_valid;
 
   assign hit_flagD = (|compare_result_set);
   assign hit_flag_echo  = (hit_flag|hit_flag_delay);
@@ -181,7 +186,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!all_ready_delay) begin
+    if (~(&{all_ready_delay, RESETN})) begin
       hit_flag <= #400 1'b0;
       hit_flag_delay <= #400 1'b0;
       hit_flag_echo_delay <= #400 1'b0;
@@ -195,7 +200,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!all_ready_delay) begin
+    if (~(&{all_ready_delay, RESETN})) begin
       triggered <= #400 1'b0;
     end else begin
       if (post_count_done) begin
