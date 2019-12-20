@@ -11,7 +11,7 @@ module sig_exp_tb;
   parameter integer CLK_PERIOD = 2E3;
   parameter integer RESET_TIME = 5;
   
-  // ------ reg/wireの生成 -------
+  // ------ reg/wire generation -------
   reg clk = 1'b0;
   reg resetn = 1'b0;
   reg [EXTEND_LEN_WIDTH-1:0] extend_len = 4;
@@ -21,7 +21,7 @@ module sig_exp_tb;
   wire valid;
   wire ready;
 
-  // ------ クロックの生成 ------
+  // ------ clock generation ------
   initial begin
     clk = 1'b0;
   end
@@ -84,7 +84,7 @@ module sig_exp_tb;
   end
   endtask
 
-  // ------ テストベンチ本体 ------
+  // ------ testbench ------
   initial
   begin
       $dumpfile("sig_exp_tb.vcd");
