@@ -23,6 +23,7 @@ module DataParallelizer_tb;
   // ------ reg/wire generation -------
   reg din_clk = 1'b0;
   reg din_resetn = 1'b0;
+  reg valid;
   reg dout_clk = 1'b0;
   reg [TIME_STAMP_WIDTH-1:0] current_time;
 
@@ -59,6 +60,7 @@ module DataParallelizer_tb;
   task reset;
   begin
     #400
+    valid <= 1'b0;
     din_resetn <= 1'b0;
     repeat(DIN_RESET_TIME) @(posedge din_clk);
     #400
@@ -74,7 +76,7 @@ DataParallelizer # (
   .CLK(din_clk),
   .RESETN(din_resetn),
 
-  .iVALID(din_resetn),
+  .iVALID(valid),
   .oREADY(),
   .DIN(current_time),
 
@@ -87,14 +89,28 @@ DataParallelizer # (
   begin
     $dumpfile("DataParallelizer_tb.vcd");
     $dumpvars(0, DataParallelizer_tb);
-  
+
     reset;
-    repeat(200) @(posedge din_clk);
+    #400 
+    valid <= 1'b1;
+    repeat(13) @(posedge din_clk);
+    #400 
+    valid <= 1'b0;
+    repeat(34) @(posedge din_clk);
+    #400
+    valid <= 1'b1;
+    repeat(53) @(posedge din_clk);
     reset;
+    #400 
+    valid <= 1'b1;
+    repeat(45) @(posedge din_clk);
+    #400
+    valid <= 1'b0;
+    repeat(30) @(posedge din_clk);
+    #400
+    valid <= 1'b1;
     repeat(200) @(posedge din_clk);
-    reset;
-    repeat(200) @(posedge din_clk);
-  
+
     $finish;
   end
  

@@ -28,7 +28,6 @@ module DataParallelizer #(
   reg [(DIN_WIDTH+1)*2-1:0] doutD;
   reg [DOUT_WIDTH-1:0] dout;
 
-  reg ovalidD;
   reg ovalid;
 
   reg data_count;
@@ -42,7 +41,7 @@ module DataParallelizer #(
 
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (~(&{RESETN, iVALID})) begin
       data_count <= #400 1'b0;
     end else begin
       if (data_count==1'b1) begin
@@ -77,7 +76,7 @@ module DataParallelizer #(
       ovalid <= #400 1'b0;
       dout <= #400 {DOUT_WIDTH{1'b1}};
     end else begin
-      ovalid <= #400 &{doutD[(DIN_WIDTH+1)*2-1 -:1], doutD[DIN_WIDTH +:1]} ;
+      ovalid <= #400 (&{doutD[(DIN_WIDTH+1)*2-1 -:1], doutD[DIN_WIDTH +:1]})&(data_count_delay);
       dout <= #400 {doutD[DIN_WIDTH+1 +:DIN_WIDTH], doutD[0 +:DIN_WIDTH]};      
     end
   end
