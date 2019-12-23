@@ -12,8 +12,8 @@ A detector's electronics development project. Verilog-HDL is mainly used.
 * hardware_files
   * Bitstream files which meet timing closure. You can create XSDK project by importing this file.
 
-* project_tcl
-  * You can create a vivado project by running tcl scripts. The update rate will be slow it's beacause  some sources are managed manually.
+<!-- * project_tcl
+  * You can create a vivado project by running tcl scripts. The update rate will be slow it's beacause  some sources are managed manually. -->
 
 * project_rtl
   * These codes are old ones. Very similar to "trash".
