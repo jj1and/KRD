@@ -16,7 +16,7 @@ A detector's electronics development project. Verilog-HDL is mainly used.
   * You can create a vivado project by running tcl scripts. The update rate will be slow it's beacause  some sources are managed manually.
 
 * project_rtl
-  * This codes are old ones. Very similar to "trash".
+  * These codes are old ones. Very similar to "trash".
 
 * trash
   * Trash code. I save them just in case.
