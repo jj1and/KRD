@@ -132,14 +132,15 @@ module DataFrameGenerator_mod # (
   assign oREADY = write_ready;
   assign DATA_FIFO_WE = data_fifo_wen;
   assign INFO_FIFO_WE = info_fifo_wen;
-  genvar i;
-  generate
-  begin
-    for ( i=0 ; i<BIT_WIDTH_DIFF ; i=i+1 ) begin
-      assign WRITTEN_DATA[DOUT_WIDTH*i +:DOUT_WIDTH] = written_data[TDATA_WIDTH-1-DOUT_WIDTH*i -:DOUT_WIDTH];
-    end
-  end
-  endgenerate
+  // genvar i;
+  // generate
+  // begin
+  //   for ( i=0 ; i<BIT_WIDTH_DIFF ; i=i+1 ) begin
+  //     assign WRITTEN_DATA[DOUT_WIDTH*i +:DOUT_WIDTH] = written_data[TDATA_WIDTH-1-DOUT_WIDTH*i -:DOUT_WIDTH];
+  //   end
+  // end
+  // endgenerate
+  assign WRITTEN_DATA = written_data;
   assign WRITTEN_INFO = {written_footer, written_header};
 
   assign DATA_FIFO_RE = data_fifo_ren&(~data_fifo_read_wait);
