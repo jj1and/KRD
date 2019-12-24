@@ -48,6 +48,7 @@ module DataFrameGenerator # (
 );
 
   localparam integer INFO_WIDTH = HEADER_FOOTER_WIDTH*2;
+  localparam integer LEN_DIFF = TDATA_WIDTH/DOUT_WIDTH;
 
   wire DataFrameGen_oREADY;
   wire DataFrameGen_oVALID;
@@ -134,6 +135,7 @@ module DataFrameGenerator # (
   );
 
   wire [TDATA_WIDTH*2-1:0] DataParallelizer_DOUT;
+  wire [TDATA_WIDTH*2-1:0] DataParallelizer_WordInversedDOUT;
   wire DataParallelizer_oVALID;
 
   DataParallelizer # (
@@ -149,6 +151,15 @@ module DataFrameGenerator # (
     .oVALID(DataParallelizer_oVALID),
     .DOUT(DataParallelizer_DOUT)
   );
+
+  genvar i;
+  generate
+  begin
+    for ( i=0 ; i<LEN_DIFF*2 ; i=i+1 ) begin
+      assign DataParallelizer_WordInversedDOUT[i*DOUT_WIDTH +:DOUT_WIDTH] = DataParallelizer_DOUT[TDATA_WIDTH*2-1-(i*DOUT_WIDTH) -:DOUT_WIDTH];
+    end 
+  end
+  endgenerate
 
   wire [TDATA_WIDTH*2-1:0] AsyncDataFifo_dout;
   wire AsyncDataFifo_not_empty = ~AsyncDataFifo_empty; 
@@ -167,7 +178,7 @@ module DataFrameGenerator # (
     .rst(~WR_RESETN),        // input wire rst
     .wr_clk(WR_CLK),  // input wire wr_clk
     .rd_clk(RD_CLK),  // input wire rd_clk
-    .din(DataParallelizer_DOUT),        // input wire [255 : 0] din
+    .din(DataParallelizer_WordInversedDOUT),        // input wire [255 : 0] din
     .wr_en(DataParallelizer_oVALID),    // input wire wr_en
     .rd_en(AsyncDataFifo_not_empty&(~DataFifo_wr_rst_busy)),    // input wire rd_en
     .dout(AsyncDataFifo_dout),      // output wire [255 : 0] dout
