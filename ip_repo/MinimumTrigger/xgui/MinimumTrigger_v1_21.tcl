@@ -1,3 +1,7 @@
+
+# Loading additional proc with user specified bodies to compute parameter values.
+source [file join [file dirname [file dirname [info script]]] gui/MinimumTrigger_v1_21.gtcl]
+
 # Definitional proc to organize widgets for parameters.
 proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
@@ -5,16 +9,35 @@ proc init_gui { IPINST } {
   set Page_0 [ipgui::add_page $IPINST -name "Page 0"]
   ipgui::add_param $IPINST -name "ADC_RESOLUTION_WIDTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "CHANNEL_ID" -parent ${Page_0}
-  ipgui::add_param $IPINST -name "DOUT_WIDTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "FIRST_TIME_STAMP_WIDTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "HIT_DETECTION_WINDOW_WORD" -parent ${Page_0}
-  ipgui::add_param $IPINST -name "MAX_DELAY_CNT_WIDTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "MAX_FRAME_LENGTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "POST_ACQUI_LEN" -parent ${Page_0}
-  ipgui::add_param $IPINST -name "TDATA_WIDTH" -parent ${Page_0}
-  ipgui::add_param $IPINST -name "TIME_STAMP_WIDTH" -parent ${Page_0}
 
+  ipgui::add_param $IPINST -name "TIME_STAMP_WIDTH"
+  ipgui::add_param $IPINST -name "MAX_DELAY_CNT_WIDTH"
 
+}
+
+proc update_PARAM_VALUE.POST_ACQUI_LEN { PARAM_VALUE.POST_ACQUI_LEN PARAM_VALUE.POST_ACQUI_LEN PARAM_VALUE.MAX_FRAME_LENGTH PARAM_VALUE.MAX_DELAY_CNT_WIDTH } {
+	# Procedure called to update POST_ACQUI_LEN when any of the dependent parameters in the arguments change
+	
+	set POST_ACQUI_LEN ${PARAM_VALUE.POST_ACQUI_LEN}
+	set MAX_FRAME_LENGTH ${PARAM_VALUE.MAX_FRAME_LENGTH}
+	set MAX_DELAY_CNT_WIDTH ${PARAM_VALUE.MAX_DELAY_CNT_WIDTH}
+	set values(POST_ACQUI_LEN) [get_property value $POST_ACQUI_LEN]
+	set values(MAX_FRAME_LENGTH) [get_property value $MAX_FRAME_LENGTH]
+	set values(MAX_DELAY_CNT_WIDTH) [get_property value $MAX_DELAY_CNT_WIDTH]
+	if { [gen_USERPARAMETER_POST_ACQUI_LEN_ENABLEMENT $values(POST_ACQUI_LEN) $values(MAX_FRAME_LENGTH) $values(MAX_DELAY_CNT_WIDTH)] } {
+		set_property enabled true $POST_ACQUI_LEN
+	} else {
+		set_property enabled false $POST_ACQUI_LEN
+	}
+}
+
+proc validate_PARAM_VALUE.POST_ACQUI_LEN { PARAM_VALUE.POST_ACQUI_LEN } {
+	# Procedure called to validate POST_ACQUI_LEN
+	return true
 }
 
 proc update_PARAM_VALUE.ADC_RESOLUTION_WIDTH { PARAM_VALUE.ADC_RESOLUTION_WIDTH } {
@@ -77,15 +100,6 @@ proc update_PARAM_VALUE.MAX_FRAME_LENGTH { PARAM_VALUE.MAX_FRAME_LENGTH } {
 
 proc validate_PARAM_VALUE.MAX_FRAME_LENGTH { PARAM_VALUE.MAX_FRAME_LENGTH } {
 	# Procedure called to validate MAX_FRAME_LENGTH
-	return true
-}
-
-proc update_PARAM_VALUE.POST_ACQUI_LEN { PARAM_VALUE.POST_ACQUI_LEN } {
-	# Procedure called to update POST_ACQUI_LEN when any of the dependent parameters in the arguments change
-}
-
-proc validate_PARAM_VALUE.POST_ACQUI_LEN { PARAM_VALUE.POST_ACQUI_LEN } {
-	# Procedure called to validate POST_ACQUI_LEN
 	return true
 }
 

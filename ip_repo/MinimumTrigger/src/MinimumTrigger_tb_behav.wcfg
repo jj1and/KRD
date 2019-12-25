@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="16700000fs"></ZoomStartTime>
-      <ZoomEndTime time="102100001fs"></ZoomEndTime>
-      <Cursor1Time time="59100000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="3707000001fs"></ZoomEndTime>
+      <Cursor1Time time="283000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="307"></NameColumnWidth>
-      <ValueColumnWidth column_width="297"></ValueColumnWidth>
+      <NameColumnWidth column_width="229"></NameColumnWidth>
+      <ValueColumnWidth column_width="144"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="51" />
+   <WVObjectSize size="212" />
    <wvobject fp_name="/MinimumTrigger_tb/i" type="array">
       <obj_property name="ElementShortName">i[31:0]</obj_property>
       <obj_property name="ObjectShortName">i[31:0]</obj_property>
@@ -65,6 +65,430 @@
       <obj_property name="ElementShortName">tdata[127:0]</obj_property>
       <obj_property name="ObjectShortName">tdata[127:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="vbus512" type="vbus">
+      <obj_property name="label">din0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[15]" type="logic">
+         <obj_property name="ElementShortName">[15]</obj_property>
+         <obj_property name="ObjectShortName">[15]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[14]" type="logic">
+         <obj_property name="ElementShortName">[14]</obj_property>
+         <obj_property name="ObjectShortName">[14]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[13]" type="logic">
+         <obj_property name="ElementShortName">[13]</obj_property>
+         <obj_property name="ObjectShortName">[13]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[12]" type="logic">
+         <obj_property name="ElementShortName">[12]</obj_property>
+         <obj_property name="ObjectShortName">[12]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[11]" type="logic">
+         <obj_property name="ElementShortName">[11]</obj_property>
+         <obj_property name="ObjectShortName">[11]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[10]" type="logic">
+         <obj_property name="ElementShortName">[10]</obj_property>
+         <obj_property name="ObjectShortName">[10]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[9]" type="logic">
+         <obj_property name="ElementShortName">[9]</obj_property>
+         <obj_property name="ObjectShortName">[9]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[8]" type="logic">
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">[8]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[7]" type="logic">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[6]" type="logic">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[5]" type="logic">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[4]" type="logic">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus495" type="vbus">
+      <obj_property name="label">din1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[31]" type="logic">
+         <obj_property name="ElementShortName">[31]</obj_property>
+         <obj_property name="ObjectShortName">[31]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[30]" type="logic">
+         <obj_property name="ElementShortName">[30]</obj_property>
+         <obj_property name="ObjectShortName">[30]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[29]" type="logic">
+         <obj_property name="ElementShortName">[29]</obj_property>
+         <obj_property name="ObjectShortName">[29]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[28]" type="logic">
+         <obj_property name="ElementShortName">[28]</obj_property>
+         <obj_property name="ObjectShortName">[28]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[27]" type="logic">
+         <obj_property name="ElementShortName">[27]</obj_property>
+         <obj_property name="ObjectShortName">[27]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[26]" type="logic">
+         <obj_property name="ElementShortName">[26]</obj_property>
+         <obj_property name="ObjectShortName">[26]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[25]" type="logic">
+         <obj_property name="ElementShortName">[25]</obj_property>
+         <obj_property name="ObjectShortName">[25]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[24]" type="logic">
+         <obj_property name="ElementShortName">[24]</obj_property>
+         <obj_property name="ObjectShortName">[24]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[23]" type="logic">
+         <obj_property name="ElementShortName">[23]</obj_property>
+         <obj_property name="ObjectShortName">[23]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[22]" type="logic">
+         <obj_property name="ElementShortName">[22]</obj_property>
+         <obj_property name="ObjectShortName">[22]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[21]" type="logic">
+         <obj_property name="ElementShortName">[21]</obj_property>
+         <obj_property name="ObjectShortName">[21]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[20]" type="logic">
+         <obj_property name="ElementShortName">[20]</obj_property>
+         <obj_property name="ObjectShortName">[20]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus478" type="vbus">
+      <obj_property name="label">din2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[47]" type="logic">
+         <obj_property name="ElementShortName">[47]</obj_property>
+         <obj_property name="ObjectShortName">[47]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[46]" type="logic">
+         <obj_property name="ElementShortName">[46]</obj_property>
+         <obj_property name="ObjectShortName">[46]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[45]" type="logic">
+         <obj_property name="ElementShortName">[45]</obj_property>
+         <obj_property name="ObjectShortName">[45]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[44]" type="logic">
+         <obj_property name="ElementShortName">[44]</obj_property>
+         <obj_property name="ObjectShortName">[44]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[43]" type="logic">
+         <obj_property name="ElementShortName">[43]</obj_property>
+         <obj_property name="ObjectShortName">[43]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[42]" type="logic">
+         <obj_property name="ElementShortName">[42]</obj_property>
+         <obj_property name="ObjectShortName">[42]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[41]" type="logic">
+         <obj_property name="ElementShortName">[41]</obj_property>
+         <obj_property name="ObjectShortName">[41]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[40]" type="logic">
+         <obj_property name="ElementShortName">[40]</obj_property>
+         <obj_property name="ObjectShortName">[40]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[39]" type="logic">
+         <obj_property name="ElementShortName">[39]</obj_property>
+         <obj_property name="ObjectShortName">[39]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[38]" type="logic">
+         <obj_property name="ElementShortName">[38]</obj_property>
+         <obj_property name="ObjectShortName">[38]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[37]" type="logic">
+         <obj_property name="ElementShortName">[37]</obj_property>
+         <obj_property name="ObjectShortName">[37]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[36]" type="logic">
+         <obj_property name="ElementShortName">[36]</obj_property>
+         <obj_property name="ObjectShortName">[36]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus461" type="vbus">
+      <obj_property name="label">din3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[63]" type="logic">
+         <obj_property name="ElementShortName">[63]</obj_property>
+         <obj_property name="ObjectShortName">[63]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[62]" type="logic">
+         <obj_property name="ElementShortName">[62]</obj_property>
+         <obj_property name="ObjectShortName">[62]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[61]" type="logic">
+         <obj_property name="ElementShortName">[61]</obj_property>
+         <obj_property name="ObjectShortName">[61]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[60]" type="logic">
+         <obj_property name="ElementShortName">[60]</obj_property>
+         <obj_property name="ObjectShortName">[60]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[59]" type="logic">
+         <obj_property name="ElementShortName">[59]</obj_property>
+         <obj_property name="ObjectShortName">[59]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[58]" type="logic">
+         <obj_property name="ElementShortName">[58]</obj_property>
+         <obj_property name="ObjectShortName">[58]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[57]" type="logic">
+         <obj_property name="ElementShortName">[57]</obj_property>
+         <obj_property name="ObjectShortName">[57]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[56]" type="logic">
+         <obj_property name="ElementShortName">[56]</obj_property>
+         <obj_property name="ObjectShortName">[56]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[55]" type="logic">
+         <obj_property name="ElementShortName">[55]</obj_property>
+         <obj_property name="ObjectShortName">[55]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[54]" type="logic">
+         <obj_property name="ElementShortName">[54]</obj_property>
+         <obj_property name="ObjectShortName">[54]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[53]" type="logic">
+         <obj_property name="ElementShortName">[53]</obj_property>
+         <obj_property name="ObjectShortName">[53]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[52]" type="logic">
+         <obj_property name="ElementShortName">[52]</obj_property>
+         <obj_property name="ObjectShortName">[52]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus444" type="vbus">
+      <obj_property name="label">din4</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[79]" type="logic">
+         <obj_property name="ElementShortName">[79]</obj_property>
+         <obj_property name="ObjectShortName">[79]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[78]" type="logic">
+         <obj_property name="ElementShortName">[78]</obj_property>
+         <obj_property name="ObjectShortName">[78]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[77]" type="logic">
+         <obj_property name="ElementShortName">[77]</obj_property>
+         <obj_property name="ObjectShortName">[77]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[76]" type="logic">
+         <obj_property name="ElementShortName">[76]</obj_property>
+         <obj_property name="ObjectShortName">[76]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[75]" type="logic">
+         <obj_property name="ElementShortName">[75]</obj_property>
+         <obj_property name="ObjectShortName">[75]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[74]" type="logic">
+         <obj_property name="ElementShortName">[74]</obj_property>
+         <obj_property name="ObjectShortName">[74]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[73]" type="logic">
+         <obj_property name="ElementShortName">[73]</obj_property>
+         <obj_property name="ObjectShortName">[73]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[72]" type="logic">
+         <obj_property name="ElementShortName">[72]</obj_property>
+         <obj_property name="ObjectShortName">[72]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[71]" type="logic">
+         <obj_property name="ElementShortName">[71]</obj_property>
+         <obj_property name="ObjectShortName">[71]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[70]" type="logic">
+         <obj_property name="ElementShortName">[70]</obj_property>
+         <obj_property name="ObjectShortName">[70]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[69]" type="logic">
+         <obj_property name="ElementShortName">[69]</obj_property>
+         <obj_property name="ObjectShortName">[69]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[68]" type="logic">
+         <obj_property name="ElementShortName">[68]</obj_property>
+         <obj_property name="ObjectShortName">[68]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus427" type="vbus">
+      <obj_property name="label">din5</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[95]" type="logic">
+         <obj_property name="ElementShortName">[95]</obj_property>
+         <obj_property name="ObjectShortName">[95]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[94]" type="logic">
+         <obj_property name="ElementShortName">[94]</obj_property>
+         <obj_property name="ObjectShortName">[94]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[93]" type="logic">
+         <obj_property name="ElementShortName">[93]</obj_property>
+         <obj_property name="ObjectShortName">[93]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[92]" type="logic">
+         <obj_property name="ElementShortName">[92]</obj_property>
+         <obj_property name="ObjectShortName">[92]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[91]" type="logic">
+         <obj_property name="ElementShortName">[91]</obj_property>
+         <obj_property name="ObjectShortName">[91]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[90]" type="logic">
+         <obj_property name="ElementShortName">[90]</obj_property>
+         <obj_property name="ObjectShortName">[90]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[89]" type="logic">
+         <obj_property name="ElementShortName">[89]</obj_property>
+         <obj_property name="ObjectShortName">[89]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[88]" type="logic">
+         <obj_property name="ElementShortName">[88]</obj_property>
+         <obj_property name="ObjectShortName">[88]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[87]" type="logic">
+         <obj_property name="ElementShortName">[87]</obj_property>
+         <obj_property name="ObjectShortName">[87]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[86]" type="logic">
+         <obj_property name="ElementShortName">[86]</obj_property>
+         <obj_property name="ObjectShortName">[86]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[85]" type="logic">
+         <obj_property name="ElementShortName">[85]</obj_property>
+         <obj_property name="ObjectShortName">[85]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[84]" type="logic">
+         <obj_property name="ElementShortName">[84]</obj_property>
+         <obj_property name="ObjectShortName">[84]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus410" type="vbus">
+      <obj_property name="label">din6</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[111]" type="logic">
+         <obj_property name="ElementShortName">[111]</obj_property>
+         <obj_property name="ObjectShortName">[111]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[110]" type="logic">
+         <obj_property name="ElementShortName">[110]</obj_property>
+         <obj_property name="ObjectShortName">[110]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[109]" type="logic">
+         <obj_property name="ElementShortName">[109]</obj_property>
+         <obj_property name="ObjectShortName">[109]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[108]" type="logic">
+         <obj_property name="ElementShortName">[108]</obj_property>
+         <obj_property name="ObjectShortName">[108]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[107]" type="logic">
+         <obj_property name="ElementShortName">[107]</obj_property>
+         <obj_property name="ObjectShortName">[107]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[106]" type="logic">
+         <obj_property name="ElementShortName">[106]</obj_property>
+         <obj_property name="ObjectShortName">[106]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[105]" type="logic">
+         <obj_property name="ElementShortName">[105]</obj_property>
+         <obj_property name="ObjectShortName">[105]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[104]" type="logic">
+         <obj_property name="ElementShortName">[104]</obj_property>
+         <obj_property name="ObjectShortName">[104]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[103]" type="logic">
+         <obj_property name="ElementShortName">[103]</obj_property>
+         <obj_property name="ObjectShortName">[103]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[102]" type="logic">
+         <obj_property name="ElementShortName">[102]</obj_property>
+         <obj_property name="ObjectShortName">[102]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[101]" type="logic">
+         <obj_property name="ElementShortName">[101]</obj_property>
+         <obj_property name="ObjectShortName">[101]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[100]" type="logic">
+         <obj_property name="ElementShortName">[100]</obj_property>
+         <obj_property name="ObjectShortName">[100]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus393" type="vbus">
+      <obj_property name="label">din7</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[127]" type="logic">
+         <obj_property name="ElementShortName">[127]</obj_property>
+         <obj_property name="ObjectShortName">[127]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[126]" type="logic">
+         <obj_property name="ElementShortName">[126]</obj_property>
+         <obj_property name="ObjectShortName">[126]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[125]" type="logic">
+         <obj_property name="ElementShortName">[125]</obj_property>
+         <obj_property name="ObjectShortName">[125]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[124]" type="logic">
+         <obj_property name="ElementShortName">[124]</obj_property>
+         <obj_property name="ObjectShortName">[124]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[123]" type="logic">
+         <obj_property name="ElementShortName">[123]</obj_property>
+         <obj_property name="ObjectShortName">[123]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[122]" type="logic">
+         <obj_property name="ElementShortName">[122]</obj_property>
+         <obj_property name="ObjectShortName">[122]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[121]" type="logic">
+         <obj_property name="ElementShortName">[121]</obj_property>
+         <obj_property name="ObjectShortName">[121]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[120]" type="logic">
+         <obj_property name="ElementShortName">[120]</obj_property>
+         <obj_property name="ObjectShortName">[120]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[119]" type="logic">
+         <obj_property name="ElementShortName">[119]</obj_property>
+         <obj_property name="ObjectShortName">[119]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[118]" type="logic">
+         <obj_property name="ElementShortName">[118]</obj_property>
+         <obj_property name="ObjectShortName">[118]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[117]" type="logic">
+         <obj_property name="ElementShortName">[117]</obj_property>
+         <obj_property name="ObjectShortName">[117]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/tdata[116]" type="logic">
+         <obj_property name="ElementShortName">[116]</obj_property>
+         <obj_property name="ObjectShortName">[116]</obj_property>
+      </wvobject>
+   </wvobject>
    <wvobject fp_name="/MinimumTrigger_tb/tvalid" type="logic">
       <obj_property name="ElementShortName">tvalid</obj_property>
       <obj_property name="ObjectShortName">tvalid</obj_property>
@@ -72,6 +496,218 @@
    <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT" type="array">
       <obj_property name="ElementShortName">DUT_DOUT[63:0]</obj_property>
       <obj_property name="ObjectShortName">DUT_DOUT[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="vbus580" type="vbus">
+      <obj_property name="label">dout0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[11]" type="logic">
+         <obj_property name="ElementShortName">[11]</obj_property>
+         <obj_property name="ObjectShortName">[11]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[10]" type="logic">
+         <obj_property name="ElementShortName">[10]</obj_property>
+         <obj_property name="ObjectShortName">[10]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[9]" type="logic">
+         <obj_property name="ElementShortName">[9]</obj_property>
+         <obj_property name="ObjectShortName">[9]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[8]" type="logic">
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">[8]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[7]" type="logic">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[6]" type="logic">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[5]" type="logic">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[4]" type="logic">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[3]" type="logic">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[2]" type="logic">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[1]" type="logic">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[0]" type="logic">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus563" type="vbus">
+      <obj_property name="label">dout1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[27]" type="logic">
+         <obj_property name="ElementShortName">[27]</obj_property>
+         <obj_property name="ObjectShortName">[27]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[26]" type="logic">
+         <obj_property name="ElementShortName">[26]</obj_property>
+         <obj_property name="ObjectShortName">[26]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[25]" type="logic">
+         <obj_property name="ElementShortName">[25]</obj_property>
+         <obj_property name="ObjectShortName">[25]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[24]" type="logic">
+         <obj_property name="ElementShortName">[24]</obj_property>
+         <obj_property name="ObjectShortName">[24]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[23]" type="logic">
+         <obj_property name="ElementShortName">[23]</obj_property>
+         <obj_property name="ObjectShortName">[23]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[22]" type="logic">
+         <obj_property name="ElementShortName">[22]</obj_property>
+         <obj_property name="ObjectShortName">[22]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[21]" type="logic">
+         <obj_property name="ElementShortName">[21]</obj_property>
+         <obj_property name="ObjectShortName">[21]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[20]" type="logic">
+         <obj_property name="ElementShortName">[20]</obj_property>
+         <obj_property name="ObjectShortName">[20]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[19]" type="logic">
+         <obj_property name="ElementShortName">[19]</obj_property>
+         <obj_property name="ObjectShortName">[19]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[18]" type="logic">
+         <obj_property name="ElementShortName">[18]</obj_property>
+         <obj_property name="ObjectShortName">[18]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[17]" type="logic">
+         <obj_property name="ElementShortName">[17]</obj_property>
+         <obj_property name="ObjectShortName">[17]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[16]" type="logic">
+         <obj_property name="ElementShortName">[16]</obj_property>
+         <obj_property name="ObjectShortName">[16]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus546" type="vbus">
+      <obj_property name="label">dout2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[43]" type="logic">
+         <obj_property name="ElementShortName">[43]</obj_property>
+         <obj_property name="ObjectShortName">[43]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[42]" type="logic">
+         <obj_property name="ElementShortName">[42]</obj_property>
+         <obj_property name="ObjectShortName">[42]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[41]" type="logic">
+         <obj_property name="ElementShortName">[41]</obj_property>
+         <obj_property name="ObjectShortName">[41]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[40]" type="logic">
+         <obj_property name="ElementShortName">[40]</obj_property>
+         <obj_property name="ObjectShortName">[40]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[39]" type="logic">
+         <obj_property name="ElementShortName">[39]</obj_property>
+         <obj_property name="ObjectShortName">[39]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[38]" type="logic">
+         <obj_property name="ElementShortName">[38]</obj_property>
+         <obj_property name="ObjectShortName">[38]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[37]" type="logic">
+         <obj_property name="ElementShortName">[37]</obj_property>
+         <obj_property name="ObjectShortName">[37]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[36]" type="logic">
+         <obj_property name="ElementShortName">[36]</obj_property>
+         <obj_property name="ObjectShortName">[36]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[35]" type="logic">
+         <obj_property name="ElementShortName">[35]</obj_property>
+         <obj_property name="ObjectShortName">[35]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[34]" type="logic">
+         <obj_property name="ElementShortName">[34]</obj_property>
+         <obj_property name="ObjectShortName">[34]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[33]" type="logic">
+         <obj_property name="ElementShortName">[33]</obj_property>
+         <obj_property name="ObjectShortName">[33]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[32]" type="logic">
+         <obj_property name="ElementShortName">[32]</obj_property>
+         <obj_property name="ObjectShortName">[32]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="vbus529" type="vbus">
+      <obj_property name="label">dout3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[59]" type="logic">
+         <obj_property name="ElementShortName">[59]</obj_property>
+         <obj_property name="ObjectShortName">[59]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[58]" type="logic">
+         <obj_property name="ElementShortName">[58]</obj_property>
+         <obj_property name="ObjectShortName">[58]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[57]" type="logic">
+         <obj_property name="ElementShortName">[57]</obj_property>
+         <obj_property name="ObjectShortName">[57]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[56]" type="logic">
+         <obj_property name="ElementShortName">[56]</obj_property>
+         <obj_property name="ObjectShortName">[56]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[55]" type="logic">
+         <obj_property name="ElementShortName">[55]</obj_property>
+         <obj_property name="ObjectShortName">[55]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[54]" type="logic">
+         <obj_property name="ElementShortName">[54]</obj_property>
+         <obj_property name="ObjectShortName">[54]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[53]" type="logic">
+         <obj_property name="ElementShortName">[53]</obj_property>
+         <obj_property name="ObjectShortName">[53]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[52]" type="logic">
+         <obj_property name="ElementShortName">[52]</obj_property>
+         <obj_property name="ObjectShortName">[52]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[51]" type="logic">
+         <obj_property name="ElementShortName">[51]</obj_property>
+         <obj_property name="ObjectShortName">[51]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[50]" type="logic">
+         <obj_property name="ElementShortName">[50]</obj_property>
+         <obj_property name="ObjectShortName">[50]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[49]" type="logic">
+         <obj_property name="ElementShortName">[49]</obj_property>
+         <obj_property name="ObjectShortName">[49]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT_DOUT[48]" type="logic">
+         <obj_property name="ElementShortName">[48]</obj_property>
+         <obj_property name="ObjectShortName">[48]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="/MinimumTrigger_tb/DUT_S_AXIS_TREADY" type="logic">
       <obj_property name="ElementShortName">DUT_S_AXIS_TREADY</obj_property>
@@ -224,5 +860,604 @@
    <wvobject fp_name="/MinimumTrigger_tb/SND_HEIGHT" type="array">
       <obj_property name="ElementShortName">SND_HEIGHT[31:0]</obj_property>
       <obj_property name="ObjectShortName">SND_HEIGHT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WR_CLK" type="logic">
+      <obj_property name="ElementShortName">WR_CLK</obj_property>
+      <obj_property name="ObjectShortName">WR_CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/RD_CLK" type="logic">
+      <obj_property name="ElementShortName">RD_CLK</obj_property>
+      <obj_property name="ObjectShortName">RD_CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WR_RESETN" type="logic">
+      <obj_property name="ElementShortName">WR_RESETN</obj_property>
+      <obj_property name="ObjectShortName">WR_RESETN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/RD_RESETN" type="logic">
+      <obj_property name="ElementShortName">RD_RESETN</obj_property>
+      <obj_property name="ObjectShortName">RD_RESETN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/PRE_ACQUIASION_LEN" type="array">
+      <obj_property name="ElementShortName">PRE_ACQUIASION_LEN[3:0]</obj_property>
+      <obj_property name="ObjectShortName">PRE_ACQUIASION_LEN[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WRITTEN_DATA" type="array">
+      <obj_property name="ElementShortName">WRITTEN_DATA[127:0]</obj_property>
+      <obj_property name="ObjectShortName">WRITTEN_DATA[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/READ_DATA" type="array">
+      <obj_property name="ElementShortName">READ_DATA[63:0]</obj_property>
+      <obj_property name="ObjectShortName">READ_DATA[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_WE" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_WE</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_WE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_RE" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_RE</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_RE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_FULL" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_FULL</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_FULL</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_EMPTY" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_EMPTY</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_EMPTY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_WR_RST_BUSY" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_WR_RST_BUSY</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_WR_RST_BUSY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DATA_FIFO_RD_RST_BUSY" type="logic">
+      <obj_property name="ElementShortName">DATA_FIFO_RD_RST_BUSY</obj_property>
+      <obj_property name="ObjectShortName">DATA_FIFO_RD_RST_BUSY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WRITTEN_INFO" type="array">
+      <obj_property name="ElementShortName">WRITTEN_INFO[127:0]</obj_property>
+      <obj_property name="ObjectShortName">WRITTEN_INFO[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/READ_INFO" type="array">
+      <obj_property name="ElementShortName">READ_INFO[127:0]</obj_property>
+      <obj_property name="ObjectShortName">READ_INFO[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_WE" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_WE</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_WE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_RE" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_RE</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_RE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_FULL" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_FULL</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_FULL</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_EMPTY" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_EMPTY</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_EMPTY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_WR_RST_BUSY" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_WR_RST_BUSY</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_WR_RST_BUSY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_FIFO_RD_RST_BUSY" type="logic">
+      <obj_property name="ElementShortName">INFO_FIFO_RD_RST_BUSY</obj_property>
+      <obj_property name="ObjectShortName">INFO_FIFO_RD_RST_BUSY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/iREADY" type="logic">
+      <obj_property name="ElementShortName">iREADY</obj_property>
+      <obj_property name="ObjectShortName">iREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/iVALID" type="logic">
+      <obj_property name="ElementShortName">iVALID</obj_property>
+      <obj_property name="ObjectShortName">iVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DIN" type="array">
+      <obj_property name="ElementShortName">DIN[200:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN[200:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/oREADY" type="logic">
+      <obj_property name="ElementShortName">oREADY</obj_property>
+      <obj_property name="ObjectShortName">oREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/oVALID" type="logic">
+      <obj_property name="ElementShortName">oVALID</obj_property>
+      <obj_property name="ObjectShortName">oVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DOUT" type="array">
+      <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/extend_len" type="array">
+      <obj_property name="ElementShortName">extend_len[3:0]</obj_property>
+      <obj_property name="ObjectShortName">extend_len[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/extend_trigger" type="logic">
+      <obj_property name="ElementShortName">extend_trigger</obj_property>
+      <obj_property name="ObjectShortName">extend_trigger</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/extend_trigger_delay" type="logic">
+      <obj_property name="ElementShortName">extend_trigger_delay</obj_property>
+      <obj_property name="ObjectShortName">extend_trigger_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_extend_trigger_posedge" type="logic">
+      <obj_property name="ElementShortName">fast_extend_trigger_posedge</obj_property>
+      <obj_property name="ObjectShortName">fast_extend_trigger_posedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_extend_trigger_negedge" type="logic">
+      <obj_property name="ElementShortName">fast_extend_trigger_negedge</obj_property>
+      <obj_property name="ObjectShortName">fast_extend_trigger_negedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_extend_trigger_negedge_delay" type="logic">
+      <obj_property name="ElementShortName">fast_extend_trigger_negedge_delay</obj_property>
+      <obj_property name="ObjectShortName">fast_extend_trigger_negedge_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/frame_len_count" type="array">
+      <obj_property name="ElementShortName">frame_len_count[6:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_len_count[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/even_en" type="logic">
+      <obj_property name="ElementShortName">even_en</obj_property>
+      <obj_property name="ObjectShortName">even_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_wen" type="logic">
+      <obj_property name="ElementShortName">data_fifo_wen</obj_property>
+      <obj_property name="ObjectShortName">data_fifo_wen</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/din" type="array">
+      <obj_property name="ElementShortName">din[200:0]</obj_property>
+      <obj_property name="ObjectShortName">din[200:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/written_data" type="array">
+      <obj_property name="ElementShortName">written_data[127:0]</obj_property>
+      <obj_property name="ObjectShortName">written_data[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/write_ready" type="logic">
+      <obj_property name="ElementShortName">write_ready</obj_property>
+      <obj_property name="ObjectShortName">write_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_wen" type="logic">
+      <obj_property name="ElementShortName">info_fifo_wen</obj_property>
+      <obj_property name="ObjectShortName">info_fifo_wen</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_frameD" type="array">
+      <obj_property name="ElementShortName">data_frameD[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_frameD[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_frame" type="array">
+      <obj_property name="ElementShortName">data_frame[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_frame[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_frame_valid" type="logic">
+      <obj_property name="ElementShortName">data_frame_valid</obj_property>
+      <obj_property name="ObjectShortName">data_frame_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/frame_len" type="array">
+      <obj_property name="ElementShortName">frame_len[7:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_len[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/actual_frame_len" type="array">
+      <obj_property name="ElementShortName">actual_frame_len[7:0]</obj_property>
+      <obj_property name="ObjectShortName">actual_frame_len[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/frame_len_check_count" type="array">
+      <obj_property name="ElementShortName">frame_len_check_count[7:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_len_check_count[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/frame_len_init_val" type="array">
+      <obj_property name="ElementShortName">frame_len_init_val[7:0]</obj_property>
+      <obj_property name="ObjectShortName">frame_len_init_val[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_ren" type="logic">
+      <obj_property name="ElementShortName">data_fifo_ren</obj_property>
+      <obj_property name="ObjectShortName">data_fifo_ren</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_ren_delay" type="logic">
+      <obj_property name="ElementShortName">data_fifo_ren_delay</obj_property>
+      <obj_property name="ObjectShortName">data_fifo_ren_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_ren_2delay" type="logic">
+      <obj_property name="ElementShortName">data_fifo_ren_2delay</obj_property>
+      <obj_property name="ObjectShortName">data_fifo_ren_2delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_data_fifo_ren_posedge" type="logic">
+      <obj_property name="ElementShortName">fast_data_fifo_ren_posedge</obj_property>
+      <obj_property name="ObjectShortName">fast_data_fifo_ren_posedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_data_fifo_ren_delay_posedge" type="logic">
+      <obj_property name="ElementShortName">fast_data_fifo_ren_delay_posedge</obj_property>
+      <obj_property name="ObjectShortName">fast_data_fifo_ren_delay_posedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren" type="logic">
+      <obj_property name="ElementShortName">info_fifo_ren</obj_property>
+      <obj_property name="ObjectShortName">info_fifo_ren</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren_delay" type="logic">
+      <obj_property name="ElementShortName">info_fifo_ren_delay</obj_property>
+      <obj_property name="ObjectShortName">info_fifo_ren_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren_2delay" type="logic">
+      <obj_property name="ElementShortName">info_fifo_ren_2delay</obj_property>
+      <obj_property name="ObjectShortName">info_fifo_ren_2delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_empty_delay" type="logic">
+      <obj_property name="ElementShortName">info_fifo_empty_delay</obj_property>
+      <obj_property name="ObjectShortName">info_fifo_empty_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/read_ready" type="logic">
+      <obj_property name="ElementShortName">read_ready</obj_property>
+      <obj_property name="ObjectShortName">read_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_info_fifo_empty_negedge" type="logic">
+      <obj_property name="ElementShortName">fast_info_fifo_empty_negedge</obj_property>
+      <obj_property name="ObjectShortName">fast_info_fifo_empty_negedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_read_wait" type="logic">
+      <obj_property name="ElementShortName">data_fifo_read_wait</obj_property>
+      <obj_property name="ObjectShortName">data_fifo_read_wait</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/add_headerD" type="logic">
+      <obj_property name="ElementShortName">add_headerD</obj_property>
+      <obj_property name="ObjectShortName">add_headerD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/add_footerD" type="logic">
+      <obj_property name="ElementShortName">add_footerD</obj_property>
+      <obj_property name="ObjectShortName">add_footerD</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/dummy_header_footer" type="array">
+      <obj_property name="ElementShortName">dummy_header_footer[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dummy_header_footer[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/header_id" type="array">
+      <obj_property name="ElementShortName">header_id[7:0]</obj_property>
+      <obj_property name="ObjectShortName">header_id[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/footer_id" type="array">
+      <obj_property name="ElementShortName">footer_id[7:0]</obj_property>
+      <obj_property name="ObjectShortName">footer_id[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/ch_id" type="array">
+      <obj_property name="ElementShortName">ch_id[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ch_id[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/header" type="array">
+      <obj_property name="ElementShortName">header[63:0]</obj_property>
+      <obj_property name="ObjectShortName">header[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/footer" type="array">
+      <obj_property name="ElementShortName">footer[63:0]</obj_property>
+      <obj_property name="ObjectShortName">footer[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/written_header" type="array">
+      <obj_property name="ElementShortName">written_header[63:0]</obj_property>
+      <obj_property name="ObjectShortName">written_header[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/written_footer" type="array">
+      <obj_property name="ElementShortName">written_footer[63:0]</obj_property>
+      <obj_property name="ObjectShortName">written_footer[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/tmp_header" type="array">
+      <obj_property name="ElementShortName">tmp_header[63:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp_header[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/tmp_footer" type="array">
+      <obj_property name="ElementShortName">tmp_footer[63:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp_footer[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/ch_id_fst_time_stamp_set" type="array">
+      <obj_property name="ElementShortName">ch_id_fst_time_stamp_set[27:0]</obj_property>
+      <obj_property name="ObjectShortName">ch_id_fst_time_stamp_set[27:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/lat_time_stamp" type="array">
+      <obj_property name="ElementShortName">lat_time_stamp[23:0]</obj_property>
+      <obj_property name="ObjectShortName">lat_time_stamp[23:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/baseline_set" type="array">
+      <obj_property name="ElementShortName">baseline_set[15:0]</obj_property>
+      <obj_property name="ObjectShortName">baseline_set[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/threshold_set" type="array">
+      <obj_property name="ElementShortName">threshold_set[15:0]</obj_property>
+      <obj_property name="ObjectShortName">threshold_set[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/MAX_DELAY_CNT_WIDTH" type="array">
+      <obj_property name="ElementShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/MAX_FRAME_LENGTH" type="array">
+      <obj_property name="ElementShortName">MAX_FRAME_LENGTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX_FRAME_LENGTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/HEADER_FOOTER_WIDTH" type="array">
+      <obj_property name="ElementShortName">HEADER_FOOTER_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">HEADER_FOOTER_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/TIME_STAMP_WIDTH" type="array">
+      <obj_property name="ElementShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/FIRST_TIME_STAMP_WIDTH" type="array">
+      <obj_property name="ElementShortName">FIRST_TIME_STAMP_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FIRST_TIME_STAMP_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/ADC_RESOLUTION_WIDTH" type="array">
+      <obj_property name="ElementShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/CHANNEL_ID" type="array">
+      <obj_property name="ElementShortName">CHANNEL_ID[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CHANNEL_ID[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/TDATA_WIDTH" type="array">
+      <obj_property name="ElementShortName">TDATA_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TDATA_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DIN_WIDTH" type="array">
+      <obj_property name="ElementShortName">DIN_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/DOUT_WIDTH" type="array">
+      <obj_property name="ElementShortName">DOUT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/INFO_WIDTH" type="array">
+      <obj_property name="ElementShortName">INFO_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">INFO_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/LEN_DIFF" type="array">
+      <obj_property name="ElementShortName">LEN_DIFF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LEN_DIFF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/BIT_DIFF" type="array">
+      <obj_property name="ElementShortName">BIT_DIFF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BIT_DIFF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/ONE_FILL_WIDTH" type="array">
+      <obj_property name="ElementShortName">ONE_FILL_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ONE_FILL_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/HEAD_FOOT_ID_WIDTH" type="array">
+      <obj_property name="ElementShortName">HEAD_FOOT_ID_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">HEAD_FOOT_ID_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/LATER_TIME_STAMP_WIDTH" type="array">
+      <obj_property name="ElementShortName">LATER_TIME_STAMP_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LATER_TIME_STAMP_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/CHANNEL_ID_WIDTH" type="array">
+      <obj_property name="ElementShortName">CHANNEL_ID_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CHANNEL_ID_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/MAX_FRAME_LENGTH_ROUND_DOWN" type="array">
+      <obj_property name="ElementShortName">MAX_FRAME_LENGTH_ROUND_DOWN[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX_FRAME_LENGTH_ROUND_DOWN[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/ACTUAL_MAX_FRAME_LENGTH" type="array">
+      <obj_property name="ElementShortName">ACTUAL_MAX_FRAME_LENGTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ACTUAL_MAX_FRAME_LENGTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/FRAME_LEN_CNT_WIDTH" type="array">
+      <obj_property name="ElementShortName">FRAME_LEN_CNT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FRAME_LEN_CNT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/BIT_WIDTH_DIFF" type="array">
+      <obj_property name="ElementShortName">BIT_WIDTH_DIFF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BIT_WIDTH_DIFF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/HEADER_ZERO_PAD_WIDTH" type="array">
+      <obj_property name="ElementShortName">HEADER_ZERO_PAD_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">HEADER_ZERO_PAD_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/FOOTER_ZERO_PAD_WIDTH" type="array">
+      <obj_property name="ElementShortName">FOOTER_ZERO_PAD_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FOOTER_ZERO_PAD_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/CLK" type="logic">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/RESETN" type="logic">
+      <obj_property name="ElementShortName">RESETN</obj_property>
+      <obj_property name="ObjectShortName">RESETN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/iVALID" type="logic">
+      <obj_property name="ElementShortName">iVALID</obj_property>
+      <obj_property name="ObjectShortName">iVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/oREADY" type="logic">
+      <obj_property name="ElementShortName">oREADY</obj_property>
+      <obj_property name="ObjectShortName">oREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DIN" type="array">
+      <obj_property name="ElementShortName">DIN[127:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/oVALID" type="logic">
+      <obj_property name="ElementShortName">oVALID</obj_property>
+      <obj_property name="ObjectShortName">oVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DOUT" type="array">
+      <obj_property name="ElementShortName">DOUT[255:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/doutD" type="array">
+      <obj_property name="ElementShortName">doutD[257:0]</obj_property>
+      <obj_property name="ObjectShortName">doutD[257:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/dout" type="array">
+      <obj_property name="ElementShortName">dout[255:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/ovalid" type="logic">
+      <obj_property name="ElementShortName">ovalid</obj_property>
+      <obj_property name="ObjectShortName">ovalid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_count" type="logic">
+      <obj_property name="ElementShortName">data_count</obj_property>
+      <obj_property name="ObjectShortName">data_count</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_count_delay" type="logic">
+      <obj_property name="ElementShortName">data_count_delay</obj_property>
+      <obj_property name="ObjectShortName">data_count_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_en" type="logic">
+      <obj_property name="ElementShortName">data_en</obj_property>
+      <obj_property name="ObjectShortName">data_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DIN_WIDTH" type="array">
+      <obj_property name="ElementShortName">DIN_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DOUT_WIDTH" type="array">
+      <obj_property name="ElementShortName">DOUT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/CLK_DIFF" type="array">
+      <obj_property name="ElementShortName">CLK_DIFF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CLK_DIFF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/wr_clk" type="logic">
+      <obj_property name="ElementShortName">wr_clk</obj_property>
+      <obj_property name="ObjectShortName">wr_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/rd_clk" type="logic">
+      <obj_property name="ElementShortName">rd_clk</obj_property>
+      <obj_property name="ObjectShortName">rd_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/wr_en" type="logic">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/din" type="array">
+      <obj_property name="ElementShortName">din[255:0]</obj_property>
+      <obj_property name="ObjectShortName">din[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/rd_en" type="logic">
+      <obj_property name="ElementShortName">rd_en</obj_property>
+      <obj_property name="ObjectShortName">rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/dout" type="array">
+      <obj_property name="ElementShortName">dout[255:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/full" type="logic">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/AsyncDataFifo/empty" type="logic">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/CLK" type="logic">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/RESETN" type="logic">
+      <obj_property name="ElementShortName">RESETN</obj_property>
+      <obj_property name="ObjectShortName">RESETN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/iVALID" type="logic">
+      <obj_property name="ElementShortName">iVALID</obj_property>
+      <obj_property name="ObjectShortName">iVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/oREADY" type="logic">
+      <obj_property name="ElementShortName">oREADY</obj_property>
+      <obj_property name="ObjectShortName">oREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DIN" type="array">
+      <obj_property name="ElementShortName">DIN[127:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN[127:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/oVALID" type="logic">
+      <obj_property name="ElementShortName">oVALID</obj_property>
+      <obj_property name="ObjectShortName">oVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DOUT" type="array">
+      <obj_property name="ElementShortName">DOUT[255:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/doutD" type="array">
+      <obj_property name="ElementShortName">doutD[257:0]</obj_property>
+      <obj_property name="ObjectShortName">doutD[257:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/dout" type="array">
+      <obj_property name="ElementShortName">dout[255:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/ovalid" type="logic">
+      <obj_property name="ElementShortName">ovalid</obj_property>
+      <obj_property name="ObjectShortName">ovalid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_count" type="logic">
+      <obj_property name="ElementShortName">data_count</obj_property>
+      <obj_property name="ObjectShortName">data_count</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_count_delay" type="logic">
+      <obj_property name="ElementShortName">data_count_delay</obj_property>
+      <obj_property name="ObjectShortName">data_count_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/data_en" type="logic">
+      <obj_property name="ElementShortName">data_en</obj_property>
+      <obj_property name="ObjectShortName">data_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DIN_WIDTH" type="array">
+      <obj_property name="ElementShortName">DIN_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/DOUT_WIDTH" type="array">
+      <obj_property name="ElementShortName">DOUT_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataParallelizer/CLK_DIFF" type="array">
+      <obj_property name="ElementShortName">CLK_DIFF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CLK_DIFF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/srst" type="logic">
+      <obj_property name="ElementShortName">srst</obj_property>
+      <obj_property name="ObjectShortName">srst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/din" type="array">
+      <obj_property name="ElementShortName">din[255:0]</obj_property>
+      <obj_property name="ObjectShortName">din[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/wr_en" type="logic">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/rd_en" type="logic">
+      <obj_property name="ElementShortName">rd_en</obj_property>
+      <obj_property name="ObjectShortName">rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/dout" type="array">
+      <obj_property name="ElementShortName">dout[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/full" type="logic">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/empty" type="logic">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/wr_rst_busy" type="logic">
+      <obj_property name="ElementShortName">wr_rst_busy</obj_property>
+      <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFifo/rd_rst_busy" type="logic">
+      <obj_property name="ElementShortName">rd_rst_busy</obj_property>
+      <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
    </wvobject>
 </wave_config>
