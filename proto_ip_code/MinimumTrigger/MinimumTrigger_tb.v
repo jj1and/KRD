@@ -45,13 +45,14 @@ module MinimumTrigger_tb;
   parameter FST_WIDTH = 10;
   parameter SND_WIDTH = 20;
   parameter SIGNAL_INTERVAL = 100; 
-  parameter signed BL_MIN = 10 + ADC_MIN_VAL;
-  parameter signed BL_MAX = 12 + ADC_MIN_VAL;
-  parameter signed BL = 11 + ADC_MIN_VAL;
+  parameter signed BL_MIN = 2047 + ADC_MIN_VAL;
+  parameter signed BL_MAX = 2049 + ADC_MIN_VAL;
+  parameter signed BL = 2048 + ADC_MIN_VAL;
   parameter integer SAMPLE_PER_TDATA = TDATA_WIDTH/16;
-  parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
-  parameter signed FST_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*80/100 + BL;
-  parameter signed SND_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*10/100 + BL;  
+  // parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
+  parameter integer THRESHOLD_VAL = 1024;  
+  parameter signed FST_HEIGHT = (ADC_MAX_VAL-BL)*80/100;
+  parameter signed SND_HEIGHT = (ADC_MAX_VAL-BL)*10/100;  
   integer i;
   integer k;
   
@@ -63,8 +64,8 @@ module MinimumTrigger_tb;
 
   reg [MAX_DELAY_CNT_WIDTH-1:0] pre_acquiasion_len = PRE_ACQUI_LEN;
   reg [TIME_STAMP_WIDTH-1:0] current_time;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
-  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
+  reg  [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
+  reg  [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
   
   reg [TDATA_WIDTH-1:0] tdata = 0;
   reg tvalid = 1'b0;

@@ -92,7 +92,7 @@ output wire rd_rst_busy;
     .C_DATA_COUNT_WIDTH(10),
     .C_DEFAULT_VALUE("BlankString"),
     .C_DIN_WIDTH(256),
-    .C_DOUT_RST_VAL("0"),
+    .C_DOUT_RST_VAL("FFFFFFFFFFFFFFFF"),
     .C_DOUT_WIDTH(64),
     .C_ENABLE_RLOCS(0),
     .C_FAMILY("zynquplus"),

@@ -92,7 +92,7 @@ output wire empty;
     .C_DATA_COUNT_WIDTH(7),
     .C_DEFAULT_VALUE("BlankString"),
     .C_DIN_WIDTH(128),
-    .C_DOUT_RST_VAL("0"),
+    .C_DOUT_RST_VAL("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"),
     .C_DOUT_WIDTH(128),
     .C_ENABLE_RLOCS(0),
     .C_FAMILY("zynquplus"),
