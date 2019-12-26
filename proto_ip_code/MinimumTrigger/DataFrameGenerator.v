@@ -68,6 +68,16 @@ module DataFrameGenerator # (
   wire DataFifo_empty;
   wire DataFifo_wr_rst_busy;
   wire DataFifo_rd_rst_busy;
+  reg DataFifo_wr_rst_busy_WR_CLOCK_domainD;
+  reg DataFifo_wr_rst_busy_WR_CLOCK_domain;  
+
+  // 2FF Syncronizer for DataFifo_wr_rst_busy (RD_CLK domain -> WR_CLK domain)
+  always @(posedge WR_CLK ) begin
+    DataFifo_wr_rst_busy_WR_CLOCK_domainD <= #400 DataFifo_wr_rst_busy;
+  end
+  always @(posedge WR_CLK ) begin
+    DataFifo_wr_rst_busy_WR_CLOCK_domain <= #400 DataFifo_wr_rst_busy_WR_CLOCK_domainD; 
+  end  
   
   wire InfoParallelizer_oREADY;  
 
@@ -110,7 +120,7 @@ module DataFrameGenerator # (
   .DATA_FIFO_RE(DataFrameGen_DATA_FIFO_RE),
   .DATA_FIFO_FULL(AsyncDataFifo_full),
   .DATA_FIFO_EMPTY(DataFifo_empty),
-  .DATA_FIFO_WR_RST_BUSY(1'b0),
+  .DATA_FIFO_WR_RST_BUSY(DataFifo_wr_rst_busy_WR_CLOCK_domain),
   .DATA_FIFO_RD_RST_BUSY(DataFifo_rd_rst_busy),
 
   .WRITTEN_INFO(DataFrameGen_WRITTEN_INFO),

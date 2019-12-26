@@ -182,7 +182,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!write_ready) begin
+    if (!WR_RESETN) begin
       extend_trigger_delay <= #400 1'b0;
       fast_extend_trigger_negedge_delay <= #400 1'b0;
       din <= #400 {DIN_WIDTH{1'b1}};
@@ -240,19 +240,23 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!write_ready) begin
+    if (!WR_RESETN) begin
       info_fifo_wen <= #400 1'b0;
     end else begin
-      if (|{frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1, fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
-        info_fifo_wen <= #400 1'b1;
-      end else begin
+      if (INFO_FIFO_FULL) begin
         info_fifo_wen <= #400 1'b0;
+      end else begin
+        if (|{frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1, fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
+          info_fifo_wen <= #400 1'b1;
+        end else begin
+          info_fifo_wen <= #400 1'b0;
+        end        
       end
     end
   end
 
   always @(posedge WR_CLK ) begin
-    if (!write_ready) begin
+    if (!WR_RESETN) begin
       ch_id_fst_time_stamp_set <= #400 {CHANNEL_ID_WIDTH+FIRST_TIME_STAMP_WIDTH{1'b1}};
       lat_time_stamp <= #400 {LATER_TIME_STAMP_WIDTH{1'b1}};
       baseline_set <= #400 {{ONE_FILL_WIDTH{1'b1}}, {ADC_RESOLUTION_WIDTH{1'b1}}};
