@@ -36,7 +36,7 @@ module MinimumTrigger # (
 
   /* read out clock domain */ 
   input wire  RD_CLK,
-  input wire  RD_RESETN,
+  input wire  RD_RESET,
   
   /* S_AXIS_ACLK clock domain */
   // pre acquiasion length
@@ -66,6 +66,11 @@ module MinimumTrigger # (
   wire TriggerLogic_TRIGGERED;
   wire TriggerLogic_oVALID;
 
+  wire TriggerLogic_RESET = ~S_AXIS_ARESETN;
+  wire PreAcquiDelay_RESETN = S_AXIS_ARESETN;
+  wire FirstDataFrameGen_WR_RESET = ~S_AXIS_ARESETN;
+  wire FirstDataFrameGen_RD_RESET = RD_RESET;
+
   MMTrg # (
     .MAX_DELAY_CNT_WIDTH(MAX_DELAY_CNT_WIDTH),
     .POST_ACQUI_LEN(POST_ACQUI_LEN),
@@ -75,7 +80,7 @@ module MinimumTrigger # (
     .TDATA_WIDTH(TDATA_WIDTH)
   ) TriggerLogic (
     .CLK(S_AXIS_ACLK),
-    .RESETN(S_AXIS_ARESETN),
+    .RESET(TriggerLogic_RESET),
     .TDATA(S_AXIS_TDATA),
     .TVALID(S_AXIS_TVALID),
     .iREADY(FirstDataFrameGen_oREADY),
@@ -96,7 +101,7 @@ module MinimumTrigger # (
     .WIDTH(TriggerLogic_DOUT_WIDTH)
   ) PreAcquiDelay (
     .CLK(S_AXIS_ACLK),
-    .RESETN(S_AXIS_ARESETN),
+    .RESETN(PreAcquiDelay_RESETN),
     .DELAY(PRE_ACQUIASION_LEN),
     .iVALID(TriggerLogic_oVALID),
     .DIN(TriggerLogic_DOUT),
@@ -120,9 +125,9 @@ module MinimumTrigger # (
   .DOUT_WIDTH(DOUT_WIDTH)
   ) FirstDataFrameGen (
   .WR_CLK(S_AXIS_ACLK),
-  .WR_RESETN(S_AXIS_ARESETN),
+  .WR_RESET(FirstDataFrameGen_WR_RESET),
   .RD_CLK(RD_CLK),
-  .RD_RESETN(RD_RESETN),
+  .RD_RESET(FirstDataFrameGen_RD_RESET),
   .PRE_ACQUIASION_LEN(PRE_ACQUIASION_LEN), 
   /* handshake signals */
   // WR_CLK clock domain

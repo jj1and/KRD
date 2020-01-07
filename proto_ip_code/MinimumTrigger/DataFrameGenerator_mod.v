@@ -17,8 +17,8 @@ module DataFrameGenerator_mod # (
 )(
   input wire WR_CLK,
   input wire RD_CLK,
-  input wire WR_RESETN,
-  input wire RD_RESETN,
+  input wire WR_RESET,
+  input wire RD_RESET,
 
   input wire [MAX_DELAY_CNT_WIDTH-1:0] PRE_ACQUIASION_LEN, 
 
@@ -85,7 +85,7 @@ module DataFrameGenerator_mod # (
   
   reg [DIN_WIDTH-1:0] din;
   reg [TDATA_WIDTH-1:0] written_data;
-  wire write_ready = ~(|{~WR_RESETN, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY});
+  wire write_ready = ~(|{WR_RESET, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY});
   reg info_fifo_wen;
 
   reg [DOUT_WIDTH-1:0] data_frameD;
@@ -106,7 +106,7 @@ module DataFrameGenerator_mod # (
   reg info_fifo_ren_2delay;
   reg info_fifo_empty_delay;
   reg info_fifo_empty_2delay;
-  wire read_ready = ~(|{~RD_RESETN, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY});
+  wire read_ready = ~(|{RD_RESET, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY});
   wire fast_info_fifo_empty_negedge = (INFO_FIFO_EMPTY == 1'b0)&(info_fifo_empty_delay == 1'b1);
   wire data_fifo_read_wait = |{frame_len_check_count==frame_len, frame_len_check_count==frame_len+1};
   wire add_headerD = (frame_len_check_count==0);
@@ -152,7 +152,7 @@ module DataFrameGenerator_mod # (
     .MAX_EXTEND_LEN_WIDTH(MAX_DELAY_CNT_WIDTH)
   ) triggered_expansion (
     .CLK(WR_CLK),
-    .RESETN(WR_RESETN),
+    .RESETN(~WR_RESET),
     .EXTEND_LEN(extend_len),
     .SIG_IN(iVALID),
     .SIG_OUT(extend_trigger)
@@ -160,7 +160,7 @@ module DataFrameGenerator_mod # (
 
   // initializing registers
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       dummy_header_footer <= #400 {TDATA_WIDTH-HEADER_FOOTER_WIDTH{1'b1}};
       header_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
       footer_id <= #400 {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
@@ -174,7 +174,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       extend_len <= #400 PRE_ACQUIASION_LEN;
     end else begin
       extend_len <= #400 extend_len;
@@ -182,7 +182,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       extend_trigger_delay <= #400 1'b0;
       fast_extend_trigger_negedge_delay <= #400 1'b0;
       din <= #400 {DIN_WIDTH{1'b1}};
@@ -196,7 +196,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (~(&{WR_RESETN, extend_trigger|extend_trigger_delay})) begin
+    if (~(&{~WR_RESET, extend_trigger|extend_trigger_delay})) begin
       even_en <= #400 1'b1;
     end else begin
       if (frame_len_count==0) begin
@@ -224,7 +224,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (!write_ready) begin
       data_fifo_wen <= #400 1'b0;
     end else begin
       if (extend_trigger) begin
@@ -240,23 +240,23 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (!write_ready) begin
       info_fifo_wen <= #400 1'b0;
     end else begin
-      if (INFO_FIFO_FULL) begin
-        info_fifo_wen <= #400 1'b0;
+      if (extend_trigger&(frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1)) begin
+        info_fifo_wen <= #400 1'b1;
       end else begin
-        if (|{frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1, fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
+        if (|{fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
           info_fifo_wen <= #400 1'b1;
         end else begin
           info_fifo_wen <= #400 1'b0;
-        end        
-      end
+        end
+      end        
     end
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       ch_id_fst_time_stamp_set <= #400 {CHANNEL_ID_WIDTH+FIRST_TIME_STAMP_WIDTH{1'b1}};
       lat_time_stamp <= #400 {LATER_TIME_STAMP_WIDTH{1'b1}};
       baseline_set <= #400 {{ONE_FILL_WIDTH{1'b1}}, {ADC_RESOLUTION_WIDTH{1'b1}}};

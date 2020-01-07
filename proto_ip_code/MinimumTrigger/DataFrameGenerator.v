@@ -27,10 +27,10 @@ module DataFrameGenerator # (
 
 )(
   input wire WR_CLK,
-  input wire WR_RESETN,
+  input wire WR_RESET,
 
   input wire RD_CLK,
-  input wire RD_RESETN,
+  input wire RD_RESET,
 
   input wire [MAX_DELAY_CNT_WIDTH-1:0] PRE_ACQUIASION_LEN, 
 
@@ -108,9 +108,9 @@ module DataFrameGenerator # (
   .DOUT_WIDTH(DOUT_WIDTH)
   ) DataFrameGen (
   .WR_CLK(WR_CLK),
-  .WR_RESETN(WR_RESETN),
+  .WR_RESET(WR_RESET),
   .RD_CLK(RD_CLK),
-  .RD_RESETN(RD_RESETN),
+  .RD_RESET(RD_RESET),
 
   .PRE_ACQUIASION_LEN(PRE_ACQUIASION_LEN), 
 
@@ -152,7 +152,7 @@ module DataFrameGenerator # (
     .DIN_WIDTH(TDATA_WIDTH)
   ) DataParallelizer (
     .CLK(WR_CLK),
-    .RESETN(WR_RESETN),
+    .RESETN(~WR_RESET),
 
     .iVALID(DataFrameGen_DATA_FIFO_WE),
     .oREADY(DataParallelizer_oREADY),
@@ -176,7 +176,7 @@ module DataFrameGenerator # (
   reg AsyncDataFifo_not_empty_delay;
 
   always @(posedge RD_CLK ) begin
-    if (!RD_RESETN) begin
+    if (RD_RESET) begin
       AsyncDataFifo_not_empty_delay <= #400 1'b0;
     end else begin
       AsyncDataFifo_not_empty_delay <= #400 AsyncDataFifo_not_empty;
@@ -185,7 +185,7 @@ module DataFrameGenerator # (
 
   // Independent clock DRAM FIFO, read latency: 1 clock
   async_data_fifo AsyncDataFifo (
-    .rst(~WR_RESETN),        // input wire rst
+    .rst(WR_RESET),        // input wire rst
     .wr_clk(WR_CLK),  // input wire wr_clk
     .rd_clk(RD_CLK),  // input wire rd_clk
     .din(DataParallelizer_WordInversedDOUT),        // input wire [255 : 0] din
@@ -198,7 +198,7 @@ module DataFrameGenerator # (
   
   // Common clock Built-in-FIFO, read latency: 1 clock
   data_fifo DataFifo (
-    .srst(~RD_RESETN),                  // input wire srst
+    .srst(RD_RESET),                  // input wire srst
     // .wr_clk(WR_CLK),            // input wire wr_clk
     .clk(RD_CLK),            // input wire rd_clk
     .din(AsyncDataFifo_dout),                  // input wire [128 : 0] din
@@ -255,7 +255,7 @@ module DataFrameGenerator # (
 
   // Independent clock DRAM FIFO, read latency: 1 clock
   info_fifo InfoFifo (
-    .rst(~WR_RESETN),                  // input wire rst
+    .rst(WR_RESET),                  // input wire rst
     .wr_clk(WR_CLK),            // input wire wr_clk
     .rd_clk(RD_CLK),            // input wire rd_clk
     .din(DataFrameGen_WRITTEN_INFO),                  // input wire [127 : 0] din

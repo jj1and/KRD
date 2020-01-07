@@ -152,7 +152,7 @@ MinimumTrigger # (
   .S_AXIS_TREADY(DUT_S_AXIS_TREADY),
   /* read out clock domain */ 
   .RD_CLK(rd_clk),
-  .RD_RESETN(rd_resetn),
+  .RD_RESET(~rd_resetn),
   /* S_AXIS_ACLK clock domain */
   // pre acquiasion length
   .PRE_ACQUIASION_LEN(pre_acquiasion_len),
@@ -227,7 +227,7 @@ MinimumTrigger # (
     #400 
     resetn <= 1'b0;
     tvalid <= 1'b0;
-    repeat(RESET_TIME) @(posedge clk);
+    repeat(RESET_TIME*10) @(posedge clk);
     #400
     resetn <= 1'b1;
     repeat(5) @(posedge clk);
@@ -244,7 +244,7 @@ MinimumTrigger # (
     #400 
     rd_resetn <= 1'b0;
     later_module_ready <= 1'b0;
-    repeat(RESET_TIME/2) @(posedge rd_clk);
+    repeat(RESET_TIME) @(posedge rd_clk);
     #400
     rd_resetn <= 1'b1;
     repeat(2) @(posedge rd_clk);
