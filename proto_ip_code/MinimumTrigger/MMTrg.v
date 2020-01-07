@@ -170,7 +170,7 @@ module MMTrg # (
 
   // post count
   always @(posedge CLK) begin  
-    if (|{~all_ready_delay, post_count_done}) begin
+    if (|{!all_ready_delay, post_count_done}) begin
       post_count <= #400 POST_ACQUI_LEN;
     end else begin
       if (hit_flag_echo) begin
@@ -186,7 +186,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (~(&{all_ready_delay, ~RESET})) begin
+    if (~&{all_ready_delay, !RESET}) begin
       hit_flag <= #400 1'b0;
       hit_flag_delay <= #400 1'b0;
       hit_flag_echo_delay <= #400 1'b0;
@@ -200,7 +200,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (~(&{all_ready_delay, ~RESET})) begin
+    if (~&{all_ready_delay, !RESET}) begin
       triggered <= #400 1'b0;
     end else begin
       if (post_count_done) begin

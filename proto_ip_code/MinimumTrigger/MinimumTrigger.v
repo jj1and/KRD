@@ -66,9 +66,9 @@ module MinimumTrigger # (
   wire TriggerLogic_TRIGGERED;
   wire TriggerLogic_oVALID;
 
-  wire TriggerLogic_RESET = ~S_AXIS_ARESETN;
+  wire TriggerLogic_RESET = !S_AXIS_ARESETN;
   wire PreAcquiDelay_RESETN = S_AXIS_ARESETN;
-  wire FirstDataFrameGen_WR_RESET = ~S_AXIS_ARESETN;
+  wire FirstDataFrameGen_WR_RESET = !S_AXIS_ARESETN;
   wire FirstDataFrameGen_RD_RESET = RD_RESET;
 
   MMTrg # (

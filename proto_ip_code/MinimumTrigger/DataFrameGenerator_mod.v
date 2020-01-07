@@ -85,7 +85,7 @@ module DataFrameGenerator_mod # (
   
   reg [DIN_WIDTH-1:0] din;
   reg [TDATA_WIDTH-1:0] written_data;
-  wire write_ready = ~(|{WR_RESET, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY});
+  wire write_ready = ~|{WR_RESET, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY};
   reg info_fifo_wen;
 
   reg [DOUT_WIDTH-1:0] data_frameD;
@@ -106,7 +106,7 @@ module DataFrameGenerator_mod # (
   reg info_fifo_ren_2delay;
   reg info_fifo_empty_delay;
   reg info_fifo_empty_2delay;
-  wire read_ready = ~(|{RD_RESET, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY});
+  wire read_ready = ~|{RD_RESET, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY};
   wire fast_info_fifo_empty_negedge = (INFO_FIFO_EMPTY == 1'b0)&(info_fifo_empty_delay == 1'b1);
   wire data_fifo_read_wait = |{frame_len_check_count==frame_len, frame_len_check_count==frame_len+1};
   wire add_headerD = (frame_len_check_count==0);
@@ -143,7 +143,7 @@ module DataFrameGenerator_mod # (
   assign WRITTEN_DATA = written_data;
   assign WRITTEN_INFO = {written_footer, written_header};
 
-  assign DATA_FIFO_RE = data_fifo_ren&(~data_fifo_read_wait);
+  assign DATA_FIFO_RE = data_fifo_ren&(!data_fifo_read_wait);
   assign INFO_FIFO_RE = info_fifo_ren;
   assign DOUT = data_frame;
   assign oVALID = data_frame_valid;
@@ -152,7 +152,7 @@ module DataFrameGenerator_mod # (
     .MAX_EXTEND_LEN_WIDTH(MAX_DELAY_CNT_WIDTH)
   ) triggered_expansion (
     .CLK(WR_CLK),
-    .RESETN(~WR_RESET),
+    .RESETN(!WR_RESET),
     .EXTEND_LEN(extend_len),
     .SIG_IN(iVALID),
     .SIG_OUT(extend_trigger)
@@ -196,7 +196,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (~(&{~WR_RESET, extend_trigger|extend_trigger_delay})) begin
+    if (~&{!WR_RESET, extend_trigger|extend_trigger_delay}) begin
       even_en <= #400 1'b1;
     end else begin
       if (frame_len_count==0) begin
@@ -208,7 +208,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (|{~write_ready, ~(extend_trigger|extend_trigger_delay)}) begin
+    if (|{!write_ready, !(extend_trigger|extend_trigger_delay)}) begin
       frame_len_count <= #400 ACTUAL_MAX_FRAME_LENGTH;
     end else begin
       if (fast_extend_trigger_posedge) begin
@@ -318,7 +318,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       data_fifo_ren_delay <= #400 1'b0;
       data_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -328,7 +328,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       info_fifo_ren_delay <= #400 1'b0;
       info_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -338,7 +338,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       info_fifo_empty_delay <= #400 1'b1;
       info_fifo_empty_2delay <= #400 1'b1;
     end else begin
@@ -348,10 +348,10 @@ module DataFrameGenerator_mod # (
   end  
 
   always @(posedge RD_CLK) begin
-    if (|{~read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
+    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{fast_info_fifo_empty_negedge, iREADY, ~data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{fast_info_fifo_empty_negedge, iREADY, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
@@ -372,7 +372,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK) begin
-    if (|{~read_ready, DATA_FIFO_EMPTY}) begin
+    if (|{!read_ready, DATA_FIFO_EMPTY}) begin
       data_fifo_ren <= #400 1'b0;
     end else begin
       if (&{info_fifo_ren_2delay, frame_len_check_count==frame_len_init_val}) begin
@@ -432,7 +432,7 @@ module DataFrameGenerator_mod # (
       if (info_fifo_ren_2delay) begin
         data_frame_validD <= #400 1'b1;
       end else begin
-        if (&{add_footerD, ~data_fifo_ren}) begin
+        if (&{add_footerD, !data_fifo_ren}) begin
           data_frame_validD <= #400 1'b0;
         end else begin
           data_frame_validD <= #400 data_frame_validD;
