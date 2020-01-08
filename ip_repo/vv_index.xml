@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<Index Version="1" Minor="0">
+	<Repository value="c:/Users/MoGURA/KRD/ip_repo">
+	</Repository>
+	<IP>
+		<VLNV value="xilinx.com:jj1and:MinimumTrigger:1.22">
+		</VLNV>
+		<DisplayName value="MinimumTrigger_v1_2">
+		</DisplayName>
+		<Description value="MinimumTrigger_v1_2">
+		</Description>
+		<CoreRevision value="6">
+		</CoreRevision>
+		<ComponentPath value="MinimumTrigger/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<SubcoreVLNVs>
+			<SubcoreVLNV value="xilinx.com:ip:fifo_generator:13.2">
+			</SubcoreVLNV>
+		</SubcoreVLNVs>
+		<UpgradesFrom>
+			<Upgrade value="xilinx.com:user:MinimumTrigger:1.0">
+			</Upgrade>
+			<Upgrade value="xilinx.com:user:MinimumTrigger:1.21">
+			</Upgrade>
+		</UpgradesFrom>
+		<Interfaces>
+			<Interface value="AXI4-Stream">
+			</Interface>
+		</Interfaces>
+	</IP>
+	<IP>
+		<VLNV value="xilinx.com:user:MinimumTrigger_slow:1.0">
+		</VLNV>
+		<DisplayName value="MinimumTrigger_slow_v1_0">
+		</DisplayName>
+		<Description value="MinimumTrigger_slow_v1_0">
+		</Description>
+		<CoreRevision value="1">
+		</CoreRevision>
+		<ComponentPath value="MinimumTrigger_slow/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<SubcoreVLNVs>
+			<SubcoreVLNV value="xilinx.com:ip:fifo_generator:13.2">
+			</SubcoreVLNV>
+		</SubcoreVLNVs>
+		<UpgradesFrom>
+			<Upgrade value="xilinx.com:user:MinimumTrigger:1.0">
+			</Upgrade>
+		</UpgradesFrom>
+		<Interfaces>
+			<Interface value="AXI4-Stream">
+			</Interface>
+		</Interfaces>
+	</IP>
+	<IP>
+		<VLNV value="xilinx.com:user:TwoChMixer:1.0">
+		</VLNV>
+		<DisplayName value="TwoChMixer_v1_0">
+		</DisplayName>
+		<Description value="TwoChMixer_v1_0">
+		</Description>
+		<CoreRevision value="2">
+		</CoreRevision>
+		<ComponentPath value="TwoChMixer/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<SubcoreVLNVs>
+			<SubcoreVLNV value="xilinx.com:ip:fifo_generator:13.2">
+			</SubcoreVLNV>
+		</SubcoreVLNVs>
+	</IP>
+	<BUSDEF>
+		<VLNV value="xilinx.com:jj1and:easyhs:1.0">
+		</VLNV>
+		<Description value="very easy handshake protocol. oVALID should wait iREADY high. oREADY must NOT wait iVALID high.">
+		</Description>
+		<XMLFile value="easyhs.xml">
+		</XMLFile>
+	</BUSDEF>
+	<BUSABS>
+		<VLNV value="xilinx.com:jj1and:easyhs_rtl:1.0">
+		</VLNV>
+		<Description value="">
+		</Description>
+		<XMLFile value="easyhs_rtl.xml">
+		</XMLFile>
+	</BUSABS>
+</Index>
+
