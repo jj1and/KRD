@@ -183,7 +183,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>a5cde15f</spirit:value>
+            <spirit:value>d930ca23</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -202,7 +202,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>a5cde15f</spirit:value>
+            <spirit:value>d930ca23</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -575,15 +575,15 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/signal_expansioner.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/MinimumTrigger.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_b4c21daa</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/SignalExpansioner.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_b86750c1</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -639,14 +639,13 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/signal_expansioner.v</spirit:name>
+        <spirit:name>src/MinimumTrigger.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/MinimumTrigger.v</spirit:name>
+        <spirit:name>src/SignalExpansioner.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -792,12 +791,12 @@
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>6</xilinx:coreRevision>
+      <xilinx:coreRevision>7</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:MinimumTrigger:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>xilinx.com:user:MinimumTrigger:1.21</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-01-08T06:27:25Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-01-08T11:18:57Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@78a00b85_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@167228b3_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
@@ -892,12 +891,31 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4a6ea904_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@627c54a4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@5153e3a2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c64139d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4327784d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69d3aac_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e23468a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74ffbb9a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3db76da7_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dc7b019_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51cd1aa9_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c8a74ce_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@406a3e67_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5fd0203_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@271342eb_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@421067de_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78822b88_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14e1edb2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7dc23638_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@149b69f5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7716505e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e54321e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/MinimumTrigger</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3cc0ae1b"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="408eb0a1"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="87baff81"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="a9b40071"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4c49dfad"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="80a9cf98"/>

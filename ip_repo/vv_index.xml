@@ -9,7 +9,7 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_v1_2">
 		</Description>
-		<CoreRevision value="6">
+		<CoreRevision value="7">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger/component.xml">
 		</ComponentPath>

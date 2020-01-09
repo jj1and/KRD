@@ -18,7 +18,7 @@ module MMTrg # (
 )
 ( 
   input wire  CLK,
-  input wire  RESETN,
+  input wire  RESET,
 
   /* AXI-Stream Slave signals */
   input wire [TDATA_WIDTH-1 : 0] TDATA,
@@ -98,8 +98,8 @@ module MMTrg # (
   reg [TIME_STAMP_WIDTH-1:0] current_time_delay_delay;
 
   // threshold when hit
-  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val;
-  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   // baseline when hit
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline;
@@ -133,7 +133,7 @@ module MMTrg # (
   assign post_count_init = (post_count == POST_ACQUI_LEN);
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       pre_acquiasion_len <= #400 PRE_ACQUIASION_LEN;
       baseline <= #400 BASELINE;
       threshold_val <= #400 THRESHOLD_VAL;
@@ -145,7 +145,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       pre_count <= #400 0;
     end else begin
       if (pre_count_done) begin
@@ -161,7 +161,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       all_ready_delay <= #400 1'b0;
     end else begin
       all_ready_delay <= #400 all_ready;
@@ -170,7 +170,7 @@ module MMTrg # (
 
   // post count
   always @(posedge CLK) begin  
-    if (|{~all_ready_delay, post_count_done}) begin
+    if (|{!all_ready_delay, post_count_done}) begin
       post_count <= #400 POST_ACQUI_LEN;
     end else begin
       if (hit_flag_echo) begin
@@ -186,7 +186,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (~(&{all_ready_delay, RESETN})) begin
+    if (~&{all_ready_delay, !RESET}) begin
       hit_flag <= #400 1'b0;
       hit_flag_delay <= #400 1'b0;
       hit_flag_echo_delay <= #400 1'b0;
@@ -200,7 +200,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (~(&{all_ready_delay, RESETN})) begin
+    if (~&{all_ready_delay, !RESET}) begin
       triggered <= #400 1'b0;
     end else begin
       if (post_count_done) begin
@@ -216,7 +216,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK) begin
-    if (!RESETN) begin
+    if (RESET) begin
       time_stamp <= #400 0;
       baseline_when_hit <= #400 BASELINE;
       threshold_when_hit <= #400 THRESHOLD_VAL;      
@@ -234,7 +234,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       tvalid <= #400 1'b0;
       valid <= #400 1'b0;
       delayed_valid <= #400 1'b0;
@@ -246,7 +246,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       tdata <= #400 {TDATA_WIDTH{1'b1}};
       data <= #400 {TDATA_WIDTH{1'b1}};
       delayed_data <= #400 {TDATA_WIDTH{1'b1}};
@@ -264,7 +264,7 @@ module MMTrg # (
   end
 
   always @(posedge CLK ) begin
-    if ((!RESETN)|(!TVALID)) begin
+    if ((RESET)|(!TVALID)) begin
       compare_result <= #400 0;
     end else begin
       compare_result <= #400 compare_resultD;
@@ -276,7 +276,7 @@ module MMTrg # (
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
       assign tdata_word[i] = TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
       assign delta_val[i] = tdata_word[i] - baseline;
-      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{1'b0}}, tdata[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
+      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{tdata[16*(i+1)-1]}}, tdata[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
     end
   endgenerate
 
