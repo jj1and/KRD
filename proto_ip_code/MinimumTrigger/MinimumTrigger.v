@@ -67,7 +67,7 @@ module MinimumTrigger # (
   wire TriggerLogic_oVALID;
 
   wire TriggerLogic_RESET = !S_AXIS_ARESETN;
-  wire PreAcquiDelay_RESETN = S_AXIS_ARESETN;
+  wire PreAcquiDelay_RESET = !S_AXIS_ARESETN;
   wire FirstDataFrameGen_WR_RESET = !S_AXIS_ARESETN;
   wire FirstDataFrameGen_RD_RESET = RD_RESET;
 
@@ -101,7 +101,7 @@ module MinimumTrigger # (
     .WIDTH(TriggerLogic_DOUT_WIDTH)
   ) PreAcquiDelay (
     .CLK(S_AXIS_ACLK),
-    .RESETN(PreAcquiDelay_RESETN),
+    .RESET(PreAcquiDelay_RESET),
     .DELAY(PRE_ACQUIASION_LEN),
     .iVALID(TriggerLogic_oVALID),
     .DIN(TriggerLogic_DOUT),

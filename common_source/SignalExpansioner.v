@@ -1,10 +1,10 @@
 `timescale 1 ps / 1 ps
 
-module signal_expansioner # (
+module SignalExpansioner # (
   parameter integer MAX_EXTEND_LEN_WIDTH = 5
 )(
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
   input wire [MAX_EXTEND_LEN_WIDTH-1:0] EXTEND_LEN,
   input wire SIG_IN,
   output wire SIG_OUT
@@ -34,7 +34,7 @@ module signal_expansioner # (
   assign SIG_OUT = sig_out;
 
   always @(posedge CLK) begin
-    if (!RESETN) begin
+    if (RESET) begin
       extend_len <= #400 EXTEND_LEN;
     end else begin
       extend_len <= #400 extend_len;
@@ -42,7 +42,7 @@ module signal_expansioner # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       sig_in <= #400 1'b0;
     end else begin
       sig_in <= #400 SIG_IN;
@@ -50,7 +50,7 @@ module signal_expansioner # (
   end
 
   always @(posedge CLK) begin
-    if (!RESETN) begin
+    if (RESET) begin
       count <= #400 0;
     end else begin
       if (fast_sig_in_negedge) begin
@@ -66,7 +66,7 @@ module signal_expansioner # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       post_sig <= #400 1'b0;
     end else begin
       if (fast_sig_in_negedge) begin
@@ -82,7 +82,7 @@ module signal_expansioner # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       sig_out <= #400 1'b0;
     end else begin
       sig_out <= #400 sig_outD;

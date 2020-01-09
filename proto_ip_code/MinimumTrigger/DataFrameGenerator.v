@@ -152,7 +152,7 @@ module DataFrameGenerator # (
     .DIN_WIDTH(TDATA_WIDTH)
   ) DataParallelizer (
     .CLK(WR_CLK),
-    .RESETN(!WR_RESET),
+    .RESET(WR_RESET),
 
     .iVALID(DataFrameGen_DATA_FIFO_WE),
     .oREADY(DataParallelizer_oREADY),
@@ -185,7 +185,8 @@ module DataFrameGenerator # (
 
   // Independent clock DRAM FIFO, read latency: 1 clock
   async_data_fifo AsyncDataFifo (
-    .rst(WR_RESET),        // input wire rst
+    .wr_rst(WR_RESET),       // input wire rst
+    .rd_rst(RD_RESET),
     .wr_clk(WR_CLK),  // input wire wr_clk
     .rd_clk(RD_CLK),  // input wire rd_clk
     .din(DataParallelizer_WordInversedDOUT),        // input wire [255 : 0] din
@@ -255,7 +256,8 @@ module DataFrameGenerator # (
 
   // Independent clock DRAM FIFO, read latency: 1 clock
   info_fifo InfoFifo (
-    .rst(WR_RESET),                  // input wire rst
+    .wr_rst(WR_RESET),                  // input wire rst
+    .rd_rst(RD_RESET),
     .wr_clk(WR_CLK),            // input wire wr_clk
     .rd_clk(RD_CLK),            // input wire rd_clk
     .din(DataFrameGen_WRITTEN_INFO),                  // input wire [127 : 0] din
