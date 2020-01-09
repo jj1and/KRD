@@ -98,8 +98,8 @@ module MMTrg # (
   reg [TIME_STAMP_WIDTH-1:0] current_time_delay_delay;
 
   // threshold when hit
-  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val;
-  reg [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val;
+  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_when_hit;
 
   // baseline when hit
   reg signed [ADC_RESOLUTION_WIDTH-1:0] baseline;
@@ -276,7 +276,7 @@ module MMTrg # (
     for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+1 ) begin
       assign tdata_word[i] = TDATA[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH];
       assign delta_val[i] = tdata_word[i] - baseline;
-      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{1'b0}}, tdata[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
+      assign dataD[16*(i+1)-1 -:16] = {{16-ADC_RESOLUTION_WIDTH{tdata[16*(i+1)-1]}}, tdata[16*(i+1)-1 -:ADC_RESOLUTION_WIDTH]};
     end
   endgenerate
 
