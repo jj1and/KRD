@@ -20,7 +20,7 @@ module MinimumTrigger # (
   // TIME STAMP DATA WIDTH
   parameter integer TIME_STAMP_WIDTH = 48,
   // TIMESTAMP WIDTH which on header
-  parameter integer FIRST_TIME_STAMP_WIDTH = 24,
+  parameter integer FIRST_TIME_STAMP_WIDTH = 32,
 
   // RF Data Converter data stream bus width
   parameter integer TDATA_WIDTH	= 128,

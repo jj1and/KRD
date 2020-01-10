@@ -3,13 +3,13 @@
 	<Repository value="c:/Users/MoGURA/KRD/ip_repo">
 	</Repository>
 	<IP>
-		<VLNV value="xilinx.com:jj1and:MinimumTrigger:1.22">
+		<VLNV value="www.awa.tohoku.ac.jp:jj1and:MinimumTrigger:1.3">
 		</VLNV>
-		<DisplayName value="MinimumTrigger_v1_2">
+		<DisplayName value="MinimumTrigger_v1_3">
 		</DisplayName>
-		<Description value="MinimumTrigger_v1_2">
+		<Description value="MinimumTrigger_v1_3">
 		</Description>
-		<CoreRevision value="7">
+		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger/component.xml">
 		</ComponentPath>
@@ -32,11 +32,17 @@
 			</Upgrade>
 			<Upgrade value="xilinx.com:user:MinimumTrigger:1.21">
 			</Upgrade>
+			<Upgrade value="xilinx.com:jj1and:MinimumTrigger:1.22">
+			</Upgrade>
 		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
 		<Interfaces>
 			<Interface value="AXI4-Stream">
 			</Interface>
 		</Interfaces>
+		<VendorDisplayName value="Research Center for Neutrino Science">
+		</VendorDisplayName>
 	</IP>
 	<IP>
 		<VLNV value="xilinx.com:user:MinimumTrigger_slow:1.0">
