@@ -147,7 +147,7 @@ module TwoChMixer_tb;
   task ch0_gen_dframe;
   begin
       #400
-      ch0_din <= {8'hFF, 4'h0, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_din <= {16'hAAAA, 4'h0, current_time[31:0], {WIDTH-36{1'b0}}, {PRE_SIG+FST_WIDTH+SND_WIDTH+POST_SIG}};
       ch0_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch0_gen_noise;
@@ -156,7 +156,7 @@ module TwoChMixer_tb;
       ch0_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch0_din <= {4'hF, bl_min, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      ch0_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5555};
       repeat(1) @(posedge clk);
       #400
       ch0_we <= 1'b0;
@@ -248,7 +248,7 @@ module TwoChMixer_tb;
   task ch1_gen_dframe;
   begin
       #400
-      ch1_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_din <= {16'hAAAA, 4'h1, current_time[31:0], {WIDTH-36{1'b0}}, {PRE_SIG+FST_WIDTH+SND_WIDTH+POST_SIG}};
       ch1_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch1_gen_noise;
@@ -257,7 +257,7 @@ module TwoChMixer_tb;
       ch1_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch1_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      ch1_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5555};
       repeat(1) @(posedge clk);
       #400
       ch1_we <= 1'b0;
