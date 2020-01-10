@@ -30,7 +30,7 @@ module MinimumTrigger_tb;
   // TIME STAMP DATA WIDTH
   parameter integer TIME_STAMP_WIDTH = 48;
   // TIMESTAMP WIDTH which on header
-  parameter integer FIRST_TIME_STAMP_WIDTH = 24;
+  parameter integer FIRST_TIME_STAMP_WIDTH = 32;
   // RF Data Converter data stream bus width
   parameter integer TDATA_WIDTH	= 128;
   parameter integer DOUT_WIDTH = 64;
@@ -45,13 +45,14 @@ module MinimumTrigger_tb;
   parameter FST_WIDTH = 10;
   parameter SND_WIDTH = 20;
   parameter SIGNAL_INTERVAL = 100; 
-  parameter signed BL_MIN = 10 + ADC_MIN_VAL;
-  parameter signed BL_MAX = 12 + ADC_MIN_VAL;
-  parameter signed BL = 11 + ADC_MIN_VAL;
+  parameter signed BL_MIN = 2047 + ADC_MIN_VAL;
+  parameter signed BL_MAX = 2049 + ADC_MIN_VAL;
+  parameter signed BL = 2048 + ADC_MIN_VAL;
   parameter integer SAMPLE_PER_TDATA = TDATA_WIDTH/16;
-  parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
-  parameter signed FST_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*80/100 + BL;
-  parameter signed SND_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*10/100 + BL;  
+  // parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
+  parameter integer THRESHOLD_VAL = 1024;  
+  parameter signed FST_HEIGHT = (ADC_MAX_VAL-BL)*80/100;
+  parameter signed SND_HEIGHT = (ADC_MAX_VAL-BL)*10/100;  
   integer i;
   integer k;
   
@@ -63,8 +64,8 @@ module MinimumTrigger_tb;
 
   reg [MAX_DELAY_CNT_WIDTH-1:0] pre_acquiasion_len = PRE_ACQUI_LEN;
   reg [TIME_STAMP_WIDTH-1:0] current_time;
-  reg signed [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
-  reg signed [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
+  reg  [ADC_RESOLUTION_WIDTH-1:0] base_line = BL;
+  reg  [ADC_RESOLUTION_WIDTH+1-1:0] threshold_val = THRESHOLD_VAL;
   
   reg [TDATA_WIDTH-1:0] tdata = 0;
   reg tvalid = 1'b0;
@@ -151,7 +152,7 @@ MinimumTrigger # (
   .S_AXIS_TREADY(DUT_S_AXIS_TREADY),
   /* read out clock domain */ 
   .RD_CLK(rd_clk),
-  .RD_RESETN(rd_resetn),
+  .RD_RESET(~rd_resetn),
   /* S_AXIS_ACLK clock domain */
   // pre acquiasion length
   .PRE_ACQUIASION_LEN(pre_acquiasion_len),
@@ -226,7 +227,7 @@ MinimumTrigger # (
     #400 
     resetn <= 1'b0;
     tvalid <= 1'b0;
-    repeat(RESET_TIME) @(posedge clk);
+    repeat(RESET_TIME*10) @(posedge clk);
     #400
     resetn <= 1'b1;
     repeat(5) @(posedge clk);
@@ -243,7 +244,7 @@ MinimumTrigger # (
     #400 
     rd_resetn <= 1'b0;
     later_module_ready <= 1'b0;
-    repeat(RESET_TIME/2) @(posedge rd_clk);
+    repeat(RESET_TIME) @(posedge rd_clk);
     #400
     rd_resetn <= 1'b1;
     repeat(2) @(posedge rd_clk);

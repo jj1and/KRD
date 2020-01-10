@@ -6,7 +6,7 @@ module VariableShiftregDelay # (
 )
 (
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
   input wire [MAX_DELAY_CNT_WIDTH-1:0] DELAY,
 
   /* data and valid signals */
@@ -27,7 +27,7 @@ module VariableShiftregDelay # (
 
   localparam integer SHIFTREG_DEPTH = 2**MAX_DELAY_CNT_WIDTH-1;
 
-  wire delay_ready = &{RESETN, iVALID};
+  wire delay_ready = &{~RESET, iVALID};
 
   reg [SHIFTREG_DEPTH*WIDTH-1:0] shiftreg;
   wire [WIDTH-1:0] shiftreg_initval = {WIDTH{1'b1}};
@@ -42,7 +42,7 @@ module VariableShiftregDelay # (
   assign DOUT = shiftreg[(delay-1)*WIDTH +:WIDTH];
   
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       delay <= #400 DELAY;
     end else begin
       delay <= #400 delay;

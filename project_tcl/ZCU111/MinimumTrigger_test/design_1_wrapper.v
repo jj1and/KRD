@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-//Date        : Tue Dec 24 13:41:36 2019
+//Date        : Thu Dec 26 20:03:39 2019
 //Host        : Akabeko running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -16,6 +16,7 @@ module design_1_wrapper
     CH1_TRG_VALID,
     CLK_IN1_D_0_clk_n,
     CLK_IN1_D_0_clk_p,
+    EXT_RESET,
     LED_OUT_0,
     adc0_clk_clk_n,
     adc0_clk_clk_p,
@@ -32,6 +33,7 @@ module design_1_wrapper
   output CH1_TRG_VALID;
   input CLK_IN1_D_0_clk_n;
   input CLK_IN1_D_0_clk_p;
+  input EXT_RESET;
   output LED_OUT_0;
   input adc0_clk_clk_n;
   input adc0_clk_clk_p;
@@ -49,6 +51,7 @@ module design_1_wrapper
   wire CH1_TRG_VALID;
   wire CLK_IN1_D_0_clk_n;
   wire CLK_IN1_D_0_clk_p;
+  wire EXT_RESET;
   wire LED_OUT_0;
   wire adc0_clk_clk_n;
   wire adc0_clk_clk_p;
@@ -67,6 +70,7 @@ module design_1_wrapper
         .CH1_TRG_VALID(CH1_TRG_VALID),
         .CLK_IN1_D_0_clk_n(CLK_IN1_D_0_clk_n),
         .CLK_IN1_D_0_clk_p(CLK_IN1_D_0_clk_p),
+        .EXT_RESET(EXT_RESET),
         .LED_OUT_0(LED_OUT_0),
         .adc0_clk_clk_n(adc0_clk_clk_n),
         .adc0_clk_clk_p(adc0_clk_clk_p),

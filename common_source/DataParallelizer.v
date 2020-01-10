@@ -3,7 +3,7 @@ module DataParallelizer #(
   parameter integer DIN_WIDTH = 128
 )(
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
 
   input wire iVALID,
   output wire oREADY,
@@ -35,13 +35,13 @@ module DataParallelizer #(
 
   wire data_en = (data_count_delay==1'b1);
 
-  assign oREADY = RESETN;
+  assign oREADY = !RESET;
   assign oVALID = ovalid;
   assign DOUT = dout;
 
 
   always @(posedge CLK ) begin
-    if (~(&{RESETN, iVALID})) begin
+    if (~&{!RESET, iVALID}) begin
       data_count <= #400 1'b0;
     end else begin
       if (data_count==1'b1) begin
@@ -53,7 +53,7 @@ module DataParallelizer #(
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       data_count_delay <= #400 1'b0;
     end else begin
       data_count_delay <= #400 data_count;
@@ -61,7 +61,7 @@ module DataParallelizer #(
   end  
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       doutD <= #400 {DOUT_WIDTH{1'b1}};
     end else begin
       doutD[(DIN_WIDTH+1)*data_count +:DIN_WIDTH+1] <= #400 {iVALID, DIN};
@@ -72,7 +72,7 @@ module DataParallelizer #(
    
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ovalid <= #400 1'b0;
       dout <= #400 {DOUT_WIDTH{1'b1}};
     end else begin

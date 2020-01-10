@@ -5,7 +5,7 @@ module DataFrameGenerator_mod # (
   parameter integer MAX_FRAME_LENGTH = 200, 
   parameter integer HEADER_FOOTER_WIDTH = 64,
   parameter integer TIME_STAMP_WIDTH = 48,
-  parameter integer FIRST_TIME_STAMP_WIDTH = 24,
+  parameter integer FIRST_TIME_STAMP_WIDTH = 32,
   parameter integer ADC_RESOLUTION_WIDTH = 12,
   parameter integer CHANNEL_ID  = 0,
   parameter integer TDATA_WIDTH = 128,
@@ -17,8 +17,8 @@ module DataFrameGenerator_mod # (
 )(
   input wire WR_CLK,
   input wire RD_CLK,
-  input wire WR_RESETN,
-  input wire RD_RESETN,
+  input wire WR_RESET,
+  input wire RD_RESET,
 
   input wire [MAX_DELAY_CNT_WIDTH-1:0] PRE_ACQUIASION_LEN, 
 
@@ -63,7 +63,8 @@ module DataFrameGenerator_mod # (
   localparam integer LEN_DIFF = TDATA_WIDTH/DOUT_WIDTH;
   localparam integer BIT_DIFF = clogb2(LEN_DIFF-1);
   localparam integer ONE_FILL_WIDTH = 16 -ADC_RESOLUTION_WIDTH;
-  localparam integer HEAD_FOOT_ID_WIDTH = 8;
+  localparam integer HEAD_FOOT_ID_WIDTH = 16;
+  localparam integer ID_WIDTH_HEX = HEAD_FOOT_ID_WIDTH/4;
   localparam integer LATER_TIME_STAMP_WIDTH = TIME_STAMP_WIDTH-FIRST_TIME_STAMP_WIDTH;
   localparam integer CHANNEL_ID_WIDTH = 4;
   localparam integer MAX_FRAME_LENGTH_ROUND_DOWN = (MAX_FRAME_LENGTH/2);
@@ -85,7 +86,7 @@ module DataFrameGenerator_mod # (
   
   reg [DIN_WIDTH-1:0] din;
   reg [TDATA_WIDTH-1:0] written_data;
-  wire write_ready = ~(|{~WR_RESETN, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY});
+  wire write_ready = ~|{WR_RESET, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY};
   reg info_fifo_wen;
 
   reg [DOUT_WIDTH-1:0] data_frameD;
@@ -106,7 +107,7 @@ module DataFrameGenerator_mod # (
   reg info_fifo_ren_2delay;
   reg info_fifo_empty_delay;
   reg info_fifo_empty_2delay;
-  wire read_ready = ~(|{~RD_RESETN, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY});
+  wire read_ready = ~|{RD_RESET, DATA_FIFO_RD_RST_BUSY, INFO_FIFO_RD_RST_BUSY};
   wire fast_info_fifo_empty_negedge = (INFO_FIFO_EMPTY == 1'b0)&(info_fifo_empty_delay == 1'b1);
   wire data_fifo_read_wait = |{frame_len_check_count==frame_len, frame_len_check_count==frame_len+1};
   wire add_headerD = (frame_len_check_count==0);
@@ -143,16 +144,16 @@ module DataFrameGenerator_mod # (
   assign WRITTEN_DATA = written_data;
   assign WRITTEN_INFO = {written_footer, written_header};
 
-  assign DATA_FIFO_RE = data_fifo_ren&(~data_fifo_read_wait);
+  assign DATA_FIFO_RE = data_fifo_ren&(!data_fifo_read_wait);
   assign INFO_FIFO_RE = info_fifo_ren;
   assign DOUT = data_frame;
   assign oVALID = data_frame_valid;
 
-  signal_expansioner # (
+  SignalExpansioner # (
     .MAX_EXTEND_LEN_WIDTH(MAX_DELAY_CNT_WIDTH)
   ) triggered_expansion (
     .CLK(WR_CLK),
-    .RESETN(WR_RESETN),
+    .RESET(WR_RESET),
     .EXTEND_LEN(extend_len),
     .SIG_IN(iVALID),
     .SIG_OUT(extend_trigger)
@@ -160,21 +161,21 @@ module DataFrameGenerator_mod # (
 
   // initializing registers
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       dummy_header_footer <= #400 {TDATA_WIDTH-HEADER_FOOTER_WIDTH{1'b1}};
       header_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
-      footer_id <= #400 {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
+      footer_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
       ch_id <= #400 CHANNEL_ID;      
     end else begin
       dummy_header_footer <= #400 {TDATA_WIDTH-HEADER_FOOTER_WIDTH{1'b1}};
-      header_id <= #400 {HEAD_FOOT_ID_WIDTH{1'b1}};
-      footer_id <= #400 {{HEAD_FOOT_ID_WIDTH-4{1'b0}}, {4{1'b1}}};
+      header_id <= #400 {ID_WIDTH_HEX{4'hA}};
+      footer_id <= #400 {ID_WIDTH_HEX{4'h5}};
       ch_id <= #400 CHANNEL_ID;             
     end
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (WR_RESET) begin
       extend_len <= #400 PRE_ACQUIASION_LEN;
     end else begin
       extend_len <= #400 extend_len;
@@ -182,7 +183,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!write_ready) begin
+    if (WR_RESET) begin
       extend_trigger_delay <= #400 1'b0;
       fast_extend_trigger_negedge_delay <= #400 1'b0;
       din <= #400 {DIN_WIDTH{1'b1}};
@@ -196,7 +197,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (~(&{WR_RESETN, extend_trigger|extend_trigger_delay})) begin
+    if (~&{!WR_RESET, extend_trigger|extend_trigger_delay}) begin
       even_en <= #400 1'b1;
     end else begin
       if (frame_len_count==0) begin
@@ -208,7 +209,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (|{~write_ready, ~(extend_trigger|extend_trigger_delay)}) begin
+    if (|{!write_ready, !(extend_trigger|extend_trigger_delay)}) begin
       frame_len_count <= #400 ACTUAL_MAX_FRAME_LENGTH;
     end else begin
       if (fast_extend_trigger_posedge) begin
@@ -224,7 +225,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge WR_CLK ) begin
-    if (!WR_RESETN) begin
+    if (!write_ready) begin
       data_fifo_wen <= #400 1'b0;
     end else begin
       if (extend_trigger) begin
@@ -243,16 +244,20 @@ module DataFrameGenerator_mod # (
     if (!write_ready) begin
       info_fifo_wen <= #400 1'b0;
     end else begin
-      if (|{frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1, fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
+      if (extend_trigger&(frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1)) begin
         info_fifo_wen <= #400 1'b1;
       end else begin
-        info_fifo_wen <= #400 1'b0;
-      end
+        if (|{fast_extend_trigger_negedge&even_en, fast_extend_trigger_negedge_delay&even_en}) begin
+          info_fifo_wen <= #400 1'b1;
+        end else begin
+          info_fifo_wen <= #400 1'b0;
+        end
+      end        
     end
   end
 
   always @(posedge WR_CLK ) begin
-    if (!write_ready) begin
+    if (WR_RESET) begin
       ch_id_fst_time_stamp_set <= #400 {CHANNEL_ID_WIDTH+FIRST_TIME_STAMP_WIDTH{1'b1}};
       lat_time_stamp <= #400 {LATER_TIME_STAMP_WIDTH{1'b1}};
       baseline_set <= #400 {{ONE_FILL_WIDTH{1'b1}}, {ADC_RESOLUTION_WIDTH{1'b1}}};
@@ -260,8 +265,8 @@ module DataFrameGenerator_mod # (
     end else begin
       ch_id_fst_time_stamp_set <= #400 {ch_id, din[DIN_WIDTH-TDATA_WIDTH-LATER_TIME_STAMP_WIDTH-1 -:FIRST_TIME_STAMP_WIDTH]};
       lat_time_stamp <= #400 din[DIN_WIDTH-TDATA_WIDTH-1 -:LATER_TIME_STAMP_WIDTH];
-      baseline_set <= #400 {{ONE_FILL_WIDTH{1'b1}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1 -:ADC_RESOLUTION_WIDTH]};
-      threshold_set <= #400 {{ONE_FILL_WIDTH-1{1'b1}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1 -:ADC_RESOLUTION_WIDTH+1]};        
+      baseline_set <= #400 {{ONE_FILL_WIDTH{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1 -:ADC_RESOLUTION_WIDTH]};
+      threshold_set <= #400 {{ONE_FILL_WIDTH-1{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1 -:ADC_RESOLUTION_WIDTH+1]};        
     end
   end
 
@@ -314,7 +319,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       data_fifo_ren_delay <= #400 1'b0;
       data_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -324,7 +329,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       info_fifo_ren_delay <= #400 1'b0;
       info_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -334,7 +339,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
-    if (~read_ready) begin
+    if (!read_ready) begin
       info_fifo_empty_delay <= #400 1'b1;
       info_fifo_empty_2delay <= #400 1'b1;
     end else begin
@@ -344,10 +349,10 @@ module DataFrameGenerator_mod # (
   end  
 
   always @(posedge RD_CLK) begin
-    if (|{~read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
+    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{fast_info_fifo_empty_negedge, iREADY, ~data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{fast_info_fifo_empty_negedge, iREADY, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
@@ -368,7 +373,7 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK) begin
-    if (|{~read_ready, DATA_FIFO_EMPTY}) begin
+    if (|{!read_ready, DATA_FIFO_EMPTY}) begin
       data_fifo_ren <= #400 1'b0;
     end else begin
       if (&{info_fifo_ren_2delay, frame_len_check_count==frame_len_init_val}) begin
@@ -428,7 +433,7 @@ module DataFrameGenerator_mod # (
       if (info_fifo_ren_2delay) begin
         data_frame_validD <= #400 1'b1;
       end else begin
-        if (&{add_footerD, ~data_fifo_ren}) begin
+        if (&{add_footerD, !data_fifo_ren}) begin
           data_frame_validD <= #400 1'b0;
         end else begin
           data_frame_validD <= #400 data_frame_validD;

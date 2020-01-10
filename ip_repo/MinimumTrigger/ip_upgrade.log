@@ -1,0 +1,58 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Wed Dec 25 18:27:50 2019
+| Host         : Akabeko running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xczu28dr-ffvg1517-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'info_fifo'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of info_fifo (xilinx.com:ip:fifo_generator:13.2 (Rev. 4)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Wed Dec 25 18:27:43 2019
+| Host         : Akabeko running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xczu28dr-ffvg1517-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'data_fifo'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of data_fifo (xilinx.com:ip:fifo_generator:13.2 (Rev. 4)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Wed Dec 25 18:27:24 2019
+| Host         : Akabeko running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xczu28dr-ffvg1517-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'async_data_fifo'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of async_data_fifo (xilinx.com:ip:fifo_generator:13.2 (Rev. 4)) to Vivado generation flows.
+
