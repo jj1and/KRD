@@ -5,7 +5,7 @@ module DataFrameGenerator_mod # (
   parameter integer MAX_FRAME_LENGTH = 200, 
   parameter integer HEADER_FOOTER_WIDTH = 64,
   parameter integer TIME_STAMP_WIDTH = 48,
-  parameter integer FIRST_TIME_STAMP_WIDTH = 24,
+  parameter integer FIRST_TIME_STAMP_WIDTH = 32,
   parameter integer ADC_RESOLUTION_WIDTH = 12,
   parameter integer CHANNEL_ID  = 0,
   parameter integer TDATA_WIDTH = 128,
@@ -63,7 +63,7 @@ module DataFrameGenerator_mod # (
   localparam integer LEN_DIFF = TDATA_WIDTH/DOUT_WIDTH;
   localparam integer BIT_DIFF = clogb2(LEN_DIFF-1);
   localparam integer ONE_FILL_WIDTH = 16 -ADC_RESOLUTION_WIDTH;
-  localparam integer HEAD_FOOT_ID_WIDTH = 8;
+  localparam integer HEAD_FOOT_ID_WIDTH = 16;
   localparam integer ID_WIDTH_HEX = HEAD_FOOT_ID_WIDTH/4;
   localparam integer LATER_TIME_STAMP_WIDTH = TIME_STAMP_WIDTH-FIRST_TIME_STAMP_WIDTH;
   localparam integer CHANNEL_ID_WIDTH = 4;
@@ -265,8 +265,8 @@ module DataFrameGenerator_mod # (
     end else begin
       ch_id_fst_time_stamp_set <= #400 {ch_id, din[DIN_WIDTH-TDATA_WIDTH-LATER_TIME_STAMP_WIDTH-1 -:FIRST_TIME_STAMP_WIDTH]};
       lat_time_stamp <= #400 din[DIN_WIDTH-TDATA_WIDTH-1 -:LATER_TIME_STAMP_WIDTH];
-      baseline_set <= #400 {{ONE_FILL_WIDTH{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1 -:ADC_RESOLUTION_WIDTH]};
-      threshold_set <= #400 {{ONE_FILL_WIDTH-1{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1 -:ADC_RESOLUTION_WIDTH+1]};        
+      baseline_set <= #400 {{ONE_FILL_WIDTH{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-1 -:ADC_RESOLUTION_WIDTH]};
+      threshold_set <= #400 {{ONE_FILL_WIDTH-1{din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1]}}, din[DIN_WIDTH-TDATA_WIDTH-TIME_STAMP_WIDTH-ADC_RESOLUTION_WIDTH-1 -:ADC_RESOLUTION_WIDTH+1]};        
     end
   end
 

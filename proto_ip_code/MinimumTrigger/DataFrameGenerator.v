@@ -19,7 +19,7 @@ module DataFrameGenerator # (
   // TIME STAMP DATA WIDTH
   parameter integer TIME_STAMP_WIDTH = 48,
   // TIMESTAMP WIDTH which on header
-  parameter integer FIRST_TIME_STAMP_WIDTH = 24,
+  parameter integer FIRST_TIME_STAMP_WIDTH = 32,
   
   parameter integer TDATA_WIDTH = 128,
   parameter integer DIN_WIDTH = TDATA_WIDTH + TIME_STAMP_WIDTH + ADC_RESOLUTION_WIDTH*2 + 1,
