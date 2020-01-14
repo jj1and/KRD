@@ -1,62 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:abstractionDefinition xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
   <spirit:library>jj1and</spirit:library>
   <spirit:name>easyhs_rtl</spirit:name>
-  <spirit:version>1.0</spirit:version>
-  <spirit:busType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.0"/>
+  <spirit:version>1.1</spirit:version>
+  <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
   <spirit:ports>
     <spirit:port>
-      <spirit:logicalName>oVALID</spirit:logicalName>
-      <spirit:description>valid signal to Slave module. oVALID should wait iREADY high.</spirit:description>
-      <spirit:wire>
-        <spirit:onMaster>
-          <spirit:presence>required</spirit:presence>
-          <spirit:width>1</spirit:width>
-        </spirit:onMaster>
-        <spirit:onSlave>
-          <spirit:presence>illegal</spirit:presence>
-          <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
-        </spirit:onSlave>
-        <spirit:defaultValue>0</spirit:defaultValue>
-      </spirit:wire>
-    </spirit:port>
-    <spirit:port>
-      <spirit:logicalName>iREADY</spirit:logicalName>
-      <spirit:description>ready signal from Slvae module.</spirit:description>
-      <spirit:wire>
-        <spirit:onMaster>
-          <spirit:presence>required</spirit:presence>
-          <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
-        </spirit:onMaster>
-        <spirit:onSlave>
-          <spirit:presence>illegal</spirit:presence>
-          <spirit:width>1</spirit:width>
-        </spirit:onSlave>
-        <spirit:defaultValue>0</spirit:defaultValue>
-      </spirit:wire>
-    </spirit:port>
-    <spirit:port>
-      <spirit:logicalName>oREADY</spirit:logicalName>
-      <spirit:description>ready signal to Master module. oREADY must not wait iVALID.</spirit:description>
-      <spirit:wire>
-        <spirit:onMaster>
-          <spirit:presence>illegal</spirit:presence>
-          <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
-        </spirit:onMaster>
-        <spirit:onSlave>
-          <spirit:presence>required</spirit:presence>
-          <spirit:width>1</spirit:width>
-        </spirit:onSlave>
-        <spirit:defaultValue>0</spirit:defaultValue>
-      </spirit:wire>
-    </spirit:port>
-    <spirit:port>
-      <spirit:logicalName>DOUT</spirit:logicalName>
-      <spirit:description>data to Slave module.</spirit:description>
+      <spirit:logicalName>DATA</spirit:logicalName>
+      <spirit:description>data from master to slave</spirit:description>
       <spirit:wire>
         <spirit:qualifier>
           <spirit:isData>true</spirit:isData>
@@ -65,37 +17,34 @@
           <spirit:presence>required</spirit:presence>
         </spirit:onMaster>
         <spirit:onSlave>
-          <spirit:presence>illegal</spirit:presence>
+          <spirit:presence>required</spirit:presence>
           <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
     </spirit:port>
     <spirit:port>
-      <spirit:logicalName>iVALID</spirit:logicalName>
-      <spirit:description>valid signal from Master modul.</spirit:description>
+      <spirit:logicalName>READY</spirit:logicalName>
+      <spirit:description>ready signal from slave to master</spirit:description>
       <spirit:wire>
         <spirit:onMaster>
-          <spirit:presence>illegal</spirit:presence>
+          <spirit:presence>required</spirit:presence>
           <spirit:width>1</spirit:width>
+          <spirit:direction>in</spirit:direction>
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:presence>required</spirit:presence>
           <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
     </spirit:port>
     <spirit:port>
-      <spirit:logicalName>DIN</spirit:logicalName>
-      <spirit:description>data from Master module</spirit:description>
+      <spirit:logicalName>VALID</spirit:logicalName>
+      <spirit:description>valid signal from master to slave</spirit:description>
       <spirit:wire>
-        <spirit:qualifier>
-          <spirit:isData>true</spirit:isData>
-        </spirit:qualifier>
         <spirit:onMaster>
-          <spirit:presence>illegal</spirit:presence>
+          <spirit:presence>required</spirit:presence>
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:presence>required</spirit:presence>

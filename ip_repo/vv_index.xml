@@ -9,7 +9,7 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_v1_3">
 		</Description>
-		<CoreRevision value="1">
+		<CoreRevision value="2">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger/component.xml">
 		</ComponentPath>
@@ -85,7 +85,7 @@
 		</DisplayName>
 		<Description value="TwoChMixer_v1_1">
 		</Description>
-		<CoreRevision value="1">
+		<CoreRevision value="2">
 		</CoreRevision>
 		<ComponentPath value="TwoChMixer/component.xml">
 		</ComponentPath>
@@ -115,15 +115,15 @@
 		</VendorDisplayName>
 	</IP>
 	<BUSDEF>
-		<VLNV value="xilinx.com:jj1and:easyhs:1.0">
+		<VLNV value="www.awa.tohoku.ac.jp:jj1and:easyhs:1.1">
 		</VLNV>
-		<Description value="very easy handshake protocol. oVALID should wait iREADY high. oREADY must NOT wait iVALID high.">
+		<Description value="very easy handshake protocol. oVALID should wait  slave READY high. slave READY must NOT wait master VALID high.">
 		</Description>
 		<XMLFile value="easyhs.xml">
 		</XMLFile>
 	</BUSDEF>
 	<BUSABS>
-		<VLNV value="xilinx.com:jj1and:easyhs_rtl:1.0">
+		<VLNV value="www.awa.tohoku.ac.jp:jj1and:easyhs_rtl:1.1">
 		</VLNV>
 		<Description value="">
 		</Description>

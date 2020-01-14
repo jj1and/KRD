@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:busDefinition xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
   <spirit:library>jj1and</spirit:library>
   <spirit:name>easyhs</spirit:name>
-  <spirit:version>1.0</spirit:version>
+  <spirit:version>1.1</spirit:version>
   <spirit:directConnection>false</spirit:directConnection>
   <spirit:isAddressable>false</spirit:isAddressable>
   <spirit:maxMasters>1</spirit:maxMasters>
   <spirit:maxSlaves>1</spirit:maxSlaves>
-  <spirit:description>very easy handshake protocol. oVALID should wait iREADY high. oREADY must NOT wait iVALID high.</spirit:description>
+  <spirit:description>very easy handshake protocol. oVALID should wait  slave READY high. slave READY must NOT wait master VALID high.</spirit:description>
   <spirit:vendorExtensions>
     <xilinx:busDefinitionInfo>
       <xilinx:displayName>EASYHS</xilinx:displayName>

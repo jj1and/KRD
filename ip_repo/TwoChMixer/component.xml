@@ -7,13 +7,13 @@
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>CH0_S_EASYHS</spirit:name>
-      <spirit:busType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.0"/>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
       <spirit:slave/>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>oREADY</spirit:name>
+            <spirit:name>READY</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
             <spirit:name>CH0_oREADY</spirit:name>
@@ -21,18 +21,18 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>iVALID</spirit:name>
+            <spirit:name>DATA</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>CH0_iVALID</spirit:name>
+            <spirit:name>CH0_DIN</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>DIN</spirit:name>
+            <spirit:name>VALID</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>CH0_DIN</spirit:name>
+            <spirit:name>CH0_iVALID</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
@@ -86,54 +86,22 @@
       </spirit:parameters>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>M_EASYHS</spirit:name>
-      <spirit:busType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>oVALID</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>oVALID</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>iREADY</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>iREADY</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>DOUT</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>DOUT</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
       <spirit:name>CH1_S_EASYHS</spirit:name>
-      <spirit:busType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.0"/>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
       <spirit:slave/>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>iVALID</spirit:name>
+            <spirit:name>READY</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>CH1_iVALID</spirit:name>
+            <spirit:name>CH1_oREADY</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>DIN</spirit:name>
+            <spirit:name>DATA</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
             <spirit:name>CH1_DIN</spirit:name>
@@ -141,10 +109,42 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>oREADY</spirit:name>
+            <spirit:name>VALID</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>CH1_oREADY</spirit:name>
+            <spirit:name>CH1_iVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_EASYHS</spirit:name>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>READY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>iREADY</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>DOUT</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>VALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>oVALID</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
@@ -546,12 +546,12 @@
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
       <xilinx:vendorDisplayName>Research Center for Neutrino Science</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:TwoChMixer:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-01-14T05:10:10Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-01-14T06:47:36Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7004d0ed_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@a64ebdc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
@@ -622,11 +622,52 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@79ae322_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6f38b9bd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@344bce48_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33ffd0a3_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c8b24f4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20b7c395_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@137e7c6c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dfff626_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53211147_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e673ee2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@714a8d45_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d09544_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65dafc6f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@215c3416_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71d0d081_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60c1fb93_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@332221cd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@779c080d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f17ad04_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44bfc2d2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@257fe410_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33a17733_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4015bf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13107260_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20b0b0ab_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ca4ce83_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53c14b60_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51fdfdd6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4789173b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1206055a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@244a1f00_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39c553b6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15b59233_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a77b00_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cf2c81e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c15099c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53fe0e1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34f3a339_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@367c6796_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f6db156_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27ad9693_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@559c9692_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46a5847d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@674d05cf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="f4075c14"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="4c5c853e"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2a4301c6"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="19ea927c"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8534c40b"/>
