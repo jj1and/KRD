@@ -284,12 +284,16 @@ MinimumTrigger # (
       reset;
       gen_signal_set;
       gen_noise;
+      later_module_ready <= 1'b0;
       gen_signal_set;
+      later_module_ready <= 1'b1;
       gen_noise;
       repeat(100) @(posedge clk);
       gen_signal;
       gen_noise;
+      later_module_ready <= 1'b0;
       repeat(1000) @(posedge clk);
+      later_module_ready <= 1'b1;
       gen_signal;
       gen_noise;
       repeat(500) @(posedge clk);
