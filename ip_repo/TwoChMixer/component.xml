@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>xilinx.com</spirit:vendor>
-  <spirit:library>user</spirit:library>
+  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
+  <spirit:library>jj1and</spirit:library>
   <spirit:name>TwoChMixer</spirit:name>
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
@@ -38,7 +38,7 @@
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>RESETN</spirit:name>
+      <spirit:name>RESET</spirit:name>
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
       <spirit:slave/>
@@ -48,14 +48,14 @@
             <spirit:name>RST</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>RESETN</spirit:name>
+            <spirit:name>RESET</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>POLARITY</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.RESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.RESET.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_HIGH</spirit:value>
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
@@ -77,7 +77,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>ASSOCIATED_RESET</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_RESET">RESETN</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_RESET">RESET:RESET</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>ASSOCIATED_BUSIF</spirit:name>
@@ -167,7 +167,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>dbcbec5e</spirit:value>
+            <spirit:value>34d33ace</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -186,7 +186,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>dbcbec5e</spirit:value>
+            <spirit:value>34d33ace</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -201,7 +201,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>040f3528</spirit:value>
+            <spirit:value>346b79a2</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -215,7 +215,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>fe6e8055</spirit:value>
+            <spirit:value>710fcfe4</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -235,7 +235,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>RESETN</spirit:name>
+        <spirit:name>RESET</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -433,7 +433,7 @@
       <spirit:file>
         <spirit:name>src/TwoChMixer.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_81724095</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_6b3d5777</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -491,15 +491,15 @@
         <spirit:name>src/TwoChMixer_tb.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+        <spirit:userFileType>USED_IN_testbench</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/TwoChMixer_tb_behav.wcfg</spirit:name>
         <spirit:fileType>unknown</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_testbench</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -507,12 +507,12 @@
       <spirit:file>
         <spirit:name>xgui/TwoChMixer_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_fe6e8055</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_710fcfe4</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>TwoChMixer_v1_0</spirit:description>
+  <spirit:description>TwoChMixer_v1_1</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>DATA_WIDTH</spirit:name>
@@ -539,14 +539,18 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>TwoChMixer_v1_0</xilinx:displayName>
+      <xilinx:displayName>TwoChMixer_v1_1</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2019-12-24T11:55:38Z</xilinx:coreCreationDateTime>
+      <xilinx:vendorDisplayName>Research Center for Neutrino Science</xilinx:vendorDisplayName>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>xilinx.com:user:TwoChMixer:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2020-01-14T02:43:07Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7004d0ed_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@a64ebdc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
@@ -562,13 +566,36 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@5c8e8010_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@766e3e4c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@2f68cf4f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f377779_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4186e43c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2117d2bd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24e82b85_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b38becd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15d0914a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41b4150e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59b4f03_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@114bd2dd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40a4c499_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5eec9dbf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@99f3183_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77037e25_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6077d025_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76a9108e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b1a5c5e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22056caa_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f12ffda_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@448a4833_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10ba3784_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48f3ed27_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ec62fcc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10e33477_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="9cfdb709"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="acf6c1f2"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="d3a8330e"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="f4075c14"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0bfa52f2"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="d46af5c7"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8534c40b"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="897ed2b8"/>
     </xilinx:packagingInfo>

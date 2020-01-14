@@ -5,7 +5,7 @@ module TwoChMixer_mod # (
 
 )(
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
 
   // channel 0 interface
   input wire [DATA_WIDTH-1:0] CH0_DIN,
@@ -100,7 +100,7 @@ module TwoChMixer_mod # (
   assign  oVALID = sending;
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_head_foot_id_hist <= #400 3'b000;
     end else begin
       if (ch0_re) begin
@@ -120,7 +120,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_re <= #400 1'b0;
     end else begin
       if ((CH0_DIN_footer_foundD|ch0_footer_lostD)) begin
@@ -136,7 +136,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_din <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if (ch0_re) begin
@@ -152,7 +152,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_header_checked <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if ((ch0_re==1'b0)&ch0_header_checked_pauseD) begin
@@ -164,7 +164,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_footer_checked <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if ((ch0_re==1'b0)&ch0_footer_checked_pauseD) begin
@@ -180,7 +180,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_correct_data <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       ch0_correct_data <= #400 ch0_footer_checked;
@@ -188,7 +188,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch0_sending <= #400 1'b0;
     end else begin
       if (ch0_footer_checked_header_foundD) begin
@@ -205,7 +205,7 @@ module TwoChMixer_mod # (
 
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_head_foot_id_hist <= #400 3'b000;
     end else begin
       if (ch1_re) begin
@@ -225,7 +225,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_re <= #400 1'b0;
     end else begin
       if (CH1_DIN_footer_foundD|ch1_footer_lostD) begin
@@ -241,7 +241,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_din <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if (ch1_re) begin
@@ -257,7 +257,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_header_checked <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if ((ch1_re==1'b0)&ch1_header_checked_pauseD) begin
@@ -269,7 +269,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_footer_checked <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if ((ch1_re==1'b0)&ch1_footer_checked_pauseD) begin
@@ -285,7 +285,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_correct_data <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       ch1_correct_data <= #400 ch1_footer_checked;
@@ -293,7 +293,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       ch1_sending <= #400 1'b0;
     end else begin
       if (ch1_footer_checked_header_foundD) begin
@@ -309,7 +309,7 @@ module TwoChMixer_mod # (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       dout <= #400 {{HEADER_FOOTER_ID_WIDTH{1'b0}}, {DATA_WIDTH-HEADER_FOOTER_ID_WIDTH{1'b1}}};
     end else begin
       if (ch0_sending) begin
@@ -326,7 +326,7 @@ module TwoChMixer_mod # (
 
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       sending <= #400 1'b0;
     end else begin
       if (ch0_sending) begin

@@ -2,7 +2,7 @@
 
 module ReadRequester (
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
   input wire PROGRAMMABLE_FULL,
   input wire PROGRAMMABLE_EMPTY,
   output wire READ_REQUEST
@@ -20,7 +20,7 @@ module ReadRequester (
   assign READ_REQUEST = read_request;
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       prog_full_delay <= #400 1'b0;
       prog_empty_delay <= #400 1'b1;
     end else begin
@@ -30,7 +30,7 @@ module ReadRequester (
   end
 
   always @(posedge CLK ) begin
-    if (!RESETN) begin
+    if (RESET) begin
       read_request <= #400 1'b0;
     end else begin
       if (fast_prog_full_posedge) begin

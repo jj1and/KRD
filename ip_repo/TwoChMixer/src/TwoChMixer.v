@@ -5,7 +5,7 @@ module TwoChMixer # (
 
 )(
   input wire CLK,
-  input wire RESETN,
+  input wire RESET,
   
   // handshake signals
   input wire [DATA_WIDTH-1:0] CH0_DIN,
@@ -44,7 +44,7 @@ module TwoChMixer # (
 
   ch0_fifo Ch0Fifo (
     .clk(CLK),                  // input wire clk
-    .srst(~RESETN),                // input wire srst
+    .srst(RESET),                // input wire srst
     .din(CH0_DIN),                  // input wire [63 : 0] din
     .wr_en(CH0_iVALID),              // input wire wr_en
     .rd_en(DualChMixer_CH0_RE),              // input wire rd_en
@@ -59,7 +59,7 @@ module TwoChMixer # (
 
   ch1_fifo Ch1Fifo (
     .clk(CLK),                  // input wire clk
-    .srst(~RESETN),                // input wire srst
+    .srst(RESET),                // input wire srst
     .din(CH1_DIN),                  // input wire [63 : 0] din
     .wr_en(CH1_iVALID),              // input wire wr_en
     .rd_en(DualChMixer_CH1_RE),              // input wire rd_en
@@ -80,7 +80,7 @@ module TwoChMixer # (
 
   ReadRequester Ch0ReadRequester (
     .CLK(CLK),
-    .RESETN(RESETN),
+    .RESET(RESET),
     .PROGRAMMABLE_FULL(Ch0Fifo_prog_full),
     .PROGRAMMABLE_EMPTY(Ch0Fifo_prog_empty&Ch0Fifo_empty),
     .READ_REQUEST(Ch0ReadRequester_READ_REQUEST)
@@ -88,7 +88,7 @@ module TwoChMixer # (
 
   ReadRequester Ch1ReadRequester (
     .CLK(CLK),
-    .RESETN(RESETN),
+    .RESET(RESET),
     .PROGRAMMABLE_FULL(Ch1Fifo_prog_full),
     .PROGRAMMABLE_EMPTY(Ch1Fifo_prog_empty&Ch1Fifo_empty),
     .READ_REQUEST(Ch1ReadRequester_READ_REQUEST)
@@ -101,7 +101,7 @@ module TwoChMixer # (
     .DATA_WIDTH(DATA_WIDTH)
   ) DualChMixer (
     .CLK(CLK),
-    .RESETN(RESETN),
+    .RESET(RESET),
 
     // channel 0 interface
     .CH0_DIN(Ch0Fifo_dout),

@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="12706000001fs"></ZoomEndTime>
-      <Cursor1Time time="3730400000fs"></Cursor1Time>
+      <ZoomStartTime time="95380000fs"></ZoomStartTime>
+      <ZoomEndTime time="12455380001fs"></ZoomEndTime>
+      <Cursor1Time time="3135380000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="229"></NameColumnWidth>
-      <ValueColumnWidth column_width="140"></ValueColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="125" />
+   <WVObjectSize size="122" />
    <wvobject fp_name="/TwoChMixer_tb/i" type="array">
       <obj_property name="ElementShortName">i[31:0]</obj_property>
       <obj_property name="ObjectShortName">i[31:0]</obj_property>
@@ -1593,10 +1593,6 @@
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
    </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/RESETN" type="logic">
-      <obj_property name="ElementShortName">RESETN</obj_property>
-      <obj_property name="ObjectShortName">RESETN</obj_property>
-   </wvobject>
    <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN" type="array">
       <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
       <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
@@ -1777,10 +1773,6 @@
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
    </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/RESETN" type="logic">
-      <obj_property name="ElementShortName">RESETN</obj_property>
-      <obj_property name="ObjectShortName">RESETN</obj_property>
-   </wvobject>
    <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/PROGRAMMABLE_FULL" type="logic">
       <obj_property name="ElementShortName">PROGRAMMABLE_FULL</obj_property>
       <obj_property name="ObjectShortName">PROGRAMMABLE_FULL</obj_property>
@@ -1816,10 +1808,6 @@
    <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/CLK" type="logic">
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/RESETN" type="logic">
-      <obj_property name="ElementShortName">RESETN</obj_property>
-      <obj_property name="ObjectShortName">RESETN</obj_property>
    </wvobject>
    <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/PROGRAMMABLE_FULL" type="logic">
       <obj_property name="ElementShortName">PROGRAMMABLE_FULL</obj_property>

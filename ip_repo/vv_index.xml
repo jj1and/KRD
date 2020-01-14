@@ -51,8 +51,6 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_slow_v1_0">
 		</Description>
-		<ManuallyDisabled value="true">
-		</ManuallyDisabled>
 		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger_slow/component.xml">
@@ -81,13 +79,13 @@
 		</Interfaces>
 	</IP>
 	<IP>
-		<VLNV value="xilinx.com:user:TwoChMixer:1.0">
+		<VLNV value="www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.0">
 		</VLNV>
-		<DisplayName value="TwoChMixer_v1_0">
+		<DisplayName value="TwoChMixer_v1_1">
 		</DisplayName>
-		<Description value="TwoChMixer_v1_0">
+		<Description value="TwoChMixer_v1_1">
 		</Description>
-		<CoreRevision value="2">
+		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="TwoChMixer/component.xml">
 		</ComponentPath>
@@ -105,6 +103,14 @@
 			<SubcoreVLNV value="xilinx.com:ip:fifo_generator:13.2">
 			</SubcoreVLNV>
 		</SubcoreVLNVs>
+		<UpgradesFrom>
+			<Upgrade value="xilinx.com:user:TwoChMixer:1.0">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+		<VendorDisplayName value="Research Center for Neutrino Science">
+		</VendorDisplayName>
 	</IP>
 	<BUSDEF>
 		<VLNV value="xilinx.com:jj1and:easyhs:1.0">
