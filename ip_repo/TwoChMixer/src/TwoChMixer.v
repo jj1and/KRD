@@ -72,8 +72,8 @@ module TwoChMixer # (
     .rd_rst_busy(Ch1Fifo_rd_rst_busy)  // output wire rd_rst_busy
   );
 
-  assign CH0_oREADY = Ch0Fifo_prog_full|Ch0Fifo_full;
-  assign CH1_oREADY = Ch1Fifo_prog_full|Ch1Fifo_full;
+  assign CH0_oREADY = ~|{Ch0Fifo_prog_full, Ch0Fifo_full};
+  assign CH1_oREADY = ~|{Ch1Fifo_prog_full, Ch1Fifo_full};
 
   wire Ch0ReadRequester_READ_REQUEST;
   wire Ch1ReadRequester_READ_REQUEST;

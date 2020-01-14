@@ -79,7 +79,7 @@
 		</Interfaces>
 	</IP>
 	<IP>
-		<VLNV value="www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.0">
+		<VLNV value="www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.1">
 		</VLNV>
 		<DisplayName value="TwoChMixer_v1_1">
 		</DisplayName>
@@ -105,6 +105,8 @@
 		</SubcoreVLNVs>
 		<UpgradesFrom>
 			<Upgrade value="xilinx.com:user:TwoChMixer:1.0">
+			</Upgrade>
+			<Upgrade value="www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.0">
 			</Upgrade>
 		</UpgradesFrom>
 		<LockPrevVersions value="false">
