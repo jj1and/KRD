@@ -325,7 +325,7 @@ module TwoChMixer_tb;
 
   ) DUT (
     .CLK(clk),
-    .RESETN(resetn),
+    .RESET(~resetn),
   
     // handshake signals
     .CH0_DIN(ch0_din),
