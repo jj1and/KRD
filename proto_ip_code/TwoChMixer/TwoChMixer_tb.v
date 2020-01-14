@@ -29,12 +29,12 @@ module TwoChMixer_tb;
   parameter FST_WIDTH = 40;
   parameter SND_WIDTH = 80;
   parameter SIGNAL_INTERVAL = 100; 
-  parameter signed BL_MIN = 10 + ADC_MIN_VAL;
-  parameter signed BL_MAX = 12 + ADC_MIN_VAL;
-  parameter signed BL = 11 + ADC_MIN_VAL;
-  parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
-  parameter signed FST_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*80/100 + BL;
-  parameter signed SND_HEIGHT = (ADC_MAX_VAL-ADC_MIN_VAL)*10/100 + BL;
+  parameter signed BL = 0;  
+  parameter signed BL_MIN = BL-1;
+  parameter signed BL_MAX = BL+1;
+  parameter signed THRESHOLD_VAL = (ADC_MAX_VAL-BL)*THRESHOLD/100;
+  parameter signed FST_HEIGHT = (ADC_MAX_VAL-BL)*80/100 + BL;
+  parameter signed SND_HEIGHT = (ADC_MAX_VAL-BL)*10/100 + BL;
   parameter integer SAMPLE_PER_TDATA = WIDTH/16;
   integer i;
   integer k;
@@ -65,6 +65,7 @@ module TwoChMixer_tb;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] ch0_snd_height = SND_HEIGHT;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] ch1_fst_height = FST_HEIGHT-100;
   reg signed [ADC_RESOLUTION_WIDTH-1:0] ch1_snd_height = SND_HEIGHT-50;
+  reg [11:0] frame_len = PRE_SIG+FST_WIDTH+SND_WIDTH+POST_SIG;
 
   // ------ clock generation ------
   initial begin
@@ -110,10 +111,10 @@ module TwoChMixer_tb;
     begin
       #400
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_min};
+        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{bl_min[ADC_RESOLUTION_WIDTH-1]}}, bl_min};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_min};
+        ch0_din[16*i +:16] <= #400 {{16-ADC_RESOLUTION_WIDTH{bl_min[ADC_RESOLUTION_WIDTH-1]}}, bl_min};
       end
     end
   endtask
@@ -124,20 +125,20 @@ module TwoChMixer_tb;
       #400
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch0_fst_height[ADC_RESOLUTION_WIDTH-1]}}, ch0_fst_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_fst_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch0_fst_height[ADC_RESOLUTION_WIDTH-1]}}, ch0_fst_height};
       end
       repeat(FST_WIDTH) @(posedge clk);
         
       #400
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch0_snd_height[ADC_RESOLUTION_WIDTH-1]}}, ch0_snd_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch0_snd_height};
+        ch0_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch0_snd_height[ADC_RESOLUTION_WIDTH-1]}}, ch0_snd_height};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
@@ -147,7 +148,7 @@ module TwoChMixer_tb;
   task ch0_gen_dframe;
   begin
       #400
-      ch0_din <= {16'hAAAA, 4'h0, current_time[31:0], {WIDTH-36{1'b0}}, {PRE_SIG+FST_WIDTH+SND_WIDTH+POST_SIG}};
+      ch0_din <= {16'hAAAA, 4'h0, current_time[31:0], frame_len};
       ch0_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch0_gen_noise;
@@ -211,10 +212,10 @@ module TwoChMixer_tb;
     begin
       #400
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{bl_max[ADC_RESOLUTION_WIDTH-1]}}, bl_max};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, bl_max};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{bl_max[ADC_RESOLUTION_WIDTH-1]}}, bl_max};
       end
     end
   endtask
@@ -225,20 +226,20 @@ module TwoChMixer_tb;
       #400
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch1_fst_height[ADC_RESOLUTION_WIDTH-1]}}, ch1_fst_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_fst_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch1_fst_height[ADC_RESOLUTION_WIDTH-1]}}, ch1_fst_height};
       end
       repeat(FST_WIDTH) @(posedge clk);
         
       #400 
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch1_snd_height[ADC_RESOLUTION_WIDTH-1]}}, ch1_snd_height};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{1'b0}}, ch1_snd_height};
+        ch1_din[16*i +:16] <= {{16-ADC_RESOLUTION_WIDTH{ch1_snd_height[ADC_RESOLUTION_WIDTH-1]}}, ch1_snd_height};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
@@ -248,7 +249,7 @@ module TwoChMixer_tb;
   task ch1_gen_dframe;
   begin
       #400
-      ch1_din <= {16'hAAAA, 4'h1, current_time[31:0], {WIDTH-36{1'b0}}, {PRE_SIG+FST_WIDTH+SND_WIDTH+POST_SIG}};
+      ch1_din <= {16'hAAAA, 4'h1, current_time[31:0], frame_len};
       ch1_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch1_gen_noise;
