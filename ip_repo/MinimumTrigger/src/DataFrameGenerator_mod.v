@@ -93,6 +93,7 @@ module DataFrameGenerator_mod # (
   reg [DOUT_WIDTH-1:0] data_frame;
   reg data_frame_validD;
   reg data_frame_valid;
+  reg read_stop;
   reg [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len;
   wire [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] actual_frame_len = LEN_DIFF*(frame_len_count+1);
   reg [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len_check_count;
@@ -212,14 +213,14 @@ module DataFrameGenerator_mod # (
     if (|{!write_ready, !(extend_trigger|extend_trigger_delay)}) begin
       frame_len_count <= #400 ACTUAL_MAX_FRAME_LENGTH;
     end else begin
-      if (fast_extend_trigger_posedge) begin
-        frame_len_count <= #400 0;
-      end else begin
-      if (frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1) begin
-        frame_len_count <= #400 0;
-      end else begin
-        frame_len_count <= #400 frame_len_count + 1;
-      end      
+        if (fast_extend_trigger_posedge) begin
+          frame_len_count <= #400 0;
+        end else begin
+        if (frame_len_count==ACTUAL_MAX_FRAME_LENGTH-1) begin
+          frame_len_count <= #400 0;
+        end else begin
+          frame_len_count <= #400 frame_len_count + 1;
+        end      
       end
     end
   end
@@ -271,20 +272,20 @@ module DataFrameGenerator_mod # (
   end
 
   generate begin
-  if(HEADER_ZERO_PAD_WIDTH>0) begin
-      assign tmp_header = {header_id, ch_id_fst_time_stamp_set, {HEADER_ZERO_PAD_WIDTH{1'b0}}};
-  end else begin
-      assign tmp_header = {header_id, ch_id_fst_time_stamp_set}; 
-  end
+    if(HEADER_ZERO_PAD_WIDTH>0) begin
+        assign tmp_header = {header_id, ch_id_fst_time_stamp_set, {HEADER_ZERO_PAD_WIDTH{1'b0}}};
+    end else begin
+        assign tmp_header = {header_id, ch_id_fst_time_stamp_set}; 
+    end
   end
   endgenerate
 
   generate begin
-  if(FOOTER_ZERO_PAD_WIDTH>0) begin
-      assign tmp_footer = {baseline_set, threshold_set, {FOOTER_ZERO_PAD_WIDTH{1'b0}}, lat_time_stamp, footer_id};
-  end else begin
-      assign tmp_footer = {baseline_set, threshold_set, lat_time_stamp, footer_id};
-  end
+    if(FOOTER_ZERO_PAD_WIDTH>0) begin
+        assign tmp_footer = {baseline_set, threshold_set, {FOOTER_ZERO_PAD_WIDTH{1'b0}}, lat_time_stamp, footer_id};
+    end else begin
+        assign tmp_footer = {baseline_set, threshold_set, lat_time_stamp, footer_id};
+    end
   end
   endgenerate  
 
@@ -320,6 +321,18 @@ module DataFrameGenerator_mod # (
 
   always @(posedge RD_CLK ) begin
     if (!read_ready) begin
+      read_stop <= #400 1'b1;
+    end else begin
+      if (&{!data_frame_valid, !iREADY}) begin
+        read_stop <= #400 1'b1;
+      end else begin
+        read_stop <= #400 1'b0;
+      end
+    end
+  end
+
+  always @(posedge RD_CLK ) begin
+    if (!read_ready) begin
       data_fifo_ren_delay <= #400 1'b0;
       data_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -349,10 +362,10 @@ module DataFrameGenerator_mod # (
   end  
 
   always @(posedge RD_CLK) begin
-    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
+    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY, read_stop}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{fast_info_fifo_empty_negedge, iREADY, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
