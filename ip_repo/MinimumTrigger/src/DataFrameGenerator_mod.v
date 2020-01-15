@@ -95,6 +95,7 @@ module DataFrameGenerator_mod # (
   wire [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] actual_frame_len = LEN_DIFF*(frame_len_count+1);
   reg [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len_check_count;
   wire [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len_init_val = 2**(FRAME_LEN_CNT_WIDTH+BIT_DIFF+1)-1;
+  reg read_hist;
   reg data_fifo_ren;
   reg data_fifo_ren_delay;
   reg data_fifo_ren_2delay;
@@ -317,6 +318,22 @@ module DataFrameGenerator_mod # (
   end
 
   always @(posedge RD_CLK ) begin
+    if (RD_RESET) begin
+      read_hist <= #400 1'b1;
+    end else begin
+      if (info_fifo_ren) begin
+        read_hist <= #400 1'b1;
+      end else begin
+        if (fast_info_fifo_empty_negedge) begin
+          read_hist <= #400 1'b0;
+        end else begin
+          read_hist <= #400 read_hist;
+        end
+      end
+    end
+  end
+
+  always @(posedge RD_CLK ) begin
     if (!read_ready) begin
       data_fifo_ren_delay <= #400 1'b0;
       data_fifo_ren_2delay <= #400 1'b0;
@@ -350,7 +367,7 @@ module DataFrameGenerator_mod # (
     if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{(!read_hist)|fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
