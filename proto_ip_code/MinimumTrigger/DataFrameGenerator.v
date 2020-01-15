@@ -41,7 +41,7 @@ module DataFrameGenerator # (
   input wire [DIN_WIDTH-1:0] DIN,
 
   // RD_CLK clock domain
-  input wire iREADY,
+  // input wire iREADY,
   output wire oVALID,
   output wire [DOUT_WIDTH-1:0] DOUT
 
@@ -60,7 +60,7 @@ module DataFrameGenerator # (
   wire DataFrameGen_DATA_FIFO_WE;
   wire DataFrameGen_DATA_FIFO_RE;
 
-  wire AsyncDataFifo_full;
+  // wire AsyncDataFifo_full;
   wire AsyncDataFifo_empty; 
 
   wire [DOUT_WIDTH-1:0] DataFifo_dout;
@@ -69,7 +69,9 @@ module DataFrameGenerator # (
   wire DataFifo_wr_rst_busy;
   wire DataFifo_rd_rst_busy;
   reg DataFifo_wr_rst_busy_WR_CLOCK_domainD;
-  reg DataFifo_wr_rst_busy_WR_CLOCK_domain;  
+  reg DataFifo_wr_rst_busy_WR_CLOCK_domain;
+  reg DataFifo_full_WR_CLOCK_domainD;
+  reg DataFifo_full_WR_CLOCK_domain;
 
   // 2FF Syncronizer for DataFifo_wr_rst_busy (RD_CLK domain -> WR_CLK domain)
   always @(posedge WR_CLK ) begin
@@ -78,6 +80,14 @@ module DataFrameGenerator # (
   always @(posedge WR_CLK ) begin
     DataFifo_wr_rst_busy_WR_CLOCK_domain <= #400 DataFifo_wr_rst_busy_WR_CLOCK_domainD; 
   end  
+
+  // 2FF Syncronizer for DataFifo_wr_rst_busy (RD_CLK domain -> WR_CLK domain)
+  always @(posedge WR_CLK ) begin
+    DataFifo_full_WR_CLOCK_domainD <= #400 DataFifo_full;
+  end
+  always @(posedge WR_CLK ) begin
+    DataFifo_full_WR_CLOCK_domain <= #400 DataFifo_full_WR_CLOCK_domainD; 
+  end    
   
   wire InfoParallelizer_oREADY;  
 
@@ -118,7 +128,6 @@ module DataFrameGenerator # (
   .READ_DATA(DataFifo_dout),
   .DATA_FIFO_WE(DataFrameGen_DATA_FIFO_WE),
   .DATA_FIFO_RE(DataFrameGen_DATA_FIFO_RE),
-  .DATA_FIFO_FULL(AsyncDataFifo_full),
   .DATA_FIFO_EMPTY(DataFifo_empty),
   .DATA_FIFO_WR_RST_BUSY(DataFifo_wr_rst_busy_WR_CLOCK_domain),
   .DATA_FIFO_RD_RST_BUSY(DataFifo_rd_rst_busy),
@@ -127,7 +136,6 @@ module DataFrameGenerator # (
   .READ_INFO(InfoFifo_dout),
   .INFO_FIFO_WE(DataFrameGen_INFO_FIFO_WE),
   .INFO_FIFO_RE(DataFrameGen_INFO_FIFO_RE),
-  .INFO_FIFO_FULL(InfoFifo_full),
   .INFO_FIFO_EMPTY(InfoFifo_empty),
   .INFO_FIFO_WR_RST_BUSY(1'b0),
   .INFO_FIFO_RD_RST_BUSY(1'b0),
@@ -138,7 +146,7 @@ module DataFrameGenerator # (
   .iVALID(iVALID),
   .DIN(DIN),
   // RD_CLK clock domain
-  .iREADY(iREADY),
+  // .iREADY(iREADY),
   .oVALID(DataFrameGen_oVALID),
   .DOUT(DataFrameGen_DOUT)
 
@@ -191,9 +199,9 @@ module DataFrameGenerator # (
     .rd_clk(RD_CLK),  // input wire rd_clk
     .din(DataParallelizer_WordInversedDOUT),        // input wire [255 : 0] din
     .wr_en(DataParallelizer_oVALID),    // input wire wr_en
-    .rd_en(AsyncDataFifo_not_empty&(!DataFifo_wr_rst_busy)),    // input wire rd_en
+    .rd_en(&{AsyncDataFifo_not_empty, !DataFifo_wr_rst_busy}),    // input wire rd_en
     .dout(AsyncDataFifo_dout),      // output wire [255 : 0] dout
-    .full(AsyncDataFifo_full),      // output wire full
+    .full(),      // output wire full
     .empty(AsyncDataFifo_empty)    // output wire empty
 );
   
@@ -203,56 +211,15 @@ module DataFrameGenerator # (
     // .wr_clk(WR_CLK),            // input wire wr_clk
     .clk(RD_CLK),            // input wire rd_clk
     .din(AsyncDataFifo_dout),                  // input wire [128 : 0] din
-    .wr_en(AsyncDataFifo_not_empty_delay&(!DataFifo_wr_rst_busy)),              // input wire wr_en
+    .wr_en(&{AsyncDataFifo_not_empty_delay, !DataFifo_wr_rst_busy}),              // input wire wr_en
     .rd_en(DataFrameGen_DATA_FIFO_RE),              // input wire rd_en
     .dout(DataFifo_dout),                // output wire [63 : 0] dout
-    .full(DataFifo_full),                // output wire full
+    .prog_full(DataFifo_full),      // output wire prog_full  
+    .full(),                // output wire full
     .empty(DataFifo_empty),              // output wire empty
     .wr_rst_busy(DataFifo_wr_rst_busy),  // output wire wr_rst_busy
     .rd_rst_busy(DataFifo_rd_rst_busy)  // output wire rd_rst_busy
   );
-
-  // wire [INFO_WIDTH*2-1:0] InfoParallelizer_DOUT;
-  // wire InfoParallelizer_oVALID;
-
-//   DataParallelizer # (
-//     .DIN_WIDTH(TDATA_WIDTH)
-//   ) InfoParallelizer (
-//     .CLK(WR_CLK),
-//     .RESETN(WR_RESETN),
-
-//     .iVALID(DataFrameGen_INFO_FIFO_WE),
-//     .oREADY(InfoParallelizer_oREADY),
-//     .DIN(DataFrameGen_WRITTEN_INFO),
-
-//     .oVALID(InfoParallelizer_oVALID),
-//     .DOUT(InfoParallelizer_DOUT)
-//   );
-
-//   wire [INFO_WIDTH*2-1:0] AsyncInfoFifo_dout;
-//   wire AsyncInfoFifo_not_empty = ~AsyncInfoFifo_empty; 
-//   reg AsyncInfoFifo_not_empty_delay;
-
-//   always @(posedge RD_CLK ) begin
-//     if (!RD_RESETN) begin
-//       AsyncInfoFifo_not_empty_delay <= #400 1'b0;
-//     end else begin
-//       AsyncInfoFifo_not_empty_delay <= #400 AsyncInfoFifo_not_empty;
-//     end
-//   end
-
-//   // Independent clock DRAM FIFO, read latency: 1 clock
-// async_info_fifo AsyncInfoFifo (
-//   .srst(~RD_RESETN),        // input wire srst
-//   .wr_clk(WR_CLK),  // input wire wr_clk
-//   .rd_clk(RD_CLK),  // input wire rd_clk
-//   .din(InfoParallelizer_DOUT),        // input wire [255 : 0] din
-//   .wr_en(InfoParallelizer_oVALID),    // input wire wr_en
-//   .rd_en(AsyncInfoFifo_not_empty),    // input wire rd_en
-//   .dout(AsyncInfoFifo_dout),      // output wire [255 : 0] dout
-//   .full(AsyncInfoFifo_full),      // output wire full
-//   .empty(AsyncInfoFifo_empty)    // output wire empty
-// );
 
   // Independent clock DRAM FIFO, read latency: 1 clock
   info_fifo InfoFifo (
@@ -270,7 +237,7 @@ module DataFrameGenerator # (
 //    .rd_rst_busy(InfoFifo_rd_rst_busy)  // output wire rd_rst_busy
   );
 
-  assign oREADY = DataFrameGen_oREADY;
+  assign oREADY = &{DataFrameGen_oREADY, !DataFifo_full_WR_CLOCK_domain, !InfoFifo_full};
   assign oVALID = DataFrameGen_oVALID;
   assign DOUT = DataFrameGen_DOUT;
 

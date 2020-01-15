@@ -26,7 +26,6 @@ module DataFrameGenerator_mod # (
   input wire [DOUT_WIDTH-1:0] READ_DATA,
   output wire DATA_FIFO_WE,
   output wire DATA_FIFO_RE,
-  input wire DATA_FIFO_FULL,
   input wire DATA_FIFO_EMPTY,
   input wire DATA_FIFO_WR_RST_BUSY,
   input wire DATA_FIFO_RD_RST_BUSY,
@@ -35,13 +34,12 @@ module DataFrameGenerator_mod # (
   input wire [INFO_WIDTH-1:0] READ_INFO,
   output wire INFO_FIFO_WE,
   output wire INFO_FIFO_RE,
-  input wire INFO_FIFO_FULL,
   input wire INFO_FIFO_EMPTY,
   input wire INFO_FIFO_WR_RST_BUSY,
   input wire INFO_FIFO_RD_RST_BUSY,
 
   // handshake signals
-  input wire iREADY,
+  // input wire iREADY,
   input wire iVALID,
   input wire [DIN_WIDTH-1:0] DIN,
 
@@ -86,14 +84,13 @@ module DataFrameGenerator_mod # (
   
   reg [DIN_WIDTH-1:0] din;
   reg [TDATA_WIDTH-1:0] written_data;
-  wire write_ready = ~|{WR_RESET, DATA_FIFO_FULL, INFO_FIFO_FULL, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY};
+  wire write_ready = ~|{WR_RESET, DATA_FIFO_WR_RST_BUSY, INFO_FIFO_WR_RST_BUSY};
   reg info_fifo_wen;
 
   reg [DOUT_WIDTH-1:0] data_frameD;
   reg [DOUT_WIDTH-1:0] data_frame;
   reg data_frame_validD;
   reg data_frame_valid;
-  reg read_stop;
   reg [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len;
   wire [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] actual_frame_len = LEN_DIFF*(frame_len_count+1);
   reg [FRAME_LEN_CNT_WIDTH+BIT_DIFF:0] frame_len_check_count;
@@ -321,18 +318,6 @@ module DataFrameGenerator_mod # (
 
   always @(posedge RD_CLK ) begin
     if (!read_ready) begin
-      read_stop <= #400 1'b1;
-    end else begin
-      if (&{!data_frame_valid, !iREADY}) begin
-        read_stop <= #400 1'b1;
-      end else begin
-        read_stop <= #400 1'b0;
-      end
-    end
-  end
-
-  always @(posedge RD_CLK ) begin
-    if (!read_ready) begin
       data_fifo_ren_delay <= #400 1'b0;
       data_fifo_ren_2delay <= #400 1'b0;
     end else begin
@@ -362,7 +347,7 @@ module DataFrameGenerator_mod # (
   end  
 
   always @(posedge RD_CLK) begin
-    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY, read_stop}) begin
+    if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
       if ((&{fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
