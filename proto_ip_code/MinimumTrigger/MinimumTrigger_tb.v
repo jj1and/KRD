@@ -40,10 +40,10 @@ module MinimumTrigger_tb;
   parameter signed ADC_MIN_VAL = -2**(ADC_RESOLUTION_WIDTH-1);
   parameter integer CLK_PERIOD = 1E12/CLK_FREQ;
   parameter RESET_TIME = 10;
-  parameter PRE_SIG = 10;
-  parameter POST_SIG = 10;
-  parameter FST_WIDTH = 150;
-  parameter SND_WIDTH = 50;
+  parameter PRE_SIG = 30;
+  parameter POST_SIG = 31;
+  parameter FST_WIDTH = 50;
+  parameter SND_WIDTH = 38;
   parameter SIGNAL_INTERVAL = 100; 
   parameter signed BL_MIN = 2047 + ADC_MIN_VAL;
   parameter signed BL_MAX = 2049 + ADC_MIN_VAL;
@@ -338,35 +338,27 @@ MinimumTrigger # (
       gen_noise;
       gen_signal;
       gen_noise;
+      later_module_ready <= 1'b0;
       gen_signal;
       gen_noise;
       repeat(500) @(posedge clk);
-      gen_signal;
-      gen_signal2;
-      gen_signal2;
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal2;
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal2;
-      gen_signal2;
-      gen_signal2;      
-      later_module_ready <= 1'b0;
-      gen_signal;
-      gen_signal;
-
-      later_module_ready <= 1'b1;    
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal;
-      gen_signal;  
-      
+      later_module_ready <= 1'b1;
+      repeat(10) begin
+        gen_signal;
+        gen_signal2;
+      end
+      gen_noise;
+      wait ((DUT.FirstDataFrameGen.DataFrameGen.frame_len_check_count==DUT.FirstDataFrameGen.DataFrameGen.frame_len-2)&(DUT.FirstDataFrameGen.DataFrameGen.INFO_FIFO_EMPTY==1'b1)) begin
+        repeat(1) @(posedge rd_clk);
+        #400
+        force DUT.FirstDataFrameGen.InfoFifo.empty=1'b0;
+        repeat(1) @(posedge rd_clk);
+      end
+//      release DUT.FirstDataFrameGen.InfoFifo.empty;
+      repeat(10) begin
+        gen_signal;
+        gen_signal2;
+      end
       $finish;
 
   end
