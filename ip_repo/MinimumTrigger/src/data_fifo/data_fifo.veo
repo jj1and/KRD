@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2019 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2020 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -63,6 +63,7 @@ data_fifo your_instance_name (
   .dout(dout),                // output wire [63 : 0] dout
   .full(full),                // output wire full
   .empty(empty),              // output wire empty
+  .prog_full(prog_full),      // output wire prog_full
   .wr_rst_busy(wr_rst_busy),  // output wire wr_rst_busy
   .rd_rst_busy(rd_rst_busy)  // output wire rd_rst_busy
 );

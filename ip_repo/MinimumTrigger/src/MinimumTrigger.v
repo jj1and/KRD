@@ -71,6 +71,17 @@ module MinimumTrigger # (
   wire FirstDataFrameGen_WR_RESET = !S_AXIS_ARESETN;
   wire FirstDataFrameGen_RD_RESET = RD_RESET;
 
+  reg iREADY_WR_CLOCK_domainD;
+  reg iREADY_WR_CLOCK_domain;    
+
+  // 2FF Syncronizer for iREADY (RD_CLK domain -> WR_CLK domain)
+  always @(posedge S_AXIS_ACLK ) begin
+    iREADY_WR_CLOCK_domainD <= #400 iREADY;
+  end
+  always @(posedge S_AXIS_ACLK ) begin
+    iREADY_WR_CLOCK_domain <= #400 iREADY_WR_CLOCK_domainD; 
+  end    
+
   MMTrg # (
     .MAX_DELAY_CNT_WIDTH(MAX_DELAY_CNT_WIDTH),
     .POST_ACQUI_LEN(POST_ACQUI_LEN),
@@ -83,7 +94,7 @@ module MinimumTrigger # (
     .RESET(TriggerLogic_RESET),
     .TDATA(S_AXIS_TDATA),
     .TVALID(S_AXIS_TVALID),
-    .iREADY(FirstDataFrameGen_oREADY),
+    .iREADY(FirstDataFrameGen_oREADY&iREADY_WR_CLOCK_domain),
     .PRE_ACQUIASION_LEN(PRE_ACQUIASION_LEN),
     .THRESHOLD_VAL(THRESHOLD_VAL),
     .BASELINE(BASELINE),
@@ -135,13 +146,13 @@ module MinimumTrigger # (
   .iVALID(PreAcquiDelay_oVALID&TriggerLogic_TRIGGERED),
   .DIN(PreAcquiDelay_DOUT),
   // RD_CLK clock domain
-  .iREADY(iREADY),
+  // .iREADY(iREADY),
   .oVALID(FirstDataFrameGen_oVALIID),
   .DOUT(FirstDataFrameGen_DOUT)
 );
 
 assign oVALID = FirstDataFrameGen_oVALIID;
 assign DOUT = FirstDataFrameGen_DOUT;
-assign S_AXIS_TREADY = FirstDataFrameGen_oREADY;
+assign S_AXIS_TREADY = 1'b1;
 
 endmodule

@@ -1,4 +1,4 @@
--- (c) Copyright 1995-2019 Xilinx, Inc. All rights reserved.
+-- (c) Copyright 1995-2020 Xilinx, Inc. All rights reserved.
 -- 
 -- This file contains confidential and proprietary information
 -- of Xilinx, Inc. and is protected under U.S. and
@@ -62,6 +62,7 @@ COMPONENT data_fifo
     dout : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
     full : OUT STD_LOGIC;
     empty : OUT STD_LOGIC;
+    prog_full : OUT STD_LOGIC;
     wr_rst_busy : OUT STD_LOGIC;
     rd_rst_busy : OUT STD_LOGIC
   );
@@ -82,6 +83,7 @@ your_instance_name : data_fifo
     dout => dout,
     full => full,
     empty => empty,
+    prog_full => prog_full,
     wr_rst_busy => wr_rst_busy,
     rd_rst_busy => rd_rst_busy
   );

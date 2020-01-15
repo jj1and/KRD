@@ -42,8 +42,8 @@ module MinimumTrigger_tb;
   parameter RESET_TIME = 10;
   parameter PRE_SIG = 10;
   parameter POST_SIG = 10;
-  parameter FST_WIDTH = 10;
-  parameter SND_WIDTH = 20;
+  parameter FST_WIDTH = 150;
+  parameter SND_WIDTH = 50;
   parameter SIGNAL_INTERVAL = 100; 
   parameter signed BL_MIN = 2047 + ADC_MIN_VAL;
   parameter signed BL_MAX = 2049 + ADC_MIN_VAL;
@@ -208,6 +208,31 @@ MinimumTrigger # (
       repeat(SND_WIDTH) @(posedge clk);
     end
   endtask
+  
+    // ------- signal part generation task ------
+  task gen_signal2;
+    begin
+      #400 
+      // first peak
+      for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
+        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+      end
+      for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
+        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+      end
+      repeat(SND_WIDTH) @(posedge clk);
+      
+      #400 
+      // second peak
+      for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
+        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+      end
+      for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
+        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+      end
+      repeat(FST_WIDTH) @(posedge clk);
+    end
+  endtask
 
   // ------ data generation ------
   task gen_signal_set;
@@ -220,6 +245,18 @@ MinimumTrigger # (
       repeat(POST_SIG) @(posedge clk);
   end
   endtask
+  
+  // ------ data generation ------
+  task gen_signal_set2;
+  begin
+      gen_noise;
+      repeat(PRE_SIG) @(posedge clk);
+      gen_signal2;
+      gen_noise;
+      gen_signal2;
+      repeat(POST_SIG) @(posedge clk);
+  end
+  endtask  
 
   // ------ write reset task ------
   task wr_reset;
@@ -293,10 +330,43 @@ MinimumTrigger # (
       gen_noise;
       later_module_ready <= 1'b0;
       repeat(1000) @(posedge clk);
-      later_module_ready <= 1'b1;
       gen_signal;
       gen_noise;
       repeat(500) @(posedge clk);
+      later_module_ready <= 1'b1;
+      gen_signal;
+      gen_noise;
+      gen_signal;
+      gen_noise;
+      gen_signal;
+      gen_noise;
+      repeat(500) @(posedge clk);
+      gen_signal;
+      gen_signal2;
+      gen_signal2;
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal2;
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal2;
+      gen_signal2;
+      gen_signal2;      
+      later_module_ready <= 1'b0;
+      gen_signal;
+      gen_signal;
+
+      later_module_ready <= 1'b1;    
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal;
+      gen_signal;  
+      
       $finish;
 
   end
