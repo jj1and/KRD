@@ -9,7 +9,7 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_v1_3">
 		</Description>
-		<CoreRevision value="3">
+		<CoreRevision value="4">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger/component.xml">
 		</ComponentPath>
@@ -51,6 +51,8 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_slow_v1_0">
 		</Description>
+		<ManuallyDisabled value="true">
+		</ManuallyDisabled>
 		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger_slow/component.xml">

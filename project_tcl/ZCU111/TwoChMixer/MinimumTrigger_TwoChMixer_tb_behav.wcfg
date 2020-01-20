@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="MinimumTrigger_TwoChMixer_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="MinimumTrigger_TwoChMixer_tb" />
+            <top_module name="glbl" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="33323000001fs"></ZoomEndTime>
+      <Cursor1Time time="13274400000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="295"></NameColumnWidth>
+      <ValueColumnWidth column_width="151"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="9" />
+   <wvobject fp_name="group4524" type="group">
+      <obj_property name="label">tb_top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/rd_clk" type="logic">
+         <obj_property name="ElementShortName">rd_clk</obj_property>
+         <obj_property name="ObjectShortName">rd_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/rd_resetn" type="logic">
+         <obj_property name="ElementShortName">rd_resetn</obj_property>
+         <obj_property name="ObjectShortName">rd_resetn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/resetn" type="logic">
+         <obj_property name="ElementShortName">resetn</obj_property>
+         <obj_property name="ObjectShortName">resetn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/pre_acquiasion_len" type="array">
+         <obj_property name="ElementShortName">pre_acquiasion_len[4:0]</obj_property>
+         <obj_property name="ObjectShortName">pre_acquiasion_len[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/current_time" type="array">
+         <obj_property name="ElementShortName">current_time[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/base_line" type="array">
+         <obj_property name="ElementShortName">base_line[11:0]</obj_property>
+         <obj_property name="ObjectShortName">base_line[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/threshold_val" type="array">
+         <obj_property name="ElementShortName">threshold_val[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_val[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/tdata" type="array">
+         <obj_property name="ElementShortName">tdata[127:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/tvalid" type="logic">
+         <obj_property name="ElementShortName">tvalid</obj_property>
+         <obj_property name="ObjectShortName">tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrgCh0_DOUT" type="array">
+         <obj_property name="ElementShortName">MMTrgCh0_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">MMTrgCh0_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrgCh0_oVALID" type="logic">
+         <obj_property name="ElementShortName">MMTrgCh0_oVALID</obj_property>
+         <obj_property name="ObjectShortName">MMTrgCh0_oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrgCh1_DOUT" type="array">
+         <obj_property name="ElementShortName">MMTrgCh1_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">MMTrgCh1_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrgCh1_oVALID" type="logic">
+         <obj_property name="ElementShortName">MMTrgCh1_oVALID</obj_property>
+         <obj_property name="ObjectShortName">MMTrgCh1_oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT_CH0_oREADY" type="logic">
+         <obj_property name="ElementShortName">DUT_CH0_oREADY</obj_property>
+         <obj_property name="ObjectShortName">DUT_CH0_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT_CH1_oREADY" type="logic">
+         <obj_property name="ElementShortName">DUT_CH1_oREADY</obj_property>
+         <obj_property name="ObjectShortName">DUT_CH1_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT_DOUT" type="array">
+         <obj_property name="ElementShortName">DUT_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DUT_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT_oVALID" type="logic">
+         <obj_property name="ElementShortName">DUT_oVALID</obj_property>
+         <obj_property name="ObjectShortName">DUT_oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/later_module_ready" type="logic">
+         <obj_property name="ElementShortName">later_module_ready</obj_property>
+         <obj_property name="ObjectShortName">later_module_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/bl_min" type="array">
+         <obj_property name="ElementShortName">bl_min[11:0]</obj_property>
+         <obj_property name="ObjectShortName">bl_min[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/bl_max" type="array">
+         <obj_property name="ElementShortName">bl_max[11:0]</obj_property>
+         <obj_property name="ObjectShortName">bl_max[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/fst_height" type="array">
+         <obj_property name="ElementShortName">fst_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">fst_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/snd_height" type="array">
+         <obj_property name="ElementShortName">snd_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">snd_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/tdata_word" type="array">
+         <obj_property name="ElementShortName">tdata_word[7:0][11:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata_word[7:0][11:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4539" type="group">
+      <obj_property name="label">MMTrg_Ch0Fifo</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/S_AXIS_ACLK" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/S_AXIS_ARESETN" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/S_AXIS_TDATA" type="array">
+         <obj_property name="ElementShortName">S_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/S_AXIS_TVALID" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/S_AXIS_TREADY" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/RD_CLK" type="logic">
+         <obj_property name="ElementShortName">RD_CLK</obj_property>
+         <obj_property name="ObjectShortName">RD_CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/RD_RESET" type="logic">
+         <obj_property name="ElementShortName">RD_RESET</obj_property>
+         <obj_property name="ObjectShortName">RD_RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/PRE_ACQUIASION_LEN" type="array">
+         <obj_property name="ElementShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+         <obj_property name="ObjectShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/THRESHOLD_VAL" type="array">
+         <obj_property name="ElementShortName">THRESHOLD_VAL[12:0]</obj_property>
+         <obj_property name="ObjectShortName">THRESHOLD_VAL[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/BASELINE" type="array">
+         <obj_property name="ElementShortName">BASELINE[11:0]</obj_property>
+         <obj_property name="ObjectShortName">BASELINE[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/CURRENT_TIME" type="array">
+         <obj_property name="ElementShortName">CURRENT_TIME[47:0]</obj_property>
+         <obj_property name="ObjectShortName">CURRENT_TIME[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4602" type="group">
+      <obj_property name="label">MMTrg_Ch0Fifo_MMTrg</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/TDATA" type="array">
+         <obj_property name="ElementShortName">TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/TVALID" type="logic">
+         <obj_property name="ElementShortName">TVALID</obj_property>
+         <obj_property name="ObjectShortName">TVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/PRE_ACQUIASION_LEN" type="array">
+         <obj_property name="ElementShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+         <obj_property name="ObjectShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/THRESHOLD_VAL" type="array">
+         <obj_property name="ElementShortName">THRESHOLD_VAL[12:0]</obj_property>
+         <obj_property name="ObjectShortName">THRESHOLD_VAL[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/BASELINE" type="array">
+         <obj_property name="ElementShortName">BASELINE[11:0]</obj_property>
+         <obj_property name="ObjectShortName">BASELINE[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/CURRENT_TIME" type="array">
+         <obj_property name="ElementShortName">CURRENT_TIME[47:0]</obj_property>
+         <obj_property name="ObjectShortName">CURRENT_TIME[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/TRIGGERED" type="logic">
+         <obj_property name="ElementShortName">TRIGGERED</obj_property>
+         <obj_property name="ObjectShortName">TRIGGERED</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[200:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[200:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/all_ready" type="logic">
+         <obj_property name="ElementShortName">all_ready</obj_property>
+         <obj_property name="ObjectShortName">all_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/all_ready_delay" type="logic">
+         <obj_property name="ElementShortName">all_ready_delay</obj_property>
+         <obj_property name="ObjectShortName">all_ready_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/triggered" type="logic">
+         <obj_property name="ElementShortName">triggered</obj_property>
+         <obj_property name="ObjectShortName">triggered</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/triggered_delay" type="logic">
+         <obj_property name="ElementShortName">triggered_delay</obj_property>
+         <obj_property name="ObjectShortName">triggered_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/fast_triggered_posedge" type="logic">
+         <obj_property name="ElementShortName">fast_triggered_posedge</obj_property>
+         <obj_property name="ObjectShortName">fast_triggered_posedge</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/hit_flagD" type="logic">
+         <obj_property name="ElementShortName">hit_flagD</obj_property>
+         <obj_property name="ObjectShortName">hit_flagD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/hit_flag" type="logic">
+         <obj_property name="ElementShortName">hit_flag</obj_property>
+         <obj_property name="ObjectShortName">hit_flag</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/hit_flag_delay" type="logic">
+         <obj_property name="ElementShortName">hit_flag_delay</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/hit_flag_echo" type="logic">
+         <obj_property name="ElementShortName">hit_flag_echo</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_echo</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/hit_flag_echo_delay" type="logic">
+         <obj_property name="ElementShortName">hit_flag_echo_delay</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_echo_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/fast_hit_flag_echo_negedge" type="logic">
+         <obj_property name="ElementShortName">fast_hit_flag_echo_negedge</obj_property>
+         <obj_property name="ObjectShortName">fast_hit_flag_echo_negedge</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/tdata_word" type="array">
+         <obj_property name="ElementShortName">tdata_word[7:0][11:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata_word[7:0][11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/pre_acquiasion_len" type="array">
+         <obj_property name="ElementShortName">pre_acquiasion_len[4:0]</obj_property>
+         <obj_property name="ObjectShortName">pre_acquiasion_len[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/pre_count" type="array">
+         <obj_property name="ElementShortName">pre_count[4:0]</obj_property>
+         <obj_property name="ObjectShortName">pre_count[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/pre_count_done" type="logic">
+         <obj_property name="ElementShortName">pre_count_done</obj_property>
+         <obj_property name="ObjectShortName">pre_count_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/post_count" type="array">
+         <obj_property name="ElementShortName">post_count[6:0]</obj_property>
+         <obj_property name="ObjectShortName">post_count[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/post_count_done" type="logic">
+         <obj_property name="ElementShortName">post_count_done</obj_property>
+         <obj_property name="ObjectShortName">post_count_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/post_count_init" type="logic">
+         <obj_property name="ElementShortName">post_count_init</obj_property>
+         <obj_property name="ObjectShortName">post_count_init</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/compare_resultD" type="array">
+         <obj_property name="ElementShortName">compare_resultD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_resultD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/compare_result" type="array">
+         <obj_property name="ElementShortName">compare_result[7:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_result[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/compare_result_set" type="array">
+         <obj_property name="ElementShortName">compare_result_set[0:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_result_set[0:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/time_stamp" type="array">
+         <obj_property name="ElementShortName">time_stamp[47:0]</obj_property>
+         <obj_property name="ObjectShortName">time_stamp[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/current_time" type="array">
+         <obj_property name="ElementShortName">current_time[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/current_time_delay" type="array">
+         <obj_property name="ElementShortName">current_time_delay[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time_delay[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/current_time_delay_delay" type="array">
+         <obj_property name="ElementShortName">current_time_delay_delay[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time_delay_delay[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/threshold_val" type="array">
+         <obj_property name="ElementShortName">threshold_val[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_val[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/threshold_when_hit" type="array">
+         <obj_property name="ElementShortName">threshold_when_hit[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_when_hit[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/baseline" type="array">
+         <obj_property name="ElementShortName">baseline[11:0]</obj_property>
+         <obj_property name="ObjectShortName">baseline[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/baseline_when_hit" type="array">
+         <obj_property name="ElementShortName">baseline_when_hit[11:0]</obj_property>
+         <obj_property name="ObjectShortName">baseline_when_hit[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/delta_val" type="array">
+         <obj_property name="ElementShortName">delta_val[7:0][12:0]</obj_property>
+         <obj_property name="ObjectShortName">delta_val[7:0][12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/tdata" type="array">
+         <obj_property name="ElementShortName">tdata[127:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/dataD" type="array">
+         <obj_property name="ElementShortName">dataD[127:0]</obj_property>
+         <obj_property name="ObjectShortName">dataD[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/data" type="array">
+         <obj_property name="ElementShortName">data[127:0]</obj_property>
+         <obj_property name="ObjectShortName">data[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/delayed_data" type="array">
+         <obj_property name="ElementShortName">delayed_data[127:0]</obj_property>
+         <obj_property name="ObjectShortName">delayed_data[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/tvalid" type="logic">
+         <obj_property name="ElementShortName">tvalid</obj_property>
+         <obj_property name="ObjectShortName">tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/delayed_valid" type="logic">
+         <obj_property name="ElementShortName">delayed_valid</obj_property>
+         <obj_property name="ObjectShortName">delayed_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/ADC_RESOLUTION_WIDTH" type="array">
+         <obj_property name="ElementShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/HIT_DETECTION_WINDOW_WORD" type="array">
+         <obj_property name="ElementShortName">HIT_DETECTION_WINDOW_WORD[31:0]</obj_property>
+         <obj_property name="ObjectShortName">HIT_DETECTION_WINDOW_WORD[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/MAX_DELAY_CNT_WIDTH" type="array">
+         <obj_property name="ElementShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/POST_ACQUI_LEN" type="array">
+         <obj_property name="ElementShortName">POST_ACQUI_LEN[31:0]</obj_property>
+         <obj_property name="ObjectShortName">POST_ACQUI_LEN[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/TIME_STAMP_WIDTH" type="array">
+         <obj_property name="ElementShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/TDATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">TDATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">TDATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/DOUT_WIDTH" type="array">
+         <obj_property name="ElementShortName">DOUT_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/POST_COUNTER_WIDTH" type="array">
+         <obj_property name="ElementShortName">POST_COUNTER_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">POST_COUNTER_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/SAMPLE_PER_TDATA" type="array">
+         <obj_property name="ElementShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/COMPARE_RESULT_SET_WIDTH" type="array">
+         <obj_property name="ElementShortName">COMPARE_RESULT_SET_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">COMPARE_RESULT_SET_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/REDUCE_DIGIT" type="array">
+         <obj_property name="ElementShortName">REDUCE_DIGIT[31:0]</obj_property>
+         <obj_property name="ObjectShortName">REDUCE_DIGIT[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/ADC_MAX_VAL" type="array">
+         <obj_property name="ElementShortName">ADC_MAX_VAL[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_MAX_VAL[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch0/inst/TriggerLogic/ADC_MIN_VAL" type="array">
+         <obj_property name="ElementShortName">ADC_MIN_VAL[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_MIN_VAL[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4617" type="group">
+      <obj_property name="label">MMTrg_Ch1Fifo</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/S_AXIS_ACLK" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/S_AXIS_ARESETN" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/S_AXIS_TDATA" type="array">
+         <obj_property name="ElementShortName">S_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/S_AXIS_TVALID" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/S_AXIS_TREADY" type="logic">
+         <obj_property name="ElementShortName">S_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/RD_CLK" type="logic">
+         <obj_property name="ElementShortName">RD_CLK</obj_property>
+         <obj_property name="ObjectShortName">RD_CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/RD_RESET" type="logic">
+         <obj_property name="ElementShortName">RD_RESET</obj_property>
+         <obj_property name="ObjectShortName">RD_RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/PRE_ACQUIASION_LEN" type="array">
+         <obj_property name="ElementShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+         <obj_property name="ObjectShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/THRESHOLD_VAL" type="array">
+         <obj_property name="ElementShortName">THRESHOLD_VAL[12:0]</obj_property>
+         <obj_property name="ObjectShortName">THRESHOLD_VAL[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/BASELINE" type="array">
+         <obj_property name="ElementShortName">BASELINE[11:0]</obj_property>
+         <obj_property name="ObjectShortName">BASELINE[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/CURRENT_TIME" type="array">
+         <obj_property name="ElementShortName">CURRENT_TIME[47:0]</obj_property>
+         <obj_property name="ObjectShortName">CURRENT_TIME[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4680" type="group">
+      <obj_property name="label">MMTrg_Ch1Fifo_MMTrg</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/TDATA" type="array">
+         <obj_property name="ElementShortName">TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/TVALID" type="logic">
+         <obj_property name="ElementShortName">TVALID</obj_property>
+         <obj_property name="ObjectShortName">TVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/PRE_ACQUIASION_LEN" type="array">
+         <obj_property name="ElementShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+         <obj_property name="ObjectShortName">PRE_ACQUIASION_LEN[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/THRESHOLD_VAL" type="array">
+         <obj_property name="ElementShortName">THRESHOLD_VAL[12:0]</obj_property>
+         <obj_property name="ObjectShortName">THRESHOLD_VAL[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/BASELINE" type="array">
+         <obj_property name="ElementShortName">BASELINE[11:0]</obj_property>
+         <obj_property name="ObjectShortName">BASELINE[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/CURRENT_TIME" type="array">
+         <obj_property name="ElementShortName">CURRENT_TIME[47:0]</obj_property>
+         <obj_property name="ObjectShortName">CURRENT_TIME[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/TRIGGERED" type="logic">
+         <obj_property name="ElementShortName">TRIGGERED</obj_property>
+         <obj_property name="ObjectShortName">TRIGGERED</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[200:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[200:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/all_ready" type="logic">
+         <obj_property name="ElementShortName">all_ready</obj_property>
+         <obj_property name="ObjectShortName">all_ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/all_ready_delay" type="logic">
+         <obj_property name="ElementShortName">all_ready_delay</obj_property>
+         <obj_property name="ObjectShortName">all_ready_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/triggered" type="logic">
+         <obj_property name="ElementShortName">triggered</obj_property>
+         <obj_property name="ObjectShortName">triggered</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/triggered_delay" type="logic">
+         <obj_property name="ElementShortName">triggered_delay</obj_property>
+         <obj_property name="ObjectShortName">triggered_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/fast_triggered_posedge" type="logic">
+         <obj_property name="ElementShortName">fast_triggered_posedge</obj_property>
+         <obj_property name="ObjectShortName">fast_triggered_posedge</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/hit_flagD" type="logic">
+         <obj_property name="ElementShortName">hit_flagD</obj_property>
+         <obj_property name="ObjectShortName">hit_flagD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/hit_flag" type="logic">
+         <obj_property name="ElementShortName">hit_flag</obj_property>
+         <obj_property name="ObjectShortName">hit_flag</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/hit_flag_delay" type="logic">
+         <obj_property name="ElementShortName">hit_flag_delay</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/hit_flag_echo" type="logic">
+         <obj_property name="ElementShortName">hit_flag_echo</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_echo</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/hit_flag_echo_delay" type="logic">
+         <obj_property name="ElementShortName">hit_flag_echo_delay</obj_property>
+         <obj_property name="ObjectShortName">hit_flag_echo_delay</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/fast_hit_flag_echo_negedge" type="logic">
+         <obj_property name="ElementShortName">fast_hit_flag_echo_negedge</obj_property>
+         <obj_property name="ObjectShortName">fast_hit_flag_echo_negedge</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/tdata_word" type="array">
+         <obj_property name="ElementShortName">tdata_word[7:0][11:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata_word[7:0][11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/pre_acquiasion_len" type="array">
+         <obj_property name="ElementShortName">pre_acquiasion_len[4:0]</obj_property>
+         <obj_property name="ObjectShortName">pre_acquiasion_len[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/pre_count" type="array">
+         <obj_property name="ElementShortName">pre_count[4:0]</obj_property>
+         <obj_property name="ObjectShortName">pre_count[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/pre_count_done" type="logic">
+         <obj_property name="ElementShortName">pre_count_done</obj_property>
+         <obj_property name="ObjectShortName">pre_count_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/post_count" type="array">
+         <obj_property name="ElementShortName">post_count[6:0]</obj_property>
+         <obj_property name="ObjectShortName">post_count[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/post_count_done" type="logic">
+         <obj_property name="ElementShortName">post_count_done</obj_property>
+         <obj_property name="ObjectShortName">post_count_done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/post_count_init" type="logic">
+         <obj_property name="ElementShortName">post_count_init</obj_property>
+         <obj_property name="ObjectShortName">post_count_init</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/compare_resultD" type="array">
+         <obj_property name="ElementShortName">compare_resultD[7:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_resultD[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/compare_result" type="array">
+         <obj_property name="ElementShortName">compare_result[7:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_result[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/compare_result_set" type="array">
+         <obj_property name="ElementShortName">compare_result_set[0:0]</obj_property>
+         <obj_property name="ObjectShortName">compare_result_set[0:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/time_stamp" type="array">
+         <obj_property name="ElementShortName">time_stamp[47:0]</obj_property>
+         <obj_property name="ObjectShortName">time_stamp[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/current_time" type="array">
+         <obj_property name="ElementShortName">current_time[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/current_time_delay" type="array">
+         <obj_property name="ElementShortName">current_time_delay[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time_delay[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/current_time_delay_delay" type="array">
+         <obj_property name="ElementShortName">current_time_delay_delay[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time_delay_delay[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/threshold_val" type="array">
+         <obj_property name="ElementShortName">threshold_val[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_val[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/threshold_when_hit" type="array">
+         <obj_property name="ElementShortName">threshold_when_hit[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_when_hit[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/baseline" type="array">
+         <obj_property name="ElementShortName">baseline[11:0]</obj_property>
+         <obj_property name="ObjectShortName">baseline[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/baseline_when_hit" type="array">
+         <obj_property name="ElementShortName">baseline_when_hit[11:0]</obj_property>
+         <obj_property name="ObjectShortName">baseline_when_hit[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/delta_val" type="array">
+         <obj_property name="ElementShortName">delta_val[7:0][12:0]</obj_property>
+         <obj_property name="ObjectShortName">delta_val[7:0][12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/tdata" type="array">
+         <obj_property name="ElementShortName">tdata[127:0]</obj_property>
+         <obj_property name="ObjectShortName">tdata[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/dataD" type="array">
+         <obj_property name="ElementShortName">dataD[127:0]</obj_property>
+         <obj_property name="ObjectShortName">dataD[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/data" type="array">
+         <obj_property name="ElementShortName">data[127:0]</obj_property>
+         <obj_property name="ObjectShortName">data[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/delayed_data" type="array">
+         <obj_property name="ElementShortName">delayed_data[127:0]</obj_property>
+         <obj_property name="ObjectShortName">delayed_data[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/tvalid" type="logic">
+         <obj_property name="ElementShortName">tvalid</obj_property>
+         <obj_property name="ObjectShortName">tvalid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/delayed_valid" type="logic">
+         <obj_property name="ElementShortName">delayed_valid</obj_property>
+         <obj_property name="ObjectShortName">delayed_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/ADC_RESOLUTION_WIDTH" type="array">
+         <obj_property name="ElementShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/HIT_DETECTION_WINDOW_WORD" type="array">
+         <obj_property name="ElementShortName">HIT_DETECTION_WINDOW_WORD[31:0]</obj_property>
+         <obj_property name="ObjectShortName">HIT_DETECTION_WINDOW_WORD[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/MAX_DELAY_CNT_WIDTH" type="array">
+         <obj_property name="ElementShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MAX_DELAY_CNT_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/POST_ACQUI_LEN" type="array">
+         <obj_property name="ElementShortName">POST_ACQUI_LEN[31:0]</obj_property>
+         <obj_property name="ObjectShortName">POST_ACQUI_LEN[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/TIME_STAMP_WIDTH" type="array">
+         <obj_property name="ElementShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/TDATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">TDATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">TDATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/DOUT_WIDTH" type="array">
+         <obj_property name="ElementShortName">DOUT_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/POST_COUNTER_WIDTH" type="array">
+         <obj_property name="ElementShortName">POST_COUNTER_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">POST_COUNTER_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/SAMPLE_PER_TDATA" type="array">
+         <obj_property name="ElementShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/COMPARE_RESULT_SET_WIDTH" type="array">
+         <obj_property name="ElementShortName">COMPARE_RESULT_SET_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">COMPARE_RESULT_SET_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/REDUCE_DIGIT" type="array">
+         <obj_property name="ElementShortName">REDUCE_DIGIT[31:0]</obj_property>
+         <obj_property name="ObjectShortName">REDUCE_DIGIT[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/ADC_MAX_VAL" type="array">
+         <obj_property name="ElementShortName">ADC_MAX_VAL[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_MAX_VAL[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/MMTrg_Ch1/inst/TriggerLogic/ADC_MIN_VAL" type="array">
+         <obj_property name="ElementShortName">ADC_MIN_VAL[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ADC_MIN_VAL[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4716" type="group">
+      <obj_property name="label">DUT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH0_DIN" type="array">
+         <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH0_iVALID" type="logic">
+         <obj_property name="ElementShortName">CH0_iVALID</obj_property>
+         <obj_property name="ObjectShortName">CH0_iVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH0_oREADY" type="logic">
+         <obj_property name="ElementShortName">CH0_oREADY</obj_property>
+         <obj_property name="ObjectShortName">CH0_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH1_DIN" type="array">
+         <obj_property name="ElementShortName">CH1_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH1_iVALID" type="logic">
+         <obj_property name="ElementShortName">CH1_iVALID</obj_property>
+         <obj_property name="ObjectShortName">CH1_iVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/CH1_oREADY" type="logic">
+         <obj_property name="ElementShortName">CH1_oREADY</obj_property>
+         <obj_property name="ObjectShortName">CH1_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer_CH0_RE" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_CH0_RE</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_CH0_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/fast_ch0fifo_dout" type="array">
+         <obj_property name="ElementShortName">fast_ch0fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">fast_ch0fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_dout" type="array">
+         <obj_property name="ElementShortName">Ch0Fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_full" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_full</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_empty" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_prog_full" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_prog_full</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_prog_empty" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_prog_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo_rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_rd_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer_CH1_RE" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_CH1_RE</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_CH1_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/fast_ch1fifo_dout" type="array">
+         <obj_property name="ElementShortName">fast_ch1fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">fast_ch1fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_dout" type="array">
+         <obj_property name="ElementShortName">Ch1Fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_full" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_full</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_empty" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_prog_full" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_prog_full</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_prog_empty" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_prog_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo_rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_rd_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0ReadRequester_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">Ch0ReadRequester_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">Ch0ReadRequester_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1ReadRequester_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">Ch1ReadRequester_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">Ch1ReadRequester_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer_DOUT" type="array">
+         <obj_property name="ElementShortName">DualChMixer_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer_oVALID" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_oVALID</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DATA_WIDTH_HEX" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH_HEX[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH_HEX[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4729" type="group">
+      <obj_property name="label">Ch0Fifo</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/srst" type="logic">
+         <obj_property name="ElementShortName">srst</obj_property>
+         <obj_property name="ObjectShortName">srst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/din" type="array">
+         <obj_property name="ElementShortName">din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/prog_full" type="logic">
+         <obj_property name="ElementShortName">prog_full</obj_property>
+         <obj_property name="ObjectShortName">prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/prog_empty" type="logic">
+         <obj_property name="ElementShortName">prog_empty</obj_property>
+         <obj_property name="ObjectShortName">prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch0Fifo/rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4742" type="group">
+      <obj_property name="label">Ch1Fifo</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/srst" type="logic">
+         <obj_property name="ElementShortName">srst</obj_property>
+         <obj_property name="ObjectShortName">srst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/din" type="array">
+         <obj_property name="ElementShortName">din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/prog_full" type="logic">
+         <obj_property name="ElementShortName">prog_full</obj_property>
+         <obj_property name="ObjectShortName">prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/prog_empty" type="logic">
+         <obj_property name="ElementShortName">prog_empty</obj_property>
+         <obj_property name="ObjectShortName">prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/Ch1Fifo/rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group4804" type="group">
+      <obj_property name="label">DualChMixer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH0_DIN" type="array">
+         <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH0_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">CH0_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">CH0_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH0_RE" type="logic">
+         <obj_property name="ElementShortName">CH0_RE</obj_property>
+         <obj_property name="ObjectShortName">CH0_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH1_DIN" type="array">
+         <obj_property name="ElementShortName">CH1_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH1_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">CH1_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">CH1_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH1_RE" type="logic">
+         <obj_property name="ElementShortName">CH1_RE</obj_property>
+         <obj_property name="ObjectShortName">CH1_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_din" type="array">
+         <obj_property name="ElementShortName">ch0_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked" type="array">
+         <obj_property name="ElementShortName">ch0_header_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked" type="array">
+         <obj_property name="ElementShortName">ch0_footer_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data" type="array">
+         <obj_property name="ElementShortName">ch0_correct_data[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_correct_data[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_re" type="logic">
+         <obj_property name="ElementShortName">ch0_re</obj_property>
+         <obj_property name="ObjectShortName">ch0_re</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_head_foot_id_hist" type="array">
+         <obj_property name="ElementShortName">ch0_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_head_foot_id_hist[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_din" type="array">
+         <obj_property name="ElementShortName">ch1_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked" type="array">
+         <obj_property name="ElementShortName">ch1_header_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked" type="array">
+         <obj_property name="ElementShortName">ch1_footer_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data" type="array">
+         <obj_property name="ElementShortName">ch1_correct_data[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_correct_data[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_re" type="logic">
+         <obj_property name="ElementShortName">ch1_re</obj_property>
+         <obj_property name="ObjectShortName">ch1_re</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_head_foot_id_hist" type="array">
+         <obj_property name="ElementShortName">ch1_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_head_foot_id_hist[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/read_hist" type="array">
+         <obj_property name="ElementShortName">read_hist[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_hist[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/read_request" type="array">
+         <obj_property name="ElementShortName">read_request[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_request[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_sending" type="logic">
+         <obj_property name="ElementShortName">ch0_sending</obj_property>
+         <obj_property name="ObjectShortName">ch0_sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_sending" type="logic">
+         <obj_property name="ElementShortName">ch1_sending</obj_property>
+         <obj_property name="ObjectShortName">ch1_sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/sending" type="logic">
+         <obj_property name="ElementShortName">sending</obj_property>
+         <obj_property name="ObjectShortName">sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/HEADER_ID" type="array">
+         <obj_property name="ElementShortName">HEADER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">HEADER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/FOOTER_ID" type="array">
+         <obj_property name="ElementShortName">FOOTER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">FOOTER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ERROR_HEADER_ID" type="array">
+         <obj_property name="ElementShortName">ERROR_HEADER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ERROR_HEADER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ERROR_FOOTER_ID" type="array">
+         <obj_property name="ElementShortName">ERROR_FOOTER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ERROR_FOOTER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_header_foundD" type="logic">
+         <obj_property name="ElementShortName">CH0_DIN_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_header_foundD" type="logic">
+         <obj_property name="ElementShortName">CH1_DIN_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_din_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_din_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_din_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_din_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_din_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_din_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_header_lostD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_header_lostD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">CH0_DIN_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">CH1_DIN_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_din_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_din_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_din_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_din_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_din_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_din_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_correct_data_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_correct_data_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_correct_data_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_correct_data_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_footer_lostD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_footer_lostD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_pauseD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_pauseD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_pauseD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_pauseD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_pauseD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_pauseD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/DATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/HEADER_FOOTER_ID_WIDTH" type="array">
+         <obj_property name="ElementShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/ID_WIDTH_HEX" type="array">
+         <obj_property name="ElementShortName">ID_WIDTH_HEX[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ID_WIDTH_HEX[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_TwoChMixer_tb/DUT/DualChMixer/DATA_WIDTH_HEX" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH_HEX[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH_HEX[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

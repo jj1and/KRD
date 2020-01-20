@@ -7,2110 +7,588 @@
          <top_modules>
             <top_module name="TwoChMixer_tb" />
             <top_module name="glbl" />
-            <top_module name="vcomponents" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="95380000fs"></ZoomStartTime>
-      <ZoomEndTime time="12455380001fs"></ZoomEndTime>
-      <Cursor1Time time="3135380000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="56698000001fs"></ZoomEndTime>
+      <Cursor1Time time="4598400000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="229"></NameColumnWidth>
-      <ValueColumnWidth column_width="136"></ValueColumnWidth>
+      <NameColumnWidth column_width="295"></NameColumnWidth>
+      <ValueColumnWidth column_width="124"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="122" />
-   <wvobject fp_name="/TwoChMixer_tb/i" type="array">
-      <obj_property name="ElementShortName">i[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+   <WVObjectSize size="5" />
+   <wvobject fp_name="group4128" type="group">
+      <obj_property name="label">tb_top</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/TwoChMixer_tb/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/resetn" type="logic">
+         <obj_property name="ElementShortName">resetn</obj_property>
+         <obj_property name="ObjectShortName">resetn</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ready" type="logic">
+         <obj_property name="ElementShortName">ready</obj_property>
+         <obj_property name="ObjectShortName">ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT_CH0_oREADY" type="logic">
+         <obj_property name="ElementShortName">DUT_CH0_oREADY</obj_property>
+         <obj_property name="ObjectShortName">DUT_CH0_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT_CH1_oREADY" type="logic">
+         <obj_property name="ElementShortName">DUT_CH1_oREADY</obj_property>
+         <obj_property name="ObjectShortName">DUT_CH1_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT" type="array">
+         <obj_property name="ElementShortName">DUT_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DUT_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT_oVALID" type="logic">
+         <obj_property name="ElementShortName">DUT_oVALID</obj_property>
+         <obj_property name="ObjectShortName">DUT_oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch0_din" type="array">
+         <obj_property name="ElementShortName">ch0_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch0_we" type="logic">
+         <obj_property name="ElementShortName">ch0_we</obj_property>
+         <obj_property name="ObjectShortName">ch0_we</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch1_din" type="array">
+         <obj_property name="ElementShortName">ch1_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch1_we" type="logic">
+         <obj_property name="ElementShortName">ch1_we</obj_property>
+         <obj_property name="ObjectShortName">ch1_we</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/current_time" type="array">
+         <obj_property name="ElementShortName">current_time[47:0]</obj_property>
+         <obj_property name="ObjectShortName">current_time[47:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/base_line" type="array">
+         <obj_property name="ElementShortName">base_line[11:0]</obj_property>
+         <obj_property name="ObjectShortName">base_line[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/threshold_val" type="array">
+         <obj_property name="ElementShortName">threshold_val[12:0]</obj_property>
+         <obj_property name="ObjectShortName">threshold_val[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/bl_min" type="array">
+         <obj_property name="ElementShortName">bl_min[11:0]</obj_property>
+         <obj_property name="ObjectShortName">bl_min[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/bl_max" type="array">
+         <obj_property name="ElementShortName">bl_max[11:0]</obj_property>
+         <obj_property name="ObjectShortName">bl_max[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch0_fst_height" type="array">
+         <obj_property name="ElementShortName">ch0_fst_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_fst_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch0_snd_height" type="array">
+         <obj_property name="ElementShortName">ch0_snd_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_snd_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch1_fst_height" type="array">
+         <obj_property name="ElementShortName">ch1_fst_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_fst_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/ch1_snd_height" type="array">
+         <obj_property name="ElementShortName">ch1_snd_height[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_snd_height[11:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/frame_len" type="array">
+         <obj_property name="ElementShortName">frame_len[11:0]</obj_property>
+         <obj_property name="ObjectShortName">frame_len[11:0]</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/k" type="array">
-      <obj_property name="ElementShortName">k[31:0]</obj_property>
-      <obj_property name="ObjectShortName">k[31:0]</obj_property>
+   <wvobject fp_name="group4161" type="group">
+      <obj_property name="label">DUT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH0_DIN" type="array">
+         <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH0_iVALID" type="logic">
+         <obj_property name="ElementShortName">CH0_iVALID</obj_property>
+         <obj_property name="ObjectShortName">CH0_iVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH0_oREADY" type="logic">
+         <obj_property name="ElementShortName">CH0_oREADY</obj_property>
+         <obj_property name="ObjectShortName">CH0_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH1_DIN" type="array">
+         <obj_property name="ElementShortName">CH1_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH1_iVALID" type="logic">
+         <obj_property name="ElementShortName">CH1_iVALID</obj_property>
+         <obj_property name="ObjectShortName">CH1_iVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/CH1_oREADY" type="logic">
+         <obj_property name="ElementShortName">CH1_oREADY</obj_property>
+         <obj_property name="ObjectShortName">CH1_oREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer_CH0_RE" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_CH0_RE</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_CH0_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_dout" type="array">
+         <obj_property name="ElementShortName">Ch0Fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_full" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_full</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_empty" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_prog_full" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_prog_full</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_prog_empty" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_prog_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo_rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch0Fifo_rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch0Fifo_rd_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer_CH1_RE" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_CH1_RE</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_CH1_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_dout" type="array">
+         <obj_property name="ElementShortName">Ch1Fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_full" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_full</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_empty" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_prog_full" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_prog_full</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_prog_empty" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_prog_empty</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo_rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">Ch1Fifo_rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">Ch1Fifo_rd_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">Ch0ReadRequester_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">Ch0ReadRequester_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">Ch1ReadRequester_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">Ch1ReadRequester_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer_DOUT" type="array">
+         <obj_property name="ElementShortName">DualChMixer_DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer_oVALID" type="logic">
+         <obj_property name="ElementShortName">DualChMixer_oVALID</obj_property>
+         <obj_property name="ObjectShortName">DualChMixer_oVALID</obj_property>
+      </wvobject>
    </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/resetn" type="logic">
-      <obj_property name="ElementShortName">resetn</obj_property>
-      <obj_property name="ObjectShortName">resetn</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ready" type="logic">
-      <obj_property name="ElementShortName">ready</obj_property>
-      <obj_property name="ObjectShortName">ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT_CH0_oREADY" type="logic">
-      <obj_property name="ElementShortName">DUT_CH0_oREADY</obj_property>
-      <obj_property name="ObjectShortName">DUT_CH0_oREADY</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT_CH1_oREADY" type="logic">
-      <obj_property name="ElementShortName">DUT_CH1_oREADY</obj_property>
-      <obj_property name="ObjectShortName">DUT_CH1_oREADY</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT" type="array">
-      <obj_property name="ElementShortName">DUT_DOUT[63:0]</obj_property>
-      <obj_property name="ObjectShortName">DUT_DOUT[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="group501" type="group">
-      <obj_property name="label">HEADER</obj_property>
+   <wvobject fp_name="group4225" type="group">
+      <obj_property name="label">DualChMixer</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="vbus175" type="vbus">
-         <obj_property name="label">header_id</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[63]" type="logic">
-            <obj_property name="ElementShortName">[63]</obj_property>
-            <obj_property name="ObjectShortName">[63]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[62]" type="logic">
-            <obj_property name="ElementShortName">[62]</obj_property>
-            <obj_property name="ObjectShortName">[62]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[61]" type="logic">
-            <obj_property name="ElementShortName">[61]</obj_property>
-            <obj_property name="ObjectShortName">[61]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[60]" type="logic">
-            <obj_property name="ElementShortName">[60]</obj_property>
-            <obj_property name="ObjectShortName">[60]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[59]" type="logic">
-            <obj_property name="ElementShortName">[59]</obj_property>
-            <obj_property name="ObjectShortName">[59]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[58]" type="logic">
-            <obj_property name="ElementShortName">[58]</obj_property>
-            <obj_property name="ObjectShortName">[58]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[57]" type="logic">
-            <obj_property name="ElementShortName">[57]</obj_property>
-            <obj_property name="ObjectShortName">[57]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[56]" type="logic">
-            <obj_property name="ElementShortName">[56]</obj_property>
-            <obj_property name="ObjectShortName">[56]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[55]" type="logic">
-            <obj_property name="ElementShortName">[55]</obj_property>
-            <obj_property name="ObjectShortName">[55]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[54]" type="logic">
-            <obj_property name="ElementShortName">[54]</obj_property>
-            <obj_property name="ObjectShortName">[54]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[53]" type="logic">
-            <obj_property name="ElementShortName">[53]</obj_property>
-            <obj_property name="ObjectShortName">[53]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[52]" type="logic">
-            <obj_property name="ElementShortName">[52]</obj_property>
-            <obj_property name="ObjectShortName">[52]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[51]" type="logic">
-            <obj_property name="ElementShortName">[51]</obj_property>
-            <obj_property name="ObjectShortName">[51]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[50]" type="logic">
-            <obj_property name="ElementShortName">[50]</obj_property>
-            <obj_property name="ObjectShortName">[50]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[49]" type="logic">
-            <obj_property name="ElementShortName">[49]</obj_property>
-            <obj_property name="ObjectShortName">[49]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[48]" type="logic">
-            <obj_property name="ElementShortName">[48]</obj_property>
-            <obj_property name="ObjectShortName">[48]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus414" type="vbus">
-         <obj_property name="label">ch_id</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[47]" type="logic">
-            <obj_property name="ElementShortName">[47]</obj_property>
-            <obj_property name="ObjectShortName">[47]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[46]" type="logic">
-            <obj_property name="ElementShortName">[46]</obj_property>
-            <obj_property name="ObjectShortName">[46]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[45]" type="logic">
-            <obj_property name="ElementShortName">[45]</obj_property>
-            <obj_property name="ObjectShortName">[45]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[44]" type="logic">
-            <obj_property name="ElementShortName">[44]</obj_property>
-            <obj_property name="ObjectShortName">[44]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/RESET" type="logic">
+         <obj_property name="ElementShortName">RESET</obj_property>
+         <obj_property name="ObjectShortName">RESET</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus381" type="vbus">
-         <obj_property name="label">timestamp[31:0]</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[43]" type="logic">
-            <obj_property name="ElementShortName">[43]</obj_property>
-            <obj_property name="ObjectShortName">[43]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[42]" type="logic">
-            <obj_property name="ElementShortName">[42]</obj_property>
-            <obj_property name="ObjectShortName">[42]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[41]" type="logic">
-            <obj_property name="ElementShortName">[41]</obj_property>
-            <obj_property name="ObjectShortName">[41]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[40]" type="logic">
-            <obj_property name="ElementShortName">[40]</obj_property>
-            <obj_property name="ObjectShortName">[40]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[39]" type="logic">
-            <obj_property name="ElementShortName">[39]</obj_property>
-            <obj_property name="ObjectShortName">[39]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[38]" type="logic">
-            <obj_property name="ElementShortName">[38]</obj_property>
-            <obj_property name="ObjectShortName">[38]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[37]" type="logic">
-            <obj_property name="ElementShortName">[37]</obj_property>
-            <obj_property name="ObjectShortName">[37]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[36]" type="logic">
-            <obj_property name="ElementShortName">[36]</obj_property>
-            <obj_property name="ObjectShortName">[36]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[35]" type="logic">
-            <obj_property name="ElementShortName">[35]</obj_property>
-            <obj_property name="ObjectShortName">[35]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[34]" type="logic">
-            <obj_property name="ElementShortName">[34]</obj_property>
-            <obj_property name="ObjectShortName">[34]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[33]" type="logic">
-            <obj_property name="ElementShortName">[33]</obj_property>
-            <obj_property name="ObjectShortName">[33]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[32]" type="logic">
-            <obj_property name="ElementShortName">[32]</obj_property>
-            <obj_property name="ObjectShortName">[32]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[31]" type="logic">
-            <obj_property name="ElementShortName">[31]</obj_property>
-            <obj_property name="ObjectShortName">[31]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[30]" type="logic">
-            <obj_property name="ElementShortName">[30]</obj_property>
-            <obj_property name="ObjectShortName">[30]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[29]" type="logic">
-            <obj_property name="ElementShortName">[29]</obj_property>
-            <obj_property name="ObjectShortName">[29]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[28]" type="logic">
-            <obj_property name="ElementShortName">[28]</obj_property>
-            <obj_property name="ObjectShortName">[28]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[27]" type="logic">
-            <obj_property name="ElementShortName">[27]</obj_property>
-            <obj_property name="ObjectShortName">[27]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[26]" type="logic">
-            <obj_property name="ElementShortName">[26]</obj_property>
-            <obj_property name="ObjectShortName">[26]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[25]" type="logic">
-            <obj_property name="ElementShortName">[25]</obj_property>
-            <obj_property name="ObjectShortName">[25]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[24]" type="logic">
-            <obj_property name="ElementShortName">[24]</obj_property>
-            <obj_property name="ObjectShortName">[24]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[23]" type="logic">
-            <obj_property name="ElementShortName">[23]</obj_property>
-            <obj_property name="ObjectShortName">[23]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[22]" type="logic">
-            <obj_property name="ElementShortName">[22]</obj_property>
-            <obj_property name="ObjectShortName">[22]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[21]" type="logic">
-            <obj_property name="ElementShortName">[21]</obj_property>
-            <obj_property name="ObjectShortName">[21]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[20]" type="logic">
-            <obj_property name="ElementShortName">[20]</obj_property>
-            <obj_property name="ObjectShortName">[20]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[19]" type="logic">
-            <obj_property name="ElementShortName">[19]</obj_property>
-            <obj_property name="ObjectShortName">[19]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[18]" type="logic">
-            <obj_property name="ElementShortName">[18]</obj_property>
-            <obj_property name="ObjectShortName">[18]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[17]" type="logic">
-            <obj_property name="ElementShortName">[17]</obj_property>
-            <obj_property name="ObjectShortName">[17]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[16]" type="logic">
-            <obj_property name="ElementShortName">[16]</obj_property>
-            <obj_property name="ObjectShortName">[16]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[15]" type="logic">
-            <obj_property name="ElementShortName">[15]</obj_property>
-            <obj_property name="ObjectShortName">[15]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[14]" type="logic">
-            <obj_property name="ElementShortName">[14]</obj_property>
-            <obj_property name="ObjectShortName">[14]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[13]" type="logic">
-            <obj_property name="ElementShortName">[13]</obj_property>
-            <obj_property name="ObjectShortName">[13]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[12]" type="logic">
-            <obj_property name="ElementShortName">[12]</obj_property>
-            <obj_property name="ObjectShortName">[12]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN" type="array">
+         <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus419" type="vbus">
-         <obj_property name="label">frame_len</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[11]" type="logic">
-            <obj_property name="ElementShortName">[11]</obj_property>
-            <obj_property name="ObjectShortName">[11]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[10]" type="logic">
-            <obj_property name="ElementShortName">[10]</obj_property>
-            <obj_property name="ObjectShortName">[10]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[9]" type="logic">
-            <obj_property name="ElementShortName">[9]</obj_property>
-            <obj_property name="ObjectShortName">[9]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[8]" type="logic">
-            <obj_property name="ElementShortName">[8]</obj_property>
-            <obj_property name="ObjectShortName">[8]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[7]" type="logic">
-            <obj_property name="ElementShortName">[7]</obj_property>
-            <obj_property name="ObjectShortName">[7]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[6]" type="logic">
-            <obj_property name="ElementShortName">[6]</obj_property>
-            <obj_property name="ObjectShortName">[6]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[5]" type="logic">
-            <obj_property name="ElementShortName">[5]</obj_property>
-            <obj_property name="ObjectShortName">[5]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[4]" type="logic">
-            <obj_property name="ElementShortName">[4]</obj_property>
-            <obj_property name="ObjectShortName">[4]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[3]" type="logic">
-            <obj_property name="ElementShortName">[3]</obj_property>
-            <obj_property name="ObjectShortName">[3]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[2]" type="logic">
-            <obj_property name="ElementShortName">[2]</obj_property>
-            <obj_property name="ObjectShortName">[2]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[1]" type="logic">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">[1]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[0]" type="logic">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">[0]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">CH0_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">CH0_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_RE" type="logic">
+         <obj_property name="ElementShortName">CH0_RE</obj_property>
+         <obj_property name="ObjectShortName">CH0_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN" type="array">
+         <obj_property name="ElementShortName">CH1_DIN[63:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_READ_REQUEST" type="logic">
+         <obj_property name="ElementShortName">CH1_READ_REQUEST</obj_property>
+         <obj_property name="ObjectShortName">CH1_READ_REQUEST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_RE" type="logic">
+         <obj_property name="ElementShortName">CH1_RE</obj_property>
+         <obj_property name="ObjectShortName">CH1_RE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/iREADY" type="logic">
+         <obj_property name="ElementShortName">iREADY</obj_property>
+         <obj_property name="ObjectShortName">iREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/DOUT" type="array">
+         <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+         <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/oVALID" type="logic">
+         <obj_property name="ElementShortName">oVALID</obj_property>
+         <obj_property name="ObjectShortName">oVALID</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_din" type="array">
+         <obj_property name="ElementShortName">ch0_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked" type="array">
+         <obj_property name="ElementShortName">ch0_header_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked" type="array">
+         <obj_property name="ElementShortName">ch0_footer_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data" type="array">
+         <obj_property name="ElementShortName">ch0_correct_data[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_correct_data[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_re" type="logic">
+         <obj_property name="ElementShortName">ch0_re</obj_property>
+         <obj_property name="ObjectShortName">ch0_re</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_head_foot_id_hist" type="array">
+         <obj_property name="ElementShortName">ch0_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="ObjectShortName">ch0_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_din" type="array">
+         <obj_property name="ElementShortName">ch1_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked" type="array">
+         <obj_property name="ElementShortName">ch1_header_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked" type="array">
+         <obj_property name="ElementShortName">ch1_footer_checked[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data" type="array">
+         <obj_property name="ElementShortName">ch1_correct_data[63:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_correct_data[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_re" type="logic">
+         <obj_property name="ElementShortName">ch1_re</obj_property>
+         <obj_property name="ObjectShortName">ch1_re</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_head_foot_id_hist" type="array">
+         <obj_property name="ElementShortName">ch1_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_head_foot_id_hist[2:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/read_hist" type="array">
+         <obj_property name="ElementShortName">read_hist[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_hist[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/read_request" type="array">
+         <obj_property name="ElementShortName">read_request[1:0]</obj_property>
+         <obj_property name="ObjectShortName">read_request[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_sending" type="logic">
+         <obj_property name="ElementShortName">ch0_sending</obj_property>
+         <obj_property name="ObjectShortName">ch0_sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_sending" type="logic">
+         <obj_property name="ElementShortName">ch1_sending</obj_property>
+         <obj_property name="ObjectShortName">ch1_sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/sending" type="logic">
+         <obj_property name="ElementShortName">sending</obj_property>
+         <obj_property name="ObjectShortName">sending</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/HEADER_ID" type="array">
+         <obj_property name="ElementShortName">HEADER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">HEADER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/FOOTER_ID" type="array">
+         <obj_property name="ElementShortName">FOOTER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">FOOTER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ERROR_HEADER_ID" type="array">
+         <obj_property name="ElementShortName">ERROR_HEADER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ERROR_HEADER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ERROR_FOOTER_ID" type="array">
+         <obj_property name="ElementShortName">ERROR_FOOTER_ID[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ERROR_FOOTER_ID[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_header_foundD" type="logic">
+         <obj_property name="ElementShortName">CH0_DIN_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_header_foundD" type="logic">
+         <obj_property name="ElementShortName">CH1_DIN_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_din_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_din_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_din_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_din_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_din_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_din_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_header_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_checked_header_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked_header_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_lostD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_lostD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">CH0_DIN_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH0_DIN_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">CH1_DIN_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">CH1_DIN_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_din_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_din_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_din_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_din_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_din_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_din_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_checked_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_checked_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch0_correct_data_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch0_correct_data_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data_footer_foundD" type="logic">
+         <obj_property name="ElementShortName">ch1_correct_data_footer_foundD</obj_property>
+         <obj_property name="ObjectShortName">ch1_correct_data_footer_foundD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_lostD" type="logic">
+         <obj_property name="ElementShortName">ch0_footer_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch0_footer_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_lostD" type="logic">
+         <obj_property name="ElementShortName">ch1_footer_lostD</obj_property>
+         <obj_property name="ObjectShortName">ch1_footer_lostD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_pauseD" type="logic">
+         <obj_property name="ElementShortName">ch0_header_checked_pauseD</obj_property>
+         <obj_property name="ObjectShortName">ch0_header_checked_pauseD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_pauseD" type="logic">
+         <obj_property name="ElementShortName">ch1_header_checked_pauseD</obj_property>
+         <obj_property name="ObjectShortName">ch1_header_checked_pauseD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/DATA_WIDTH" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/HEADER_FOOTER_ID_WIDTH" type="array">
+         <obj_property name="ElementShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
+         <obj_property name="ObjectShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ID_WIDTH_HEX" type="array">
+         <obj_property name="ElementShortName">ID_WIDTH_HEX[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ID_WIDTH_HEX[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/DATA_WIDTH_HEX" type="array">
+         <obj_property name="ElementShortName">DATA_WIDTH_HEX[31:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_WIDTH_HEX[31:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="group503" type="group">
-      <obj_property name="label">DATA</obj_property>
+   <wvobject fp_name="group4239" type="group">
+      <obj_property name="label">Ch0Fifo</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="vbus175" type="vbus">
-         <obj_property name="label">dout3</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[63]" type="logic">
-            <obj_property name="ElementShortName">[63]</obj_property>
-            <obj_property name="ObjectShortName">[63]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[62]" type="logic">
-            <obj_property name="ElementShortName">[62]</obj_property>
-            <obj_property name="ObjectShortName">[62]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[61]" type="logic">
-            <obj_property name="ElementShortName">[61]</obj_property>
-            <obj_property name="ObjectShortName">[61]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[60]" type="logic">
-            <obj_property name="ElementShortName">[60]</obj_property>
-            <obj_property name="ObjectShortName">[60]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[59]" type="logic">
-            <obj_property name="ElementShortName">[59]</obj_property>
-            <obj_property name="ObjectShortName">[59]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[58]" type="logic">
-            <obj_property name="ElementShortName">[58]</obj_property>
-            <obj_property name="ObjectShortName">[58]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[57]" type="logic">
-            <obj_property name="ElementShortName">[57]</obj_property>
-            <obj_property name="ObjectShortName">[57]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[56]" type="logic">
-            <obj_property name="ElementShortName">[56]</obj_property>
-            <obj_property name="ObjectShortName">[56]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[55]" type="logic">
-            <obj_property name="ElementShortName">[55]</obj_property>
-            <obj_property name="ObjectShortName">[55]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[54]" type="logic">
-            <obj_property name="ElementShortName">[54]</obj_property>
-            <obj_property name="ObjectShortName">[54]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[53]" type="logic">
-            <obj_property name="ElementShortName">[53]</obj_property>
-            <obj_property name="ObjectShortName">[53]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[52]" type="logic">
-            <obj_property name="ElementShortName">[52]</obj_property>
-            <obj_property name="ObjectShortName">[52]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[51]" type="logic">
-            <obj_property name="ElementShortName">[51]</obj_property>
-            <obj_property name="ObjectShortName">[51]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[50]" type="logic">
-            <obj_property name="ElementShortName">[50]</obj_property>
-            <obj_property name="ObjectShortName">[50]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[49]" type="logic">
-            <obj_property name="ElementShortName">[49]</obj_property>
-            <obj_property name="ObjectShortName">[49]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[48]" type="logic">
-            <obj_property name="ElementShortName">[48]</obj_property>
-            <obj_property name="ObjectShortName">[48]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus192" type="vbus">
-         <obj_property name="label">dout2</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[47]" type="logic">
-            <obj_property name="ElementShortName">[47]</obj_property>
-            <obj_property name="ObjectShortName">[47]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[46]" type="logic">
-            <obj_property name="ElementShortName">[46]</obj_property>
-            <obj_property name="ObjectShortName">[46]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[45]" type="logic">
-            <obj_property name="ElementShortName">[45]</obj_property>
-            <obj_property name="ObjectShortName">[45]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[44]" type="logic">
-            <obj_property name="ElementShortName">[44]</obj_property>
-            <obj_property name="ObjectShortName">[44]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[43]" type="logic">
-            <obj_property name="ElementShortName">[43]</obj_property>
-            <obj_property name="ObjectShortName">[43]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[42]" type="logic">
-            <obj_property name="ElementShortName">[42]</obj_property>
-            <obj_property name="ObjectShortName">[42]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[41]" type="logic">
-            <obj_property name="ElementShortName">[41]</obj_property>
-            <obj_property name="ObjectShortName">[41]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[40]" type="logic">
-            <obj_property name="ElementShortName">[40]</obj_property>
-            <obj_property name="ObjectShortName">[40]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[39]" type="logic">
-            <obj_property name="ElementShortName">[39]</obj_property>
-            <obj_property name="ObjectShortName">[39]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[38]" type="logic">
-            <obj_property name="ElementShortName">[38]</obj_property>
-            <obj_property name="ObjectShortName">[38]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[37]" type="logic">
-            <obj_property name="ElementShortName">[37]</obj_property>
-            <obj_property name="ObjectShortName">[37]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[36]" type="logic">
-            <obj_property name="ElementShortName">[36]</obj_property>
-            <obj_property name="ObjectShortName">[36]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[35]" type="logic">
-            <obj_property name="ElementShortName">[35]</obj_property>
-            <obj_property name="ObjectShortName">[35]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[34]" type="logic">
-            <obj_property name="ElementShortName">[34]</obj_property>
-            <obj_property name="ObjectShortName">[34]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[33]" type="logic">
-            <obj_property name="ElementShortName">[33]</obj_property>
-            <obj_property name="ObjectShortName">[33]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[32]" type="logic">
-            <obj_property name="ElementShortName">[32]</obj_property>
-            <obj_property name="ObjectShortName">[32]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/srst" type="logic">
+         <obj_property name="ElementShortName">srst</obj_property>
+         <obj_property name="ObjectShortName">srst</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus209" type="vbus">
-         <obj_property name="label">dout1</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[31]" type="logic">
-            <obj_property name="ElementShortName">[31]</obj_property>
-            <obj_property name="ObjectShortName">[31]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[30]" type="logic">
-            <obj_property name="ElementShortName">[30]</obj_property>
-            <obj_property name="ObjectShortName">[30]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[29]" type="logic">
-            <obj_property name="ElementShortName">[29]</obj_property>
-            <obj_property name="ObjectShortName">[29]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[28]" type="logic">
-            <obj_property name="ElementShortName">[28]</obj_property>
-            <obj_property name="ObjectShortName">[28]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[27]" type="logic">
-            <obj_property name="ElementShortName">[27]</obj_property>
-            <obj_property name="ObjectShortName">[27]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[26]" type="logic">
-            <obj_property name="ElementShortName">[26]</obj_property>
-            <obj_property name="ObjectShortName">[26]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[25]" type="logic">
-            <obj_property name="ElementShortName">[25]</obj_property>
-            <obj_property name="ObjectShortName">[25]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[24]" type="logic">
-            <obj_property name="ElementShortName">[24]</obj_property>
-            <obj_property name="ObjectShortName">[24]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[23]" type="logic">
-            <obj_property name="ElementShortName">[23]</obj_property>
-            <obj_property name="ObjectShortName">[23]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[22]" type="logic">
-            <obj_property name="ElementShortName">[22]</obj_property>
-            <obj_property name="ObjectShortName">[22]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[21]" type="logic">
-            <obj_property name="ElementShortName">[21]</obj_property>
-            <obj_property name="ObjectShortName">[21]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[20]" type="logic">
-            <obj_property name="ElementShortName">[20]</obj_property>
-            <obj_property name="ObjectShortName">[20]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[19]" type="logic">
-            <obj_property name="ElementShortName">[19]</obj_property>
-            <obj_property name="ObjectShortName">[19]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[18]" type="logic">
-            <obj_property name="ElementShortName">[18]</obj_property>
-            <obj_property name="ObjectShortName">[18]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[17]" type="logic">
-            <obj_property name="ElementShortName">[17]</obj_property>
-            <obj_property name="ObjectShortName">[17]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[16]" type="logic">
-            <obj_property name="ElementShortName">[16]</obj_property>
-            <obj_property name="ObjectShortName">[16]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/din" type="array">
+         <obj_property name="ElementShortName">din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">din[63:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="vbus226" type="vbus">
-         <obj_property name="label">dout0</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[15]" type="logic">
-            <obj_property name="ElementShortName">[15]</obj_property>
-            <obj_property name="ObjectShortName">[15]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[14]" type="logic">
-            <obj_property name="ElementShortName">[14]</obj_property>
-            <obj_property name="ObjectShortName">[14]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[13]" type="logic">
-            <obj_property name="ElementShortName">[13]</obj_property>
-            <obj_property name="ObjectShortName">[13]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[12]" type="logic">
-            <obj_property name="ElementShortName">[12]</obj_property>
-            <obj_property name="ObjectShortName">[12]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[11]" type="logic">
-            <obj_property name="ElementShortName">[11]</obj_property>
-            <obj_property name="ObjectShortName">[11]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[10]" type="logic">
-            <obj_property name="ElementShortName">[10]</obj_property>
-            <obj_property name="ObjectShortName">[10]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[9]" type="logic">
-            <obj_property name="ElementShortName">[9]</obj_property>
-            <obj_property name="ObjectShortName">[9]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[8]" type="logic">
-            <obj_property name="ElementShortName">[8]</obj_property>
-            <obj_property name="ObjectShortName">[8]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[7]" type="logic">
-            <obj_property name="ElementShortName">[7]</obj_property>
-            <obj_property name="ObjectShortName">[7]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[6]" type="logic">
-            <obj_property name="ElementShortName">[6]</obj_property>
-            <obj_property name="ObjectShortName">[6]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[5]" type="logic">
-            <obj_property name="ElementShortName">[5]</obj_property>
-            <obj_property name="ObjectShortName">[5]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[4]" type="logic">
-            <obj_property name="ElementShortName">[4]</obj_property>
-            <obj_property name="ObjectShortName">[4]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[3]" type="logic">
-            <obj_property name="ElementShortName">[3]</obj_property>
-            <obj_property name="ObjectShortName">[3]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[2]" type="logic">
-            <obj_property name="ElementShortName">[2]</obj_property>
-            <obj_property name="ObjectShortName">[2]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[1]" type="logic">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">[1]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[0]" type="logic">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">[0]</obj_property>
-         </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/prog_full" type="logic">
+         <obj_property name="ElementShortName">prog_full</obj_property>
+         <obj_property name="ObjectShortName">prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/prog_empty" type="logic">
+         <obj_property name="ElementShortName">prog_empty</obj_property>
+         <obj_property name="ObjectShortName">prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0Fifo/rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="group502" type="group">
-      <obj_property name="label">FOOTER</obj_property>
+   <wvobject fp_name="group4252" type="group">
+      <obj_property name="label">Ch1Fifo</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="vbus175" type="vbus">
-         <obj_property name="label">baseline</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[63]" type="logic">
-            <obj_property name="ElementShortName">[63]</obj_property>
-            <obj_property name="ObjectShortName">[63]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[62]" type="logic">
-            <obj_property name="ElementShortName">[62]</obj_property>
-            <obj_property name="ObjectShortName">[62]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[61]" type="logic">
-            <obj_property name="ElementShortName">[61]</obj_property>
-            <obj_property name="ObjectShortName">[61]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[60]" type="logic">
-            <obj_property name="ElementShortName">[60]</obj_property>
-            <obj_property name="ObjectShortName">[60]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[59]" type="logic">
-            <obj_property name="ElementShortName">[59]</obj_property>
-            <obj_property name="ObjectShortName">[59]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[58]" type="logic">
-            <obj_property name="ElementShortName">[58]</obj_property>
-            <obj_property name="ObjectShortName">[58]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[57]" type="logic">
-            <obj_property name="ElementShortName">[57]</obj_property>
-            <obj_property name="ObjectShortName">[57]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[56]" type="logic">
-            <obj_property name="ElementShortName">[56]</obj_property>
-            <obj_property name="ObjectShortName">[56]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[55]" type="logic">
-            <obj_property name="ElementShortName">[55]</obj_property>
-            <obj_property name="ObjectShortName">[55]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[54]" type="logic">
-            <obj_property name="ElementShortName">[54]</obj_property>
-            <obj_property name="ObjectShortName">[54]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[53]" type="logic">
-            <obj_property name="ElementShortName">[53]</obj_property>
-            <obj_property name="ObjectShortName">[53]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[52]" type="logic">
-            <obj_property name="ElementShortName">[52]</obj_property>
-            <obj_property name="ObjectShortName">[52]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[51]" type="logic">
-            <obj_property name="ElementShortName">[51]</obj_property>
-            <obj_property name="ObjectShortName">[51]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[50]" type="logic">
-            <obj_property name="ElementShortName">[50]</obj_property>
-            <obj_property name="ObjectShortName">[50]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[49]" type="logic">
-            <obj_property name="ElementShortName">[49]</obj_property>
-            <obj_property name="ObjectShortName">[49]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[48]" type="logic">
-            <obj_property name="ElementShortName">[48]</obj_property>
-            <obj_property name="ObjectShortName">[48]</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="vbus192" type="vbus">
-         <obj_property name="label">threshold</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[47]" type="logic">
-            <obj_property name="ElementShortName">[47]</obj_property>
-            <obj_property name="ObjectShortName">[47]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[46]" type="logic">
-            <obj_property name="ElementShortName">[46]</obj_property>
-            <obj_property name="ObjectShortName">[46]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[45]" type="logic">
-            <obj_property name="ElementShortName">[45]</obj_property>
-            <obj_property name="ObjectShortName">[45]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[44]" type="logic">
-            <obj_property name="ElementShortName">[44]</obj_property>
-            <obj_property name="ObjectShortName">[44]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[43]" type="logic">
-            <obj_property name="ElementShortName">[43]</obj_property>
-            <obj_property name="ObjectShortName">[43]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[42]" type="logic">
-            <obj_property name="ElementShortName">[42]</obj_property>
-            <obj_property name="ObjectShortName">[42]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[41]" type="logic">
-            <obj_property name="ElementShortName">[41]</obj_property>
-            <obj_property name="ObjectShortName">[41]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[40]" type="logic">
-            <obj_property name="ElementShortName">[40]</obj_property>
-            <obj_property name="ObjectShortName">[40]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[39]" type="logic">
-            <obj_property name="ElementShortName">[39]</obj_property>
-            <obj_property name="ObjectShortName">[39]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[38]" type="logic">
-            <obj_property name="ElementShortName">[38]</obj_property>
-            <obj_property name="ObjectShortName">[38]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[37]" type="logic">
-            <obj_property name="ElementShortName">[37]</obj_property>
-            <obj_property name="ObjectShortName">[37]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[36]" type="logic">
-            <obj_property name="ElementShortName">[36]</obj_property>
-            <obj_property name="ObjectShortName">[36]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[35]" type="logic">
-            <obj_property name="ElementShortName">[35]</obj_property>
-            <obj_property name="ObjectShortName">[35]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[34]" type="logic">
-            <obj_property name="ElementShortName">[34]</obj_property>
-            <obj_property name="ObjectShortName">[34]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[33]" type="logic">
-            <obj_property name="ElementShortName">[33]</obj_property>
-            <obj_property name="ObjectShortName">[33]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[32]" type="logic">
-            <obj_property name="ElementShortName">[32]</obj_property>
-            <obj_property name="ObjectShortName">[32]</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="vbus209" type="vbus">
-         <obj_property name="label">timestamp[47:32]</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[31]" type="logic">
-            <obj_property name="ElementShortName">[31]</obj_property>
-            <obj_property name="ObjectShortName">[31]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[30]" type="logic">
-            <obj_property name="ElementShortName">[30]</obj_property>
-            <obj_property name="ObjectShortName">[30]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[29]" type="logic">
-            <obj_property name="ElementShortName">[29]</obj_property>
-            <obj_property name="ObjectShortName">[29]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[28]" type="logic">
-            <obj_property name="ElementShortName">[28]</obj_property>
-            <obj_property name="ObjectShortName">[28]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[27]" type="logic">
-            <obj_property name="ElementShortName">[27]</obj_property>
-            <obj_property name="ObjectShortName">[27]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[26]" type="logic">
-            <obj_property name="ElementShortName">[26]</obj_property>
-            <obj_property name="ObjectShortName">[26]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[25]" type="logic">
-            <obj_property name="ElementShortName">[25]</obj_property>
-            <obj_property name="ObjectShortName">[25]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[24]" type="logic">
-            <obj_property name="ElementShortName">[24]</obj_property>
-            <obj_property name="ObjectShortName">[24]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[23]" type="logic">
-            <obj_property name="ElementShortName">[23]</obj_property>
-            <obj_property name="ObjectShortName">[23]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[22]" type="logic">
-            <obj_property name="ElementShortName">[22]</obj_property>
-            <obj_property name="ObjectShortName">[22]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[21]" type="logic">
-            <obj_property name="ElementShortName">[21]</obj_property>
-            <obj_property name="ObjectShortName">[21]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[20]" type="logic">
-            <obj_property name="ElementShortName">[20]</obj_property>
-            <obj_property name="ObjectShortName">[20]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[19]" type="logic">
-            <obj_property name="ElementShortName">[19]</obj_property>
-            <obj_property name="ObjectShortName">[19]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[18]" type="logic">
-            <obj_property name="ElementShortName">[18]</obj_property>
-            <obj_property name="ObjectShortName">[18]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[17]" type="logic">
-            <obj_property name="ElementShortName">[17]</obj_property>
-            <obj_property name="ObjectShortName">[17]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[16]" type="logic">
-            <obj_property name="ElementShortName">[16]</obj_property>
-            <obj_property name="ObjectShortName">[16]</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject fp_name="vbus226" type="vbus">
-         <obj_property name="label">footer_id</obj_property>
-         <obj_property name="DisplayName">label</obj_property>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[15]" type="logic">
-            <obj_property name="ElementShortName">[15]</obj_property>
-            <obj_property name="ObjectShortName">[15]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[14]" type="logic">
-            <obj_property name="ElementShortName">[14]</obj_property>
-            <obj_property name="ObjectShortName">[14]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[13]" type="logic">
-            <obj_property name="ElementShortName">[13]</obj_property>
-            <obj_property name="ObjectShortName">[13]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[12]" type="logic">
-            <obj_property name="ElementShortName">[12]</obj_property>
-            <obj_property name="ObjectShortName">[12]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[11]" type="logic">
-            <obj_property name="ElementShortName">[11]</obj_property>
-            <obj_property name="ObjectShortName">[11]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[10]" type="logic">
-            <obj_property name="ElementShortName">[10]</obj_property>
-            <obj_property name="ObjectShortName">[10]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[9]" type="logic">
-            <obj_property name="ElementShortName">[9]</obj_property>
-            <obj_property name="ObjectShortName">[9]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[8]" type="logic">
-            <obj_property name="ElementShortName">[8]</obj_property>
-            <obj_property name="ObjectShortName">[8]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[7]" type="logic">
-            <obj_property name="ElementShortName">[7]</obj_property>
-            <obj_property name="ObjectShortName">[7]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[6]" type="logic">
-            <obj_property name="ElementShortName">[6]</obj_property>
-            <obj_property name="ObjectShortName">[6]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[5]" type="logic">
-            <obj_property name="ElementShortName">[5]</obj_property>
-            <obj_property name="ObjectShortName">[5]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[4]" type="logic">
-            <obj_property name="ElementShortName">[4]</obj_property>
-            <obj_property name="ObjectShortName">[4]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[3]" type="logic">
-            <obj_property name="ElementShortName">[3]</obj_property>
-            <obj_property name="ObjectShortName">[3]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[2]" type="logic">
-            <obj_property name="ElementShortName">[2]</obj_property>
-            <obj_property name="ObjectShortName">[2]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[1]" type="logic">
-            <obj_property name="ElementShortName">[1]</obj_property>
-            <obj_property name="ObjectShortName">[1]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[0]" type="logic">
-            <obj_property name="ElementShortName">[0]</obj_property>
-            <obj_property name="ObjectShortName">[0]</obj_property>
-         </wvobject>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT_oVALID" type="logic">
-      <obj_property name="ElementShortName">DUT_oVALID</obj_property>
-      <obj_property name="ObjectShortName">DUT_oVALID</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch0_din" type="array">
-      <obj_property name="ElementShortName">ch0_din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_din[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="vbus568" type="vbus">
-      <obj_property name="label">ch0_din3</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[63]" type="logic">
-         <obj_property name="ElementShortName">[63]</obj_property>
-         <obj_property name="ObjectShortName">[63]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[62]" type="logic">
-         <obj_property name="ElementShortName">[62]</obj_property>
-         <obj_property name="ObjectShortName">[62]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[61]" type="logic">
-         <obj_property name="ElementShortName">[61]</obj_property>
-         <obj_property name="ObjectShortName">[61]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[60]" type="logic">
-         <obj_property name="ElementShortName">[60]</obj_property>
-         <obj_property name="ObjectShortName">[60]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[59]" type="logic">
-         <obj_property name="ElementShortName">[59]</obj_property>
-         <obj_property name="ObjectShortName">[59]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[58]" type="logic">
-         <obj_property name="ElementShortName">[58]</obj_property>
-         <obj_property name="ObjectShortName">[58]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[57]" type="logic">
-         <obj_property name="ElementShortName">[57]</obj_property>
-         <obj_property name="ObjectShortName">[57]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[56]" type="logic">
-         <obj_property name="ElementShortName">[56]</obj_property>
-         <obj_property name="ObjectShortName">[56]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[55]" type="logic">
-         <obj_property name="ElementShortName">[55]</obj_property>
-         <obj_property name="ObjectShortName">[55]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[54]" type="logic">
-         <obj_property name="ElementShortName">[54]</obj_property>
-         <obj_property name="ObjectShortName">[54]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[53]" type="logic">
-         <obj_property name="ElementShortName">[53]</obj_property>
-         <obj_property name="ObjectShortName">[53]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[52]" type="logic">
-         <obj_property name="ElementShortName">[52]</obj_property>
-         <obj_property name="ObjectShortName">[52]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[51]" type="logic">
-         <obj_property name="ElementShortName">[51]</obj_property>
-         <obj_property name="ObjectShortName">[51]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[50]" type="logic">
-         <obj_property name="ElementShortName">[50]</obj_property>
-         <obj_property name="ObjectShortName">[50]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[49]" type="logic">
-         <obj_property name="ElementShortName">[49]</obj_property>
-         <obj_property name="ObjectShortName">[49]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[48]" type="logic">
-         <obj_property name="ElementShortName">[48]</obj_property>
-         <obj_property name="ObjectShortName">[48]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus585" type="vbus">
-      <obj_property name="label">ch0_din2</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[47]" type="logic">
-         <obj_property name="ElementShortName">[47]</obj_property>
-         <obj_property name="ObjectShortName">[47]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[46]" type="logic">
-         <obj_property name="ElementShortName">[46]</obj_property>
-         <obj_property name="ObjectShortName">[46]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[45]" type="logic">
-         <obj_property name="ElementShortName">[45]</obj_property>
-         <obj_property name="ObjectShortName">[45]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[44]" type="logic">
-         <obj_property name="ElementShortName">[44]</obj_property>
-         <obj_property name="ObjectShortName">[44]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[43]" type="logic">
-         <obj_property name="ElementShortName">[43]</obj_property>
-         <obj_property name="ObjectShortName">[43]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[42]" type="logic">
-         <obj_property name="ElementShortName">[42]</obj_property>
-         <obj_property name="ObjectShortName">[42]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[41]" type="logic">
-         <obj_property name="ElementShortName">[41]</obj_property>
-         <obj_property name="ObjectShortName">[41]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[40]" type="logic">
-         <obj_property name="ElementShortName">[40]</obj_property>
-         <obj_property name="ObjectShortName">[40]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[39]" type="logic">
-         <obj_property name="ElementShortName">[39]</obj_property>
-         <obj_property name="ObjectShortName">[39]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[38]" type="logic">
-         <obj_property name="ElementShortName">[38]</obj_property>
-         <obj_property name="ObjectShortName">[38]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[37]" type="logic">
-         <obj_property name="ElementShortName">[37]</obj_property>
-         <obj_property name="ObjectShortName">[37]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[36]" type="logic">
-         <obj_property name="ElementShortName">[36]</obj_property>
-         <obj_property name="ObjectShortName">[36]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[35]" type="logic">
-         <obj_property name="ElementShortName">[35]</obj_property>
-         <obj_property name="ObjectShortName">[35]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[34]" type="logic">
-         <obj_property name="ElementShortName">[34]</obj_property>
-         <obj_property name="ObjectShortName">[34]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[33]" type="logic">
-         <obj_property name="ElementShortName">[33]</obj_property>
-         <obj_property name="ObjectShortName">[33]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[32]" type="logic">
-         <obj_property name="ElementShortName">[32]</obj_property>
-         <obj_property name="ObjectShortName">[32]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus602" type="vbus">
-      <obj_property name="label">ch0_din1</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[31]" type="logic">
-         <obj_property name="ElementShortName">[31]</obj_property>
-         <obj_property name="ObjectShortName">[31]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[30]" type="logic">
-         <obj_property name="ElementShortName">[30]</obj_property>
-         <obj_property name="ObjectShortName">[30]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[29]" type="logic">
-         <obj_property name="ElementShortName">[29]</obj_property>
-         <obj_property name="ObjectShortName">[29]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[28]" type="logic">
-         <obj_property name="ElementShortName">[28]</obj_property>
-         <obj_property name="ObjectShortName">[28]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[27]" type="logic">
-         <obj_property name="ElementShortName">[27]</obj_property>
-         <obj_property name="ObjectShortName">[27]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[26]" type="logic">
-         <obj_property name="ElementShortName">[26]</obj_property>
-         <obj_property name="ObjectShortName">[26]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[25]" type="logic">
-         <obj_property name="ElementShortName">[25]</obj_property>
-         <obj_property name="ObjectShortName">[25]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[24]" type="logic">
-         <obj_property name="ElementShortName">[24]</obj_property>
-         <obj_property name="ObjectShortName">[24]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[23]" type="logic">
-         <obj_property name="ElementShortName">[23]</obj_property>
-         <obj_property name="ObjectShortName">[23]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[22]" type="logic">
-         <obj_property name="ElementShortName">[22]</obj_property>
-         <obj_property name="ObjectShortName">[22]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[21]" type="logic">
-         <obj_property name="ElementShortName">[21]</obj_property>
-         <obj_property name="ObjectShortName">[21]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[20]" type="logic">
-         <obj_property name="ElementShortName">[20]</obj_property>
-         <obj_property name="ObjectShortName">[20]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[19]" type="logic">
-         <obj_property name="ElementShortName">[19]</obj_property>
-         <obj_property name="ObjectShortName">[19]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[18]" type="logic">
-         <obj_property name="ElementShortName">[18]</obj_property>
-         <obj_property name="ObjectShortName">[18]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[17]" type="logic">
-         <obj_property name="ElementShortName">[17]</obj_property>
-         <obj_property name="ObjectShortName">[17]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[16]" type="logic">
-         <obj_property name="ElementShortName">[16]</obj_property>
-         <obj_property name="ObjectShortName">[16]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus619" type="vbus">
-      <obj_property name="label">ch0_din0</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[15]" type="logic">
-         <obj_property name="ElementShortName">[15]</obj_property>
-         <obj_property name="ObjectShortName">[15]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[14]" type="logic">
-         <obj_property name="ElementShortName">[14]</obj_property>
-         <obj_property name="ObjectShortName">[14]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[13]" type="logic">
-         <obj_property name="ElementShortName">[13]</obj_property>
-         <obj_property name="ObjectShortName">[13]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[12]" type="logic">
-         <obj_property name="ElementShortName">[12]</obj_property>
-         <obj_property name="ObjectShortName">[12]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[11]" type="logic">
-         <obj_property name="ElementShortName">[11]</obj_property>
-         <obj_property name="ObjectShortName">[11]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[10]" type="logic">
-         <obj_property name="ElementShortName">[10]</obj_property>
-         <obj_property name="ObjectShortName">[10]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[9]" type="logic">
-         <obj_property name="ElementShortName">[9]</obj_property>
-         <obj_property name="ObjectShortName">[9]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[8]" type="logic">
-         <obj_property name="ElementShortName">[8]</obj_property>
-         <obj_property name="ObjectShortName">[8]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[7]" type="logic">
-         <obj_property name="ElementShortName">[7]</obj_property>
-         <obj_property name="ObjectShortName">[7]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[6]" type="logic">
-         <obj_property name="ElementShortName">[6]</obj_property>
-         <obj_property name="ObjectShortName">[6]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[5]" type="logic">
-         <obj_property name="ElementShortName">[5]</obj_property>
-         <obj_property name="ObjectShortName">[5]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[4]" type="logic">
-         <obj_property name="ElementShortName">[4]</obj_property>
-         <obj_property name="ObjectShortName">[4]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[3]" type="logic">
-         <obj_property name="ElementShortName">[3]</obj_property>
-         <obj_property name="ObjectShortName">[3]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[2]" type="logic">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[1]" type="logic">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch0_din[0]" type="logic">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch0_we" type="logic">
-      <obj_property name="ElementShortName">ch0_we</obj_property>
-      <obj_property name="ObjectShortName">ch0_we</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch1_din" type="array">
-      <obj_property name="ElementShortName">ch1_din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_din[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="vbus700" type="vbus">
-      <obj_property name="label">ch1_din3</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[63]" type="logic">
-         <obj_property name="ElementShortName">[63]</obj_property>
-         <obj_property name="ObjectShortName">[63]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[62]" type="logic">
-         <obj_property name="ElementShortName">[62]</obj_property>
-         <obj_property name="ObjectShortName">[62]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[61]" type="logic">
-         <obj_property name="ElementShortName">[61]</obj_property>
-         <obj_property name="ObjectShortName">[61]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[60]" type="logic">
-         <obj_property name="ElementShortName">[60]</obj_property>
-         <obj_property name="ObjectShortName">[60]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[59]" type="logic">
-         <obj_property name="ElementShortName">[59]</obj_property>
-         <obj_property name="ObjectShortName">[59]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[58]" type="logic">
-         <obj_property name="ElementShortName">[58]</obj_property>
-         <obj_property name="ObjectShortName">[58]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[57]" type="logic">
-         <obj_property name="ElementShortName">[57]</obj_property>
-         <obj_property name="ObjectShortName">[57]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[56]" type="logic">
-         <obj_property name="ElementShortName">[56]</obj_property>
-         <obj_property name="ObjectShortName">[56]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[55]" type="logic">
-         <obj_property name="ElementShortName">[55]</obj_property>
-         <obj_property name="ObjectShortName">[55]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[54]" type="logic">
-         <obj_property name="ElementShortName">[54]</obj_property>
-         <obj_property name="ObjectShortName">[54]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[53]" type="logic">
-         <obj_property name="ElementShortName">[53]</obj_property>
-         <obj_property name="ObjectShortName">[53]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[52]" type="logic">
-         <obj_property name="ElementShortName">[52]</obj_property>
-         <obj_property name="ObjectShortName">[52]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[51]" type="logic">
-         <obj_property name="ElementShortName">[51]</obj_property>
-         <obj_property name="ObjectShortName">[51]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[50]" type="logic">
-         <obj_property name="ElementShortName">[50]</obj_property>
-         <obj_property name="ObjectShortName">[50]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[49]" type="logic">
-         <obj_property name="ElementShortName">[49]</obj_property>
-         <obj_property name="ObjectShortName">[49]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[48]" type="logic">
-         <obj_property name="ElementShortName">[48]</obj_property>
-         <obj_property name="ObjectShortName">[48]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus717" type="vbus">
-      <obj_property name="label">ch1_din2</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[47]" type="logic">
-         <obj_property name="ElementShortName">[47]</obj_property>
-         <obj_property name="ObjectShortName">[47]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[46]" type="logic">
-         <obj_property name="ElementShortName">[46]</obj_property>
-         <obj_property name="ObjectShortName">[46]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[45]" type="logic">
-         <obj_property name="ElementShortName">[45]</obj_property>
-         <obj_property name="ObjectShortName">[45]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[44]" type="logic">
-         <obj_property name="ElementShortName">[44]</obj_property>
-         <obj_property name="ObjectShortName">[44]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[43]" type="logic">
-         <obj_property name="ElementShortName">[43]</obj_property>
-         <obj_property name="ObjectShortName">[43]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[42]" type="logic">
-         <obj_property name="ElementShortName">[42]</obj_property>
-         <obj_property name="ObjectShortName">[42]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[41]" type="logic">
-         <obj_property name="ElementShortName">[41]</obj_property>
-         <obj_property name="ObjectShortName">[41]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[40]" type="logic">
-         <obj_property name="ElementShortName">[40]</obj_property>
-         <obj_property name="ObjectShortName">[40]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[39]" type="logic">
-         <obj_property name="ElementShortName">[39]</obj_property>
-         <obj_property name="ObjectShortName">[39]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[38]" type="logic">
-         <obj_property name="ElementShortName">[38]</obj_property>
-         <obj_property name="ObjectShortName">[38]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[37]" type="logic">
-         <obj_property name="ElementShortName">[37]</obj_property>
-         <obj_property name="ObjectShortName">[37]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[36]" type="logic">
-         <obj_property name="ElementShortName">[36]</obj_property>
-         <obj_property name="ObjectShortName">[36]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[35]" type="logic">
-         <obj_property name="ElementShortName">[35]</obj_property>
-         <obj_property name="ObjectShortName">[35]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[34]" type="logic">
-         <obj_property name="ElementShortName">[34]</obj_property>
-         <obj_property name="ObjectShortName">[34]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[33]" type="logic">
-         <obj_property name="ElementShortName">[33]</obj_property>
-         <obj_property name="ObjectShortName">[33]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[32]" type="logic">
-         <obj_property name="ElementShortName">[32]</obj_property>
-         <obj_property name="ObjectShortName">[32]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus734" type="vbus">
-      <obj_property name="label">ch1_din1</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[31]" type="logic">
-         <obj_property name="ElementShortName">[31]</obj_property>
-         <obj_property name="ObjectShortName">[31]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[30]" type="logic">
-         <obj_property name="ElementShortName">[30]</obj_property>
-         <obj_property name="ObjectShortName">[30]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[29]" type="logic">
-         <obj_property name="ElementShortName">[29]</obj_property>
-         <obj_property name="ObjectShortName">[29]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[28]" type="logic">
-         <obj_property name="ElementShortName">[28]</obj_property>
-         <obj_property name="ObjectShortName">[28]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[27]" type="logic">
-         <obj_property name="ElementShortName">[27]</obj_property>
-         <obj_property name="ObjectShortName">[27]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[26]" type="logic">
-         <obj_property name="ElementShortName">[26]</obj_property>
-         <obj_property name="ObjectShortName">[26]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[25]" type="logic">
-         <obj_property name="ElementShortName">[25]</obj_property>
-         <obj_property name="ObjectShortName">[25]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[24]" type="logic">
-         <obj_property name="ElementShortName">[24]</obj_property>
-         <obj_property name="ObjectShortName">[24]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[23]" type="logic">
-         <obj_property name="ElementShortName">[23]</obj_property>
-         <obj_property name="ObjectShortName">[23]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[22]" type="logic">
-         <obj_property name="ElementShortName">[22]</obj_property>
-         <obj_property name="ObjectShortName">[22]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[21]" type="logic">
-         <obj_property name="ElementShortName">[21]</obj_property>
-         <obj_property name="ObjectShortName">[21]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[20]" type="logic">
-         <obj_property name="ElementShortName">[20]</obj_property>
-         <obj_property name="ObjectShortName">[20]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[19]" type="logic">
-         <obj_property name="ElementShortName">[19]</obj_property>
-         <obj_property name="ObjectShortName">[19]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[18]" type="logic">
-         <obj_property name="ElementShortName">[18]</obj_property>
-         <obj_property name="ObjectShortName">[18]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[17]" type="logic">
-         <obj_property name="ElementShortName">[17]</obj_property>
-         <obj_property name="ObjectShortName">[17]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[16]" type="logic">
-         <obj_property name="ElementShortName">[16]</obj_property>
-         <obj_property name="ObjectShortName">[16]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus751" type="vbus">
-      <obj_property name="label">ch1_din0</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[15]" type="logic">
-         <obj_property name="ElementShortName">[15]</obj_property>
-         <obj_property name="ObjectShortName">[15]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[14]" type="logic">
-         <obj_property name="ElementShortName">[14]</obj_property>
-         <obj_property name="ObjectShortName">[14]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[13]" type="logic">
-         <obj_property name="ElementShortName">[13]</obj_property>
-         <obj_property name="ObjectShortName">[13]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[12]" type="logic">
-         <obj_property name="ElementShortName">[12]</obj_property>
-         <obj_property name="ObjectShortName">[12]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[11]" type="logic">
-         <obj_property name="ElementShortName">[11]</obj_property>
-         <obj_property name="ObjectShortName">[11]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[10]" type="logic">
-         <obj_property name="ElementShortName">[10]</obj_property>
-         <obj_property name="ObjectShortName">[10]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[9]" type="logic">
-         <obj_property name="ElementShortName">[9]</obj_property>
-         <obj_property name="ObjectShortName">[9]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[8]" type="logic">
-         <obj_property name="ElementShortName">[8]</obj_property>
-         <obj_property name="ObjectShortName">[8]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[7]" type="logic">
-         <obj_property name="ElementShortName">[7]</obj_property>
-         <obj_property name="ObjectShortName">[7]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[6]" type="logic">
-         <obj_property name="ElementShortName">[6]</obj_property>
-         <obj_property name="ObjectShortName">[6]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[5]" type="logic">
-         <obj_property name="ElementShortName">[5]</obj_property>
-         <obj_property name="ObjectShortName">[5]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[4]" type="logic">
-         <obj_property name="ElementShortName">[4]</obj_property>
-         <obj_property name="ObjectShortName">[4]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[3]" type="logic">
-         <obj_property name="ElementShortName">[3]</obj_property>
-         <obj_property name="ObjectShortName">[3]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[2]" type="logic">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[1]" type="logic">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/ch1_din[0]" type="logic">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch1_we" type="logic">
-      <obj_property name="ElementShortName">ch1_we</obj_property>
-      <obj_property name="ObjectShortName">ch1_we</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/current_time" type="array">
-      <obj_property name="ElementShortName">current_time[47:0]</obj_property>
-      <obj_property name="ObjectShortName">current_time[47:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/base_line" type="array">
-      <obj_property name="ElementShortName">base_line[11:0]</obj_property>
-      <obj_property name="ObjectShortName">base_line[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/threshold_val" type="array">
-      <obj_property name="ElementShortName">threshold_val[12:0]</obj_property>
-      <obj_property name="ObjectShortName">threshold_val[12:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/bl_min" type="array">
-      <obj_property name="ElementShortName">bl_min[11:0]</obj_property>
-      <obj_property name="ObjectShortName">bl_min[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/bl_max" type="array">
-      <obj_property name="ElementShortName">bl_max[11:0]</obj_property>
-      <obj_property name="ObjectShortName">bl_max[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch0_fst_height" type="array">
-      <obj_property name="ElementShortName">ch0_fst_height[11:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_fst_height[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch0_snd_height" type="array">
-      <obj_property name="ElementShortName">ch0_snd_height[11:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_snd_height[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch1_fst_height" type="array">
-      <obj_property name="ElementShortName">ch1_fst_height[11:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_fst_height[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ch1_snd_height" type="array">
-      <obj_property name="ElementShortName">ch1_snd_height[11:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_snd_height[11:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/CLK_FREQ" type="other">
-      <obj_property name="ElementShortName">CLK_FREQ</obj_property>
-      <obj_property name="ObjectShortName">CLK_FREQ</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/THRESHOLD" type="array">
-      <obj_property name="ElementShortName">THRESHOLD[31:0]</obj_property>
-      <obj_property name="ObjectShortName">THRESHOLD[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/TIME_STAMP_WIDTH" type="array">
-      <obj_property name="ElementShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">TIME_STAMP_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ADC_RESOLUTION_WIDTH" type="array">
-      <obj_property name="ElementShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ADC_RESOLUTION_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/WIDTH" type="array">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/HEADER_FOOTER_ID_WIDTH" type="array">
-      <obj_property name="ElementShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ADC_MAX_VAL" type="array">
-      <obj_property name="ElementShortName">ADC_MAX_VAL[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ADC_MAX_VAL[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/ADC_MIN_VAL" type="array">
-      <obj_property name="ElementShortName">ADC_MIN_VAL[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ADC_MIN_VAL[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/CLK_PERIOD" type="array">
-      <obj_property name="ElementShortName">CLK_PERIOD[31:0]</obj_property>
-      <obj_property name="ObjectShortName">CLK_PERIOD[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/RESET_TIME" type="array">
-      <obj_property name="ElementShortName">RESET_TIME[31:0]</obj_property>
-      <obj_property name="ObjectShortName">RESET_TIME[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/PRE_SIG" type="array">
-      <obj_property name="ElementShortName">PRE_SIG[31:0]</obj_property>
-      <obj_property name="ObjectShortName">PRE_SIG[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/POST_SIG" type="array">
-      <obj_property name="ElementShortName">POST_SIG[31:0]</obj_property>
-      <obj_property name="ObjectShortName">POST_SIG[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/THRESHOLD_VAL" type="array">
-      <obj_property name="ElementShortName">THRESHOLD_VAL[31:0]</obj_property>
-      <obj_property name="ObjectShortName">THRESHOLD_VAL[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/FST_HEIGHT" type="array">
-      <obj_property name="ElementShortName">FST_HEIGHT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">FST_HEIGHT[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/SND_HEIGHT" type="array">
-      <obj_property name="ElementShortName">SND_HEIGHT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SND_HEIGHT[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/FST_WIDTH" type="array">
-      <obj_property name="ElementShortName">FST_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">FST_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/SND_WIDTH" type="array">
-      <obj_property name="ElementShortName">SND_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SND_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/SIGNAL_INTERVAL" type="array">
-      <obj_property name="ElementShortName">SIGNAL_INTERVAL[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SIGNAL_INTERVAL[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/BL_MIN" type="array">
-      <obj_property name="ElementShortName">BL_MIN[31:0]</obj_property>
-      <obj_property name="ObjectShortName">BL_MIN[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/BL_MAX" type="array">
-      <obj_property name="ElementShortName">BL_MAX[31:0]</obj_property>
-      <obj_property name="ObjectShortName">BL_MAX[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/BL" type="array">
-      <obj_property name="ElementShortName">BL[31:0]</obj_property>
-      <obj_property name="ObjectShortName">BL[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/SAMPLE_PER_TDATA" type="array">
-      <obj_property name="ElementShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SAMPLE_PER_TDATA[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CLK" type="logic">
-      <obj_property name="ElementShortName">CLK</obj_property>
-      <obj_property name="ObjectShortName">CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN" type="array">
-      <obj_property name="ElementShortName">CH0_DIN[63:0]</obj_property>
-      <obj_property name="ObjectShortName">CH0_DIN[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_READ_REQUEST" type="logic">
-      <obj_property name="ElementShortName">CH0_READ_REQUEST</obj_property>
-      <obj_property name="ObjectShortName">CH0_READ_REQUEST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_RE" type="logic">
-      <obj_property name="ElementShortName">CH0_RE</obj_property>
-      <obj_property name="ObjectShortName">CH0_RE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN" type="array">
-      <obj_property name="ElementShortName">CH1_DIN[63:0]</obj_property>
-      <obj_property name="ObjectShortName">CH1_DIN[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_READ_REQUEST" type="logic">
-      <obj_property name="ElementShortName">CH1_READ_REQUEST</obj_property>
-      <obj_property name="ObjectShortName">CH1_READ_REQUEST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_RE" type="logic">
-      <obj_property name="ElementShortName">CH1_RE</obj_property>
-      <obj_property name="ObjectShortName">CH1_RE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/iREADY" type="logic">
-      <obj_property name="ElementShortName">iREADY</obj_property>
-      <obj_property name="ObjectShortName">iREADY</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/DOUT" type="array">
-      <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
-      <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/oVALID" type="logic">
-      <obj_property name="ElementShortName">oVALID</obj_property>
-      <obj_property name="ObjectShortName">oVALID</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_din" type="array">
-      <obj_property name="ElementShortName">ch0_din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_din[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked" type="array">
-      <obj_property name="ElementShortName">ch0_header_checked[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_header_checked[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked" type="array">
-      <obj_property name="ElementShortName">ch0_footer_checked[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_footer_checked[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data" type="array">
-      <obj_property name="ElementShortName">ch0_correct_data[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_correct_data[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_re" type="logic">
-      <obj_property name="ElementShortName">ch0_re</obj_property>
-      <obj_property name="ObjectShortName">ch0_re</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_header_foundD" type="logic">
-      <obj_property name="ElementShortName">CH0_DIN_header_foundD</obj_property>
-      <obj_property name="ObjectShortName">CH0_DIN_header_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH0_DIN_footer_foundD" type="logic">
-      <obj_property name="ElementShortName">CH0_DIN_footer_foundD</obj_property>
-      <obj_property name="ObjectShortName">CH0_DIN_footer_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_checked_pauseD" type="logic">
-      <obj_property name="ElementShortName">ch0_header_checked_pauseD</obj_property>
-      <obj_property name="ObjectShortName">ch0_header_checked_pauseD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_pauseD" type="logic">
-      <obj_property name="ElementShortName">ch0_footer_checked_pauseD</obj_property>
-      <obj_property name="ObjectShortName">ch0_footer_checked_pauseD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_header_lostD" type="logic">
-      <obj_property name="ElementShortName">ch0_header_lostD</obj_property>
-      <obj_property name="ObjectShortName">ch0_header_lostD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_lostD" type="logic">
-      <obj_property name="ElementShortName">ch0_footer_lostD</obj_property>
-      <obj_property name="ObjectShortName">ch0_footer_lostD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_footer_checked_header_foundD" type="logic">
-      <obj_property name="ElementShortName">ch0_footer_checked_header_foundD</obj_property>
-      <obj_property name="ObjectShortName">ch0_footer_checked_header_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_correct_data_footer_foundD" type="logic">
-      <obj_property name="ElementShortName">ch0_correct_data_footer_foundD</obj_property>
-      <obj_property name="ObjectShortName">ch0_correct_data_footer_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_head_foot_id_hist" type="array">
-      <obj_property name="ElementShortName">ch0_head_foot_id_hist[2:0]</obj_property>
-      <obj_property name="ObjectShortName">ch0_head_foot_id_hist[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_din" type="array">
-      <obj_property name="ElementShortName">ch1_din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_din[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked" type="array">
-      <obj_property name="ElementShortName">ch1_header_checked[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_header_checked[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked" type="array">
-      <obj_property name="ElementShortName">ch1_footer_checked[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_footer_checked[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data" type="array">
-      <obj_property name="ElementShortName">ch1_correct_data[63:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_correct_data[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_re" type="logic">
-      <obj_property name="ElementShortName">ch1_re</obj_property>
-      <obj_property name="ObjectShortName">ch1_re</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_header_foundD" type="logic">
-      <obj_property name="ElementShortName">CH1_DIN_header_foundD</obj_property>
-      <obj_property name="ObjectShortName">CH1_DIN_header_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/CH1_DIN_footer_foundD" type="logic">
-      <obj_property name="ElementShortName">CH1_DIN_footer_foundD</obj_property>
-      <obj_property name="ObjectShortName">CH1_DIN_footer_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_checked_pauseD" type="logic">
-      <obj_property name="ElementShortName">ch1_header_checked_pauseD</obj_property>
-      <obj_property name="ObjectShortName">ch1_header_checked_pauseD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_pauseD" type="logic">
-      <obj_property name="ElementShortName">ch1_footer_checked_pauseD</obj_property>
-      <obj_property name="ObjectShortName">ch1_footer_checked_pauseD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_header_lostD" type="logic">
-      <obj_property name="ElementShortName">ch1_header_lostD</obj_property>
-      <obj_property name="ObjectShortName">ch1_header_lostD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_lostD" type="logic">
-      <obj_property name="ElementShortName">ch1_footer_lostD</obj_property>
-      <obj_property name="ObjectShortName">ch1_footer_lostD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_footer_checked_header_foundD" type="logic">
-      <obj_property name="ElementShortName">ch1_footer_checked_header_foundD</obj_property>
-      <obj_property name="ObjectShortName">ch1_footer_checked_header_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_correct_data_footer_foundD" type="logic">
-      <obj_property name="ElementShortName">ch1_correct_data_footer_foundD</obj_property>
-      <obj_property name="ObjectShortName">ch1_correct_data_footer_foundD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_head_foot_id_hist" type="array">
-      <obj_property name="ElementShortName">ch1_head_foot_id_hist[2:0]</obj_property>
-      <obj_property name="ObjectShortName">ch1_head_foot_id_hist[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/read_request" type="array">
-      <obj_property name="ElementShortName">read_request[1:0]</obj_property>
-      <obj_property name="ObjectShortName">read_request[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch0_sending" type="logic">
-      <obj_property name="ElementShortName">ch0_sending</obj_property>
-      <obj_property name="ObjectShortName">ch0_sending</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/ch1_sending" type="logic">
-      <obj_property name="ElementShortName">ch1_sending</obj_property>
-      <obj_property name="ObjectShortName">ch1_sending</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/sending" type="logic">
-      <obj_property name="ElementShortName">sending</obj_property>
-      <obj_property name="ObjectShortName">sending</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/dout" type="array">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/DATA_WIDTH" type="array">
-      <obj_property name="ElementShortName">DATA_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">DATA_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/DualChMixer/HEADER_FOOTER_ID_WIDTH" type="array">
-      <obj_property name="ElementShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">HEADER_FOOTER_ID_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/CLK" type="logic">
-      <obj_property name="ElementShortName">CLK</obj_property>
-      <obj_property name="ObjectShortName">CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/PROGRAMMABLE_FULL" type="logic">
-      <obj_property name="ElementShortName">PROGRAMMABLE_FULL</obj_property>
-      <obj_property name="ObjectShortName">PROGRAMMABLE_FULL</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/PROGRAMMABLE_EMPTY" type="logic">
-      <obj_property name="ElementShortName">PROGRAMMABLE_EMPTY</obj_property>
-      <obj_property name="ObjectShortName">PROGRAMMABLE_EMPTY</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/READ_REQUEST" type="logic">
-      <obj_property name="ElementShortName">READ_REQUEST</obj_property>
-      <obj_property name="ObjectShortName">READ_REQUEST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/read_request" type="logic">
-      <obj_property name="ElementShortName">read_request</obj_property>
-      <obj_property name="ObjectShortName">read_request</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/prog_full_delay" type="logic">
-      <obj_property name="ElementShortName">prog_full_delay</obj_property>
-      <obj_property name="ObjectShortName">prog_full_delay</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/prog_empty_delay" type="logic">
-      <obj_property name="ElementShortName">prog_empty_delay</obj_property>
-      <obj_property name="ObjectShortName">prog_empty_delay</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/fast_prog_full_posedge" type="logic">
-      <obj_property name="ElementShortName">fast_prog_full_posedge</obj_property>
-      <obj_property name="ObjectShortName">fast_prog_full_posedge</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch0ReadRequester/fast_prog_empty_posedge" type="logic">
-      <obj_property name="ElementShortName">fast_prog_empty_posedge</obj_property>
-      <obj_property name="ObjectShortName">fast_prog_empty_posedge</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/CLK" type="logic">
-      <obj_property name="ElementShortName">CLK</obj_property>
-      <obj_property name="ObjectShortName">CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/PROGRAMMABLE_FULL" type="logic">
-      <obj_property name="ElementShortName">PROGRAMMABLE_FULL</obj_property>
-      <obj_property name="ObjectShortName">PROGRAMMABLE_FULL</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/PROGRAMMABLE_EMPTY" type="logic">
-      <obj_property name="ElementShortName">PROGRAMMABLE_EMPTY</obj_property>
-      <obj_property name="ObjectShortName">PROGRAMMABLE_EMPTY</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/READ_REQUEST" type="logic">
-      <obj_property name="ElementShortName">READ_REQUEST</obj_property>
-      <obj_property name="ObjectShortName">READ_REQUEST</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/read_request" type="logic">
-      <obj_property name="ElementShortName">read_request</obj_property>
-      <obj_property name="ObjectShortName">read_request</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/prog_full_delay" type="logic">
-      <obj_property name="ElementShortName">prog_full_delay</obj_property>
-      <obj_property name="ObjectShortName">prog_full_delay</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/prog_empty_delay" type="logic">
-      <obj_property name="ElementShortName">prog_empty_delay</obj_property>
-      <obj_property name="ObjectShortName">prog_empty_delay</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/fast_prog_full_posedge" type="logic">
-      <obj_property name="ElementShortName">fast_prog_full_posedge</obj_property>
-      <obj_property name="ObjectShortName">fast_prog_full_posedge</obj_property>
-   </wvobject>
-   <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1ReadRequester/fast_prog_empty_posedge" type="logic">
-      <obj_property name="ElementShortName">fast_prog_empty_posedge</obj_property>
-      <obj_property name="ObjectShortName">fast_prog_empty_posedge</obj_property>
-   </wvobject>
-   <wvobject fp_name="vbus175" type="vbus">
-      <obj_property name="label">dout3</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[63]" type="logic">
-         <obj_property name="ElementShortName">[63]</obj_property>
-         <obj_property name="ObjectShortName">[63]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[62]" type="logic">
-         <obj_property name="ElementShortName">[62]</obj_property>
-         <obj_property name="ObjectShortName">[62]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[61]" type="logic">
-         <obj_property name="ElementShortName">[61]</obj_property>
-         <obj_property name="ObjectShortName">[61]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[60]" type="logic">
-         <obj_property name="ElementShortName">[60]</obj_property>
-         <obj_property name="ObjectShortName">[60]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[59]" type="logic">
-         <obj_property name="ElementShortName">[59]</obj_property>
-         <obj_property name="ObjectShortName">[59]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[58]" type="logic">
-         <obj_property name="ElementShortName">[58]</obj_property>
-         <obj_property name="ObjectShortName">[58]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[57]" type="logic">
-         <obj_property name="ElementShortName">[57]</obj_property>
-         <obj_property name="ObjectShortName">[57]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[56]" type="logic">
-         <obj_property name="ElementShortName">[56]</obj_property>
-         <obj_property name="ObjectShortName">[56]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[55]" type="logic">
-         <obj_property name="ElementShortName">[55]</obj_property>
-         <obj_property name="ObjectShortName">[55]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[54]" type="logic">
-         <obj_property name="ElementShortName">[54]</obj_property>
-         <obj_property name="ObjectShortName">[54]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[53]" type="logic">
-         <obj_property name="ElementShortName">[53]</obj_property>
-         <obj_property name="ObjectShortName">[53]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[52]" type="logic">
-         <obj_property name="ElementShortName">[52]</obj_property>
-         <obj_property name="ObjectShortName">[52]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[51]" type="logic">
-         <obj_property name="ElementShortName">[51]</obj_property>
-         <obj_property name="ObjectShortName">[51]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[50]" type="logic">
-         <obj_property name="ElementShortName">[50]</obj_property>
-         <obj_property name="ObjectShortName">[50]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[49]" type="logic">
-         <obj_property name="ElementShortName">[49]</obj_property>
-         <obj_property name="ObjectShortName">[49]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[48]" type="logic">
-         <obj_property name="ElementShortName">[48]</obj_property>
-         <obj_property name="ObjectShortName">[48]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus192" type="vbus">
-      <obj_property name="label">dout2</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[47]" type="logic">
-         <obj_property name="ElementShortName">[47]</obj_property>
-         <obj_property name="ObjectShortName">[47]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[46]" type="logic">
-         <obj_property name="ElementShortName">[46]</obj_property>
-         <obj_property name="ObjectShortName">[46]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[45]" type="logic">
-         <obj_property name="ElementShortName">[45]</obj_property>
-         <obj_property name="ObjectShortName">[45]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[44]" type="logic">
-         <obj_property name="ElementShortName">[44]</obj_property>
-         <obj_property name="ObjectShortName">[44]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[43]" type="logic">
-         <obj_property name="ElementShortName">[43]</obj_property>
-         <obj_property name="ObjectShortName">[43]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[42]" type="logic">
-         <obj_property name="ElementShortName">[42]</obj_property>
-         <obj_property name="ObjectShortName">[42]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[41]" type="logic">
-         <obj_property name="ElementShortName">[41]</obj_property>
-         <obj_property name="ObjectShortName">[41]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[40]" type="logic">
-         <obj_property name="ElementShortName">[40]</obj_property>
-         <obj_property name="ObjectShortName">[40]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[39]" type="logic">
-         <obj_property name="ElementShortName">[39]</obj_property>
-         <obj_property name="ObjectShortName">[39]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[38]" type="logic">
-         <obj_property name="ElementShortName">[38]</obj_property>
-         <obj_property name="ObjectShortName">[38]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[37]" type="logic">
-         <obj_property name="ElementShortName">[37]</obj_property>
-         <obj_property name="ObjectShortName">[37]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[36]" type="logic">
-         <obj_property name="ElementShortName">[36]</obj_property>
-         <obj_property name="ObjectShortName">[36]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[35]" type="logic">
-         <obj_property name="ElementShortName">[35]</obj_property>
-         <obj_property name="ObjectShortName">[35]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[34]" type="logic">
-         <obj_property name="ElementShortName">[34]</obj_property>
-         <obj_property name="ObjectShortName">[34]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[33]" type="logic">
-         <obj_property name="ElementShortName">[33]</obj_property>
-         <obj_property name="ObjectShortName">[33]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[32]" type="logic">
-         <obj_property name="ElementShortName">[32]</obj_property>
-         <obj_property name="ObjectShortName">[32]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus209" type="vbus">
-      <obj_property name="label">dout1</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[31]" type="logic">
-         <obj_property name="ElementShortName">[31]</obj_property>
-         <obj_property name="ObjectShortName">[31]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[30]" type="logic">
-         <obj_property name="ElementShortName">[30]</obj_property>
-         <obj_property name="ObjectShortName">[30]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[29]" type="logic">
-         <obj_property name="ElementShortName">[29]</obj_property>
-         <obj_property name="ObjectShortName">[29]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[28]" type="logic">
-         <obj_property name="ElementShortName">[28]</obj_property>
-         <obj_property name="ObjectShortName">[28]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[27]" type="logic">
-         <obj_property name="ElementShortName">[27]</obj_property>
-         <obj_property name="ObjectShortName">[27]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[26]" type="logic">
-         <obj_property name="ElementShortName">[26]</obj_property>
-         <obj_property name="ObjectShortName">[26]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[25]" type="logic">
-         <obj_property name="ElementShortName">[25]</obj_property>
-         <obj_property name="ObjectShortName">[25]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[24]" type="logic">
-         <obj_property name="ElementShortName">[24]</obj_property>
-         <obj_property name="ObjectShortName">[24]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[23]" type="logic">
-         <obj_property name="ElementShortName">[23]</obj_property>
-         <obj_property name="ObjectShortName">[23]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[22]" type="logic">
-         <obj_property name="ElementShortName">[22]</obj_property>
-         <obj_property name="ObjectShortName">[22]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[21]" type="logic">
-         <obj_property name="ElementShortName">[21]</obj_property>
-         <obj_property name="ObjectShortName">[21]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[20]" type="logic">
-         <obj_property name="ElementShortName">[20]</obj_property>
-         <obj_property name="ObjectShortName">[20]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[19]" type="logic">
-         <obj_property name="ElementShortName">[19]</obj_property>
-         <obj_property name="ObjectShortName">[19]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[18]" type="logic">
-         <obj_property name="ElementShortName">[18]</obj_property>
-         <obj_property name="ObjectShortName">[18]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[17]" type="logic">
-         <obj_property name="ElementShortName">[17]</obj_property>
-         <obj_property name="ObjectShortName">[17]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[16]" type="logic">
-         <obj_property name="ElementShortName">[16]</obj_property>
-         <obj_property name="ObjectShortName">[16]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="vbus226" type="vbus">
-      <obj_property name="label">dout0</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[15]" type="logic">
-         <obj_property name="ElementShortName">[15]</obj_property>
-         <obj_property name="ObjectShortName">[15]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[14]" type="logic">
-         <obj_property name="ElementShortName">[14]</obj_property>
-         <obj_property name="ObjectShortName">[14]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[13]" type="logic">
-         <obj_property name="ElementShortName">[13]</obj_property>
-         <obj_property name="ObjectShortName">[13]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[12]" type="logic">
-         <obj_property name="ElementShortName">[12]</obj_property>
-         <obj_property name="ObjectShortName">[12]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[11]" type="logic">
-         <obj_property name="ElementShortName">[11]</obj_property>
-         <obj_property name="ObjectShortName">[11]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[10]" type="logic">
-         <obj_property name="ElementShortName">[10]</obj_property>
-         <obj_property name="ObjectShortName">[10]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[9]" type="logic">
-         <obj_property name="ElementShortName">[9]</obj_property>
-         <obj_property name="ObjectShortName">[9]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[8]" type="logic">
-         <obj_property name="ElementShortName">[8]</obj_property>
-         <obj_property name="ObjectShortName">[8]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[7]" type="logic">
-         <obj_property name="ElementShortName">[7]</obj_property>
-         <obj_property name="ObjectShortName">[7]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[6]" type="logic">
-         <obj_property name="ElementShortName">[6]</obj_property>
-         <obj_property name="ObjectShortName">[6]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[5]" type="logic">
-         <obj_property name="ElementShortName">[5]</obj_property>
-         <obj_property name="ObjectShortName">[5]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[4]" type="logic">
-         <obj_property name="ElementShortName">[4]</obj_property>
-         <obj_property name="ObjectShortName">[4]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[3]" type="logic">
-         <obj_property name="ElementShortName">[3]</obj_property>
-         <obj_property name="ObjectShortName">[3]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[2]" type="logic">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[1]" type="logic">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/TwoChMixer_tb/DUT_DOUT[0]" type="logic">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/srst" type="logic">
+         <obj_property name="ElementShortName">srst</obj_property>
+         <obj_property name="ObjectShortName">srst</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/din" type="array">
+         <obj_property name="ElementShortName">din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">din[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/prog_full" type="logic">
+         <obj_property name="ElementShortName">prog_full</obj_property>
+         <obj_property name="ObjectShortName">prog_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/prog_empty" type="logic">
+         <obj_property name="ElementShortName">prog_empty</obj_property>
+         <obj_property name="ObjectShortName">prog_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/wr_rst_busy" type="logic">
+         <obj_property name="ElementShortName">wr_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/TwoChMixer_tb/DUT/Ch1Fifo/rd_rst_busy" type="logic">
+         <obj_property name="ElementShortName">rd_rst_busy</obj_property>
+         <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
