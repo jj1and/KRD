@@ -22,8 +22,11 @@ module TwoChMixer # (
   
 );
 
+  localparam integer DATA_WIDTH_HEX = DATA_WIDTH/4;
+
   wire DualChMixer_CH0_RE;
   
+  reg [DATA_WIDTH-1:0] fast_ch0fifo_dout;
   wire [DATA_WIDTH-1:0] Ch0Fifo_dout;
   wire Ch0Fifo_full;
   wire Ch0Fifo_empty;
@@ -32,8 +35,21 @@ module TwoChMixer # (
   wire Ch0Fifo_wr_rst_busy;
   wire Ch0Fifo_rd_rst_busy;
 
+  always @(posedge CLK ) begin
+    if (RESET) begin
+      fast_ch0fifo_dout <= #400 {DATA_WIDTH_HEX{4'hE}};
+    end else begin
+      if (DualChMixer_CH0_RE) begin
+        fast_ch0fifo_dout <= #400 Ch0Fifo_dout;
+      end else begin
+        fast_ch0fifo_dout <= #400 fast_ch0fifo_dout;
+      end
+    end
+  end  
+
   wire DualChMixer_CH1_RE;
 
+  reg [DATA_WIDTH-1:0] fast_ch1fifo_dout;
   wire [DATA_WIDTH-1:0] Ch1Fifo_dout;
   wire Ch1Fifo_full;
   wire Ch1Fifo_empty;
@@ -41,6 +57,18 @@ module TwoChMixer # (
   wire Ch1Fifo_prog_empty;
   wire Ch1Fifo_wr_rst_busy;
   wire Ch1Fifo_rd_rst_busy;
+
+  always @(posedge CLK ) begin
+    if (RESET) begin
+      fast_ch1fifo_dout <= #400 {DATA_WIDTH_HEX{4'hE}};
+    end else begin
+      if (DualChMixer_CH1_RE) begin
+        fast_ch1fifo_dout <= #400 Ch1Fifo_dout;
+      end else begin
+        fast_ch1fifo_dout <= #400 fast_ch1fifo_dout;
+      end
+    end
+  end
 
   ch0_fifo Ch0Fifo (
     .clk(CLK),                  // input wire clk
@@ -82,7 +110,7 @@ module TwoChMixer # (
     .CLK(CLK),
     .RESET(RESET),
     .PROGRAMMABLE_FULL(Ch0Fifo_prog_full),
-    .PROGRAMMABLE_EMPTY(Ch0Fifo_prog_empty&Ch0Fifo_empty),
+    .PROGRAMMABLE_EMPTY(Ch0Fifo_prog_empty|Ch0Fifo_empty),
     .READ_REQUEST(Ch0ReadRequester_READ_REQUEST)
   );
 
@@ -90,7 +118,7 @@ module TwoChMixer # (
     .CLK(CLK),
     .RESET(RESET),
     .PROGRAMMABLE_FULL(Ch1Fifo_prog_full),
-    .PROGRAMMABLE_EMPTY(Ch1Fifo_prog_empty&Ch1Fifo_empty),
+    .PROGRAMMABLE_EMPTY(Ch1Fifo_prog_empty|Ch1Fifo_empty),
     .READ_REQUEST(Ch1ReadRequester_READ_REQUEST)
   );
 
@@ -104,12 +132,12 @@ module TwoChMixer # (
     .RESET(RESET),
 
     // channel 0 interface
-    .CH0_DIN(Ch0Fifo_dout),
+    .CH0_DIN(fast_ch0fifo_dout),
     .CH0_READ_REQUEST(Ch0ReadRequester_READ_REQUEST),
     .CH0_RE(DualChMixer_CH0_RE),
 
     // channel 1 interface
-    .CH1_DIN(Ch1Fifo_dout),
+    .CH1_DIN(fast_ch1fifo_dout),
     .CH1_READ_REQUEST(Ch1ReadRequester_READ_REQUEST),
     .CH1_RE(DualChMixer_CH1_RE),
     
