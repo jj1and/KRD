@@ -120,8 +120,6 @@ module MinimumTrigger_tb;
 
   // ------ DUTs ------
 MinimumTrigger # (
-  // clock frequency (Hz)
-    .CLK_FREQ(CLK_FREQ),
   // hit detection window (8 word = 2nsec)
     .HIT_DETECTION_WINDOW_WORD(HIT_DETECTION_WINDOW_WORD),
   // Trigger channel ID setting
@@ -316,50 +314,50 @@ MinimumTrigger # (
   // ------ testbench ------
   initial
   begin
-    $dumpfile("MinimumTrigger_tb.vcd");
-    $dumpvars(0, MinimumTrigger_tb);
-    reset;
-    gen_signal_set;
-    gen_noise;
-    later_module_ready <= 1'b0;
-    gen_signal_set;
-    later_module_ready <= 1'b1;
-    gen_noise;
-    repeat(100) @(posedge clk);
-    gen_signal;
-    gen_noise;
-    later_module_ready <= 1'b0;
-    repeat(1000) @(posedge clk);
-    gen_signal;
-    gen_noise;
-    repeat(500) @(posedge clk);
-    later_module_ready <= 1'b1;
-    gen_signal;
-    gen_noise;
-    gen_signal;
-    gen_noise;
-    later_module_ready <= 1'b0;
-    gen_signal;
-    gen_noise;
-    repeat(500) @(posedge clk);
-    later_module_ready <= 1'b1;
-    repeat(10) begin
+      $dumpfile("MinimumTrigger_tb.vcd");
+      $dumpvars(0, MinimumTrigger_tb);
+      reset;
+      gen_signal_set;
+      gen_noise;
+      later_module_ready <= 1'b0;
+      gen_signal_set;
+      later_module_ready <= 1'b1;
+      gen_noise;
+      repeat(100) @(posedge clk);
       gen_signal;
-      gen_signal2;
-    end
-    gen_noise;
-    wait ((DUT.FirstDataFrameGen.DataFrameGen.frame_len_check_count==DUT.FirstDataFrameGen.DataFrameGen.frame_len-2)&(DUT.FirstDataFrameGen.DataFrameGen.INFO_FIFO_EMPTY==1'b1)) begin
-      repeat(1) @(posedge rd_clk);
-      #400
-      force DUT.FirstDataFrameGen.InfoFifo.empty=1'b0;
-      repeat(1) @(posedge rd_clk);
-    end
+      gen_noise;
+      later_module_ready <= 1'b0;
+      repeat(1000) @(posedge clk);
+      gen_signal;
+      gen_noise;
+      repeat(500) @(posedge clk);
+      later_module_ready <= 1'b1;
+      gen_signal;
+      gen_noise;
+      gen_signal;
+      gen_noise;
+      later_module_ready <= 1'b0;
+      gen_signal;
+      gen_noise;
+      repeat(500) @(posedge clk);
+      later_module_ready <= 1'b1;
+      repeat(10) begin
+        gen_signal;
+        gen_signal2;
+      end
+      gen_noise;
+//      wait ((DUT.FirstDataFrameGen.DataFrameGen.frame_len_check_count==DUT.FirstDataFrameGen.DataFrameGen.frame_len-2)&(DUT.FirstDataFrameGen.DataFrameGen.INFO_FIFO_EMPTY==1'b1)) begin
+//        repeat(1) @(posedge rd_clk);
+//        #400
+//        force DUT.FirstDataFrameGen.InfoFifo.empty=1'b0;
+//        repeat(1) @(posedge rd_clk);
+//      end
 //      release DUT.FirstDataFrameGen.InfoFifo.empty;
-    repeat(10) begin
-      gen_signal;
-      gen_signal2;
-    end
-    $finish;
+      repeat(10) begin
+        gen_signal;
+        gen_signal2;
+      end
+      $finish;
 
   end
 

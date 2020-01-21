@@ -367,7 +367,7 @@ module DataFrameGenerator_mod # (
     if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{(!read_hist)|fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{!read_hist, !info_fifo_ren, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
@@ -394,7 +394,7 @@ module DataFrameGenerator_mod # (
       if (&{info_fifo_ren_2delay, frame_len_check_count==frame_len_init_val}) begin
         data_fifo_ren <= #400 1'b1;
       end else begin
-        if (&{info_fifo_empty_2delay, frame_len_check_count>=frame_len-1}) begin
+        if (&{INFO_FIFO_EMPTY, info_fifo_empty_2delay, frame_len_check_count>=frame_len-1}) begin
           data_fifo_ren <= #400 1'b0;
         end else begin
           data_fifo_ren <= #400 data_fifo_ren;
