@@ -12,18 +12,19 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="730400000fs"></ZoomStartTime>
-      <ZoomEndTime time="13430400001fs"></ZoomEndTime>
-      <Cursor1Time time="20810400000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="12090000001fs"></ZoomEndTime>
+      <Cursor1Time time="850400000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="280"></NameColumnWidth>
-      <ValueColumnWidth column_width="116"></ValueColumnWidth>
+      <ValueColumnWidth column_width="112"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="8" />
    <wvobject fp_name="group1191" type="group">
       <obj_property name="label">DUT</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/S_AXIS_ACLK" type="logic">
          <obj_property name="ElementShortName">S_AXIS_ACLK</obj_property>
          <obj_property name="ObjectShortName">S_AXIS_ACLK</obj_property>
@@ -564,14 +565,9 @@
    <wvobject fp_name="group1372" type="group">
       <obj_property name="label">DataFrameGen_mod</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WR_CLK" type="logic">
          <obj_property name="ElementShortName">WR_CLK</obj_property>
          <obj_property name="ObjectShortName">WR_CLK</obj_property>
-      </wvobject>
-      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/RD_CLK" type="logic">
-         <obj_property name="ElementShortName">RD_CLK</obj_property>
-         <obj_property name="ObjectShortName">RD_CLK</obj_property>
       </wvobject>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/WR_RESET" type="logic">
          <obj_property name="ElementShortName">WR_RESET</obj_property>
@@ -747,9 +743,21 @@
          <obj_property name="ElementShortName">frame_len_init_val[7:0]</obj_property>
          <obj_property name="ObjectShortName">frame_len_init_val[7:0]</obj_property>
       </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/RD_CLK" type="logic">
+         <obj_property name="ElementShortName">RD_CLK</obj_property>
+         <obj_property name="ObjectShortName">RD_CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren" type="logic">
+         <obj_property name="ElementShortName">info_fifo_ren</obj_property>
+         <obj_property name="ObjectShortName">info_fifo_ren</obj_property>
+      </wvobject>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/read_hist" type="logic">
          <obj_property name="ElementShortName">read_hist</obj_property>
          <obj_property name="ObjectShortName">read_hist</obj_property>
+      </wvobject>
+      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_info_fifo_empty_negedge" type="logic">
+         <obj_property name="ElementShortName">fast_info_fifo_empty_negedge</obj_property>
+         <obj_property name="ObjectShortName">fast_info_fifo_empty_negedge</obj_property>
       </wvobject>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_ren" type="logic">
          <obj_property name="ElementShortName">data_fifo_ren</obj_property>
@@ -771,10 +779,6 @@
          <obj_property name="ElementShortName">fast_data_fifo_ren_delay_posedge</obj_property>
          <obj_property name="ObjectShortName">fast_data_fifo_ren_delay_posedge</obj_property>
       </wvobject>
-      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren" type="logic">
-         <obj_property name="ElementShortName">info_fifo_ren</obj_property>
-         <obj_property name="ObjectShortName">info_fifo_ren</obj_property>
-      </wvobject>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/info_fifo_ren_delay" type="logic">
          <obj_property name="ElementShortName">info_fifo_ren_delay</obj_property>
          <obj_property name="ObjectShortName">info_fifo_ren_delay</obj_property>
@@ -794,10 +798,6 @@
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/read_ready" type="logic">
          <obj_property name="ElementShortName">read_ready</obj_property>
          <obj_property name="ObjectShortName">read_ready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/fast_info_fifo_empty_negedge" type="logic">
-         <obj_property name="ElementShortName">fast_info_fifo_empty_negedge</obj_property>
-         <obj_property name="ObjectShortName">fast_info_fifo_empty_negedge</obj_property>
       </wvobject>
       <wvobject fp_name="/MinimumTrigger_tb/DUT/FirstDataFrameGen/DataFrameGen/data_fifo_read_wait" type="logic">
          <obj_property name="ElementShortName">data_fifo_read_wait</obj_property>

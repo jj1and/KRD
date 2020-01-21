@@ -120,8 +120,6 @@ module MinimumTrigger_tb;
 
   // ------ DUTs ------
 MinimumTrigger # (
-  // clock frequency (Hz)
-    .CLK_FREQ(CLK_FREQ),
   // hit detection window (8 word = 2nsec)
     .HIT_DETECTION_WINDOW_WORD(HIT_DETECTION_WINDOW_WORD),
   // Trigger channel ID setting
@@ -348,12 +346,12 @@ MinimumTrigger # (
         gen_signal2;
       end
       gen_noise;
-      wait ((DUT.FirstDataFrameGen.DataFrameGen.frame_len_check_count==DUT.FirstDataFrameGen.DataFrameGen.frame_len-2)&(DUT.FirstDataFrameGen.DataFrameGen.INFO_FIFO_EMPTY==1'b1)) begin
-        repeat(1) @(posedge rd_clk);
-        #400
-        force DUT.FirstDataFrameGen.InfoFifo.empty=1'b0;
-        repeat(1) @(posedge rd_clk);
-      end
+//      wait ((DUT.FirstDataFrameGen.DataFrameGen.frame_len_check_count==DUT.FirstDataFrameGen.DataFrameGen.frame_len-2)&(DUT.FirstDataFrameGen.DataFrameGen.INFO_FIFO_EMPTY==1'b1)) begin
+//        repeat(1) @(posedge rd_clk);
+//        #400
+//        force DUT.FirstDataFrameGen.InfoFifo.empty=1'b0;
+//        repeat(1) @(posedge rd_clk);
+//      end
 //      release DUT.FirstDataFrameGen.InfoFifo.empty;
       repeat(10) begin
         gen_signal;

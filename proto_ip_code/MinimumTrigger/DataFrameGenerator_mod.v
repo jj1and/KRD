@@ -367,7 +367,7 @@ module DataFrameGenerator_mod # (
     if (|{!read_ready, INFO_FIFO_EMPTY, DATA_FIFO_EMPTY}) begin
       info_fifo_ren <= #400 1'b0;
     end else begin
-      if ((&{(!read_hist)|fast_info_fifo_empty_negedge, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
+      if ((&{!read_hist, !info_fifo_ren, !data_fifo_ren})|(frame_len_check_count==frame_len-2)) begin
         info_fifo_ren <= #400 1'b1;
       end else begin
         info_fifo_ren <= #400 1'b0;
