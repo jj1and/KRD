@@ -26,8 +26,8 @@ module TwoChMixer_tb;
   parameter RESET_TIME = 10;
   parameter PRE_SIG = 40;
   parameter POST_SIG = 40;
-  parameter FST_WIDTH = 40;
-  parameter SND_WIDTH = 80;
+  parameter FST_WIDTH = 30;
+  parameter SND_WIDTH = 50;
   parameter SIGNAL_INTERVAL = 100; 
   parameter signed BL = 0;  
   parameter signed BL_MIN = BL-1;
@@ -169,7 +169,7 @@ module TwoChMixer_tb;
   task ch0_gen_footer_lost_dframe;
   begin
       #400
-      ch0_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_din <= {16'hAAAA, 4'h0, current_time[31:0], frame_len};
       ch0_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch0_gen_noise;
@@ -178,7 +178,7 @@ module TwoChMixer_tb;
       ch0_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch0_din <= {4'h0, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h00};
+      ch0_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5678};
       repeat(1) @(posedge clk);
       #400
       ch0_we <= 1'b0;
@@ -190,7 +190,7 @@ module TwoChMixer_tb;
   task ch0_gen_header_lost_dframe;
   begin
       #400
-      ch0_din <= {8'h00, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch0_din <= {16'hABCD, 4'h0, current_time[31:0], frame_len};
       ch0_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch0_gen_noise;
@@ -199,7 +199,7 @@ module TwoChMixer_tb;
       ch0_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch0_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      ch0_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5555};
       repeat(1) @(posedge clk);
       #400
       ch0_we <= 1'b0;
@@ -270,7 +270,7 @@ module TwoChMixer_tb;
   task ch1_gen_footer_lost_dframe;
   begin
       #400
-      ch1_din <= {8'hFF, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_din <= {16'hAAAA, 4'h0, current_time[31:0], frame_len};
       ch1_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch1_gen_noise;
@@ -279,7 +279,7 @@ module TwoChMixer_tb;
       ch1_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch1_din <= {4'h0, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h00};
+      ch1_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5678};
       repeat(1) @(posedge clk);
       #400
       ch1_we <= 1'b0;
@@ -291,7 +291,7 @@ module TwoChMixer_tb;
   task ch1_gen_header_lost_dframe;
   begin
       #400
-      ch1_din <= {8'h00, 4'h1, current_time[47:24], {WIDTH-36{1'b0}}};
+      ch1_din <= {16'hABCD, 4'h0, current_time[31:0], frame_len};
       ch1_we <= 1'b1;
       repeat(1) @(posedge clk);
       ch1_gen_noise;
@@ -300,7 +300,7 @@ module TwoChMixer_tb;
       ch1_gen_noise;
       repeat(POST_SIG) @(posedge clk);
       #400
-      ch1_din <= {4'hF, bl_max, 3'b111, threshold_val, current_time[23:0], 8'h0F};
+      ch1_din <= { { {4{bl_min[ADC_RESOLUTION_WIDTH-1]} }, bl_min }, { {3{threshold_val[ADC_RESOLUTION_WIDTH]}}, threshold_val }, current_time[47:32], 16'h5555};
       repeat(1) @(posedge clk);
       #400
       ch1_we <= 1'b0;
@@ -312,7 +312,7 @@ module TwoChMixer_tb;
   task interupt;
   begin
     ready <= 1'b0;
-    repeat(10) @(posedge clk);
+    repeat(200) @(posedge clk);
     ready <= 1'b1;
     repeat(1) @(posedge clk);
   end
@@ -352,32 +352,41 @@ module TwoChMixer_tb;
     fork
     begin
       repeat(10) @(posedge clk);
-      ch0_gen_dframe;
-      ch0_gen_header_lost_dframe;   
-      ch0_gen_dframe;
-      ch0_gen_footer_lost_dframe;
-      ch0_gen_footer_lost_dframe;
-      ch0_gen_dframe;
-      interupt;   
-      interupt;
-      repeat(1000) @(posedge clk); 
-      ch0_gen_dframe;
-      ch0_gen_dframe;
-      ch0_gen_dframe;
-      ch0_gen_dframe;   
+      repeat(10) begin
+        ch0_gen_dframe;
+        // ch0_gen_header_lost_dframe;   
+        ch0_gen_dframe;
+        // ch0_gen_footer_lost_dframe;
+        // ch0_gen_footer_lost_dframe;
+        ch0_gen_dframe;
+      end
+      interupt;  
+      repeat(10) begin
+        ch0_gen_dframe;
+        // ch0_gen_header_lost_dframe;   
+        ch0_gen_dframe;
+        repeat(100) @(posedge clk);
+        // ch0_gen_footer_lost_dframe;
+        // ch0_gen_footer_lost_dframe;
+        ch0_gen_dframe;
+      end
     end
     begin
-      ch1_gen_dframe;
-      ch1_gen_dframe;
-      ch1_gen_footer_lost_dframe;
-      ch1_gen_footer_lost_dframe;
-      ch1_gen_dframe;
-      ch1_gen_header_lost_dframe;
-      ch1_gen_dframe;
-      repeat(1000) @(posedge clk);      
+      repeat(20) begin
+        ch1_gen_dframe;
+        ch1_gen_dframe;
+        // ch1_gen_footer_lost_dframe;
+        // ch1_gen_footer_lost_dframe;
+        @(posedge clk);
+        ch1_gen_dframe;
+        // ch1_gen_header_lost_dframe;
+        ch1_gen_dframe;
+      end  
     end
     join
 
+    repeat(1000) @(posedge clk);        
+    
     $finish;
   end
 
