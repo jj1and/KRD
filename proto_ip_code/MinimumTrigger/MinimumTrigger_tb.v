@@ -17,7 +17,7 @@ module MinimumTrigger_tb;
   parameter integer THRESHOLD = 80;
   /* data frame settings */
   // acquiasion length settings
-  parameter integer MAX_FRAME_LENGTH = 100/2;
+  parameter integer MAX_FRAME_LENGTH = 200;
   // max pre-acquiasion length settings max pre acqui len will be 2**(MAX_DELAY_CNT_WIDTH-1)
   parameter integer MAX_DELAY_CNT_WIDTH = 4;
   // post-acquiasion length
@@ -51,7 +51,7 @@ module MinimumTrigger_tb;
   parameter integer SAMPLE_PER_TDATA = TDATA_WIDTH/16;
   // parameter signed THRESHOLD_VAL = (ADC_MAX_VAL+BL)*THRESHOLD/100;
   parameter integer THRESHOLD_VAL = 1024;  
-  parameter signed FST_HEIGHT = (ADC_MAX_VAL-BL)*80/100;
+  parameter signed FST_HEIGHT = (ADC_MAX_VAL-BL)*75/100;
   parameter signed SND_HEIGHT = (ADC_MAX_VAL-BL)*10/100;  
   integer i;
   integer k;
@@ -173,10 +173,10 @@ MinimumTrigger # (
     begin
       #400 
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {bl_min, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {bl_min+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {bl_max, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {bl_max+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(1) @(posedge clk);
     end
@@ -188,20 +188,20 @@ MinimumTrigger # (
       #400 
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(FST_WIDTH) @(posedge clk);
       
       #400 
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
@@ -213,20 +213,20 @@ MinimumTrigger # (
       #400 
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(SND_WIDTH) @(posedge clk);
       
       #400 
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(FST_WIDTH) @(posedge clk);
     end
@@ -356,6 +356,9 @@ MinimumTrigger # (
       repeat(10) begin
         gen_signal;
         gen_signal2;
+      end
+      wait (DUT_oVALID==1'b0) begin
+        gen_signal;
       end
       $finish;
 
