@@ -1,5 +1,6 @@
-import glob
 import sys
+import re
+import glob
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,14 +12,15 @@ plt.rcParams['axes.grid'] = True
 def convert_complement_on_two_into_decimal(bits):
     return -int(bits[0]) << len(bits) | int(bits, 2)
 
-vcd_file_path = "c:/Users/MoGURA/KRD/project_tcl/ZCU111/MinimumTrigger_test/ILA_Data/iladata_20200110.vcd"
+vcd_file_path = "c:/Users/MoGURA/KRD/project_tcl/ZCU111/MinimumTrigger_test/ILA_Data/iladata_20200122_ch0_2_bug_fixed_at_10MHz.vcd"
+search_column = 2 # you must decidecheck manually by reading .vcd
 
 if __name__ == "__main__":
     
     vcd_file_path_csv = vcd_file_path.split('.')[0]+".csv"
 
     if (glob.glob(vcd_file_path_csv)!=[]):
-        dframe = pd.read_csv(vcd_file_path_csv, header=0, index_col=0)
+        pass
     else:
         """ convert .vcd file to .csv """
         data = ""
@@ -31,15 +33,20 @@ if __name__ == "__main__":
             data = f.read()
         
         lines = data.split("\n")
+        last = data.split("#")[-1].split("\n")[0]
         clock = 0
         temp_data = []
         for n, line in enumerate(lines):
+            if (clock % 100 == 0):
+                print("\r #{0:d} / {1:d} clock is loaded".format(int(clock), int(last)), end='')
+            elif (clock==last):
+                print(" load done !\n")
             elements = line.split(" ")
             if (elements[0]=="$var"):
                 # add variable name to columns 
                 dframe[elements[4]] = 0
                 # add space when delimiter is " or b
-                if (elements[3]=="\"")|(elements[3]=="b"):
+                if (elements[3]=="\"")|(re.match("[0-9b]", elements[3])!=None):
                     elements[3] = " " + elements[3]
                 temp_dict = {"len":int(elements[2]), "delimiter":elements[3]}
                 column_info[elements[4]] = temp_dict
@@ -64,11 +71,11 @@ if __name__ == "__main__":
                     else:
                         temp_data[i] = temp_data[i]
         dframe.loc[str(clock)] = temp_data
-        dframe.to_csv(vcd_file_path_csv)       
+        dframe.to_csv(vcd_file_path_csv)
     
+    dframe = pd.read_csv(vcd_file_path_csv, header=0, index_col=0)       
 
     """ data frame search """
-    search_column = 1 # you must decidecheck manually by reading .vcd
     if (type(dframe.iloc[0, search_column]) is not str):
         print("your selected column is not ADC output (str). the column data type is " + str(type(dframe.iloc[0, search_column])))
         sys.exit()        
@@ -88,6 +95,8 @@ if __name__ == "__main__":
     frame_num = min([len(header_df), len(footer_df)])
     header_list = [ele for ele in header_df.index][0:frame_num]
     footer_list = [ele for ele in footer_df.index][0:frame_num]
+
+    print(header_list)
 
     """ convert bit string to int16. generate x-array """
     y = np.array([[convert_complement_on_two_into_decimal(bits[48:64]), convert_complement_on_two_into_decimal(bits[32:48]), convert_complement_on_two_into_decimal(bits[16:32]), convert_complement_on_two_into_decimal(bits[0:16])] for bits in dframe.iloc[:, search_column].values], dtype='int16').reshape(-1,) 
