@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/aarch64-none-elf/include",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/aarch64-none-elf/libc/usr/include",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/lib/gcc/aarch64-none-elf/8.2.0/include",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/lib/gcc/aarch64-none-elf/8.2.0/include-fixed"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.17763.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.21.27702/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 4
+}
