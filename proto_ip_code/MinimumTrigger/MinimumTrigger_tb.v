@@ -173,10 +173,10 @@ MinimumTrigger # (
     begin
       #400 
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {bl_min+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {bl_min+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {bl_max+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {bl_max+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(1) @(posedge clk);
     end
@@ -188,20 +188,20 @@ MinimumTrigger # (
       #400 
       // first peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {fst_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {fst_height+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(FST_WIDTH) @(posedge clk);
       
       #400 
       // second peak
       for ( i=0 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       for ( i=1 ; i<SAMPLE_PER_TDATA ; i=i+2 ) begin
-        tdata[16*i +:16] <= {snd_height+current_time[8:0], {16-ADC_RESOLUTION_WIDTH{1'b0}}};
+        tdata[16*i +:16] <= {snd_height+current_time[8:0]+i, {16-ADC_RESOLUTION_WIDTH{1'b0}}};
       end
       repeat(SND_WIDTH) @(posedge clk);
     end
