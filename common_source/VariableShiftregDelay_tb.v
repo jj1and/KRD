@@ -65,7 +65,7 @@ module VariableShiftregDelay_tb;
     .WIDTH(WIDTH)
   ) DUT (
     .CLK(clk),
-    .RESETN(resetn),
+    .RESET(~resetn),
     .DELAY(delay),
     .iVALID(resetn),
     .DIN(current_time),

@@ -51,6 +51,8 @@
 		</DisplayName>
 		<Description value="MinimumTrigger_slow_v1_0">
 		</Description>
+		<ManuallyDisabled value="true">
+		</ManuallyDisabled>
 		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="MinimumTrigger_slow/component.xml">

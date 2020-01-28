@@ -222,7 +222,7 @@ module MMTrg # (
       threshold_when_hit <= #400 THRESHOLD_VAL;      
     end else begin
       if (fast_triggered_posedge) begin
-        time_stamp <= #400 CURRENT_TIME;
+        time_stamp <= #400 CURRENT_TIME - pre_acquiasion_len;
         baseline_when_hit <= #400 baseline;
         threshold_when_hit <= #400 threshold_val;
       end else begin

@@ -9,7 +9,7 @@ module DataParallelizer_tb;
   parameter integer DIN_CLK_FREQ = 500E6;
   parameter integer DOUT_CLK_FREQ = DIN_CLK_FREQ/2;
   // TIME STAMP DATA WIDTH
-  parameter integer TIME_STAMP_WIDTH = 32;
+  parameter integer TIME_STAMP_WIDTH = 128;
   // DATA WIDTH
   parameter integer WIDTH = TIME_STAMP_WIDTH;
   
@@ -74,7 +74,7 @@ DataParallelizer # (
   .DIN_WIDTH(WIDTH)
 ) DUT (
   .CLK(din_clk),
-  .RESETN(din_resetn),
+  .RESET(~din_resetn),
 
   .iVALID(valid),
   .oREADY(),
@@ -109,7 +109,13 @@ DataParallelizer # (
     repeat(30) @(posedge din_clk);
     #400
     valid <= 1'b1;
-    repeat(200) @(posedge din_clk);
+    repeat(15) @(posedge din_clk);
+        #400
+    valid <= 1'b0;
+    repeat(31) @(posedge din_clk);
+    #400
+    valid <= 1'b1;
+    repeat(15) @(posedge din_clk);
 
     $finish;
   end
