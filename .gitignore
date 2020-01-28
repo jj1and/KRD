@@ -9,6 +9,7 @@ project_tcl/**/ILA_Data/
 
 project_tcl/ZCU111/TwoChMixer/TwoChMixer/
 project_tcl/ZCU111/TwoChMixer_test/TwoChMixer_test/
+project_tcl/ZCU111/TwoChMixer_test/TwoChMixer_DummyTest/
 
 XilinxSDK_project/
 .vscode/settings.json
