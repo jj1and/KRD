@@ -51,8 +51,11 @@ module DummyDataSink # (
             tdata[i*TDATA_WORD_WIDTH +:TDATA_WORD_WIDTH] <= #400 {{ADC_RESOLUTION_WIDTH{1'b0}}, {TDATA_WORD_WIDTH-ADC_RESOLUTION_WIDTH{1'b0}}};
           end
         end else begin
-          for ( i=0 ; i<TDATA_WORD_NUM ; i=i+1 ) begin
+          for ( i=0 ; i<TDATA_WORD_NUM ; i=i+2 ) begin
             tdata[i*TDATA_WORD_WIDTH +:TDATA_WORD_WIDTH] <= #400 {tdata[(i+1)*TDATA_WORD_WIDTH-ADC_RESOLUTION_WIDTH +:ADC_RESOLUTION_WIDTH] + {{ADC_RESOLUTION_WIDTH-1{1'b0}}, 1'b1}, {TDATA_WORD_WIDTH-ADC_RESOLUTION_WIDTH{1'b0}}};
+          end
+          for ( i=1 ; i<TDATA_WORD_NUM ; i=i+2 ) begin
+            tdata[i*TDATA_WORD_WIDTH +:TDATA_WORD_WIDTH] <= #400 {tdata[(i+1)*TDATA_WORD_WIDTH-ADC_RESOLUTION_WIDTH +:ADC_RESOLUTION_WIDTH] + {{ADC_RESOLUTION_WIDTH-2{1'b0}}, 2'b10}, {TDATA_WORD_WIDTH-ADC_RESOLUTION_WIDTH{1'b0}}};
           end
         end
       end else begin
