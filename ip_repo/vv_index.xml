@@ -9,7 +9,7 @@
 		</DisplayName>
 		<Description value="EASYHS_AXIS_converter_v1_0">
 		</Description>
-		<CoreRevision value="4">
+		<CoreRevision value="1">
 		</CoreRevision>
 		<ComponentPath value="EASYHS_AXIS_Converter/component.xml">
 		</ComponentPath>
@@ -26,9 +26,9 @@
 		<SubcoreVLNVs>
 			<SubcoreVLNV value="xilinx.com:ip:fifo_generator:13.2">
 			</SubcoreVLNV>
-			<SubcoreVLNV value="xilinx.com:ip:axi4stream_vip:1.1">
-			</SubcoreVLNV>
 			<SubcoreVLNV value="www.awa.tohoku.ac.jp:jj1and:TwoChMixer:1.2">
+			</SubcoreVLNV>
+			<SubcoreVLNV value="xilinx.com:ip:axi4stream_vip:1.1">
 			</SubcoreVLNV>
 		</SubcoreVLNVs>
 		<UpgradesFrom>
