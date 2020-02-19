@@ -1,6 +1,9 @@
 *.vcd
 *.out
-
+.Xil/*
+*.log
+*.jou
+*.str
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
 project_tcl/ZCU111/MinimumTrigger/~$MinimumTrigger_DataFrame.xlsx
 project_tcl/ZCU111/MinimumTrigger_test/MinimumTrigger_test/
