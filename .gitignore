@@ -4,6 +4,9 @@
 *.log
 *.jou
 *.str
+project_hls/
+VSC_solution/
+
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
 project_tcl/ZCU111/MinimumTrigger/~$MinimumTrigger_DataFrame.xlsx
 project_tcl/ZCU111/MinimumTrigger_test/MinimumTrigger_test/
@@ -13,6 +16,12 @@ project_tcl/**/ILA_Data/
 project_tcl/ZCU111/TwoChMixer/TwoChMixer/
 project_tcl/ZCU111/TwoChMixer_test/TwoChMixer_test/
 project_tcl/ZCU111/TwoChMixer_test/TwoChMixer_DummyTest/
+
+project_tcl/ZCU111/EASYHS_AXIS_Converter/EASYHS_AXIS_Converter/
+
+project_tcl/ZCU111/MMT_DMA_test/
+project_tcl/ZCU111/MMT_SGDMA_test/MMT_SGDMA_test/
+project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 
 XilinxSDK_project/
 .vscode/settings.json
