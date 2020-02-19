@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
+  <spirit:vendor>www.awa.tohoku.co.jp</spirit:vendor>
   <spirit:library>jj1and</spirit:library>
   <spirit:name>EASYHS_AXIS_converter</spirit:name>
   <spirit:version>1.0</spirit:version>
@@ -168,7 +168,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>00b141c1</spirit:value>
+            <spirit:value>8a8a5946</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -177,9 +177,6 @@
         <spirit:displayName>Test Bench</spirit:displayName>
         <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
         <spirit:modelName>EASYHS_AXIS_Converter_tb</spirit:modelName>
-        <spirit:fileSetRef>
-          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
@@ -393,16 +390,6 @@
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/TwoChMixer_0/TwoChMixer_0.xci</spirit:name>
-        <spirit:userFileType>xci</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/axi4stream_slv_vip_0/axi4stream_slv_vip_0.xci</spirit:name>
-        <spirit:userFileType>xci</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/EASYHS_AXIS_Converter.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
@@ -437,23 +424,6 @@
           </xilinx:componentRef>
         </xilinx:subCoreRef>
       </spirit:vendorExtensions>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>src/EASYHS_AXIS_Converter_tb.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
-        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/EASYHS_AXIS_Converter_tb_behav.wcfg</spirit:name>
-        <spirit:fileType>unknown</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
-      </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
@@ -502,28 +472,30 @@
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:EASYHS_AXIS_converter:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-02-11T10:35:27Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-02-11T11:16:11Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@fa7bace_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@a6d2df4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@695828b4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c612_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cd07641_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@150c882b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@44c6571a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f02c457_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@61a3abfc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@77ef2766_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@785651c0_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@681cd4ea_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d489856_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@56b140ed_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65b5d41b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b6d93e5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cfbb5ca_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1192f0c9_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56d287f6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b392d5e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3baeff72_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@590eb69a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@476bcc0b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12a78d89_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37a41b8c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e283757_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63602598_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57a40d06_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2773e2fd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b51b746_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="4b5c6f53"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3d849e7c"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="1a8c7afa"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="c4a0595f"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8534c40b"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="ac8f2572"/>
