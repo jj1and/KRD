@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>www.awa.tohoku.co.jp</spirit:vendor>
+  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
   <spirit:library>jj1and</spirit:library>
   <spirit:name>EASYHS_AXIS_converter</spirit:name>
   <spirit:version>1.0</spirit:version>
@@ -471,8 +471,9 @@
       <xilinx:coreRevision>1</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:EASYHS_AXIS_converter:1.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>www.awa.tohoku.co.jp:jj1and:EASYHS_AXIS_converter:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-02-11T11:16:11Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-02-19T02:13:01Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@65b5d41b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4b6d93e5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
@@ -490,6 +491,13 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@57a40d06_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@2773e2fd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@1b51b746_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a1fc1c7_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33ae9920_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ba8e4a1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1fd918cc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31d092f5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17604be4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e72bfe5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/EASYHS_AXIS_Converter</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

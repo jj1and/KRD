@@ -34,6 +34,8 @@
 		<UpgradesFrom>
 			<Upgrade value="xilinx.com:user:EASYHS_AXIS_converter:1.0">
 			</Upgrade>
+			<Upgrade value="www.awa.tohoku.co.jp:jj1and:EASYHS_AXIS_converter:1.0">
+			</Upgrade>
 		</UpgradesFrom>
 		<LockPrevVersions value="false">
 		</LockPrevVersions>
