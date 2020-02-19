@@ -27,19 +27,19 @@ module TwoChMixer_mod # (
   localparam integer ID_WIDTH_HEX = HEADER_FOOTER_ID_WIDTH/4;
   localparam integer DATA_WIDTH_HEX = DATA_WIDTH/4;
   
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch0_din;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch0_header_checked;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch0_footer_checked;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch0_correct_data;
+  reg [DATA_WIDTH-1:0] ch0_din;
+  reg [DATA_WIDTH-1:0] ch0_header_checked;
+  reg [DATA_WIDTH-1:0] ch0_footer_checked;
+  reg [DATA_WIDTH-1:0] ch0_correct_data;
   reg ch0_re;
-  (* mark_debug = "true" *) reg [2:0] ch0_head_foot_id_hist;
+  reg [2:0] ch0_head_foot_id_hist;
 
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch1_din;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch1_header_checked;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch1_footer_checked;
-  (* mark_debug = "true" *) reg [DATA_WIDTH-1:0] ch1_correct_data;
+  reg [DATA_WIDTH-1:0] ch1_din;
+  reg [DATA_WIDTH-1:0] ch1_header_checked;
+  reg [DATA_WIDTH-1:0] ch1_footer_checked;
+  reg [DATA_WIDTH-1:0] ch1_correct_data;
   reg ch1_re;
-  (* mark_debug = "true" *) reg [2:0] ch1_head_foot_id_hist;
+  reg [2:0] ch1_head_foot_id_hist;
 
   reg [1:0] read_hist;
 
@@ -58,32 +58,59 @@ module TwoChMixer_mod # (
 
   // wire CH0_DIN_header_foundD = (CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(CH0_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
   // wire CH1_DIN_header_foundD = (CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(CH1_DIN[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
-  (* mark_debug = "true" *) wire ch0_din_header_foundD = (ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
-  (* mark_debug = "true" *) wire ch1_din_header_foundD = (ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);  
-  (* mark_debug = "true" *) wire ch0_header_checked_header_foundD = (ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
-  (* mark_debug = "true" *) wire ch1_header_checked_header_foundD = (ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
-  (* mark_debug = "true" *) wire ch0_footer_checked_header_foundD = (ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
-  (* mark_debug = "true" *) wire ch1_footer_checked_header_foundD = (ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  // (* mark_debug = "true" *) wire ch0_din_header_foundD = (ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  // (* mark_debug = "true" *) wire ch1_din_header_foundD = (ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);  
+  // (* mark_debug = "true" *) wire ch0_header_checked_header_foundD = (ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  // (* mark_debug = "true" *) wire ch1_header_checked_header_foundD = (ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  // (* mark_debug = "true" *) wire ch0_footer_checked_header_foundD = (ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  // (* mark_debug = "true" *) wire ch1_footer_checked_header_foundD = (ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
 
-  (* mark_debug = "true" *) wire ch0_header_lostD = (!ch0_din_header_foundD)&(ch0_head_foot_id_hist == 3'b110);
-  (* mark_debug = "true" *) wire ch1_header_lostD = (!ch1_din_header_foundD)&(ch1_head_foot_id_hist == 3'b110);  
+  // (* mark_debug = "true" *) wire ch0_header_lostD = (!ch0_din_header_foundD)&(ch0_head_foot_id_hist == 3'b110);
+  // (* mark_debug = "true" *) wire ch1_header_lostD = (!ch1_din_header_foundD)&(ch1_head_foot_id_hist == 3'b110);  
 
-  (* mark_debug = "true" *) wire CH0_DIN_footer_foundD = (CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire CH1_DIN_footer_foundD = (CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch0_din_footer_foundD = (ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch1_din_footer_foundD = (ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch0_header_checked_footer_foundD = (ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch1_header_checked_footer_foundD = (ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch0_footer_checked_footer_foundD = (ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch1_footer_checked_footer_foundD = (ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);        
-  (* mark_debug = "true" *) wire ch0_correct_data_footer_foundD = (ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
-  (* mark_debug = "true" *) wire ch1_correct_data_footer_foundD = (ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);  
+  // (* mark_debug = "true" *) wire CH0_DIN_footer_foundD = (CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire CH1_DIN_footer_foundD = (CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch0_din_footer_foundD = (ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch1_din_footer_foundD = (ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch0_header_checked_footer_foundD = (ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch1_header_checked_footer_foundD = (ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch0_footer_checked_footer_foundD = (ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch1_footer_checked_footer_foundD = (ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);        
+  // (* mark_debug = "true" *) wire ch0_correct_data_footer_foundD = (ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  // (* mark_debug = "true" *) wire ch1_correct_data_footer_foundD = (ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);  
 
-  (* mark_debug = "true" *) wire ch0_footer_lostD = (ch0_din_header_foundD)&((ch0_head_foot_id_hist & 3'b101) == 3'b101);
-  (* mark_debug = "true" *) wire ch1_footer_lostD = (ch0_din_header_foundD)&((ch1_head_foot_id_hist & 3'b101) == 3'b101);
+  // (* mark_debug = "true" *) wire ch0_footer_lostD = (ch0_din_header_foundD)&((ch0_head_foot_id_hist & 3'b101) == 3'b101);
+  // (* mark_debug = "true" *) wire ch1_footer_lostD = (ch0_din_header_foundD)&((ch1_head_foot_id_hist & 3'b101) == 3'b101);
 
-  (* mark_debug = "true" *) wire ch0_header_checked_pauseD = |{ch0_header_checked_header_foundD, ch0_header_checked_footer_foundD};
-  (* mark_debug = "true" *) wire ch1_header_checked_pauseD = |{ch1_header_checked_header_foundD, ch1_footer_checked_footer_foundD};     
+  // (* mark_debug = "true" *) wire ch0_header_checked_pauseD = |{ch0_header_checked_header_foundD, ch0_header_checked_footer_foundD};
+  // (* mark_debug = "true" *) wire ch1_header_checked_pauseD = |{ch1_header_checked_header_foundD, ch1_footer_checked_footer_foundD}
+  wire ch0_din_header_foundD = (ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  wire ch1_din_header_foundD = (ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_din[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);  
+  wire ch0_header_checked_header_foundD = (ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  wire ch1_header_checked_header_foundD = (ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_header_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  wire ch0_footer_checked_header_foundD = (ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch0_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+  wire ch1_footer_checked_header_foundD = (ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID)|(ch1_footer_checked[DATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==ERROR_HEADER_ID);
+
+  wire ch0_header_lostD = (!ch0_din_header_foundD)&(ch0_head_foot_id_hist == 3'b110);
+  wire ch1_header_lostD = (!ch1_din_header_foundD)&(ch1_head_foot_id_hist == 3'b110);  
+
+  wire CH0_DIN_footer_foundD = (CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH0_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire CH1_DIN_footer_foundD = (CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(CH1_DIN[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch0_din_footer_foundD = (ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch1_din_footer_foundD = (ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_din[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch0_header_checked_footer_foundD = (ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch1_header_checked_footer_foundD = (ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_header_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch0_footer_checked_footer_foundD = (ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch1_footer_checked_footer_foundD = (ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_footer_checked[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);        
+  wire ch0_correct_data_footer_foundD = (ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch0_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);
+  wire ch1_correct_data_footer_foundD = (ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==FOOTER_ID)|(ch1_correct_data[HEADER_FOOTER_ID_WIDTH-1:0]==ERROR_FOOTER_ID);  
+
+  wire ch0_footer_lostD = (ch0_din_header_foundD)&((ch0_head_foot_id_hist & 3'b101) == 3'b101);
+  wire ch1_footer_lostD = (ch0_din_header_foundD)&((ch1_head_foot_id_hist & 3'b101) == 3'b101);
+
+  wire ch0_header_checked_pauseD = |{ch0_header_checked_header_foundD, ch0_header_checked_footer_foundD};
+  wire ch1_header_checked_pauseD = |{ch1_header_checked_header_foundD, ch1_footer_checked_footer_foundD};     
+
 
   assign CH0_RE = ch0_re;
   assign CH1_RE = ch1_re;

@@ -16,8 +16,8 @@ module TwoChMixer # (
   input wire CH1_iVALID, 
   output wire CH1_oREADY,
 
-  (* mark_debug = "true" *) output wire [DATA_WIDTH-1:0] DOUT,
-  (* mark_debug = "true" *) output wire oVALID,
+  output wire [DATA_WIDTH-1:0] DOUT,
+  output wire oVALID,
   input wire iREADY
   
 );
