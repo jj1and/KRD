@@ -1,5 +1,9 @@
 *.vcd
 *.out
+.Xil/*
+*.log
+*.jou
+*.str
 project_hls/
 VSC_solution/
 
