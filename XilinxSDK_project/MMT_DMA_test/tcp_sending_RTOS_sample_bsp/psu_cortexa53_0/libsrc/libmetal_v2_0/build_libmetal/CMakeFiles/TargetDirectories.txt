@@ -1,0 +1,1 @@
+C:/Users/npart/KRD/XilinxSDK_project/MMT_DMA_test/tcp_sending_RTOS_sample_bsp/psu_cortexa53_0/libsrc/libmetal_v2_0/build_libmetal/lib/CMakeFiles/metal-static.dir
