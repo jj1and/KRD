@@ -6,7 +6,7 @@ import socket
 import sys
 
 IP_ADDR = '192.168.10.106'
-#IP_ADDR = '127.0.0.1'
+# IP_ADDR = '127.0.0.1'
 PACKET_HEADER_SIZE = 8
 buff = bytes()
 
@@ -24,14 +24,13 @@ def data_recv(sock, buff):
                 break
             buff += data
 
-            # 最新のパケットの先頭までシーク
-            # バッファに溜まってるパケット全ての情報を取得
+            # # 最新のパケットの先頭までシーク
+            # # バッファに溜まってるパケット全ての情報を取得
             packet_head = 0
             packets_info = list()
             while True:
                 if len(buff) >= packet_head + PACKET_HEADER_SIZE:
                     binary_size = ((int.from_bytes(buff[packet_head:packet_head + PACKET_HEADER_SIZE], 'little')&0xFFF) + 1)*8
-                    total_recieved_buff_size += (PACKET_HEADER_SIZE + binary_size)
                     if len(buff) >= packet_head + PACKET_HEADER_SIZE + binary_size:
                         packets_info.append((packet_head, binary_size))
                         packet_head += PACKET_HEADER_SIZE + binary_size
@@ -41,12 +40,13 @@ def data_recv(sock, buff):
                     break
             # バッファの中に完成したパケットがあれば、画像を更新
             if len(packets_info) > 0:
-                # # 最新の完成したパケットの情報を取得
-                # packet_head, binary_size = packets_info.pop()
+                # 最新の完成したパケットの情報を取得
+                packet_head, binary_size = packets_info.pop()
+                total_recieved_buff_size += (PACKET_HEADER_SIZE + binary_size)
                 # # パケットからデータのバイナリを取得
                 # df_bytes = buff[packet_head:packet_head + PACKET_HEADER_SIZE + binary_size]
-                # # バッファから不要なバイナリを削除
-                # buff = buff[packet_head + PACKET_HEADER_SIZE + binary_size:]
+                # バッファから不要なバイナリを削除
+                buff = buff[packet_head + PACKET_HEADER_SIZE + binary_size:]
                 # df = np.frombuffer(df_bytes, dtype=np.uint64)
                 # print("\n", end='')
                 # print("packet size is {0:d} * 8byte".format(int(binary_size/8)+1))
@@ -64,7 +64,7 @@ def data_recv(sock, buff):
             print('interrupted!')
             print("{0:d} byte remains in buffer".format(len(buff)))
             break
-    return total_recieved_buff_size, tmp_end_time - start_time
+    return total_recieved_buff_size, tmp_end_time-start_time
 
 
 if __name__ == "__main__":
