@@ -57,9 +57,9 @@ int IicPhyReset(void);
 process_arg send2pc_arg;
 TickType_t x10seconds = pdMS_TO_TICKS( DELAY_10_SECONDS );
 
-static void prvDmaTask( void *pvParameters );
+void prvDmaTask( void *pvParameters );
 int vApplicationDaemonTaskStartupHook();
-int main_thread();
+void main_thread();
 // void print_echo_app_header();
 // void echo_application_thread(void *);
 
@@ -243,7 +243,7 @@ void network_thread(void *p)
     return;
 }
 
-int main_thread(void *arg)
+void main_thread(void *arg)
 {
 #if LWIP_DHCP==1
 	int mscnt = 0;
@@ -279,9 +279,9 @@ int main_thread(void *arg)
 		if (mscnt >= 10000) {
 			xil_printf("ERROR: DHCP request timed out\r\n");
 			xil_printf("Configuring default IP of 192.168.1.10\r\n");
-			IP4_ADDR(&(server_netif.ip_addr),  192, 168, 1, 10);
+			IP4_ADDR(&(server_netif.ip_addr),  192, 168, 10, 106);
 			IP4_ADDR(&(server_netif.netmask), 255, 255, 255,  0);
-			IP4_ADDR(&(server_netif.gw),  192, 168, 1, 1);
+			IP4_ADDR(&(server_netif.gw),  192, 168, 10, 1);
 			print_ip_settings(&(server_netif.ip_addr), &(server_netif.netmask), &(server_netif.gw));
 			/* print all application headers */
 			xil_printf("\r\n");
@@ -299,14 +299,14 @@ int main_thread(void *arg)
 #endif
 #endif
     vTaskDelete(NULL);
-    return 0;
 }
 
 /*-----------------------------------------------------------*/
-static void prvDmaTask( void *pvParameters )
+void prvDmaTask( void *pvParameters )
 {
 	int dma_state = XST_SUCCESS;
 	int fail_cnt = 0;
+	int wait_time = 5;
 	vApplicationDaemonTaskStartupHook();
 	dma_task_end_flag = DMA_TASK_RUN;
 	while(1)
@@ -325,8 +325,8 @@ static void prvDmaTask( void *pvParameters )
 
 		if ((dma_state == XST_FAILURE) || (Error == 1))
 		{
-			xil_printf("dma failed. wait for 10 sec.\r\n");
-			vTaskDelay(x10seconds);
+			xil_printf("dma failed. wait for %d sec.\r\n", wait_time);
+			vTaskDelay(pdMS_TO_TICKS(wait_time*1000));
 			fail_cnt++;
 			dma_state = XST_SUCCESS;
 			xil_printf("try again...\r\n");

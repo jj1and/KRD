@@ -308,6 +308,7 @@ int axidma_excute(){
 }
 
 void shutdown_dma(){
+	xil_printf("End dma task...\r\n");
 #ifndef FREE_RTOS
 	DisableIntrSystem(&Intc, RX_INTR_ID);
 #else

@@ -67,7 +67,7 @@ void process_send2pc(void *arg)
 		} else {
 			// xil_printf("Queue is empty. wait for reciving data\r\n");
 			if(dma_task_end_flag == DMA_TASK_END){
-				xil_printf("dma task is ended\r\n");		
+				xil_printf("dma task is ended\r\n");
 				break;
 			}
 			portYIELD();
@@ -132,7 +132,6 @@ void send2pc_application_thread(void *arg)
 				argptr,
 				THREAD_STACKSIZE,
 				uxDefaultSend2pcPriority);
-			break;
 		}
 	}
 	xil_printf("End socket connection.\r\n");
