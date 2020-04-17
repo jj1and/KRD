@@ -9,9 +9,9 @@
 #define SOCKET_READY 2
 #define SOCKET_OPEN 1
 #define SOCKET_CLOSE 0
-#define DMA_TASK_END 1
 #define DMA_TASK_READY 2
-#define DMA_TASK_RUN 0
+#define DMA_TASK_RUN 1
+#define DMA_TASK_END 0
 
 typedef struct send2pc_arg {
     int *p;
