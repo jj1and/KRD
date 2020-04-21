@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>PL_PC_transport_test</name>
-	<comment>Created by SDK v2019.1. tcp_sending_RTOS_sample_bsp - psu_cortexa53_0</comment>
+	<comment>Created by SDK v2019.1. PL_PC_transport_test_bsp - psu_cortexa53_0</comment>
 	<projects>
-		<project>tcp_sending_RTOS_sample_bsp</project>
+		<project>PL_PC_transport_test_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -23,4 +23,66 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/dma_queue_transfer.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/dma_queue_transfer.c</locationURI>
+		</link>
+		<link>
+			<name>src/dma_queue_transfer.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/dma_queue_transfer.h</locationURI>
+		</link>
+		<link>
+			<name>src/main.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/main.c</locationURI>
+		</link>
+		<link>
+			<name>src/platform.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform.c</locationURI>
+		</link>
+		<link>
+			<name>src/platform.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform.h</locationURI>
+		</link>
+		<link>
+			<name>src/platform_config.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform_config.h</locationURI>
+		</link>
+		<link>
+			<name>src/send2pc.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/send2pc.c</locationURI>
+		</link>
+		<link>
+			<name>src/send2pc.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/send2pc.h</locationURI>
+		</link>
+		<link>
+			<name>src/trigger_manager.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/trigger_manager.c</locationURI>
+		</link>
+		<link>
+			<name>src/trigger_manager.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/trigger_manager.h</locationURI>
+		</link>
+		<link>
+			<name>src/xrfdc_clk.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/xrfdc_clk.c</locationURI>
+		</link>
+		<link>
+			<name>src/xrfdc_clk.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/xrfdc_clk.h</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

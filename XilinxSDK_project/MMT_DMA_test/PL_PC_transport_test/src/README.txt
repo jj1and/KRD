@@ -1,71 +1,72 @@
-FreeRTOS lwIP Echo Server
-----------------------------
+FreeRTOS LwIP TCP Perf Client
+-----------------------------
 
-The FreeRTOS lwIP Echo server application starts an echo server at port 7. Any data sent to
-this port is simply echoed back.
+The FreeRTOS LwIP TCP Perf client application creates TCP client using LwIP
+stack. This client connects to TCP server (running on Linux Host machine using
+Iperf 2.0.5) with IP address (default 192.168.1.100) provided in application.
+The TCP server should be running on host machine to serve this client.
+Once client connects with server, then application will start data
+transfer and performance will be measured.
+Connection details and data transfer statistics will be displayed by client
+on serial console.
 
-By default, the program assigns the following settings to the board:
+Following TCP client options can be changed in file freertos_tcp_perf_client.h:
+1) INTERIM_REPORT_INTERVAL: time interval (in secs) for intermediate report
+display interval. (default 5 secs)
+2) TCP_CONN_PORT: Port to be used for TCP connection. (default 5001)
+3) TCP_TIME_INTERVAL: time interval (in secs) for which TCP client will run.
+(default 300 secs)
+
+For IPv4,
+4) TCP_SERVER_IP_ADDRESS: Server IPV4 address to which client will be connected.
+(default 192.168.1.100)
+For IPv6,
+4) TCP_SERVER_IPV6_ADDRESS: Server IPV6 address to which client will be connected.
+(default fe80::6600:6aff:fe71:fde6)
+
+If LWIP_DHCP is enabled, then board should get IP address from DHCP server.
+If DHCP timeout happens or LWIP_DHCP is disabled then, the program assigns the
+following IP settings to the board:
 IP Address: 192.168.1.10
 Netmask   : 255.255.255.0
 Gateway   : 192.168.1.1
 MAC address:  00:0a:35:00:01:02
+
+Procedure to enable IPv6
+------------------------
+A) From SDK GUI.
+1. Create lwip_tcp_perf application from XSDK
+2. Go to BSP Settings from XSDK
+   --> Overview
+      --> freertos10_xilinx
+        --> lwip202
+           --> ipv6_enable
+               - Select "true" from value tab.
+3. Build complete project.
+
+B) From mss file.
+1. Before creating project update below parameter.
+   - FILE: freertos_lwip_tcp_perf_client.mss
+     - PARAMETER ipv6_enable = true
+
+If LWIP_IPV6 enabled then board should configured with IPv6 link local address.
+following IPv6 settings to the board:
+link local IPv6 Address: FE80:0:0:0:20A:35FF:FE00:102
+
 These settings can be changed in the file main.c.
 
-The main echo server logic is present in the file echo.c.
+The TCP client connection and statistics logic is present in the file
+freertos_tcp_perf_client.c
 
-Running the Echo Server example
--------------------------------
+Running the FreeRTOS LwIP TCP client example
+--------------------------------------------
 
-To connect and test the echo server, download and run the program on the board,
-and then issue the following command from your host machine:
+First run Iperf server on host machine using below command
 
-$ telnet 192.168.1.10 7
-Trying 192.168.1.10...
-Connected to 192.168.1.10.
-Escape character is '^]'.
-hello world
-hello world
-all messages will be echo'ed back
-all messages will be echo'ed back
-^]
-telnet> quit
-Connection closed.
-$
+For IPv4
+$ iperf -s -i 5 -w 2M
 
+For IPv6
+$ iperf -V s -i 5 -w 2M
 
-FreeRTOS lwIPv6 Echo Server
-----------------------------
-
-The FreeRTOS lwIP Echo server application starts an echo server at port 7. Any data sent to
-this port is simply echoed back.
-
-By default, the program assigns the following settings to the board:
-IPv6 address: FE80:0:0:0:20A:35FF:FE00:102
-MAC address:  00:0a:35:00:01:02
-These settings can be changed in the file main.c.
-
-The main echo server logic is present in the file echo.c.
-
-Running the Echo Server example
--------------------------------
-
-To connect and test the echo server, download and run the program on the board,
-and then issue the following command from your host machine:
-
-$ telnet -6 FE80:0:0:0:20A:35FF:FE00:102%eth1 7
-Trying fe80::20a:35ff:fe00:102%eth1...
-Connected to FE80:0:0:0:20A:35FF:FE00:102%eth1.
-Escape character is '^]'.
-hello world
-hello world
-all messages will be echo'ed back
-all messages will be echo'ed back
-^]
-telnet> quit
-Connection closed.
-$
-References
-----------
-
-More details regarding the echo server can be obtained from Xilinx XAPP 1026:
-http://www.xilinx.com/support/documentation/application_notes/xapp1026.pdf
+Now, download and run the TCP client application on the board.

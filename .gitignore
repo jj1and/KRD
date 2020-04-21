@@ -28,11 +28,12 @@ project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 /XilinxSDK_project/*
 !/XilinxSDK_project/MMT_DMA_test/
 /XilinxSDK_project/MMT_DMA_test/*
-!/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test
-/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test/Debug
-!/XilinxSDK_project/MMT_DMA_test/tcp_sending_RTOS_sample_bsp
-/XilinxSDK_project/MMT_DMA_test/tcp_sending_RTOS_sample_bsp/**/lib
-/XilinxSDK_project/MMT_DMA_test/tcp_sending_RTOS_sample_bsp/**/include
+!/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_src
+# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test/Debug
+# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/lib
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/include
 
 # XilinxSDK_project/**/.sdk
 # XilinxSDK_project/**/.metadata
