@@ -2,14 +2,20 @@
 # https://qiita.com/tokoroten-lab/items/bb27351b393f087650a9
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 import time
 import socket
 import sys
+import glob
 
 IP_ADDR = '192.168.10.106'
 # IP_ADDR = '127.0.0.1'
 PACKET_HEADER_SIZE = 8
-SAVE_FILE_NAME = "util_code/recv_buff.bin"
+
+save_date = time.strftime("%Y%m%d", time.localtime())
+SAVE_FILE_BASE_NAME = "util_code/recv_buff_"
+SAVE_FILE_EXTENTION = ".bin"
+SAVE_FIG_EXTENTION = ".pkl"
 
 
 
@@ -74,7 +80,15 @@ if __name__ == "__main__":
         s.connect((IP_ADDR, 5001))
         recv_buff, start_time, recv_info = data_recv(s)
         s.close()
-    with open(SAVE_FILE_NAME, "wb") as fout:
+
+    file_number = 0
+    while file_number < 100:
+        save_file_name = SAVE_FILE_BASE_NAME+save_date+"_{0:02d}".format(file_number)+SAVE_FILE_EXTENTION
+        if (glob.glob(save_file_name)==[]):
+            break
+        else:
+            file_number += 1
+    with open(save_file_name, "wb") as fout:
         fout.write(recv_buff)
     
     x = np.array([])
@@ -92,7 +106,7 @@ if __name__ == "__main__":
             Mbps_speed = (ele[2]*8/rela_etime)*1E-6
         else:
             Mbps_speed = -1
-        print("Loop No.:{0:4d} | Start:{1:10.5f} sec | End:{2:10.5f} sec | Delta:{3:15.5f} msec | Size:{4:3.2f} MByte | Speed:{5:5.2f} Mbps".format(i, rela_stime, rela_etime, delta*1E3, byte_size*1E-6, Mbps_speed))
+        # print("Loop No.:{0:4d} | Start:{1:10.5f} sec | End:{2:10.5f} sec | Delta:{3:15.5f} msec | Size:{4:3.2f} MByte | Speed:{5:5.2f} Mbps".format(i, rela_stime, rela_etime, delta*1E3, byte_size*1E-6, Mbps_speed))
     
     valid_data_index = np.where((delta_arry*1E3)<5000)
     valid_x = x[valid_data_index]
@@ -117,4 +131,9 @@ if __name__ == "__main__":
     handler1, label1 = ax1.get_legend_handles_labels()
     handler2, label2 = ax2.get_legend_handles_labels()
     ax1.legend(handler1 + handler2, label1 + label2, loc='lower right')
+
+    save_fig_name = SAVE_FILE_BASE_NAME+save_date+"_{0:02d}".format(file_number)+SAVE_FIG_EXTENTION
+    with open(save_fig_name, mode='wb') as figout:
+        pickle.dump(fig, figout)
+
     plt.show()

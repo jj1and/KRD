@@ -4,6 +4,8 @@
 *.log
 *.jou
 *.str
+*.bin
+*.pkl
 project_hls/
 VSC_solution/
 
