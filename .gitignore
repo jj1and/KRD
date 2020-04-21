@@ -28,6 +28,7 @@ project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 /XilinxSDK_project/*
 !/XilinxSDK_project/MMT_DMA_test/
 /XilinxSDK_project/MMT_DMA_test/*
+!/XilinxSDK_project/MMT_DMA_test/SimpleDMA_design_1_wrapper_hw_platform_0
 !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_src
 # !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test
 # /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test/Debug
