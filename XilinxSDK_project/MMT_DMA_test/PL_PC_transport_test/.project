@@ -27,62 +27,62 @@
 		<link>
 			<name>src/dma_queue_transfer.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/dma_queue_transfer.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/dma_queue_transfer.c</locationURI>
 		</link>
 		<link>
 			<name>src/dma_queue_transfer.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/dma_queue_transfer.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/dma_queue_transfer.h</locationURI>
 		</link>
 		<link>
 			<name>src/main.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/main.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/main.c</locationURI>
 		</link>
 		<link>
 			<name>src/platform.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/platform.c</locationURI>
 		</link>
 		<link>
 			<name>src/platform.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/platform.h</locationURI>
 		</link>
 		<link>
 			<name>src/platform_config.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/platform_config.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/platform_config.h</locationURI>
 		</link>
 		<link>
 			<name>src/send2pc.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/send2pc.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/send2pc.c</locationURI>
 		</link>
 		<link>
 			<name>src/send2pc.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/send2pc.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/send2pc.h</locationURI>
 		</link>
 		<link>
 			<name>src/trigger_manager.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/trigger_manager.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/trigger_manager.c</locationURI>
 		</link>
 		<link>
 			<name>src/trigger_manager.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/trigger_manager.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/trigger_manager.h</locationURI>
 		</link>
 		<link>
 			<name>src/xrfdc_clk.c</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/xrfdc_clk.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/xrfdc_clk.c</locationURI>
 		</link>
 		<link>
 			<name>src/xrfdc_clk.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/PL_PC_transport_test_src/xrfdc_clk.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/PL_PC_transport_test_src/xrfdc_clk.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
