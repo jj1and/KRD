@@ -4,23 +4,36 @@ import pickle
 import glob
 import matplotlib.pyplot as plt
 
-FILE_NAME = "util_code/recv_buff_20200421_01.bin"
+FILE_NAME = "util_code/recv_buff_20200423_00.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = FILE_NAME.replace('.bin', '_pddfs.pkl')+'.'+COMPRESSION_TYPE
 pickle_pdkeys_name = FILE_NAME.replace('.bin', '_pdkeys.pkl')
 pickle_pdsettings_name = FILE_NAME.replace('.bin', '_pdsettings.pkl')
-
+pickle_perf_pddf_name = FILE_NAME.replace('.bin', '_perf_pddf.pkl')+'.'+COMPRESSION_TYPE
 
 TIMESTAMP_CLK_Hz = 256*1E6
 EFFECTIVE_ADC_CLK_Hz = 2.048*1E9
 SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
+XPAR_CPU_CORTEXA53_0_TIMESTAMP_CLK_FREQ_Hz = 99999001
 
 VALID_HEADER = np.uint16(0xAAAA)
 ERR_HEADER = np.uint16(0xAAEE)
 BOTH_HEADER = np.uint16(0xAA00)
 
 BOTH_HEADER_FOOTER_BITMASK = np.uint16(0xFF00)
+
+
+PERFORM_HEADER_BITMASK = np.uint64(0xFFFFFFFFFFFFFFF0)
+# PERFORM_FOOTER_BITMASK = np.uint64(0x000000000000FFFF)
+
+PERFORM_HEADER = np.uint64(0xAA78000000000000)
+PERFORM_FOOTER = np.uint64(0xFFFFFFFFFFFF5578)
+
+TYPE_DMA_START = np.uint64(0x000000000000000A)
+TYPE_DMA_INTR_END = np.uint64(0x000000000000000B)
+TYPE_DMA_END = np.uint64(0x000000000000000C)
+TYPE_SEND2PC_END = np.uint64(0x000000000000000D)
 
 # CH_ID_BITMASK = np.uint64(0x0000F00000000000)
 # FH_TIMESTAMP_BITMASK = np.uint64(0x00000FFFFFFFF000)
@@ -89,14 +102,57 @@ def generate_pddfs(df_list):
     pd_frames = pd.concat(pd_frame_list, sort=False)
     return pd_frame_key_list, pd_setting_dict, pd_frames
 
+def decode_perf_df(perf_dfs):
+    dma_start_header_indices = np.where(perf_dfs == np.uint64(PERFORM_HEADER+TYPE_DMA_START))[0]
+    dma_intr_end_header_indices = np.where(perf_dfs == np.uint64(PERFORM_HEADER+TYPE_DMA_INTR_END))[0]
+    dma_end_header_indices = np.where(perf_dfs == np.uint64(PERFORM_HEADER+TYPE_DMA_END))[0]
+    send2pc_end_header_indices = np.where(perf_dfs == np.uint64(PERFORM_HEADER+TYPE_SEND2PC_END))[0]
+    common_footer_indices = np.where(perf_dfs == PERFORM_FOOTER)[0]
+    
+    dma_start_footer_indices = common_footer_indices[np.where( common_footer_indices<dma_intr_end_header_indices[0] )]
+    dma_intr_end_footer_indices = common_footer_indices[np.where( (common_footer_indices<dma_end_header_indices[0]) & (common_footer_indices>dma_intr_end_header_indices[0]))]
+    dma_end_footer_indices = common_footer_indices[np.where( (common_footer_indices<send2pc_end_header_indices[0]) & (common_footer_indices>dma_end_header_indices[0]))]
+    send2pc_end_footer_indices = common_footer_indices[np.where( common_footer_indices>send2pc_end_header_indices[0] )]
+    
+    dma_start_ticks = np.array(perf_dfs[dma_start_header_indices[0]:dma_start_footer_indices[-1]], dtype='uint64')
+    dma_intr_end_ticks = np.array(perf_dfs[dma_intr_end_header_indices[0]:dma_intr_end_footer_indices[-1]], dtype='uint64')
+    dma_end_ticks = np.array(perf_dfs[dma_end_header_indices[0]:dma_end_footer_indices[-1]], dtype='uint64')
+    send2pc_end_ticks = np.array(perf_dfs[send2pc_end_header_indices[0]:send2pc_end_footer_indices[-1]], dtype='uint64')
 
+    dma_start_ticks = np.delete(dma_start_ticks, np.where((dma_start_ticks==np.uint64(PERFORM_HEADER+TYPE_DMA_START)) | (dma_start_ticks==PERFORM_FOOTER)))
+    dma_intr_end_ticks = np.delete(dma_intr_end_ticks, np.where((dma_intr_end_ticks==np.uint64(PERFORM_HEADER+TYPE_DMA_INTR_END)) | (dma_intr_end_ticks==PERFORM_FOOTER)))
+    dma_end_ticks = np.delete(dma_end_ticks, np.where((dma_end_ticks==np.uint64(PERFORM_HEADER+TYPE_DMA_END)) | (dma_end_ticks==PERFORM_FOOTER)))
+    send2pc_end_ticks = np.delete(send2pc_end_ticks, np.where((send2pc_end_ticks==np.uint64(PERFORM_HEADER+TYPE_SEND2PC_END)) | (send2pc_end_ticks==PERFORM_FOOTER)))
+    return dma_start_ticks, dma_intr_end_ticks, dma_end_ticks, send2pc_end_ticks
 
 
 if __name__ == "__main__":
     with open(FILE_NAME, "rb") as f:
         recv_buff = f.read()
     # '<u8' = 'little_endian(<)  unsigned_int64(u8)'
-    dfs = np.frombuffer(recv_buff, dtype='<u8')
+    all_dfs = np.frombuffer(recv_buff, dtype='<u8')
+    perf_header_indices = np.where(all_dfs&PERFORM_HEADER_BITMASK == PERFORM_HEADER)
+    perf_footer_indices = np.where(all_dfs == PERFORM_FOOTER)
+    if (len(perf_footer_indices[0])!=0) & (len(perf_header_indices[0])!=0):
+        if (glob.glob(pickle_perf_pddf_name)!=[]):
+            perf_pddf = pd.read_pickle(pickle_perf_pddf_name, compression=COMPRESSION_TYPE)     
+        else:
+            perf_dfs = all_dfs[perf_header_indices[0][0]:]
+            dma_start_ticks, dma_intr_end_ticks, dma_end_ticks, send2pc_end_ticks = decode_perf_df(perf_dfs)
+            perf_pddf = pd.DataFrame(data=np.concatenate([dma_start_ticks.reshape(-1,1), np.append(dma_intr_end_ticks, [np.nan]).reshape(-1,1), dma_end_ticks.reshape(-1, 1), send2pc_end_ticks.reshape(-1, 1)], axis=1), columns=['dma_start[CPU_CLK]', 'dma_intr_end[CPU_CLK]', 'dma_end[CPU_CLK]', 'send2pc_end[CPU_CLK]'])
+            perf_pddf.to_pickle(pickle_perf_pddf_name, compression=COMPRESSION_TYPE)
+        # ps_timeline_fig, ps_timeline_ax = plt.subplots()
+        # ps_timeline_ax.set_title('PS program timeline')
+        # ps_timeline_ax.set_xlabel('timeline[tick]')
+        # ps_timeline_ax.set_ylabel('Number of Call')
+        # ps_timeline_ax.scatter(dma_start_ticks, np.arange(1, len(dma_start_ticks)+1), label='DMA START:Entries={0:d}'.format(len(dma_start_ticks)), c='steelblue', s=5, zorder=4)
+        # ps_timeline_ax.scatter(dma_intr_end_ticks, np.arange(1, len(dma_intr_end_ticks)+1), label='DMA INTR HANDLER END:Entries={0:d}'.format(len(dma_intr_end_ticks)), c='orange', s=9, zorder=3)
+        # ps_timeline_ax.scatter(dma_end_ticks, np.arange(1, len(dma_end_ticks)+1), label='DMA END:Entries={0:d}'.format(len(dma_end_ticks)), c='green', s=13, zorder=2)
+        # ps_timeline_ax.scatter(send2pc_end_ticks, np.arange(1, len(send2pc_end_ticks)+1), label='SEND2PC END:Entries={0:d}'.format(len(send2pc_end_ticks)), c='firebrick', s=17, zorder=1)
+        # ps_timeline_ax.legend()
+        dfs = all_dfs[:perf_header_indices[0][0]]
+    else:
+        dfs = all_dfs
 
     # litte -> big endian
     dfs = np.array([(dfs[i].byteswap()).newbyteorder('B')  for i in range(len(dfs))], dtype='>u8')
@@ -133,12 +189,12 @@ if __name__ == "__main__":
             pickle.dump(pdsettings, fpdsettings)
         pddfs.to_pickle(pickle_pddfs_name, compression=COMPRESSION_TYPE)
 
-    hit_timeline = np.array([pdsettings[key]['timestamp'] for key in pdkeys ], dtype='uint64')/TIMESTAMP_CLK_Hz
-    timeline_fig, timeline_ax = plt.subplots()
-    timeline_ax.set_title('Hit timeline')
-    timeline_ax.set_ylabel('Hit(Accumulation)')
-    timeline_ax.set_xlabel('timeline[sec]')
-    timeline_ax.plot(hit_timeline, np.arange(1, len(hit_timeline)+1))
+    # hit_timeline = np.array([pdsettings[key]['timestamp'] for key in pdkeys ], dtype='uint64')/TIMESTAMP_CLK_Hz
+    # timeline_fig, timeline_ax = plt.subplots()
+    # timeline_ax.set_title('Hit timeline')
+    # timeline_ax.set_ylabel('Hit(Accumulation)')
+    # timeline_ax.set_xlabel('timeline[sec]')
+    # timeline_ax.plot(hit_timeline, np.arange(1, len(hit_timeline)+1))
 
     hist2d_fig, hist2d_ax = plt.subplots()
     hist2d_ax.set_title("Acquired data")
@@ -151,7 +207,7 @@ if __name__ == "__main__":
     print(pddfs[pddfs.iloc[:, 1]<-1000])
     # pddfs_low = pddfs.loc[(0, 3079603435)]
     # # print([format(i, '02x') for i in df_list[pdkeys.index('Ch0000_4645651952')]])
-    pddfs_partial = pddfs.iloc[:200000, :]
+    pddfs_partial = pddfs.loc[(0, [pdsettings[pdkeys[i]]['timestamp'] for i in range(1000, 1010)]), :]
     pddfs_timestamp = pddfs_partial.index.get_level_values(1)
     fig, ax = plt.subplots()
     ax.set_title("Acquired data")

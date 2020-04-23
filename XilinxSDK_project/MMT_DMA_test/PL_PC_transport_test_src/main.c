@@ -25,7 +25,6 @@
  * OF SUCH DAMAGE.
  *
  */
-
 #include <stdio.h>
 #include "xparameters.h"
 #include "netif/xadapter.h"
@@ -34,7 +33,6 @@
 #include "send2pc.h"
 #include "trigger_manager.h"
 #include "dma_queue_transfer.h"
-
 
 #define DELAY_10_SECONDS	10000UL
 #define DELAY_1_SECOND		1000UL
@@ -117,6 +115,7 @@ int main()
 	int16_t threshold = 256;
 	u16 baseline = 0;
 	u8 pre_acqui_len = 5;
+	XTime_StartTimer();
 	trigger_setup(threshold, baseline, pre_acqui_len);
 	axidma_setup();
 

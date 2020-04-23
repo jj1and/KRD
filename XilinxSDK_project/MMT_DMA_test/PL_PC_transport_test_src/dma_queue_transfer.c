@@ -1,9 +1,10 @@
 #include "FreeRTOS.h"
 #include "queue.h"
-#include "send2pc.h"
 #include "xil_exception.h"
 #include "xdebug.h"
+#include "send2pc.h"
 #include "dma_queue_transfer.h"
+#include "perform_measurement.h"
 
 XAxiDma AxiDma;
 TaskHandle_t xDmaTask;
@@ -71,6 +72,7 @@ static void RxIntrHandler(void *Callback)
 			TimeOut -= 1;
 		}
 	}
+	set_timing_ticks(TYPE_DMA_INTR_END);
 	vTaskNotifyGiveFromISR(xDmaTask, &xHigherPriorityTaskWoken_byNotify);
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
 	// } else if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
@@ -285,6 +287,7 @@ int axidma_excute(){
 			return XST_FAILURE;
 		} else {
 			/* Wait RX done */
+			set_timing_ticks(TYPE_DMA_START);
 			ulTaskNotifyTake( pdTRUE, max_intr_wait_tick );
 			if(Error){
 				xil_printf("error in dma transaction.\r\n");
@@ -297,7 +300,8 @@ int axidma_excute(){
 					xil_printf("queue is full.\r\n");
 					Error = 1;
 					break;
-				}		
+				}
+				set_timing_ticks(TYPE_DMA_END);		
 			}	
 		}
 	}

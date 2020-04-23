@@ -6,6 +6,8 @@
 *.str
 *.bin
 *.pkl
+*.pkl.zip
+*.png
 project_hls/
 VSC_solution/
 

@@ -4,6 +4,7 @@
 #include "lwip/sockets.h"
 #include "netif/xadapter.h"
 #include "xil_printf.h"
+#include "perform_measurement.h"
 #include "send2pc.h"
 
 int socket_close_flag;
@@ -62,13 +63,25 @@ void process_send2pc(void *arg)
 				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
 				vTaskPrioritySet(NULL, uxDmaPriority+1);
                 break;
-            }		
+            }
+			set_timing_ticks(TYPE_SEND2PC_END);		
 			// xSemaphoreGive( SemaphoneFromSend2pc );
 		} else {
 			// xil_printf("Queue is empty. wait for reciving data\r\n");
 			if(dma_task_end_flag == DMA_TASK_END){
-				xil_printf("dma task is ended\r\n");
-				break;
+				send_len = get_timing_ticks(send_buf, SEND_BUF_SIZE);
+				if (send_len > 0) {
+					if ((send_wrote = lwip_send(sd, send_buf, send_len*sizeof(u64), 0)) < 0) {
+						xil_printf("%s: ERROR sending to client. written = %d\r\n", __FUNCTION__, send_wrote);
+						xil_printf("Closing socket %d\r\n", sd);
+						UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
+						vTaskPrioritySet(NULL, uxDmaPriority+1);
+						break;
+					}
+				} else {
+					xil_printf("dma is ended & sent all performance data\r\n");
+					break;
+				}
 			}
 			portYIELD();
 		}	
