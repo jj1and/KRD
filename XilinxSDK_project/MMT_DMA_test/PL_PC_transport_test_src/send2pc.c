@@ -14,7 +14,7 @@ TaskHandle_t process_thread;
 UBaseType_t uxDefaultSend2pcPriority = DEFAULT_THREAD_PRIO-2;
 // SemaphoreHandle_t SemaphoneFromSend2pc;
 
-static void PrintData(u64 *dataptr, int Length)
+void PrintData(u64 *dataptr, int Length)
 {
 	int Index = 0;
 	for(Index = 0; Index < Length; Index++) {
@@ -55,8 +55,8 @@ void process_send2pc(void *arg)
         if ( recive_state == pdPASS) {
             /* handle request */
 			send_len = ((send_buf[0] & 0xFFF)+2);
-			//xil_printf("sending packet. below\n");
-			//PrintData(send_buf, send_len);
+			// xil_printf("sending packet. below\n");
+			// PrintData(send_buf, send_len);
             if ((send_wrote = lwip_send(sd, send_buf, send_len*sizeof(u64), 0)) < 0) {
                 xil_printf("%s: ERROR sending to client. written = %d\r\n", __FUNCTION__, send_wrote);
                 xil_printf("Closing socket %d\r\n", sd);

@@ -27,6 +27,7 @@ extern TaskHandle_t process_thread;
 extern UBaseType_t uxDefaultSend2pcPriority;
 // extern SemaphoreHandle_t SemaphoneFromSend2pc;
 
+void PrintData(u64 *dataptr, int Length);
 void print_send2pc_app_header();
 void process_send2pc(void *arg);
 void send2pc_application_thread();

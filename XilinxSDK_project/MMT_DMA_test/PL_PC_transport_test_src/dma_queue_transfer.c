@@ -278,36 +278,36 @@ int axidma_excute(){
 					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
 		if (Status == XST_FAILURE) {
 			xil_printf("DMA internal buffer is empty.\r\n");
-			if (frame_num == 0) 
-				return XST_FAILURE;
-			else 
-				break;
+			return XST_FAILURE;
 		} else if (Status == XST_INVALID_PARAM) {
 			xil_printf("Simple transfer Failed because of parameter setting\r\n");
 			return XST_FAILURE;
 		} else {
 			/* Wait RX done */
 			set_timing_ticks(TYPE_DMA_START);
-			ulTaskNotifyTake( pdTRUE, max_intr_wait_tick );
-			if(Error){
-				xil_printf("error in dma transaction.\r\n");
-				break;
-			} else {
-				Xil_DCacheInvalidateRange((u64)RX_BUFFER_BASE, MAX_PKT_LEN);
-				if(xQueueSend( xDmaQueue, RxBufferPtr, max_send2pc_wait_tick)){
-					// xil_printf("send data to the queue\r\n");
+			if (ulTaskNotifyTake( pdTRUE, max_intr_wait_tick ) > 0){
+				if(Error){
+					xil_printf("error in dma transaction.\r\n");
+					continue;
 				} else {
-					xil_printf("queue is full.\r\n");
-					Error = 1;
-					break;
-				}
-				set_timing_ticks(TYPE_DMA_END);		
-			}	
+					Xil_DCacheInvalidateRange((u64)RX_BUFFER_BASE, MAX_PKT_LEN);
+					if(xQueueSend( xDmaQueue, RxBufferPtr, max_send2pc_wait_tick)){
+						// xil_printf("send data to the queue\r\n");
+						// PrintData(RxBufferPtr, ((RxBufferPtr[0] & 0xFFF)+2));					
+					} else {
+						xil_printf("queue is full.\r\n");
+						Error = 1;
+						continue;
+					}
+					set_timing_ticks(TYPE_DMA_END);		
+				}	
+			} else {
+				set_timing_ticks(TYPE_DMA_END);	
+				xil_printf("waiting interrupt time is out.\r\n");
+				break;				
+			}
 		}
 	}
-	// xil_printf("Waiting socket transaction end. Max wait time is %d sec.\r\n", max_send2pc_wait);
-	// if(xSemaphoreTake(SemaphoneFromSend2pc, max_send2pc_wait_tick) == pdFALSE)
-	// 	xil_printf("Time out. excute next dma transfer.\r\n");
     return XST_SUCCESS;
 }
 
