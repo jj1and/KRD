@@ -72,9 +72,9 @@ static void RxIntrHandler(void *Callback)
 			TimeOut -= 1;
 		}
 	}
-	set_timing_ticks(TYPE_DMA_INTR_END);
 	vTaskNotifyGiveFromISR(xDmaTask, &xHigherPriorityTaskWoken_byNotify);
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
+	set_timing_ticks(TYPE_DMA_INTR_END);
 	// } else if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
 	// 	vTaskNotifyGiveFromISR(xDmaTask, &xHigherPriorityTaskWoken_byNotify);
 	// 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
@@ -291,6 +291,7 @@ int axidma_excute(){
 					continue;
 				} else {
 					Xil_DCacheInvalidateRange((u64)RX_BUFFER_BASE, MAX_PKT_LEN);
+					set_timing_ticks(TYPE_DMA_END);	
 					if(xQueueSend( xDmaQueue, RxBufferPtr, max_send2pc_wait_tick)){
 						// xil_printf("send data to the queue\r\n");
 						// PrintData(RxBufferPtr, ((RxBufferPtr[0] & 0xFFF)+2));					
@@ -298,8 +299,7 @@ int axidma_excute(){
 						xil_printf("queue is full.\r\n");
 						Error = 1;
 						continue;
-					}
-					set_timing_ticks(TYPE_DMA_END);		
+					}	
 				}	
 			} else {
 				set_timing_ticks(TYPE_DMA_END);	

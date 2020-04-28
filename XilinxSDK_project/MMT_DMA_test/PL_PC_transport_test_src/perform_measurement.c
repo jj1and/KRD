@@ -8,6 +8,7 @@
 #define DMA_INTR_END_TICKS_HEADER (COMMON_HEADER+TYPE_DMA_INTR_END)
 #define DMA_END_TICKS_HEADER (COMMON_HEADER+TYPE_DMA_END)
 #define SEND2PC_END_TICKS_HEADER (COMMON_HEADER+TYPE_SEND2PC_END)
+#define QUEUE_RECV_TICKS_HEADER (COMMON_HEADER+TYPE_QUEUE_RECV)
 
 static uint64_t dma_task_start_ticks[MAX_LOOP_NUM];
 static int dma_task_start_cnt = 0;
@@ -20,6 +21,9 @@ static int dma_task_end_cnt = 0;
 
 static uint64_t send2pc_end_ticks[MAX_LOOP_NUM];
 static int send2pc_end_cnt = 0;
+
+static uint64_t queue_recv_ticks[MAX_LOOP_NUM];
+static int queue_recv_cnt = 0;
 
 static u64 send_yet = TYPE_DMA_START;
 static int send_cnt = 0;
@@ -65,6 +69,15 @@ void set_timing_ticks(u64 timing_type){
             xil_printf("loop num is larger than %d! Cannot hold timing info.\r\n", MAX_LOOP_NUM);
         }
         break;
+    case TYPE_QUEUE_RECV:
+        if(queue_recv_cnt < MAX_LOOP_NUM){
+            XTime_GetTime(&queue_recv_ticks[queue_recv_cnt]);
+            // send2pc_end_ticks[send2pc_end_cnt] = xTaskGetTickCount();
+            queue_recv_cnt++;
+        } else {
+            xil_printf("loop num is larger than %d! Cannot hold timing info.\r\n", MAX_LOOP_NUM);
+        }
+        break;        
 
     default:
         xil_printf("Any timing type matched to the argument: %04x.\r\n", timing_type);
@@ -146,11 +159,22 @@ int get_timing_ticks(uint64_t *send_buff_ptr, u64 max_send_len){
             send_buff_ptr[max_send_len-1] = FOOTER;
             return max_send_len;
         }
+    case TYPE_QUEUE_RECV:
+        send_buff_ptr[0] = QUEUE_RECV_TICKS_HEADER;
+        copy_len = copy2buff(send_buff_ptr, queue_recv_ticks, queue_recv_cnt, max_send_len);
+        if (copy_len >= 0) {
+            send_buff_ptr[copy_len+1] = FOOTER;
+            send_yet++;
+            return copy_len+2;
+        } else if (copy_len == -1) {
+            send_buff_ptr[max_send_len-1] = FOOTER;
+            return max_send_len;
+        }    
         else
             send_yet = -1;
         break;
 
-    case TYPE_SEND2PC_END+1:
+    case TYPE_QUEUE_RECV+1:
         xil_printf("All ticks data send done!\r\n");
         return 0;
 

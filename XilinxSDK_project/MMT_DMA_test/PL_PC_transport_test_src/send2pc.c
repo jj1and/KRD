@@ -53,6 +53,7 @@ void process_send2pc(void *arg)
 	while (1) {
 		recive_state = xQueueReceive(xDmaQueue, send_buf, argptr->xTicksToWait);
         if ( recive_state == pdPASS) {
+			set_timing_ticks(TYPE_QUEUE_RECV);
             /* handle request */
 			send_len = ((send_buf[0] & 0xFFF)+2);
 			// xil_printf("sending packet. below\n");
@@ -65,7 +66,6 @@ void process_send2pc(void *arg)
                 break;
             }
 			set_timing_ticks(TYPE_SEND2PC_END);		
-			// xSemaphoreGive( SemaphoneFromSend2pc );
 		} else {
 			// xil_printf("Queue is empty. wait for reciving data\r\n");
 			if(dma_task_end_flag == DMA_TASK_END){
