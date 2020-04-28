@@ -1,8 +1,17 @@
 *.vcd
 *.out
+.Xil/*
+*.log
+*.jou
+*.str
+*.bin
+*.pkl
+*.pkl.zip
+*.png
 project_hls/
 VSC_solution/
 
+/**/.vscode
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
 project_tcl/ZCU111/MinimumTrigger/~$MinimumTrigger_DataFrame.xlsx
 project_tcl/ZCU111/MinimumTrigger_test/MinimumTrigger_test/
@@ -19,5 +28,23 @@ project_tcl/ZCU111/MMT_DMA_test/
 project_tcl/ZCU111/MMT_SGDMA_test/MMT_SGDMA_test/
 project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 
-XilinxSDK_project/
-.vscode/settings.json
+/XilinxSDK_project_old/
+/XilinxSDK_project/*
+!/XilinxSDK_project/MMT_DMA_test/
+/XilinxSDK_project/MMT_DMA_test/*
+!/XilinxSDK_project/MMT_DMA_test/SimpleDMA_design_1_wrapper_hw_platform_0
+!/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_src
+# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test/Debug
+# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/lib
+# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/include
+
+# XilinxSDK_project/**/.sdk
+# XilinxSDK_project/**/.metadata
+# XilinxSDK_project/**/SDK.log
+# XilinxSDK_project/**/webtalk
+# XilinxSDK_project/**/*_bsp/**/lib
+# XilinxSDK_project/**/*_bsp/**/include
+algorithm_dev/AfterMuon_FreqSpec.py
+util_code/pl_pc_transport_test.gif

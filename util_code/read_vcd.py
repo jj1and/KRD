@@ -12,19 +12,20 @@ plt.rcParams['axes.grid'] = True
 def bin2dec(bits):
     return -int(bits[0]) << len(bits) | int(bits, 2)
 
-vcd_file_path = "C:/Users/MoGURA/KRD/project_tcl/ZCU111/TwoChMixer_test/ILA_Data/noise_eval3/20200204_noise3.vcd"
-# vcd_file_path = "C:/Users/MoGURA/KRD/project_tcl/ZCU111/TwoChMixer_test/ILA_Data/20200128_mixer_12MHz.vcd"
+# vcd_file_path = "/home/mogura/KRD/project_tcl/ZCU111/TwoChMixer_test/ILA_Data/Linerity_eval2/20200129_50MHz_1.23Vpp_2.vcd"
+vcd_file_path = "/home/mogura/KRD/project_tcl/ZCU111/TwoChMixer_test/ILA_Data/noise_eval3/20200204_noise3_5.vcd"
+# vcd_file_path = "/home/mogura/KRD/project_tcl/ZCU111/TwoChMixer_test/ILA_Data/iladata_20200204_sine50MHz.vcd"
+# search_column = 12 # you must decidecheck manually by reading .vcd
+# valid_enable = True
+# valid_column = 35
 search_column = 1 # you must decidecheck manually by reading .vcd
 valid_enable = True
 valid_column = 33
 channel_select = True
 channel_number = 0
-# search_column = 0 # you must decidecheck manually by reading .vcd
-# valid_enable = True
-# valid_column = 11
 
 
-graph_type_continue = False
+graph_type_continue = True
 
 if __name__ == "__main__":
     
@@ -144,7 +145,7 @@ if __name__ == "__main__":
     ax = fig.add_subplot(111)
     ax.set_title("typical waveform, ADC:1V pk-pk/4096, Input waveform:sine wave")
     ax.set_xlabel("Time [nsec]")
-    ax.set_ylabel("Amp. [V]")
+    ax.set_ylabel("Amp. [mV]")
 
 
     first_df_timestamp_nsec = bin2dec('0' + dframe.at[footer_list[0], search_column_name][32:48] + dframe.at[header_list[0], search_column_name][20:52])*2
@@ -156,17 +157,17 @@ if __name__ == "__main__":
             # 1clock = 4nsec / 1clock contains 4 word
             if (channel_select):
                 if (int(dframe.at[header_list[i], search_column_name][16:20])==channel_number):
-                    ax.plot((x[(header_list[i]+1)*4:(footer_list[i]-1)*4])/2.048 + timestamp_nsec-first_df_timestamp_nsec, (y[(header_list[i]+1)*4:(footer_list[i]-1)*4]+2048)/4095-0.5, label="{0:.0f} nsec".format(timestamp_nsec-first_df_timestamp_nsec))
+                    ax.plot((x[(header_list[i]+1)*4:(footer_list[i]-1)*4])/2.048 + timestamp_nsec-first_df_timestamp_nsec, 1E3*((y[(header_list[i]+1)*4:(footer_list[i]-1)*4]+2048)/4095-0.5), label="{0:.0f} nsec".format(timestamp_nsec-first_df_timestamp_nsec))
                     ax.legend()
                 else:
                     pass
             else:
-                ax.plot((x[(header_list[i]+1)*4:(footer_list[i]-1)*4])/2.048 + timestamp_nsec-first_df_timestamp_nsec, (y[(header_list[i]+1)*4:(footer_list[i]-1)*4]+2048)/4095-0.5, label="{0:.0f} nsec".format(timestamp_nsec-first_df_timestamp_nsec))
+                ax.plot((x[(header_list[i]+1)*4:(footer_list[i]-1)*4])/2.048 + timestamp_nsec-first_df_timestamp_nsec, 1E3*((y[(header_list[i]+1)*4:(footer_list[i]-1)*4]+2048)/4095-0.5), label="{0:.0f} nsec".format(timestamp_nsec-first_df_timestamp_nsec))
                 ax.legend()                
       
     else:
-        # for i in range(frame_num):
-        for i in [1]:
+        for i in range(frame_num):
+        # for i in [2]:
             timestamp_lower_bits = dframe.at[header_list[i], search_column_name][20:52]
             timestamp_higher_bits = dframe.at[footer_list[i], search_column_name][32:48]
             timestamp_nsec = bin2dec('0'+timestamp_higher_bits+timestamp_lower_bits)*2
