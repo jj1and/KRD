@@ -8,12 +8,16 @@ import socket
 import sys
 import glob
 
+# plt.rcParams['xtick.direction'] = 'in'
+# plt.rcParams['ytick.direction'] = 'in'
+plt.rcParams['axes.grid'] = True
+
 IP_ADDR = '192.168.10.106'
 # IP_ADDR = '127.0.0.1'
 PACKET_HEADER_SIZE = 8
 
 save_date = time.strftime("%Y%m%d", time.localtime())
-SAVE_FILE_BASE_NAME = "util_code/recv_buff_"
+SAVE_FILE_BASE_NAME = "./util_code/recv_buff_"
 SAVE_FILE_EXTENTION = ".bin"
 SAVE_FIG_EXTENTION = ".pkl"
 
