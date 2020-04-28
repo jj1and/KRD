@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # plt.rcParams['ytick.direction'] = 'in'
 plt.rcParams['axes.grid'] = True
 
-FILE_NAME = "util_code/recv_buff_20200427_02.bin"
+FILE_NAME = "util_code/data/recv_buff_20200427_02.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = FILE_NAME.replace('.bin', '_pddfs.pkl')+'.'+COMPRESSION_TYPE
