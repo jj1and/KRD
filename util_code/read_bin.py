@@ -8,13 +8,14 @@ import matplotlib.pyplot as plt
 # plt.rcParams['ytick.direction'] = 'in'
 plt.rcParams['axes.grid'] = True
 
-FILE_NAME = "util_code/recv_buff_20200427_02.bin"
+FILE_NAME = "util_code/data/recv_buff_v2_20200428_01.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = FILE_NAME.replace('.bin', '_pddfs.pkl')+'.'+COMPRESSION_TYPE
 pickle_pdkeys_name = FILE_NAME.replace('.bin', '_pdkeys.pkl')
 pickle_pdsettings_name = FILE_NAME.replace('.bin', '_pdsettings.pkl')
-pickle_perf_pddf_name = FILE_NAME.replace('.bin', '_perf_pddf.pkl')+'.'+COMPRESSION_TYPE
+pickle_dma_perf_pddf_name = FILE_NAME.replace('.bin', '_dma_perf_pddf.pkl')+'.'+COMPRESSION_TYPE
+pickle_tcp_perf_pddf_name = FILE_NAME.replace('.bin', '_tcp_perf_pddf.pkl')+'.'+COMPRESSION_TYPE
 
 TIMESTAMP_CLK_Hz = 256*1E6
 EFFECTIVE_ADC_CLK_Hz = 2.048*1E9
@@ -103,7 +104,7 @@ def generate_pddfs(df_list):
 
             # print("Ch: {0:d} | Baseline: {1:d} | Threshold: {2:d} | Frame size: {3:d} | Timestamp: {4:d}".format(ch_id, baseline, threshold, frame_len*4, timestamp))
         else:
-            print("Frame No.{0:d} has invalid footer. The contents is {1:04x}".format(df_index, df[-1]))
+            print("Frame No.{0:d} has invalid footer. The contents is {1:04x}. The header is {2:04x}{3:04x}{4:04x}{5:04x}".format(df_index, df[-1], df[0], df[1], df[2], df[3]))
     pd_frames = pd.concat(pd_frame_list, sort=False)
     return pd_frame_key_list, pd_setting_dict, pd_frames
 
@@ -143,14 +144,13 @@ if __name__ == "__main__":
     perf_header_indices = np.where(all_dfs&PERFORM_HEADER_BITMASK == PERFORM_HEADER)
     perf_footer_indices = np.where(all_dfs == PERFORM_FOOTER)
     if (len(perf_footer_indices[0])!=0) & (len(perf_header_indices[0])!=0):
-        if (glob.glob(pickle_perf_pddf_name)!=[]):
-            perf_pddf = pd.read_pickle(pickle_perf_pddf_name, compression=COMPRESSION_TYPE)     
-        else:
-            perf_dfs = all_dfs[perf_header_indices[0][0]:]
-            dma_start_ticks, dma_intr_end_ticks, dma_end_ticks, send2pc_end_ticks, queue_recv_ticks = decode_perf_df(perf_dfs)
-            # before 20200423_01.bin : send2pc_end_ticks.reshape(-1, 1)
-            perf_pddf = pd.DataFrame(data=np.concatenate([dma_start_ticks.reshape(-1,1), np.append(dma_intr_end_ticks, [np.nan]).reshape(-1,1), dma_end_ticks.reshape(-1, 1), np.append(send2pc_end_ticks, [np.nan]).reshape(-1, 1), np.append(queue_recv_ticks, [np.nan]).reshape(-1, 1)], axis=1), columns=['dma_start[CPU_CLK]', 'dma_intr_end[CPU_CLK]', 'dma_end[CPU_CLK]', 'send2pc_end[CPU_CLK]', 'queue_recv[CPU_CLK]'])
-            perf_pddf.to_pickle(pickle_perf_pddf_name, compression=COMPRESSION_TYPE)
+        perf_dfs = all_dfs[perf_header_indices[0][0]:]
+        dma_start_ticks, dma_intr_end_ticks, dma_end_ticks, send2pc_end_ticks, queue_recv_ticks = decode_perf_df(perf_dfs)
+        # before 20200423_01.bin : send2pc_end_ticks.reshape(-1, 1)
+        dma_perf_pddf = pd.DataFrame(data=np.concatenate([dma_start_ticks.reshape(-1,1), dma_intr_end_ticks.reshape(-1, 1), dma_end_ticks.reshape(-1, 1)], axis=1), columns=['dma_start[CPU_CLK]', 'dma_intr_end[CPU_CLK]', 'dma_end[CPU_CLK]'])
+        tcp_perf_pddf = pd.DataFrame(data=np.concatenate([send2pc_end_ticks.reshape(-1, 1), queue_recv_ticks.reshape(-1, 1)], axis=1), columns=['send2pc_end[CPU_CLK]', 'queue_recv[CPU_CLK]'])            
+        dma_perf_pddf.to_pickle(pickle_dma_perf_pddf_name, compression=COMPRESSION_TYPE)
+        tcp_perf_pddf.to_pickle(pickle_tcp_perf_pddf_name, compression=COMPRESSION_TYPE)
         dfs = all_dfs[:perf_header_indices[0][0]]
     else:
         dfs = all_dfs

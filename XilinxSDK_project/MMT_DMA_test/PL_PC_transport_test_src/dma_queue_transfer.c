@@ -13,7 +13,12 @@ QueueHandle_t xDmaQueue;
  * Flags interrupt handlers use to notify the application context the events.
  */
 volatile int Error;
-static u64 *RxBufferPtr = (u64 *)RX_BUFFER_BASE;
+
+static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+static int data_cnt;
+static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
+
 
 /*****************************************************************************/
 /*
@@ -256,25 +261,22 @@ int axidma_setup(){
 	/* Enable all interrupts */
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
 							XAXIDMA_DEVICE_TO_DMA);
-
+	data_cnt = 0;
 	xil_printf("AXI-DMA Setup is done successfully.\r\n");
 	return XST_SUCCESS;
 }
 
 int axidma_excute(){
     int Status;
-	int max_frame_num = 10;
-	int frame_num;
+	// int max_frame_num = 10;
+	// int frame_num;
 	int max_intr_wait = 10;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);
-	int max_send2pc_wait = 5;
-	TickType_t max_send2pc_wait_tick = pdMS_TO_TICKS(max_send2pc_wait*1000);
     /* Initialize flags before start transfer test  */
 	Error = 0;
 	// xil_printf("Excute dma. Max interrupt wait time is %d sec.\r\n", max_intr_wait);
-	for (frame_num = 0; frame_num < max_frame_num; frame_num++)
-	{
-		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferPtr,
+	if (!buff_is_full()) {
+		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferWrPtr,
 					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
 		if (Status == XST_FAILURE) {
 			xil_printf("DMA internal buffer is empty.\r\n");
@@ -288,27 +290,62 @@ int axidma_excute(){
 			if (ulTaskNotifyTake( pdTRUE, max_intr_wait_tick ) > 0){
 				if(Error){
 					xil_printf("error in dma transaction.\r\n");
-					continue;
+					return XST_FAILURE;
 				} else {
-					Xil_DCacheInvalidateRange((u64)RX_BUFFER_BASE, MAX_PKT_LEN);
-					set_timing_ticks(TYPE_DMA_END);	
-					if(xQueueSend( xDmaQueue, RxBufferPtr, max_send2pc_wait_tick)){
-						// xil_printf("send data to the queue\r\n");
-						// PrintData(RxBufferPtr, ((RxBufferPtr[0] & 0xFFF)+2));					
-					} else {
-						xil_printf("queue is full.\r\n");
-						Error = 1;
-						continue;
-					}	
+					Xil_DCacheInvalidateRange((u64) RxBufferWrPtr, MAX_PKT_LEN);
+					set_timing_ticks(TYPE_DMA_END);
+					// xil_printf("Wrote Data\r\n");
+					// PrintData(RxBufferWrPtr, ((RxBufferWrPtr[0] & 0xFFF)+2));
+					incr_wrptr_after_write();
+					// xTaskNotifyGive(process_thread);
 				}	
 			} else {
-				set_timing_ticks(TYPE_DMA_END);	
-				xil_printf("waiting interrupt time is out.\r\n");
-				break;				
+				set_timing_ticks(TYPE_DMA_INTR_END);
+				set_timing_ticks(TYPE_DMA_END);
+				xil_printf("waiting interrupt time is out.\r\n");				
 			}
 		}
+		return XST_SUCCESS;
+	} else {
+		xil_printf("RX buffer is full.\r\n");
+		return XST_FAILURE;
 	}
-    return XST_SUCCESS;
+}
+
+void incr_wrptr_after_write(){
+	if (data_cnt<MAX_DATA_NUM){
+		data_cnt++;
+		if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - (int)MAX_PKT_LEN/sizeof(RxBufferWrPtr))
+			RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+		else
+			RxBufferWrPtr = RxBufferWrPtr + (int)MAX_PKT_LEN/sizeof(RxBufferWrPtr);
+	}
+}
+
+void incr_rdptr_after_read(){
+	if (data_cnt>0) {
+		data_cnt--;
+		if (RxBufferRdPtr >= (u64 *)RX_BUFFER_HIGH - (int)MAX_PKT_LEN/sizeof(RxBufferRdPtr))
+			RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+		else
+			RxBufferRdPtr = RxBufferRdPtr + (int)MAX_PKT_LEN/sizeof(RxBufferRdPtr);
+	}
+}
+
+int buff_is_empty() {
+	return (data_cnt <= 0);
+}
+
+int buff_is_full(){
+	return (data_cnt >= MAX_DATA_NUM);
+}
+
+u64* get_wrptr(){
+	return RxBufferWrPtr;
+}
+
+u64* get_rdptr(){
+	return RxBufferRdPtr;
 }
 
 void shutdown_dma(){
