@@ -119,15 +119,15 @@ int main()
 	trigger_setup(threshold, baseline, pre_acqui_len);
 	axidma_setup();
 
-	xDmaQueue = xQueueCreate( 	10,			/* There is only one space in the queue. */
-							MAX_PKT_LEN);	/* Each space in the queue is large enough to hold a uint32_t. */
+	// xDmaQueue = xQueueCreate( 	10,			/* There is only one space in the queue. */
+	// 						MAX_PKT_LEN);	/* Each space in the queue is large enough to hold a uint32_t. */
 
 	/* Check the queue was created. */
-	configASSERT( xDmaQueue );
+	// configASSERT( xDmaQueue );
 
-	send2pc_arg.xTicksToWait = 0;
+	send2pc_arg.xTicksToWait = 5;
 
-	xTaskCreate( prvDmaTask, ( const char *) "DMA_excution", configMINIMAL_STACK_SIZE, NULL, uxDefaultSend2pcPriority, &xDmaTask );
+	xTaskCreate( prvDmaTask, ( const char *) "DMA_excution", configMINIMAL_STACK_SIZE, NULL, uxDefaultSend2pcPriority+1, &xDmaTask );
 	sys_thread_new("main_thrd", (void(*)(void*))main_thread, (void *) &send2pc_arg,
 	                THREAD_STACKSIZE,
 	                DEFAULT_THREAD_PRIO);

@@ -66,6 +66,7 @@
  * Buffer and Buffer Descriptor related constant definition
  */
 #define MAX_PKT_LEN	0x800
+#define RX_BUFFER_SIZE 		(RX_BUFFER_HIGH - RX_BUFFER_BASE)
 
 /* The interrupt coalescing threshold and delay timer threshold
  * Valid range is 1 to 255
@@ -107,5 +108,12 @@ int axidma_setup();
 int axidma_excute();
 int SetupIntrSystem(INTC * IntcInstancePtr, XAxiDma * AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
+
+void incr_wrptr_after_write();
+void incr_rdptr_after_read();
+int buff_is_empty();
+int buff_is_full();
+u64* get_wrptr();
+u64* get_rdptr();
 
 #endif
