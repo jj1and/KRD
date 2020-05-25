@@ -4,13 +4,12 @@
 *.log
 *.jou
 *.str
-*.bin
 *.pkl
 *.pkl.zip
 *.png
+~*
 project_hls/
 VSC_solution/
-data/
 
 /**/.vscode
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
@@ -48,4 +47,7 @@ project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 # XilinxSDK_project/**/*_bsp/**/lib
 # XilinxSDK_project/**/*_bsp/**/include
 algorithm_dev/AfterMuon_FreqSpec.py
+util_code/data/*
+!util_code/data/recv_buff_v2_20200428_01.bin
+!util_code/data/recv_buff_v2_format.txt
 util_code/pl_pc_transport_test.gif
