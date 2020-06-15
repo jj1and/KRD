@@ -3,16 +3,101 @@
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
+        // {
+        //     "label": "verilog compile with xvlog",
+        //     "type": "shell",
+        //     "command": "xvlog",
+        //     "args": [
+        //         "-i",
+        //         "${fileDirname}",
+        //         "--sourcelibdir",
+        //         "${fileDirname}",
+        //         "--sourcelibdir",
+        //         "${workspaceFolder}/common_source",
+        //         "--sv",
+        //         "--log",
+        //         "${fileDirname}/${fileBasenameNoExtension}_xvlog_log.txt",
+        //         "${fileBasename}"
+        //     ],
+        //     "options": {
+        //         "cwd": "${fileDirname}"
+        //     },
+        //     "group": "build",
+        //     "presentation": {
+        //         "reveal": "always",
+        //         "panel": "shared"
+        //     },
+        //     "problemMatcher": []
+        // },      
+        // {
+        //     "label": "verilog elaboration with xelab",
+        //     "type": "shell",
+        //     "command": "xelab",
+        //     "args": [
+        //         "-i",
+        //         "${fileDirname}",             
+        //         "--notimingchecks",
+        //         "--log",
+        //         "${fileDirname}/${fileBasenameNoExtension}_xelab_log.txt",                
+        //         "work.${fileBasenameNoExtension}",
+        //         "-s",
+        //         "${fileBasenameNoExtension}_xsim"
+        //     ],            
+        //     "group": "build",
+        //     "options": {
+        //         "cwd": "${fileDirname}"
+        //     },
+        //     "presentation": {
+        //         "reveal": "always",
+        //         "panel": "shared"
+        //     },
+        //     "problemMatcher": [],
+        //     "dependsOn": [
+        //         "verilog compile with xvlog"
+        //     ]
+        // },
+        // {
+        //     "label": "run simulation with xsim",
+        //     "type": "shell",
+        //     "command": "xsim",
+        //     "args": [
+        //         "--onfinish",
+        //         "quit",
+        //         "--onerror",
+        //         " quit",
+        //         "--log",
+        //         "${fileDirname}/${fileBasenameNoExtension}_xsim_log.txt",
+        //         "--vcdfile",
+        //         "${fileDirname}/${fileBasenameNoExtension}_xsim.vcd",
+        //         "-tl",
+        //         "-R",                
+        //         "${fileBasenameNoExtension}_xsim"
+        //     ],            
+        //     "group": "test",
+        //     "options": {
+        //         "cwd": "${fileDirname}"
+        //     },
+        //     "presentation": {
+        //         "reveal": "always",
+        //         "panel": "shared"
+        //     },
+        //     "problemMatcher": [],
+        //     "dependsOn": [
+        //         "verilog elaboration with xelab"
+        //     ]
+        // },            
         {
-            "label": "verilog compile",
+            "label": "verilog compile with iverilog",
             "type": "shell",
             "command": "iverilog",
             "args": [
+                "-I",
+                "./",
                 "-y",
                 "./",
                 "-y",
-                "../common_source",
-                "-g2",
+                "E:/npart/KRD/common_source",
+                "-g2012",
                 "-o",
                 "${fileBasenameNoExtension}.out",
                 "-s",
@@ -30,7 +115,7 @@
             "problemMatcher": []
         },
         {
-            "label": "run icarus simulation",
+            "label": "run vvp simulation",
             "type": "shell",
             "command": "vvp ${fileBasenameNoExtension}.out",
             "group": "test",
@@ -43,11 +128,11 @@
             },
             "problemMatcher": [],
             "dependsOn": [
-                "verilog compile"
+                "verilog compile with iverilog"
             ]
         },
         {
-            "label": "show wave form",
+            "label": "show wave form with gtkwave",
             "type": "shell",
             "command": "gtkwave ${fileBasenameNoExtension}.vcd",
             "group": {
@@ -63,7 +148,7 @@
             },
             "problemMatcher": [],
             "dependsOn": [
-                "run icarus simulation"
+                "run vvp simulation"
             ]
         }
     ]
