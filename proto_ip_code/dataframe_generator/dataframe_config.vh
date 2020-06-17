@@ -9,6 +9,7 @@
 `define TRIGGER_INFO_WIDTH 8 // {{3'h0}, GAIN_TYPE [0:0], TRIGGER_TYPE[3:0]}
 
 // Data frame paramerters
+// `HEADER_LINE must be larger than 2; `FOOTER_LINE must be larger than 1
 `define HEADER_LINE 2
 `define FOOTER_LINE 1
 
