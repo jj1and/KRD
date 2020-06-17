@@ -29,7 +29,6 @@ module dataframe_gen (
     wire hd_rd_en = (frame_len_cnt==INIT_FRAME_LEN)&(HF_FIFO_EMPTY==1'b0);
     
     wire adc_rd_en = (frame_len_cnt_delay<frame_len)&(M_AXIS_TREADY==1'b1);
-    wire [`RFDC_TDATA_WIDTH-1:0] adc_data_swapped = {ADC_DATA[`DATAFRAME_WIDTH]};
     reg [`RFDC_TDATA_WIDTH-1:0] adc_data_delay;
 
 
