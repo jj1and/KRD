@@ -6,11 +6,11 @@ module dataframe_gen (
     input wire ARESET,
 
     input wire HF_FIFO_EMPTY,
-    input wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] HEADER_FOOTER_DATA,
+    input wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] HF_FIFO_DOUT,
     output wire HF_FIFO_RD_EN,
 
     input wire ADC_FIFO_EMPTY,
-    input wire [`RFDC_TDATA_WIDTH-1:0] ADC_DATA,
+    input wire [`RFDC_TDATA_WIDTH-1:0] ADC_FIFO_DOUT,
     output wire ADC_FIFO_RD_EN,
 
     input wire M_AXIS_TREADY,
@@ -24,7 +24,7 @@ module dataframe_gen (
     reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
     reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt_delay;
     wire [`FRAME_LENGTH_WIDTH:0] INIT_FRAME_LEN = {`FRAME_LENGTH_WIDTH+1{1'b1}};
-    wire [`FRAME_LENGTH_WIDTH:0] frame_len = {2'b0, HEADER_FOOTER_DATA[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH -:`FRAME_LENGTH_WIDTH-1]}; // actual frame_len/2
+    wire [`FRAME_LENGTH_WIDTH:0] frame_len = {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH -:`FRAME_LENGTH_WIDTH-1]}; // actual frame_len/2
 
     wire hd_rd_en = (frame_len_cnt==INIT_FRAME_LEN)&(HF_FIFO_EMPTY==1'b0);
     
@@ -37,10 +37,10 @@ module dataframe_gen (
     genvar i; // `HEADER_LINE must be larger than 2; `FOOTER_LINE must be larger than 1
     generate
         for (i=0; i<`HEADER_LINE; i++) begin
-            assign header[i] = {{`DATAFRAME_WIDTH{1'b1}}, HEADER_FOOTER_DATA[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-i*`DATAFRAME_WIDTH-1 -:`DATAFRAME_WIDTH]};
+            assign header[i] = {{`DATAFRAME_WIDTH{1'b1}}, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-i*`DATAFRAME_WIDTH-1 -:`DATAFRAME_WIDTH]};
         end
         for (i=0; i<`FOOTER_LINE; i++) begin
-            assign footer[i] = {{`DATAFRAME_WIDTH{1'b1}}, HEADER_FOOTER_DATA[i*`DATAFRAME_WIDTH +:`DATAFRAME_WIDTH]};
+            assign footer[i] = {{`DATAFRAME_WIDTH{1'b1}}, HF_FIFO_DOUT[i*`DATAFRAME_WIDTH +:`DATAFRAME_WIDTH]};
         end
     endgenerate
 
@@ -87,7 +87,7 @@ module dataframe_gen (
             adc_data_delay <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
         end else begin
             if (M_AXIS_TREADY) begin
-                adc_data_delay <= #100 ADC_DATA;
+                adc_data_delay <= #100 ADC_FIFO_DOUT;
             end else begin
                 adc_data_delay <= #100 adc_data_delay;
             end

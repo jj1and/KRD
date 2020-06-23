@@ -17,6 +17,7 @@ project_tcl/ZCU111/MinimumTrigger/~$MinimumTrigger_DataFrame.xlsx
 project_tcl/ZCU111/MinimumTrigger_test/MinimumTrigger_test/
 project_tcl/ZCU111/MinimumTrigger_test/MMTrigger_DummyTest/
 project_tcl/**/ILA_Data/
+project_tcl/ZCU111/Ethernet_test
 
 project_tcl/ZCU111/TwoChMixer/TwoChMixer/
 project_tcl/ZCU111/TwoChMixer_test/TwoChMixer_test/
