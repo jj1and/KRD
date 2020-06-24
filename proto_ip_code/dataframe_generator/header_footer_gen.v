@@ -37,7 +37,7 @@ module header_footer_gen # (
   reg [`FRAME_LENGTH_WIDTH-2:0] frame_len;
   wire [`FRAME_LENGTH_WIDTH-1:0] dataframe_len = (frame_len+1)*2;
   reg [15:0] max_trigger_len;
-  wire frame_len_reached_max = (frame_len == max_trigger_len-1);
+  wire frame_len_reached_max = (frame_len+1 == max_trigger_len);
   
   reg gain_type;
   reg [`TRIGGER_TYPE_WIDTH-1:0] trigger_type;
