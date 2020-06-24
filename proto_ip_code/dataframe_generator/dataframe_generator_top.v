@@ -2,7 +2,9 @@
 `include "dataframe_config.vh"
 
 module dataframe_generator_top # (
-    parameter integer CHANNEL_ID = 0
+    parameter integer CHANNEL_ID = 0,
+    parameter integer ADC_FIFO_DEPTH = 256*512,
+    parameter integer HF_FIFO_DEPTH = 256
 )(
     input wire ACLK,
     input wire ARESET,
@@ -19,6 +21,7 @@ module dataframe_generator_top # (
     input wire M_AXIS_TREADY,
     output wire M_AXIS_TVALID,
     output wire [`RFDC_TDATA_WIDTH-1:0] M_AXIS_TDATA,
+    output wire [`RFDC_TDATA_WIDTH/8-1:0] M_AXIS_TKEEP,    
     output wire M_AXIS_TLAST,
 
     output wire DATAFRAME_GEN_ERROR
@@ -67,7 +70,7 @@ module dataframe_generator_top # (
 
     bram_fifo # (
         .DATA_WIDTH(`RFDC_TDATA_WIDTH),
-        .PTR_WIDTH(17), // 2^17 = 512CLK * 256frame > 1msec trigger 
+        .PTR_WIDTH($clog2(ADC_FIFO_DEPTH)), // 2^17 = 512CLK * 256frame > 1msec trigger 
         .INIT_VAL()
     ) adc_fifo (
         .CLK(ACLK),
@@ -84,7 +87,7 @@ module dataframe_generator_top # (
 
     bram_fifo # (
         .DATA_WIDTH((`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH),
-        .PTR_WIDTH(8), // 256frame = 2^8 frame
+        .PTR_WIDTH($clog2(HF_FIFO_DEPTH)), // 256frame = 2^8 frame
         .INIT_VAL()
     ) hf_fifo (
         .CLK(ACLK),
@@ -94,7 +97,7 @@ module dataframe_generator_top # (
         .RD_EN(HF_FIFO_RD_EN),
         .DOUT(HF_FIFO_DOUT),
         .ALMOST_EMPTY(),
-        .EMPTY(ADC_FIFO_EMPTY),
+        .EMPTY(HF_FIFO_EMPTY),
         .ALMOST_FULL(),
         .FULL(HF_FIFO_FULL)
     );                
@@ -114,6 +117,7 @@ module dataframe_generator_top # (
         .M_AXIS_TREADY(M_AXIS_TREADY),
         .M_AXIS_TVALID(M_AXIS_TVALID),
         .M_AXIS_TDATA(M_AXIS_TDATA),
+        .M_AXIS_TKEEP(M_AXIS_TKEEP),
         .M_AXIS_TLAST(M_AXIS_TLAST),
 
         .DATAFRAME_GEN_ERROR(DATAFRAME_GEN_ERROR)
