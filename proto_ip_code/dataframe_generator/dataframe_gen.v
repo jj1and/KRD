@@ -24,20 +24,20 @@ module dataframe_gen (
 
     reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
     wire [`FRAME_LENGTH_WIDTH:0] INIT_FRAME_LEN = {`FRAME_LENGTH_WIDTH+1{1'b1}};
-    wire [`FRAME_LENGTH_WIDTH:0] frame_len = {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]}; // actual frame_len/2
+    reg [`FRAME_LENGTH_WIDTH:0] frame_len; // actual frame_len/2
 
-    wire hd_rd_en = (frame_len_cnt==INIT_FRAME_LEN)&(HF_FIFO_EMPTY==1'b0);
-    reg hd_rd_en_delay;
+    wire hf_rd_en = (HF_FIFO_EMPTY==1'b0)&(|{frame_len_cnt==INIT_FRAME_LEN, frame_len_cnt==frame_len+`HEADER_LINE/2+`FOOTER_LINE/2+`FOOTER_LINE%2-2});
+    reg hf_rd_en_delay;
     always @(posedge ACLK ) begin
-        hd_rd_en_delay <= #100 hd_rd_en;
+        hf_rd_en_delay <= #100 hf_rd_en;
     end
     
     wire adc_rd_en;
     generate
         if (`HEADER_LINE==2) begin
-            assign adc_rd_en = hd_rd_en|(&{M_AXIS_TREADY, frame_len_cnt+`HEADER_LINE+`FOOTER_LINE<frame_len}); 
+            assign adc_rd_en = hf_rd_en|(&{M_AXIS_TREADY, frame_len_cnt+`HEADER_LINE+`FOOTER_LINE<frame_len}); 
         end else begin
-            assign adc_rd_en = hd_rd_en|(&{M_AXIS_TREADY, frame_len_cnt+`HEADER_LINE+`FOOTER_LINE<frame_len, frame_len_cnt>=`HEADER_LINE-1, M_AXIS_TVALID});                         
+            assign adc_rd_en = hf_rd_en|(&{M_AXIS_TREADY, frame_len_cnt+`HEADER_LINE+`FOOTER_LINE<frame_len, frame_len_cnt>=`HEADER_LINE-1, M_AXIS_TVALID});                         
         end
     endgenerate
 
@@ -50,7 +50,7 @@ module dataframe_gen (
 
     reg [`RFDC_TDATA_WIDTH-1:0] tdata;
     reg tvalid;
-    wire tlast = (frame_len_cnt==frame_len+`HEADER_LINE+`FOOTER_LINE-1);
+    wire tlast = (frame_len_cnt==frame_len+`HEADER_LINE/2+`FOOTER_LINE/2+`FOOTER_LINE%2-1);
     wire [`RFDC_TDATA_WIDTH/8-1:0] tkeep;
     genvar i; // `HEADER_LINE must be multiple of 2 and larger than 2; `FOOTER_LINE must be larger than 1
     generate
@@ -73,9 +73,21 @@ module dataframe_gen (
         end
     endgenerate    
 
-
     reg internal_error; // ADC_FIFO_EMPTY==1 & HF_FIFO_EMPTY==0 -> 1
 
+    always @(posedge ACLK ) begin
+        if (|{ARESET, internal_error}) begin
+            frame_len <= #100 0;
+        end else begin
+            if ((&{frame_len==0, hf_rd_en_delay})|(tlast&M_AXIS_TREADY)) begin
+                frame_len <= #100 {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
+            end else begin
+                frame_len <= #100 frame_len;
+            end
+        end
+    end
+
+    // need to change 
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
             frame_len_cnt <= #100 INIT_FRAME_LEN;
@@ -100,7 +112,7 @@ module dataframe_gen (
         if (|{ARESET, internal_error}) begin
             tvalid <= #100 1'b0;
         end else begin
-            if (hd_rd_en_delay) begin
+            if (hf_rd_en_delay) begin
                 tvalid <= #100 1'b1;
             end else begin
                 if (M_AXIS_TREADY&tlast) begin
@@ -125,26 +137,55 @@ module dataframe_gen (
         end
     end
 
-    always @(posedge ACLK ) begin
-        if (|{ARESET, internal_error}) begin
-            tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
-        end else begin
-            if (&{M_AXIS_TREADY, frame_len_cnt!=INIT_FRAME_LEN}) begin
-                if (frame_len_cnt<`HEADER_LINE) begin
-                    tdata <= #100 header[frame_len_cnt];
+    generate
+        if (`HEADER_LINE==2) begin
+            always @(posedge ACLK ) begin
+                if (|{ARESET, internal_error}) begin
+                    tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
                 end else begin
-                    if (&{frame_len_cnt<frame_len+`HEADER_LINE}) begin
-                        tdata <= #100 adc_data_delay;
+                    if (&{M_AXIS_TREADY, frame_len_cnt!=INIT_FRAME_LEN}) begin
+                        if (hf_rd_en_delay) begin
+                            tdata <= #100 header[0];
+                        end else begin
+                            if (&{frame_len_cnt<frame_len-1+(`HEADER_LINE/2)}) begin
+                                tdata <= #100 adc_data_delay;
+                            end else begin
+                                // tdata <= #100 footer[frame_len_cnt-(frame_len+(`HEADER_LINE/2))]; when need to use `FOOTER_LINE > 1
+                                tdata <= #100 footer[0];
+                            end
+                        end
                     end else begin
-                        // tdata <= #100 footer[frame_len_cnt-(frame_len+`HEADER_LINE)]; when need to use `FOOTER_LINE > 1
-                        tdata <= #100 footer[0];
+                        tdata <= #100 tdata;
                     end
                 end
-            end else begin
-                tdata <= #100 tdata;
-            end
+            end             
+        end else begin
+            always @(posedge ACLK ) begin
+                if (|{ARESET, internal_error}) begin
+                    tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
+                end else begin
+                    if (&{M_AXIS_TREADY, frame_len_cnt!=INIT_FRAME_LEN}) begin
+                        if (frame_len_cnt<`HEADER_LINE/2-1) begin
+                            if (hf_rd_en_delay) begin
+                                tdata <= #100 header[0];
+                            end else begin
+                                tdata <= #100 header[frame_len_cnt+1];
+                            end
+                        end else begin
+                            if (&{frame_len_cnt<frame_len-1+(`HEADER_LINE/2)}) begin
+                                tdata <= #100 adc_data_delay;
+                            end else begin
+                                // tdata <= #100 footer[frame_len_cnt-(frame_len+(`HEADER_LINE/2))]; when need to use `FOOTER_LINE > 1
+                                tdata <= #100 footer[0];
+                            end
+                        end
+                    end else begin
+                        tdata <= #100 tdata;
+                    end
+                end
+            end                   
         end
-    end
+    endgenerate
 
     always @(posedge ACLK ) begin
         if (ARESET) begin
@@ -158,7 +199,7 @@ module dataframe_gen (
         end
     end
 
-    assign HF_FIFO_RD_EN = hd_rd_en;
+    assign HF_FIFO_RD_EN = hf_rd_en;
     assign ADC_FIFO_RD_EN = adc_rd_en;
     assign M_AXIS_TVALID = tvalid;
     assign M_AXIS_TLAST = tlast;
