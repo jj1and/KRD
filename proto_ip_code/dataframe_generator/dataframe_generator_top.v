@@ -33,6 +33,7 @@ module dataframe_generator_top # (
     wire HF_FIFO_RD_EN;
     wire HF_FIFO_FULL;
     wire HF_FIFO_EMPTY;
+    wire HF_FIFO_ALMOST_FULL;
 
 
     wire [`RFDC_TDATA_WIDTH-1:0] ADC_DATA;
@@ -60,10 +61,13 @@ module dataframe_generator_top # (
         
         .HEADER_FOOTER_DATA(HEADER_FOOTER_DATA),
         .HEADER_FOOTER_VALID(HEADER_FOOTER_VALID),
+        .HF_FIFO_RD_EN(HF_FIFO_RD_EN),
+        .HF_FIFO_ALMOST_FULL(HF_FIFO_ALMOST_FULL),
         .HF_FIFO_FULL(HF_FIFO_FULL),
 
         .ADC_DATA(ADC_DATA),
         .ADC_VALID(ADC_VALID),
+        .ADC_FIFO_RD_EN(ADC_FIFO_RD_EN),
         .ADC_FIFO_ALMOST_FULL(ADC_FIFO_ALMOST_FULL),
         .ADC_FIFO_FULL(ADC_FIFO_FULL)
     );
@@ -74,7 +78,7 @@ module dataframe_generator_top # (
         .INIT_VAL()
     ) adc_fifo (
         .CLK(ACLK),
-        .RESET(ARESET),
+        .RESET(ARESET|SET_CONFIG),
         .DIN(ADC_DATA),
         .WR_EN(ADC_VALID),
         .RD_EN(ADC_FIFO_RD_EN),
@@ -91,20 +95,20 @@ module dataframe_generator_top # (
         .INIT_VAL()
     ) hf_fifo (
         .CLK(ACLK),
-        .RESET(ARESET),
+        .RESET(ARESET|SET_CONFIG),
         .DIN(HEADER_FOOTER_DATA),
         .WR_EN(HEADER_FOOTER_VALID),
         .RD_EN(HF_FIFO_RD_EN),
         .DOUT(HF_FIFO_DOUT),
         .ALMOST_EMPTY(),
         .EMPTY(HF_FIFO_EMPTY),
-        .ALMOST_FULL(),
+        .ALMOST_FULL(HF_FIFO_ALMOST_FULL),
         .FULL(HF_FIFO_FULL)
     );                
 
     dataframe_gen dataframe_gen_inst (
         .ACLK(ACLK),
-        .ARESET(ARESET),
+        .ARESET(ARESET|SET_CONFIG),
 
         .HF_FIFO_EMPTY(HF_FIFO_EMPTY),
         .HF_FIFO_DOUT(HF_FIFO_DOUT),

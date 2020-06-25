@@ -18,10 +18,13 @@ module header_footer_gen # (
   
   output wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] HEADER_FOOTER_DATA,
   output wire HEADER_FOOTER_VALID,
+  input wire HF_FIFO_RD_EN,
+  input wire HF_FIFO_ALMOST_FULL,
   input wire HF_FIFO_FULL,
 
   output wire [`RFDC_TDATA_WIDTH-1:0] ADC_DATA,
   output wire ADC_VALID,
+  input wire ADC_FIFO_RD_EN,
   input wire ADC_FIFO_ALMOST_FULL,
   input wire ADC_FIFO_FULL
 );
@@ -50,8 +53,8 @@ module header_footer_gen # (
   wire [`CH_ID_WIDTH-1:0] CH_ID = CHANNEL_ID;
 
   reg [1:0] trigger_run_state;
-  wire [1:0] trigger_state = adc_fifo_gets_almost_full ? 2'b10 : trigger_run_state;
-  wire frame_continue = frame_len_reached_max&S_AXIS_TVALID;
+  wire [1:0] trigger_state = (adc_fifo_gets_full|hf_fifo_gets_full) ? 2'b10 : trigger_run_state;
+  wire frame_continue = &{frame_len_reached_max, S_AXIS_TVALID, !adc_fifo_gets_full, !hf_fifo_gets_full};
   wire [`FRAME_INFO_WIDTH-1:0] frame_info = {trigger_state, frame_continue, gain_type};
 
   reg [`OBJECT_ID_WIDTH-1:0] object_id;
@@ -75,15 +78,11 @@ module header_footer_gen # (
   wire [`DATAFRAME_WIDTH-1:0] footer = {footer_timestamp, footer_object_id_1, footer_object_id_2, FOOTER_ID};
   wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] header_footer = {header, footer};
   wire header_footer_valid =  |{trigger_halt, (trigger_run_state==2'b00)} ? 1'b0 :|{s_axis_tvalid_negedge, frame_len_reached_max, adc_fifo_gets_full};
+  wire hf_fifo_gets_full = &{HF_FIFO_ALMOST_FULL==1'b1, header_footer_valid==1'b1, HF_FIFO_RD_EN==1'b0};
 
   reg adc_fifo_wen;
-  wire adc_fifo_gets_almost_full = (adc_fifo_full_delay==1'b0)&(ADC_FIFO_ALMOST_FULL==1'b1);
-  wire adc_fifo_gets_full = ADC_FIFO_ALMOST_FULL&adc_fifo_wen;
+  wire adc_fifo_gets_full = &{ADC_FIFO_ALMOST_FULL==1'b1, adc_fifo_wen==1'b1, ADC_FIFO_RD_EN==1'b0};
   // wire adc_fifo_full_posedge = (adc_fifo_full_delay==1'b0)&(ADC_FIFO_FULL==1'b1);
-  reg adc_fifo_full_delay;
-  always @(posedge ACLK) begin
-    adc_fifo_full_delay <= #100 ADC_FIFO_FULL;
-  end
   reg [`RFDC_TDATA_WIDTH-1:0] adc_data;
 
   always @(posedge ACLK ) begin
@@ -199,7 +198,7 @@ module header_footer_gen # (
       if (s_axis_tvalid_posedge) begin
         adc_fifo_wen <= #100 1'b1;
       end else begin
-        if (adc_fifo_gets_almost_full|s_axis_tvalid_negedge) begin
+        if (adc_fifo_gets_full|s_axis_tvalid_negedge) begin
           adc_fifo_wen <= #100 1'b0;
         end else begin
           adc_fifo_wen <= #100 adc_fifo_wen; 
