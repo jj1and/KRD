@@ -177,7 +177,7 @@ module dataframe_generator_tb;
                 end
                 last_frame_continue = frame_info[1];                         
             end else begin
-                if (&{!M_AXIS_TLAST, M_AXIS_TVALID, M_AXIS_TREADY, dframe_num>=0}) begin
+                if (&{!M_AXIS_TLAST, M_AXIS_TVALID, M_AXIS_TREADY, dframe_index>=0}) begin
                     frame_len_cnt++;
                     $display("TEST INFO: Currently sample_frame[%d] line:%d", dframe_index, frame_len_cnt);
                     if (tdata_set[dframe_index][frame_len_cnt][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`RFDC_TDATA_WIDTH]!=M_AXIS_TDATA) begin
@@ -281,14 +281,14 @@ module dataframe_generator_tb;
                             $finish;
                         end
                     end                    
-                    if (dframe_index==dframe_num-1) begin
+                    if ((dframe_index==dframe_num-1)&(last_frame_continue==1'b0)) begin
                         $display("TEST INFO: last sample_frame[%d] is Acquired", dframe_index);
                         dframe_index++;
                     end                    
                 end
             end
-            if (&{trigger_state==STOP, input_dframe_index==dframe_num-1}) begin
-                $display("TEST INFO: last sample_frame[%d] is Skipped", input_dframe_index);
+            if (skipped_flag_list[dframe_num-1]==1) begin
+                $display("TEST INFO: last sample_frame[%d] is Skipped", dframe_num-1);
                 dframe_index++;
             end                
         end       
