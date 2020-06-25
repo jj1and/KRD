@@ -39,7 +39,10 @@ module dataframe_generator_tb;
     for (i=0; i<`RFDC_TDATA_WIDTH/`DATAFRAME_WIDTH; i++) begin
         assign m_axis_tdata_dframe[i] = M_AXIS_TDATA[i*`DATAFRAME_WIDTH +:`DATAFRAME_WIDTH];
     end
-    endgenerate    
+    endgenerate
+    
+    wire [`HEADER_ID_WIDTH-1:0] HEADER_ID = `HEADER_ID;
+    wire [`FOOTER_ID_WIDTH-1:0] FOOTER_ID = `FOOTER_ID;
 
     wire [`CH_ID_WIDTH-1:0] ch_id = m_axis_tdata_dframe[0][`HEADER_TIMESTAMP_WIDTH+`TRIGGER_TYPE_WIDTH+`FRAME_INFO_WIDTH+`FRAME_LENGTH_WIDTH +:`CH_ID_WIDTH];
     wire [`FRAME_LENGTH_WIDTH-1:0] frame_len = m_axis_tdata_dframe[0][`HEADER_TIMESTAMP_WIDTH+`TRIGGER_TYPE_WIDTH+`FRAME_INFO_WIDTH +:`FRAME_LENGTH_WIDTH]; 
@@ -55,7 +58,7 @@ module dataframe_generator_tb;
 
     dataframe_generator_top # (
         .CHANNEL_ID(CHANNEL_ID_NUM),
-        .ADC_FIFO_DEPTH(2**5),
+        .ADC_FIFO_DEPTH(2**8),
         .HF_FIFO_DEPTH(2**3)
     ) DUT (
         .*
@@ -90,12 +93,12 @@ module dataframe_generator_tb;
         ARESET <= #100 1'b0;
     endtask
 
-    task config_module;
+    task config_module(input int set_trigger_length);
         test_status = CONFIGURING;
         // configuring DUT
         @(posedge ACLK);
         SET_CONFIG <= #100 1'b1;
-        MAX_TRIGGER_LENGTH <= #100 64;
+        MAX_TRIGGER_LENGTH <= #100 set_trigger_length;
         @(posedge ACLK);
         SET_CONFIG <= #100 1'b0;       
     endtask    
@@ -118,48 +121,74 @@ module dataframe_generator_tb;
     dataframe_line_t rand_sample_dframe_set[RAND_SAMPLE_FRAME_NUM];
 
     task dataframe_generator_output_monitor(input DataFrame dframe[], input datastream_line_t tdata_set[], input int dframe_num);
+        int skipped_flag_list[];
+        bit last_frame_continue;
+        integer input_dframe_index;
         integer dframe_index;
         integer frame_len_cnt;
         integer divide_frame_len;
         integer divide_charge_sum;
-        bit [`TIMESTAMP_WIDTH-1:0] expected_timestamp;        
+        bit [`TIMESTAMP_WIDTH-1:0] expected_timestamp;         
+        input_dframe_index = -1;
+        skipped_flag_list = new[dframe_num];
+        last_frame_continue = 0;
         dframe_index = -1;
         frame_len_cnt = -1;
         divide_frame_len = 0;
         divide_charge_sum = 0;                        
         while (dframe_index<dframe_num) begin
             @(posedge ACLK);
-            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge==1'b1) begin
-                dframe_index++;
-                if (~|{DUT.ADC_FIFO_FULL, DUT.HF_FIFO_FULL, ARESET, SET_CONFIG}) begin                    
-                    frame_len_cnt = 0;
-                    divide_frame_len = 0;
-                    divide_charge_sum = 0;                      
-                end else begin
-                    $display("TEST INFO: trigger is halted. Skip sample_frame[%d]", dframe_index);
-                    frame_len_cnt = -1;
-                    divide_frame_len = -1;
-                    divide_charge_sum = -1;                    
-                end
-            end else begin
-                if (DUT.ADC_FIFO_RD_EN&&(frame_len_cnt>=0)) begin
-                    frame_len_cnt++;
-                end else if (DUT.header_footer_gen_inst.s_axis_tvalid_negedge==1'b1) begin
-                    frame_len_cnt=-1;                            
-                end
+            if (DATAFRAME_GEN_ERROR) begin
+                $display("TEST FAILED: dataframe_gen internal error occured");
+                $finish;
             end
-
-            if ((DUT.ADC_FIFO_RD_EN==1'b1)&&(frame_len_cnt>=3)) begin
-                $display("TEST INFO: Currently sample_frame[%d] line:%d", dframe_index, frame_len_cnt);
-                if (tdata_set[dframe_index][frame_len_cnt-3][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`RFDC_TDATA_WIDTH]!=M_AXIS_TDATA) begin
-                    $display("TEST FAILED: input ADC data and output ADC data doesn't match; input:%h output:%h", tdata_set[dframe_index][frame_len_cnt-3][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`RFDC_TDATA_WIDTH], M_AXIS_TDATA);
-                    $finish;
+            
+            
+            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge==1'b1) begin
+                input_dframe_index++;
+                if (&{!DUT.ADC_FIFO_FULL, !DUT.HF_FIFO_FULL}) begin
+                    skipped_flag_list[input_dframe_index] = 0;                 
+                end else begin
+                    $display("TEST INFO: trigger is halted. Skip sample_frame[%d]", input_dframe_index);
+                    skipped_flag_list[input_dframe_index] = 1; 
+                end                
+            end
+            if (ARESET|SET_CONFIG) begin
+                last_frame_continue = 1'b0;                
+                if (S_AXIS_TVALID) begin
+                    if (skipped_flag_list[input_dframe_index] == 0) begin
+                        $display("TEST INFO: RESET or SET_CONFIG is enabled. Skip sample_frame[%d] to [%d]", 0, input_dframe_index);                    
+                    end
+                    for (int i=0; i<=input_dframe_index; i++)
+                        skipped_flag_list[i] = 1;
+                end                  
+            end                  
+            
+            if (&{m_axis_tdata_dframe[0][`DATAFRAME_WIDTH-1 -:`HEADER_ID_WIDTH]==HEADER_ID, M_AXIS_TVALID, M_AXIS_TREADY}) begin
+                if (last_frame_continue==1'b0) begin
+                    dframe_index++;
+                    while (skipped_flag_list[dframe_index] == 1) begin
+                        $display("TEST INFO: sample_frame[%d] is skipped", dframe_index);
+                        dframe_index++;                    
+                    end                
+                    frame_len_cnt = -1;                
+                    divide_frame_len = 0;
+                    divide_charge_sum = 0;                   
                 end
-            end              
+                last_frame_continue = frame_info[1];                         
+            end else begin
+                if (&{!M_AXIS_TLAST, M_AXIS_TVALID, M_AXIS_TREADY, dframe_num>=0}) begin
+                    frame_len_cnt++;
+                    $display("TEST INFO: Currently sample_frame[%d] line:%d", dframe_index, frame_len_cnt);
+                    if (tdata_set[dframe_index][frame_len_cnt][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`RFDC_TDATA_WIDTH]!=M_AXIS_TDATA) begin
+                        $display("TEST FAILED: input ADC data and output ADC data doesn't match; input:%h output:%h", tdata_set[dframe_index][frame_len_cnt][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`RFDC_TDATA_WIDTH], M_AXIS_TDATA);
+                        $finish;
+                    end                    
+                end
+            end       
 
-
-            if (M_AXIS_TVALID&M_AXIS_TREADY) begin
-                if (M_AXIS_TDATA[`RFDC_TDATA_WIDTH-1 -:`HEADER_ID_WIDTH]==`HEADER_ID) begin
+            if (&{M_AXIS_TVALID, M_AXIS_TREADY, dframe_num>=0, skipped_flag_list[dframe_index]==0}) begin
+                if (m_axis_tdata_dframe[0][`DATAFRAME_WIDTH-1 -:`HEADER_ID_WIDTH]==HEADER_ID) begin
                     $cast(trigger_state, frame_info[3:2]);
                     $display("TEST INFO: Trigger State:     %p", trigger_state);
                     if (dframe[dframe_index].ch_id!=ch_id) begin
@@ -221,11 +250,11 @@ module dataframe_generator_tb;
                         end                                         
                     end else begin
                         if (dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH-1:0]!=header_timestamp) begin
-                            $display("TEST FAILED: timestamp doesn't match; input:%d output:%d", dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH-1:0], header_timestamp);
+                            $display("TEST FAILED: header timestamp doesn't match; input:%d output:%d", dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH-1:0], header_timestamp);
                             $finish;
                         end       
                         if (trigger_state==STOP) begin
-                            $display("TEST INFO: frame_len&charge_sum is smaller than expected because ADC_FIFO is full; sample_frame[%d]", dframe_index);                                      
+                            $display("TEST INFO: frame_len&charge_sum is smaller than expected because ADC_FIFO is full; sample_frame[%d]", dframe_index);                                    
                         end else begin
                             if (dframe[dframe_index].frame_len!=frame_len) begin
                                 $display("TEST FAILED: frame_len doesn't match; input:%d output:%d", dframe[dframe_index].frame_len, frame_len);
@@ -240,25 +269,28 @@ module dataframe_generator_tb;
 
                 end
 
-                if (M_AXIS_TDATA[0 +:`FOOTER_ID_WIDTH]==`FOOTER_ID) begin
+                if (&{M_AXIS_TLAST, m_axis_tdata_dframe[0][0 +:`FOOTER_ID_WIDTH]==FOOTER_ID}) begin
                     if (dframe[dframe_index].frame_len>(MAX_TRIGGER_LENGTH*2)) begin
                         if (expected_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH]!=footer_timestamp) begin
-                            $display("TEST FAILED: timestamp doesn't match; input:%d output:%d", expected_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
+                            $display("TEST FAILED: footer timestamp doesn't match; input:%d output:%d", expected_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
                             $finish;
                         end                                                                                         
                     end else begin
                         if (dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH]!=footer_timestamp) begin
-                            $display("TEST FAILED: timestamp doesn't match; input:%d output:%d", dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
+                            $display("TEST FAILED: footer timestamp doesn't match; input:%d output:%d", dframe[dframe_index].timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
                             $finish;
                         end
-                    end
-
+                    end                    
                     if (dframe_index==dframe_num-1) begin
                         $display("TEST INFO: last sample_frame[%d] is Acquired", dframe_index);
                         dframe_index++;
                     end                    
                 end
             end
+            if (&{trigger_state==STOP, input_dframe_index==dframe_num-1}) begin
+                $display("TEST INFO: last sample_frame[%d] is Skipped", input_dframe_index);
+                dframe_index++;
+            end                
         end       
     endtask    
 
@@ -329,7 +361,7 @@ module dataframe_generator_tb;
                 end                
             end
             begin
-                // header_footer_gen_output_monitor(dframe, s_axis_tdata_set, dframe_num);
+                dataframe_generator_output_monitor(dframe, s_axis_tdata_set, dframe_num);
             end
         join
         $display("TEST PASSED: write in data with no-backpressure test passed!");
@@ -410,7 +442,7 @@ module dataframe_generator_tb;
                 end                
             end
             begin
-                // header_footer_gen_output_monitor(dframe, s_axis_tdata_set, dframe_num);
+                dataframe_generator_output_monitor(dframe, s_axis_tdata_set, dframe_num);
             end
         join
         $display("TEST PADSSED: write in data with adc_fifo backpressure test passed!");
@@ -490,7 +522,7 @@ module dataframe_generator_tb;
                 end                
             end
             begin
-                // header_footer_gen_output_monitor(dframe, s_axis_tdata_set, dframe_num);
+                dataframe_generator_output_monitor(dframe, s_axis_tdata_set, dframe_num);
             end
         join
         $display("TEST PADSSED: write in data with hf_fifo backpressure test passed!");
@@ -537,17 +569,21 @@ module dataframe_generator_tb;
         end        
 
         reset_all;
-        config_module;
+        config_module(64);
         
         $display("TEST INFO: FIXED FRAME LENGTH TEST");
         write_in_wo_nobackpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
         write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+        config_module(4);
         write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+        config_module(64);
 
         $display("TEST INFO: RANDOM FRAME LENGTH TEST");
         write_in_wo_nobackpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
         write_in_with_adc_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
-        write_in_with_hf_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);        
+        config_module(4);        
+        write_in_with_hf_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
+        config_module(64);        
 
         $display("ALL TEST PASSED!");
         $finish;
