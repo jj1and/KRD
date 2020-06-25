@@ -198,7 +198,7 @@ module header_footer_gen # (
       if (s_axis_tvalid_posedge) begin
         adc_fifo_wen <= #100 1'b1;
       end else begin
-        if (adc_fifo_gets_full|s_axis_tvalid_negedge) begin
+        if (|{hf_fifo_gets_full, adc_fifo_gets_full, s_axis_tvalid_negedge}) begin
           adc_fifo_wen <= #100 1'b0;
         end else begin
           adc_fifo_wen <= #100 adc_fifo_wen; 
