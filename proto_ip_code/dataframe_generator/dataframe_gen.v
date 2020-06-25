@@ -89,7 +89,7 @@ module dataframe_gen (
         if (|{ARESET, internal_error}) begin
             frame_len <= #100 0;
         end else begin
-            if (frame_len_cnt==0) begin
+            if (|{tlast&M_AXIS_TREADY&next_frame_exist, hf_rd_en_delay&frame_len_cnt_is_init_delay}) begin
                 frame_len <= #100 {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
             end else begin
                 frame_len <= #100 frame_len;
