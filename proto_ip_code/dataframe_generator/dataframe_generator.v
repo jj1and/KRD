@@ -1,7 +1,7 @@
 `timescale 1ps/1ps
 `include "dataframe_config.vh"
 
-module dataframe_generator_top # (
+module dataframe_generator # (
     parameter integer CHANNEL_ID = 0,
     parameter integer ADC_FIFO_DEPTH = 256*512,
     parameter integer HF_FIFO_DEPTH = 256
