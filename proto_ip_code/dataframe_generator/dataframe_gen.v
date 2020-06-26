@@ -27,40 +27,13 @@ module dataframe_gen (
     parameter integer ACTUAL_HEADER_LINE = `HEADER_LINE/2; 
     parameter integer ACTUAL_FOOTER_LINE = `FOOTER_LINE/2 + `FOOTER_LINE%2;
 
-    reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
-    wire [`FRAME_LENGTH_WIDTH:0] INIT_FRAME_LEN = {`FRAME_LENGTH_WIDTH+1{1'b1}};
-    wire frame_len_cnt_is_init = (frame_len_cnt==INIT_FRAME_LEN);
-    reg  frame_len_cnt_is_init_delay;    
-    reg [`FRAME_LENGTH_WIDTH:0] frame_len; // actual frame_len/2
-    
-
-    wire hf_rd_en = (HF_FIFO_EMPTY==1'b0)&(|{frame_len_cnt_is_init, frame_len_cnt==frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-2});
-    reg hf_rd_en_delay;
-    always @(posedge ACLK ) begin
-        hf_rd_en_delay <= #100 hf_rd_en;
-    end
-
-    reg next_frame_exist;
-    
-    wire adc_rd_en;
-    generate
-        if (`HEADER_LINE==2) begin
-            assign adc_rd_en = |{hf_rd_en, hf_rd_en_delay, M_AXIS_TREADY&(frame_len_cnt+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE<frame_len)}; 
-        end else begin
-            assign adc_rd_en = hf_rd_en|(&{M_AXIS_TREADY, frame_len_cnt+ACTUAL_FOOTER_LINE+ACTUAL_FOOTER_LINE<frame_len, frame_len_cnt>=ACTUAL_HEADER_LINE-1, M_AXIS_TVALID});                         
-        end
-    endgenerate
-
-    reg [`RFDC_TDATA_WIDTH-1:0] adc_data_delay;
-
-
     wire [`RFDC_TDATA_WIDTH-1:0] header[ACTUAL_HEADER_LINE-1:0];
     wire [`RFDC_TDATA_WIDTH-1:0] footer[ACTUAL_FOOTER_LINE-1:0];
 
-
     reg [`RFDC_TDATA_WIDTH-1:0] tdata;
     reg tvalid;
-    wire tlast = (frame_len_cnt==frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-1);
+    wire tlast = (frame_len_cnt==reg_frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-1);
+    wire pre_tlast = (frame_len_cnt==reg_frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-2);
     wire [`RFDC_TDATA_WIDTH/8-1:0] tkeep;
     genvar i;
     generate
@@ -85,14 +58,32 @@ module dataframe_gen (
 
     reg internal_error; // ADC_FIFO_EMPTY==1 & HF_FIFO_EMPTY==0 -> 1
 
+    wire [`FRAME_LENGTH_WIDTH:0] INIT_FRAME_LEN = {`FRAME_LENGTH_WIDTH+1{1'b1}};
+    reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
+    reg [`FRAME_LENGTH_WIDTH:0] adc_cnt;
+    wire frame_len_cnt_is_init = (frame_len_cnt==INIT_FRAME_LEN);
+
+    reg [`FRAME_LENGTH_WIDTH:0] reg_frame_len; // actual frame_len/2
+    wire [`FRAME_LENGTH_WIDTH:0] wire_frame_len = {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
+
+    wire hf_rd_en = (HF_FIFO_EMPTY==1'b0)&(|{frame_len_cnt_is_init, pre_tlast&M_AXIS_TREADY});
+    
+    wire read_first_frame = (adc_cnt==0)&(frame_len_cnt==0);
+    wire first_frame_exist = hf_rd_en&frame_len_cnt_is_init;
+    reg next_frame_exist;
+
+    wire adc_rd_en = |{hf_rd_en, read_first_frame, M_AXIS_TREADY&(adc_cnt+1<wire_frame_len)};
+    reg [`RFDC_TDATA_WIDTH-1:0] adc_data_delay;
+
+
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
-            frame_len <= #100 0;
+            reg_frame_len <= #100 0;
         end else begin
-            if (|{tlast&M_AXIS_TREADY&next_frame_exist, hf_rd_en_delay&frame_len_cnt_is_init_delay}) begin
-                frame_len <= #100 {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
+            if (|{read_first_frame, tlast&M_AXIS_TREADY}) begin
+                reg_frame_len <= #100 wire_frame_len;
             end else begin
-                frame_len <= #100 frame_len;
+                reg_frame_len <= #100 reg_frame_len;
             end
         end
     end
@@ -101,7 +92,7 @@ module dataframe_gen (
         if (|{ARESET, internal_error}) begin
             next_frame_exist <= #100 1'b0;
         end else begin
-            if (frame_len_cnt==frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-2) begin
+            if (pre_tlast) begin
                 if (HF_FIFO_EMPTY) begin
                     next_frame_exist <= #100 1'b0;
                 end else begin
@@ -113,13 +104,12 @@ module dataframe_gen (
         end
     end
 
-    wire go_to_first_frame = (!HF_FIFO_EMPTY)&(frame_len_cnt_is_init);
     wire go_to_next_frame = &{next_frame_exist, tlast, M_AXIS_TREADY}; 
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
             frame_len_cnt <= #100 INIT_FRAME_LEN;
         end else begin
-            if (go_to_first_frame|go_to_next_frame) begin
+            if (first_frame_exist|go_to_next_frame) begin
                 frame_len_cnt <= #100 0;
             end else begin
                 if (M_AXIS_TREADY&tvalid) begin
@@ -135,18 +125,35 @@ module dataframe_gen (
         end
     end
 
-    always @(posedge ACLK) begin
-        frame_len_cnt_is_init_delay <= #100 frame_len_cnt_is_init;
+    wire adc_rd_done = (adc_cnt >= reg_frame_len-1);
+    always @(posedge ACLK ) begin
+        if (|{ARESET, internal_error}) begin
+            adc_cnt <= #100 INIT_FRAME_LEN;
+        end else begin
+            if (adc_rd_en) begin
+                if (&{adc_rd_done, !HF_FIFO_EMPTY, pre_tlast, M_AXIS_TREADY}) begin
+                    adc_cnt <= #100 0;
+                end else begin
+                    adc_cnt <= #100 adc_cnt+1;
+                end
+            end else begin
+                if (&{adc_rd_done, HF_FIFO_EMPTY, tlast, M_AXIS_TREADY}) begin
+                    adc_cnt <= #100 INIT_FRAME_LEN;
+                end else begin
+                    adc_cnt <= #100 adc_cnt;
+                end                
+            end
+        end
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
             tvalid <= #100 1'b0;
         end else begin
-            if (hf_rd_en_delay) begin
+            if (read_first_frame) begin
                 tvalid <= #100 1'b1;
             end else begin
-                if (M_AXIS_TREADY&tlast) begin
+                if (&{M_AXIS_TREADY, tlast, !next_frame_exist}) begin
                     tvalid <= #100 1'b0;
                 end else begin
                     tvalid <= #100 tvalid;
@@ -155,12 +162,11 @@ module dataframe_gen (
         end
     end
 
-
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
             adc_data_delay <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
         end else begin
-            if (|{M_AXIS_TREADY, hf_rd_en_delay&frame_len_cnt_is_init_delay}) begin
+            if (M_AXIS_TREADY|read_first_frame) begin
                 adc_data_delay <= #100 ADC_FIFO_DOUT;
             end else begin
                 adc_data_delay <= #100 adc_data_delay;           
@@ -175,18 +181,18 @@ module dataframe_gen (
                     tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
                 end else begin
                     if (M_AXIS_TREADY) begin
-                        if (|{tlast, hf_rd_en_delay&frame_len_cnt_is_init_delay}) begin
+                        if (tlast|read_first_frame) begin
                             tdata <= #100 header[0];
                         end else begin
-                            if (&{frame_len_cnt<frame_len-1+(ACTUAL_HEADER_LINE)}) begin
-                                tdata <= #100 adc_data_delay;
-                            end else begin
+                            if (pre_tlast) begin
                                 // tdata <= #100 footer[frame_len_cnt-(frame_len+(ACTUAL_HEADER_LINE))]; when need to use `FOOTER_LINE > 1
-                                tdata <= #100 footer[0];
+                                tdata <= #100 footer[0];                                
+                            end else begin
+                                tdata <= #100 adc_data_delay;
                             end
                         end
                     end else begin
-                        if (hf_rd_en_delay&frame_len_cnt_is_init_delay) begin
+                        if (read_first_frame) begin
                             tdata <= #100 header[0];
                         end else begin
                             tdata <= #100 tdata;
@@ -199,23 +205,23 @@ module dataframe_gen (
                 if (|{ARESET, internal_error}) begin
                     tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
                 end else begin
-                    if (&{M_AXIS_TREADY, frame_len_cnt!=INIT_FRAME_LEN}) begin
+                    if (M_AXIS_TREADY) begin
                         if (frame_len_cnt<ACTUAL_HEADER_LINE-1) begin
-                            if (|{tlast, hf_rd_en_delay&frame_len_cnt_is_init_delay}) begin
+                            if (tlast) begin
                                 tdata <= #100 header[0];
                             end else begin
                                 tdata <= #100 header[frame_len_cnt+1];
                             end
                         end else begin
-                            if (&{frame_len_cnt<frame_len-1+(ACTUAL_HEADER_LINE)}) begin
-                                tdata <= #100 adc_data_delay;
-                            end else begin
+                            if (pre_tlast) begin
                                 // tdata <= #100 footer[frame_len_cnt-(frame_len+(ACTUAL_HEADER_LINE))]; when need to use `FOOTER_LINE > 1
-                                tdata <= #100 footer[0];
+                                tdata <= #100 footer[0];                                                               
+                            end else begin
+                                tdata <= #100 adc_data_delay;
                             end
                         end
                     end else begin
-                        if (hf_rd_en_delay&frame_len_cnt_is_init_delay) begin
+                        if (read_first_frame) begin
                             tdata <= #100 header[0];
                         end else begin
                             tdata <= #100 tdata;
