@@ -70,7 +70,8 @@ module dataframe_generator_tb;
         CONFIGURING, 
         WRITE_IN_WO_BACKPRESSURE,
         WRITE_IN_WITH_ADC_FIFO_BACKPRESSURE,
-        WRITE_IN_WITH_HF_FIFO_BACKPRESSURE
+        WRITE_IN_WITH_HF_FIFO_BACKPRESSURE,
+        WRITE_IN_WITH_RANDOM_BACKPRESSURE
     } test_status;
 
     enum int { 
@@ -112,13 +113,11 @@ module dataframe_generator_tb;
     frame_config_pack sample_config[SAMPLE_FRAME_NUM];
     DataFrame sample_frame[SAMPLE_FRAME_NUM];
     datastream_line_t sample_tdata_set[SAMPLE_FRAME_NUM];
-    dataframe_line_t sample_dframe_set[SAMPLE_FRAME_NUM];
 
     parameter integer RAND_SAMPLE_FRAME_NUM = 20;
     frame_config_pack rand_sample_config[RAND_SAMPLE_FRAME_NUM];
     DataFrame rand_sample_frame[RAND_SAMPLE_FRAME_NUM];
     datastream_line_t rand_sample_tdata_set[RAND_SAMPLE_FRAME_NUM];
-    dataframe_line_t rand_sample_dframe_set[RAND_SAMPLE_FRAME_NUM];
 
     task dataframe_generator_output_monitor(input DataFrame dframe[], input datastream_line_t tdata_set[], input int dframe_num);
         int skipped_flag_list[];
@@ -487,7 +486,7 @@ module dataframe_generator_tb;
         $display("TEST START: write in data with backpressure");
         @(posedge ACLK);
         S_AXIS_TVALID <= #100 1'b0;
-        M_AXIS_TREADY <= #100 1'b1;
+        M_AXIS_TREADY <= #100 1'b0;
         fork
             begin
                 wait(DUT.HF_FIFO_FULL==1'b1) begin
@@ -526,7 +525,85 @@ module dataframe_generator_tb;
             end
         join
         $display("TEST PADSSED: write in data with hf_fifo backpressure test passed!");
-    endtask   
+    endtask
+    
+    task write_in_with_rand_backpressure(input DataFrame dframe[], input datastream_line_t s_axis_tdata_set[], input int dframe_num, input int rst_cfg_timing);
+        int SUDDEN_RESET_START[2];
+        int SUDDEN_RESET_END[2];        
+        int SUDDEN_CONFIG_START[2];
+        int SUDDEN_CONFIG_END[2];
+        if (rst_cfg_timing==RANDOM_RESET_CONFIG_TIMING) begin
+            SUDDEN_RESET_START[0] = $urandom_range(0, dframe_num-1);
+            SUDDEN_RESET_START[1] = $urandom_range(0, dframe[SUDDEN_RESET_START[0]].raw_stream_len);
+            SUDDEN_RESET_END[0] = $urandom_range(SUDDEN_RESET_START[0], dframe_num-1);
+            if (SUDDEN_RESET_END[0]==SUDDEN_RESET_START[0]) begin
+                SUDDEN_RESET_END[1] = $urandom_range(SUDDEN_RESET_START[1]+1, dframe[SUDDEN_RESET_START[0]].raw_stream_len);    
+            end else begin
+                SUDDEN_RESET_END[1] = $urandom_range(0, dframe[SUDDEN_RESET_END[0]].raw_stream_len);
+            end
+
+            SUDDEN_CONFIG_START[0] = $urandom_range(0, dframe_num-1);
+            SUDDEN_CONFIG_START[1] = $urandom_range(0, dframe[SUDDEN_CONFIG_START[0]].raw_stream_len);
+            SUDDEN_CONFIG_END[0] = $urandom_range(SUDDEN_CONFIG_START[0], dframe_num-1);
+            if (SUDDEN_CONFIG_END[0]==SUDDEN_CONFIG_START[0]) begin
+                SUDDEN_CONFIG_END[1] = $urandom_range(SUDDEN_CONFIG_START[1]+1, dframe[SUDDEN_CONFIG_START[0]].raw_stream_len);    
+            end else begin
+                SUDDEN_CONFIG_END[1] = $urandom_range(0, dframe[SUDDEN_CONFIG_END[0]].raw_stream_len);
+            end            
+        end else begin
+            SUDDEN_RESET_START[0] = dframe_num/2;
+            SUDDEN_RESET_START[1] = dframe[SUDDEN_RESET_START[0]].raw_stream_len/2;
+            SUDDEN_RESET_END[0] = dframe_num/2;
+            SUDDEN_RESET_START[1] = dframe[SUDDEN_RESET_START[0]].raw_stream_len;
+
+            SUDDEN_CONFIG_START[0] = dframe_num/2;
+            SUDDEN_CONFIG_START[1] = dframe[SUDDEN_CONFIG_START[0]].raw_stream_len/2;
+            SUDDEN_CONFIG_END[0] = dframe_num/2+1;
+            SUDDEN_CONFIG_END[1] = 0;          
+        end
+        test_status = WRITE_IN_WITH_RANDOM_BACKPRESSURE;
+        $display("TEST START: write in data with random backpressure");
+        @(posedge ACLK);
+        S_AXIS_TVALID <= #100 1'b0;
+        M_AXIS_TREADY <= #100 1'b1;
+        fork
+            begin          
+                for (int i=0; i<dframe_num; i++) begin
+                    for (int j=0; j<dframe[i].raw_stream_len; j++) begin
+                        @(posedge ACLK);
+                        S_AXIS_TDATA <= #100 s_axis_tdata_set[i][j];
+                        S_AXIS_TVALID <= #100 1'b1;
+                        if ((i==SUDDEN_RESET_START[0])&&(j==SUDDEN_RESET_START[1])) begin
+                            $display("TEST INFO: SUDDENLY RESET");
+                            ARESET <= #100 1'b1;
+                        end else if ((i==SUDDEN_RESET_END[0])&&(j==SUDDEN_RESET_END[1])) begin
+                            $display("TEST INFO: Release RESET");
+                            ARESET <= #100 1'b0;
+                        end
+                        if ((i==SUDDEN_CONFIG_START[0])&&(j==SUDDEN_CONFIG_START[1])) begin
+                            $display("TEST INFO: SUDDENLY CONFIG");
+                            SET_CONFIG <= #100 1'b1;
+                        end else if ((i==SUDDEN_CONFIG_END[0])&&(j==SUDDEN_CONFIG_END[1])) begin
+                            $display("TEST INFO: Release CONFIG");
+                            SET_CONFIG <= #100 1'b0;
+                        end
+                        
+                        if (&{i==dframe_num-1, j==dframe[dframe_num-1].raw_stream_len-1}) begin
+                            M_AXIS_TREADY <= #100 1'b1;
+                        end else begin
+                            M_AXIS_TREADY <= #100 $urandom_range(0, 1);
+                        end                                                                 
+                    end
+                    @(posedge ACLK);
+                    S_AXIS_TVALID <= #100 1'b0;                     
+                end                
+            end
+            begin
+                dataframe_generator_output_monitor(dframe, s_axis_tdata_set, dframe_num);
+            end
+        join
+        $display("TEST PADSSED: write in data with random backpressure test passed!");
+    endtask        
 
     initial begin
         $dumpfile("dataframe_generator_tb.vcd");
@@ -577,13 +654,15 @@ module dataframe_generator_tb;
         config_module(4);
         write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
         config_module(64);
+        write_in_with_rand_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
 
         $display("TEST INFO: RANDOM FRAME LENGTH TEST");
         write_in_wo_nobackpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
         write_in_with_adc_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
         config_module(4);        
         write_in_with_hf_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);
-        config_module(64);        
+        config_module(64);
+        write_in_with_rand_backpressure(rand_sample_frame, rand_sample_tdata_set, RAND_SAMPLE_FRAME_NUM, RANDOM_RESET_CONFIG_TIMING);        
 
         $display("ALL TEST PASSED!");
         $finish;
