@@ -29,6 +29,8 @@ project_tcl/ZCU111/MMT_DMA_test/
 project_tcl/ZCU111/MMT_SGDMA_test/MMT_SGDMA_test/
 project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 
+project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
+
 /XilinxSDK_project_old/
 /XilinxSDK_project/*
 !/XilinxSDK_project/MMT_DMA_test/
