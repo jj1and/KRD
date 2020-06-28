@@ -1,16 +1,38 @@
+# Data frame format
 Single hit DataFrame for XCZU28DR ( ADC resolution = 12bit {SingedData[15:4], ZeroPadding[3:0]}; Full scale range = 1V pk-pk  )
 
-| HEADER_ID[7:0](0xAA) |                   | CH_ID[11:0]      |  |                     | Frame Length[11:0] |                  |  | FRAME_INFO[3:0]      | TRIGGER_TYPE[3:0] | TIME_STAMP[23:0] |  |                     |                   |                      |  |
-|----------------------|-------------------|------------------|--|---------------------|--------------------|------------------|--|----------------------|-------------------|------------------|--|---------------------|-------------------|----------------------|--|
-| ZERO_PADING[7:0]     |                   | CHARGE_SUM[23:0] |  |                     |                    |                  |  | TRIGGER_CONFIG[31:0] |                   |                  |  |                     |                   |                      |  |
-| Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0]  |                  |  | Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0] |                      |  |
-| Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0]  |                  |  | Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0] |                      |  |
-| …………………………………………     |                   |                  |  |                     |                    |                  |  |                      |                   |                  |  |                     |                   |                      |  |
-| Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0]  |                  |  | Sign Extension[3:0]  | Signed Data[11:0] |                  |  | Sign Extension[3:0] | Signed Data[11:0] |                      |  |
-| TIME_STAMP[47:24]    |                   |                  |  |                     |                    | OBJECT_ID[31:24] |  | OBJECT_ID[23:0]      |                   |                  |  |                     |                   | FOOTER_ID[7:0](0x55) |
+![dataframe_format](./dataframe_format.png)
+
 * FRAME_INFO [3:0] = {TRIGGER_STATE[1:0],  FRAME_CONTINUE[0:0], GAIN_TYPE[0:0]}
     * TRIGGER_STATE: 2'b11->Running, 2'b10->Run stop, 2'b01-> Run start
     * FRAME_CONTINUE: 0->single frame , 1->next frame exists
     * GAIN_TYPE: 0->L-gain 1->H-gain(p-gain)
+
+* FRAME_LENGTH [11:0]
+    * number of lines (excluding headers and footer) included in a data frame.
+      Then, a frame size = (FRAME_LENGTH+3)*64bit
+
+* Sign Extention [3:0] Signed Data [11:0]
+    * extend sign part of RF-ADC's 12bit value to 16bit.
+      - e.g. -128 (Decimal) = 0xF80 (signed int 12bit) = 0xFF80 (signed int 16bit)
+
+# Example
+## Header
+For example, the first line of header configurated like below (in decimal)
+```
+header_id=aa, ch_id=256, frame_length=31, frame_info=1, trigger_type=0, timestampe[lower 24bit]=74565
+```
+will be in big-endian
+```
+b'\xaa\x10\x00\x1f\x10\x01\x23\x45'
+```
+and in little-endian (**64bit word unit**)
+```
+b'\x45\x23\x01\x10\x1f\x00\x10\xaa'
+```
+and in little-endian (**32bit word unit**)
+```
+b'\x1f\x00\x10\xaa\x45\x23\x01\x10'
+```
     
 Last Update: 2020/06/09
