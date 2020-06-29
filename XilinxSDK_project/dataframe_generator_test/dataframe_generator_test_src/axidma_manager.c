@@ -99,7 +99,6 @@ static void TxIntrHandler(void *Callback)
 	u32 MM2S_Status;
 	u32 IrqStatus;
 	int TimeOut;
-	portBASE_TYPE xHigherPriorityTaskWoken_byNotify = pdFALSE;	
 
 	/* Read pending interrupts */
 	IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DMA_TO_DEVICE);
@@ -134,6 +133,7 @@ static void TxIntrHandler(void *Callback)
 			}
 			TimeOut -= 1;
 		}
+		return;
 	}
 
 	/*
@@ -142,10 +142,6 @@ static void TxIntrHandler(void *Callback)
 	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
 		TxDone = 1;
 	}
-	vTaskNotifyGiveFromISR(xTxDmaTask, &xHigherPriorityTaskWoken_byNotify);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
-
-	return;
 }
 
 /*****************************************************************************/
@@ -211,17 +207,18 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 
 #elif defined(FREE_RTOS)
 
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA1, 0x3);
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
-	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
-				(Xil_InterruptHandler)RxIntrHandler,
+
+	Status = XScuGic_Connect(IntcInstancePtr, TxIntrId,
+				(Xil_InterruptHandler)TxIntrHandler,
 				AxiDmaPtr);
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
 
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
-	Status = XScuGic_Connect(IntcInstancePtr, TxIntrId,
-				(Xil_InterruptHandler)TxIntrHandler,
+	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
+				(Xil_InterruptHandler)RxIntrHandler,
 				AxiDmaPtr);
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
@@ -298,13 +295,13 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 * @note		None.
 *
 ******************************************************************************/
-static void DisableIntrSystem(INTC * IntcInstancePtr, u16 RxIntrId)
+static void DisableIntrSystem(INTC * IntcInstancePtr, u16 IntrId)
 {
 #ifdef XPAR_INTC_0_DEVICE_ID
 	/* Disconnect the interrupts for the DMA TX and RX channels */
-	XIntc_Disconnect(IntcInstancePtr, RxIntrId);
+	XIntc_Disconnect(IntcInstancePtr, IntrId);
 #else
-	XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
+	XScuGic_Disconnect(IntcInstancePtr, IntrId);
 #endif
 }
 
@@ -344,14 +341,14 @@ int axidma_setup(){
 	xil_printf("\nInitialize DMA engine\r\n");
 	/* Disable all interrupts before setup */
 	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
-				XAXIDMA_DEVICE_TO_DMA);
+				XAXIDMA_DMA_TO_DEVICE);			
 	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
-				XAXIDMA_DMA_TO_DEVICE);				
+				XAXIDMA_DEVICE_TO_DMA);	
 	/* Enable all interrupts */
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
-							XAXIDMA_DEVICE_TO_DMA);
+							XAXIDMA_DMA_TO_DEVICE);	
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
-							XAXIDMA_DMA_TO_DEVICE);							
+							XAXIDMA_DEVICE_TO_DMA);							
 
 
 	data_cnt = 0;
@@ -362,24 +359,22 @@ int axidma_setup(){
 static void assign_adc_tdata(u8 *u8_adc_tdata, u16 *u16_adc_sample){
 	for (size_t i = 0; i < 8; i++) {
 		for (size_t j = 0; j < 2; j++) {
-			u8_adc_tdata[i*2+j] = (u16_adc_sample[i] >> (2-j-1)*8) & 0x000000FF; 
+			u8_adc_tdata[i*2+j] = (u16_adc_sample[i] >> j*8) & 0x00FF; 
 		}		
 	}
 }
 
 static void assign_timestamp(u8 *u8_timestamp, u64 u64_timestamp){
 	for (size_t i = 0; i < 6; i++) {
-		u8_timestamp[i] = (u64_timestamp >> (16+(6-i-1)*8)) & 0x000000FF;
+		u8_timestamp[i] = (u64_timestamp >> i*8) & 0x000000FF;
 	}
 }
 
 static void assign_trigger_config(u8 *u8_trigger_config, u16 baseline, u16 threshold){
 	for (size_t i = 0; i < 2; i++) {
-		u8_trigger_config[i] = (baseline >> (2-i-1)*8) & 0x00FF; 
+		u8_trigger_config[i] = (threshold >> i*8) & 0x00FF;
+		u8_trigger_config[i+2] = (baseline >> i*8) & 0x00FF;
 	}
-	for (size_t i = 2; i < 4; i++) {
-		u8_trigger_config[i] = (threshold >> (2-i-1)*8) & 0x00FF; 
-	}	
 }
 
 int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length){
@@ -387,21 +382,24 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	int max_intr_wait = 10;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-	u64 timestamp = timestamp_at_beginning;
 	u8 tdata[MAX_PKT_LEN/27][27];
-	
+
+	/* Initialize flags before start transfer test  */
+	Error = 0;
+	TxDone = 0;
+
 	// prepare data to send
 	if (tdata_length < MAX_PKT_LEN/27) {
 		for (size_t i=0; i<tdata_length; i++) {
-			assign_adc_tdata(&tdata[i][0], adc_sample_ary);
-			tdata[i][16] = trigger_info;
-			assign_timestamp(&tdata[i][17], timestamp);
-			assign_trigger_config(&tdata[i][23], baseline, threshold);
+			
+			assign_trigger_config(&tdata[i][0], baseline, threshold);
+			assign_timestamp(&tdata[i][4], timestamp_at_beginning+i);
+			tdata[i][10] = trigger_info;
+			assign_adc_tdata(&tdata[i][11], adc_sample_ary);
 
 			for (size_t j = 0; j < 8; j++) {
 				adc_sample_ary[j]++;
 			}
-			timestamp++;
 		}
 	} else {
 		xil_printf("Data length is larger than MAX_PKT_LEN/27\r\n");
@@ -411,7 +409,13 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	// assign prepared data to TxBufferPtr
 	for (size_t i = 0; i < tdata_length; i++) {
 		for (size_t j = 0; j < 27; j++) {
-			xil_printf("%x", tdata[i][j]);
+			if (j==0) {
+				xil_printf("Assign TxBufferPtr to %02x", tdata[i][j]);
+			} else if (j==26) {
+				xil_printf("%02x\r\n", tdata[i][j]);
+			} else {
+				xil_printf("%02x", tdata[i][j]);
+			}
 			TxBufferPtr[i*27+j] = tdata[i][j];
 		}
 	}
@@ -422,16 +426,14 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 		return XST_FAILURE;
 	}
 
-	if (ulTaskNotifyTake( pdTRUE, max_intr_wait_tick ) > 0){
-		if(Error){
-			xil_printf("Error in MM2S DMA transaction.\r\n");
-			return XST_FAILURE;
-		} else {
-			incr_wrptr_after_write();
-		}	
-	} else {
-		xil_printf("MM2S interrupt wait is timeout.\r\n");				
-	}		
+
+	while ((TxDone==0)&(Error==0)) {
+		/* code */
+	}	
+	if(Error){
+		xil_printf("Error in MM2S DMA transaction.\r\n");
+		return XST_FAILURE;
+	}
 
 	return XST_SUCCESS;
 }
@@ -442,6 +444,7 @@ int axidma_recv_buff(){
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);
     /* Initialize flags before start transfer test  */
 	Error = 0;
+	RxDone = 0;
 
 	if (!buff_is_full()) {
 		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferWrPtr,

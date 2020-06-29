@@ -19,6 +19,8 @@
 #define DELAY_1_SECOND		1000UL
 #define FAIL_CNT_THRESHOLD 5
 
+int data_length = 16;
+
 TickType_t x10seconds = pdMS_TO_TICKS( DELAY_10_SECONDS );
 TimerHandle_t xTimer = NULL;
 
@@ -58,6 +60,7 @@ void prvRxDmaTask( void *pvParameters )
 	int dma_state = XST_SUCCESS;
 	int wait_time = 5;
 	u64 *dataptr;
+	vApplicationDaemonTaskStartupHook();	
 	while(1)
 	{
 		if ((dma_state == XST_FAILURE) || (Error == 1)) {
@@ -70,11 +73,11 @@ void prvRxDmaTask( void *pvParameters )
 			dma_state = axidma_recv_buff();
 			if (dma_state == XST_SUCCESS) {
 				dataptr = get_rdptr();
-				for(int i=0; i<128; i++) {
-					if ((i+1)%4 == 0){
+				for(int i=0; i<data_length+3; i++) {
+					if ((i+1)%2 == 0){
 						xil_printf("%016llx\n", dataptr[i]);
 					} else {
-						xil_printf("%016llx ", dataptr[i]);
+						xil_printf("Recived : %016llx ", dataptr[i]);
 					}
 				}
 				xil_printf("\n\n");
@@ -88,11 +91,10 @@ void prvTxDmaTask( void *pvParameters )
 {
 	int dma_state = XST_SUCCESS;
 	int wait_time = 5;
-	u64 timestamp_at_beginning = 0;
+	u64 timestamp_at_beginning = 255;
 	u8 trigger_info = 16;
 	u16 baseline = 0;
 	u16 threthold = 15;
-	vApplicationDaemonTaskStartupHook();
 	while(1)
 	{
 		if ((dma_state == XST_FAILURE) || (Error == 1)) {
@@ -102,7 +104,7 @@ void prvTxDmaTask( void *pvParameters )
 			xil_printf("try again...\r\n");
 
 		} else {
-			dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, 16);
+			dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length);
 		}
 	}
 }
