@@ -53,25 +53,10 @@ project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 /XilinxSDK_project_old/
 
 # exclude some obscure hidden SDK folders
-XilinxSDK_project/**/.sdk
-XilinxSDK_project/**/.metadata
-XilinxSDK_project/**/SDK.log
-XilinxSDK_project/**/webtalk
-
-/XilinxSDK_project/*
-!/XilinxSDK_project/*/
-/XilinxSDK_project/*/*
-!/XilinxSDK_project/*/*_hw_platform_*
-!/XilinxSDK_project/*/*_src
-!/XilinxSDK_project/*/*_bsp/
-
-# BSP : only keep .cproject, .project, .sdkproject, .system.mss
-# and Makefile
-# i.e. the psu_cortexa53_0 lib files are regenerated automatically
-/XilinxSDK_project/*/*_bsp/psu_cortexa53_0
-/XilinxSDK_project/*/*_bsp/psu_cortexr5_0
-
-
+/XilinxSDK_project/**/.sdk
+/XilinxSDK_project/**/.metadata
+/XilinxSDK_project/**/SDK.log
+/XilinxSDK_project/**/webtalk
 
 # Application : ignored file patterns, exclude Debug & Release folders
 /XilinxSDK_project/**/*.o
@@ -79,6 +64,20 @@ XilinxSDK_project/**/webtalk
 /XilinxSDK_project/**/*.a
 /XilinxSDK_project/**/Debug/
 /XilinxSDK_project/**/Release/
+/XilinxSDK_project/**/RemoteSystemsTempFiles/
+
+/XilinxSDK_project/*
+!/XilinxSDK_project/**/*_hw_platform_*
+
+# only keep .cproject, .project, .sdkproject, .system.mss and Makefile
+# i.e. the psu_cortexa53_0 lib files are regenerated automatically
+!/XilinxSDK_project/**/*src
+!/XilinxSDK_project/**/.*project
+!/XilinxSDK_project/**/.system.mss
+!/XilinxSDK_project/**/Makefile
+
+
+
 
 
 
