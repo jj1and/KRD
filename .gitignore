@@ -63,12 +63,14 @@ XilinxSDK_project/**/webtalk
 /XilinxSDK_project/*/*
 !/XilinxSDK_project/*/*_hw_platform_*
 !/XilinxSDK_project/*/*_src
+!/XilinxSDK_project/*/*_bsp/
 
 # BSP : only keep .cproject, .project, .sdkproject, .system.mss
 # and Makefile
 # i.e. the psu_cortexa53_0 lib files are regenerated automatically
-/XilinxSDK_project/**_bsp/psu_cortexa53_0/*
-/XilinxSDK_project/**_bsp/psu_cortexr5_0/*
+/XilinxSDK_project/*/*_bsp/psu_cortexa53_0
+/XilinxSDK_project/*/*_bsp/psu_cortexr5_0
+
 
 
 # Application : ignored file patterns, exclude Debug & Release folders
