@@ -1,6 +1,3 @@
-# VScode configuration files
-/**/.vscode
-
 # ignore HLS related directories
 project_hls/
 VSC_solution/
@@ -65,21 +62,18 @@ project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 /XilinxSDK_project/**/Debug/
 /XilinxSDK_project/**/Release/
 /XilinxSDK_project/**/RemoteSystemsTempFiles/
+/XilinxSDK_project/**/Packages/
 
-/XilinxSDK_project/*
-!/XilinxSDK_project/**/*_hw_platform_*
+/XilinxSDK_project/*/*/*/
+!/XilinxSDK_project/*/**/.vscode
+!/XilinxSDK_project/*/**/*_hw_platform_*
 
 # only keep .cproject, .project, .sdkproject, .system.mss and Makefile
 # i.e. the psu_cortexa53_0 lib files are regenerated automatically
-!/XilinxSDK_project/**/*src
-!/XilinxSDK_project/**/.*project
-!/XilinxSDK_project/**/.system.mss
-!/XilinxSDK_project/**/Makefile
-
-
-
-
-
+!/XilinxSDK_project/*/**/*src
+!/XilinxSDK_project/*/**/.*project
+!/XilinxSDK_project/*/**/.system.mss
+!/XilinxSDK_project/*/**/Makefile
 
 
 algorithm_dev/AfterMuon_FreqSpec.py
