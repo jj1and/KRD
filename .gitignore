@@ -1,16 +1,35 @@
-*.vcd
-*.out
-.Xil/*
-*.log
-*.jou
-*.str
-*.pkl
-*.pkl.zip
-~*
+# VScode configuration files
+/**/.vscode
+
+# ignore HLS related directories
 project_hls/
 VSC_solution/
 
-/**/.vscode
+# --- VIVADO & SDK common ---
+
+# folders (and all of their contents) that should always be ignored,
+# anywhere in the repo
+.Xil/
+
+# file patterns that should always be ignored (journal files, log
+# files, dump files that are created upon Vivado/SDK errors)
+
+*.jou
+*.log
+*.backup.jou
+*.backup.log
+*.upgrade_log
+*.dmp
+vivado_pid*
+*~
+
+*.vcd
+*.out
+*.str
+*.pkl
+*.pkl.zip
+
+# ignore the vivado project
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
 project_tcl/ZCU111/MinimumTrigger/~$MinimumTrigger_DataFrame.xlsx
 project_tcl/ZCU111/MinimumTrigger_test/MinimumTrigger_test/
@@ -30,24 +49,38 @@ project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 
 project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 
+# --- SDK specific ---
 /XilinxSDK_project_old/
-/XilinxSDK_project/*
-!/XilinxSDK_project/MMT_DMA_test/
-/XilinxSDK_project/MMT_DMA_test/*
-!/XilinxSDK_project/MMT_DMA_test/SimpleDMA_design_1_wrapper_hw_platform_0
-!/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_src
-# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test
-# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test/Debug
-# !/XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp
-# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/lib
-# /XilinxSDK_project/MMT_DMA_test/PL_PC_transport_test_bsp/**/include
 
-# XilinxSDK_project/**/.sdk
-# XilinxSDK_project/**/.metadata
-# XilinxSDK_project/**/SDK.log
-# XilinxSDK_project/**/webtalk
-# XilinxSDK_project/**/*_bsp/**/lib
-# XilinxSDK_project/**/*_bsp/**/include
+# exclude some obscure hidden SDK folders
+XilinxSDK_project/**/.sdk
+XilinxSDK_project/**/.metadata
+XilinxSDK_project/**/SDK.log
+XilinxSDK_project/**/webtalk
+
+/XilinxSDK_project/*
+!/XilinxSDK_project/*/
+/XilinxSDK_project/*/*
+!/XilinxSDK_project/*/*_hw_platform_*
+!/XilinxSDK_project/*/*_src
+
+# BSP : only keep .cproject, .project, .sdkproject, .system.mss
+# and Makefile
+# i.e. the psu_cortexa53_0 lib files are regenerated automatically
+/XilinxSDK_project/**_bsp/psu_cortexa53_0/*
+/XilinxSDK_project/**_bsp/psu_cortexr5_0/*
+
+
+# Application : ignored file patterns, exclude Debug & Release folders
+/XilinxSDK_project/**/*.o
+/XilinxSDK_project/**/*.d
+/XilinxSDK_project/**/*.a
+/XilinxSDK_project/**/Debug/
+/XilinxSDK_project/**/Release/
+
+
+
+
 algorithm_dev/AfterMuon_FreqSpec.py
 util_code/data/*
 !util_code/data/recv_buff_v2_20200428_01.bin
