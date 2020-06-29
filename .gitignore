@@ -51,11 +51,12 @@ project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 
 # exclude some obscure hidden SDK folders
 /XilinxSDK_project/**/.sdk
+/XilinxSDK_project/**/.temp
 /XilinxSDK_project/**/.metadata
 /XilinxSDK_project/**/SDK.log
 /XilinxSDK_project/**/webtalk
 
-# Application : ignored file patterns, exclude Debug & Release folders
+# Application : ignored file patterns, exclude Debug & Release and sample folders
 /XilinxSDK_project/**/*.o
 /XilinxSDK_project/**/*.d
 /XilinxSDK_project/**/*.a
@@ -63,6 +64,7 @@ project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 /XilinxSDK_project/**/Release/
 /XilinxSDK_project/**/RemoteSystemsTempFiles/
 /XilinxSDK_project/**/Packages/
+/XilinxSDK_project/**/*sample/
 
 /XilinxSDK_project/*/*/*/
 !/XilinxSDK_project/*/**/.vscode

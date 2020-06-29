@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "xparameters.h": "c",
+        "task.h": "c",
+        "send2pc.h": "c",
+        "stdio.h": "c",
+        "sockets.h": "c"
+    },
+    "python.pythonPath": "C:\\Users\\npart\\anaconda3\\python.exe"
+}
