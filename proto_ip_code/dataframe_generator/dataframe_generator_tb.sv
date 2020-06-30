@@ -15,7 +15,7 @@ module dataframe_generator_tb;
 
     // Data frame length configuration
     reg SET_CONFIG = 1'b0;
-    reg [15:0] MAX_TRIGGER_LENGTH = 256;
+    reg [15:0] MAX_TRIGGER_LENGTH;
 
     // Input signals from trigger
     reg [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] S_AXIS_TDATA; // TDATA from RF Data Converter logic IP
@@ -56,7 +56,7 @@ module dataframe_generator_tb;
     wire [`TIMESTAMP_WIDTH-1:0] timestamp = {footer_timestamp, header_timestamp};    
     wire DATAFRAME_GEN_ERROR;
 
-    dataframe_generator_top # (
+    dataframe_generator # (
         .CHANNEL_ID(CHANNEL_ID_NUM),
         .ADC_FIFO_DEPTH(2**8),
         .HF_FIFO_DEPTH(2**3)
@@ -611,7 +611,7 @@ module dataframe_generator_tb;
         test_status = INTITIALIZE;
         for (int i=0; i<SAMPLE_FRAME_NUM; i++) begin
             sample_config[i].ch_id = CHANNEL_ID_NUM;
-            sample_config[i].frame_len = 2**(i+1);
+            sample_config[i].frame_len = (16*(i+1)+1)*2;
             sample_config[i].gain_type = 1'b1;
             sample_config[i].trigger_type = 4'h0;
             sample_config[i].baseline = 0;
@@ -646,14 +646,14 @@ module dataframe_generator_tb;
         end        
 
         reset_all;
-        config_module(64);
+        config_module(16);
         
         $display("TEST INFO: FIXED FRAME LENGTH TEST");
         write_in_wo_nobackpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
         write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
         config_module(4);
         write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(64);
+        config_module(16);
         write_in_with_rand_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
 
         $display("TEST INFO: RANDOM FRAME LENGTH TEST");
