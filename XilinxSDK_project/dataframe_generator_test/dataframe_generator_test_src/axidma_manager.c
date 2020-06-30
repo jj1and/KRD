@@ -5,7 +5,7 @@
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 static u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
-static int data_cnt;
+int data_cnt;
 static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
 
 
@@ -31,7 +31,6 @@ static void RxIntrHandler(void *Callback)
 	u32 S2MM_Status;
 	u32 IrqStatus;
 	int TimeOut;
-	portBASE_TYPE xHigherPriorityTaskWoken_byNotify = pdFALSE;
 	
 	/* Read pending interrupts */
 	IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DEVICE_TO_DMA);
@@ -66,8 +65,10 @@ static void RxIntrHandler(void *Callback)
 			TimeOut -= 1;
 		}
 	}
-	vTaskNotifyGiveFromISR(xRxDmaTask, &xHigherPriorityTaskWoken_byNotify);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
+
+	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
+		RxDone = 1;
+	}
 //	set_timing_ticks(TYPE_DMA_INTR_END);
 	// } else if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
 	// 	vTaskNotifyGiveFromISR(xRxDmaTask, &xHigherPriorityTaskWoken_byNotify);
@@ -120,7 +121,7 @@ static void TxIntrHandler(void *Callback)
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
 		Error = 1;
-		MM2S_Status = XAxiDma_ReadReg(AxiDmaInst->RegBase + XAXIDMA_RX_OFFSET, XAXIDMA_SR_OFFSET);
+		MM2S_Status = XAxiDma_ReadReg(AxiDmaInst->RegBase + XAXIDMA_TX_OFFSET, XAXIDMA_SR_OFFSET);
 		xil_printf("Error! MM2S status: %x\r\n", MM2S_Status);
 		/*
 		 * Reset should never fail for transmit channel
@@ -142,28 +143,11 @@ static void TxIntrHandler(void *Callback)
 	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
 		TxDone = 1;
 	}
+	return;
 }
 
-/*****************************************************************************/
-/*
-*
-* This function setups the interrupt system so interrupts can occur for the
-* DMA, it assumes INTC component exists in the hardware system.
-*
-* @param	IntcInstancePtr is a pointer to the instance of the INTC.
-* @param	AxiDmaPtr is a pointer to the instance of the DMA engine
-* @param	RxIntrId is the RX channel Interrupt ID.
-*
-* @return
-*		- XST_SUCCESS if successful,
-*		- XST_FAILURE.if not succesful
-*
-* @note		None.
-*
-******************************************************************************/
-
-int SetupIntrSystem(INTC * IntcInstancePtr,
-			   XAxiDma * AxiDmaPtr, u16 RxIntrId, u16 TxIntrId)
+int SetupTxIntrSystem(INTC * IntcInstancePtr,
+			   XAxiDma * AxiDmaPtr, u16 TxIntrId)
 {
 	int Status;
 
@@ -174,14 +158,6 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 	if (Status != XST_SUCCESS) {
 
 		xil_printf("Failed init intc\r\n");
-		return XST_FAILURE;
-	}
-
-	Status = XIntc_Connect(IntcInstancePtr, RxIntrId,
-			       (XInterruptHandler) RxIntrHandler, AxiDmaPtr);
-	if (Status != XST_SUCCESS) {
-
-		xil_printf("Failed rx connect intc\r\n");
 		return XST_FAILURE;
 	}
 
@@ -201,14 +177,12 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 		return XST_FAILURE;
 	}
 
-	XIntc_Enable(IntcInstancePtr, RxIntrId);
 	XIntc_Enable(IntcInstancePtr, TxIntrId);	
 
 
 #elif defined(FREE_RTOS)
 
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA1, 0x3);
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
 
 	Status = XScuGic_Connect(IntcInstancePtr, TxIntrId,
 				(Xil_InterruptHandler)TxIntrHandler,
@@ -217,14 +191,6 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 		return XST_FAILURE;
 	}
 
-	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
-				(Xil_InterruptHandler)RxIntrHandler,
-				AxiDmaPtr);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
-
-	XScuGic_Enable(IntcInstancePtr, RxIntrId);
 	XScuGic_Enable(IntcInstancePtr, TxIntrId);
 #else
 
@@ -247,7 +213,6 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 	}
 
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
 	/*
 	 * Connect the device driver handler that will be called when an
 	 * interrupt for the device occurs, the handler defined above performs
@@ -259,6 +224,92 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 	if (Status != XST_SUCCESS) {
 		return Status;
 	}	
+
+	XScuGic_Enable(IntcInstancePtr, TxIntrId);
+
+#endif
+
+#ifndef FREE_RTOS
+	/* Enable interrupts from the hardware */
+
+	Xil_ExceptionInit();
+	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT, (Xil_ExceptionHandler)INTC_HANDLER, (void *)IntcInstancePtr );
+	Xil_ExceptionEnable();
+#endif
+
+	return XST_SUCCESS;
+}
+
+int SetupRxIntrSystem(INTC * IntcInstancePtr,
+			   XAxiDma * AxiDmaPtr, u16 RxIntrId)
+{
+	int Status;
+
+#ifdef XPAR_INTC_0_DEVICE_ID
+
+	/* Initialize the interrupt controller and connect the ISRs */
+	Status = XIntc_Initialize(IntcInstancePtr, INTC_DEVICE_ID);
+	if (Status != XST_SUCCESS) {
+
+		xil_printf("Failed init intc\r\n");
+		return XST_FAILURE;
+	}
+
+	Status = XIntc_Connect(IntcInstancePtr, RxIntrId,
+			       (XInterruptHandler) RxIntrHandler, AxiDmaPtr);
+	if (Status != XST_SUCCESS) {
+
+		xil_printf("Failed rx connect intc\r\n");
+		return XST_FAILURE;
+	}
+
+	/* Start the interrupt controller */
+	Status = XIntc_Start(IntcInstancePtr, XIN_REAL_MODE);
+	if (Status != XST_SUCCESS) {
+
+		xil_printf("Failed to start intc\r\n");
+		return XST_FAILURE;
+	}
+	XIntc_Enable(IntcInstancePtr, TxIntrId);	
+
+
+#elif defined(FREE_RTOS)
+
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
+	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
+				(Xil_InterruptHandler)RxIntrHandler,
+				AxiDmaPtr);
+	if (Status != XST_SUCCESS) {
+		return XST_FAILURE;
+	}
+
+	XScuGic_Enable(IntcInstancePtr, RxIntrId);
+#else
+
+	XScuGic_Config *IntcConfig;
+
+
+	/*
+	 * Initialize the interrupt controller driver so that it is ready to
+	 * use.
+	 */
+	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
+	if (NULL == IntcConfig) {
+		return XST_FAILURE;
+	}
+
+	Status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig,
+					IntcConfig->CpuBaseAddress);
+	if (Status != XST_SUCCESS) {
+		return XST_FAILURE;
+	}
+
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
+	/*
+	 * Connect the device driver handler that will be called when an
+	 * interrupt for the device occurs, the handler defined above performs
+	 * the specific interrupt processing for the device.
+	 */
 	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
 				(Xil_InterruptHandler)RxIntrHandler,
 				AxiDmaPtr);
@@ -267,7 +318,6 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 	}
 
 	XScuGic_Enable(IntcInstancePtr, RxIntrId);
-	XScuGic_Enable(IntcInstancePtr, TxIntrId);
 
 #endif
 
@@ -288,7 +338,7 @@ int SetupIntrSystem(INTC * IntcInstancePtr,
 * This function disables the interrupts for DMA engine.
 *
 * @param	IntcInstancePtr is the pointer to the INTC component instance
-* @param	RxIntrId is interrupt ID associated w/ DMA RX channel
+* @param	IntrId is interrupt ID associated w/ DMA RX channel
 *
 * @return	None.
 *
@@ -350,7 +400,6 @@ int axidma_setup(){
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
 							XAXIDMA_DEVICE_TO_DMA);							
 
-
 	data_cnt = 0;
 	xil_printf("AXI-DMA Setup is done successfully.\r\n");
 	return XST_SUCCESS;
@@ -379,17 +428,17 @@ static void assign_trigger_config(u8 *u8_trigger_config, u16 baseline, u16 thres
 
 int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length){
 	int Status;
-	int max_intr_wait = 10;
+	int max_intr_wait = 20;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-	u8 tdata[MAX_PKT_LEN/27][27];
+	u8 tdata[MAX_TRIGGER_LEN][27];
 
 	/* Initialize flags before start transfer test  */
 	Error = 0;
 	TxDone = 0;
 
 	// prepare data to send
-	if (tdata_length < MAX_PKT_LEN/27) {
+	if (tdata_length < MAX_TRIGGER_LEN) {
 		for (size_t i=0; i<tdata_length; i++) {
 			
 			assign_trigger_config(&tdata[i][0], baseline, threshold);
@@ -402,19 +451,19 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 			}
 		}
 	} else {
-		xil_printf("Data length is larger than MAX_PKT_LEN/27\r\n");
+		xil_printf("Data length is larger than MAX_TRIGGER_LEN\r\n");
 		return XST_FAILURE;
 	}
 
 	// assign prepared data to TxBufferPtr
 	for (size_t i = 0; i < tdata_length; i++) {
-		for (size_t j = 0; j < 27; j++) {
+		for (size_t j = 0; j < 27 ; j++) {
 			if (j==0) {
-				xil_printf("Assign TxBufferPtr to %02x", tdata[i][j]);
+				xil_printf("Assign TxBufferPtr to %02x", tdata[i][26-j]);
 			} else if (j==26) {
-				xil_printf("%02x\r\n", tdata[i][j]);
+				xil_printf("%02x\r\n", tdata[i][26-j]);
 			} else {
-				xil_printf("%02x", tdata[i][j]);
+				xil_printf("%02x", tdata[i][26-j]);
 			}
 			TxBufferPtr[i*27+j] = tdata[i][j];
 		}
@@ -426,20 +475,12 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 		return XST_FAILURE;
 	}
 
-
-	while ((TxDone==0)&(Error==0)) {
-		/* code */
-	}	
-	if(Error){
-		xil_printf("Error in MM2S DMA transaction.\r\n");
-		return XST_FAILURE;
-	}
-
 	return XST_SUCCESS;
 }
 
 int axidma_recv_buff(){
     int Status;
+	int S2MM_Status;
 	int max_intr_wait = 10;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);
     /* Initialize flags before start transfer test  */
@@ -448,42 +489,23 @@ int axidma_recv_buff(){
 
 	if (!buff_is_full()) {
 		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferWrPtr,
-					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
+					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);			
 		if (Status == XST_FAILURE) {
 			xil_printf("DMA internal buffer is empty.\r\n");
 			return XST_FAILURE;
 		} else if (Status == XST_INVALID_PARAM) {
 			xil_printf("Simple transfer Failed because of parameter setting\r\n");
 			return XST_FAILURE;
-		} else {
-			/* Wait RX done */
-//			set_timing_ticks(TYPE_DMA_START);
-			if (ulTaskNotifyTake( pdTRUE, max_intr_wait_tick ) > 0){
-				if(Error){
-					xil_printf("Error in S2MM DMA transaction.\r\n");
-					return XST_FAILURE;
-				} else {
-//					Xil_DCacheInvalidateRange((u64) RxBufferWrPtr, MAX_PKT_LEN);
-//					set_timing_ticks(TYPE_DMA_END);
-					// xil_printf("Wrote Data\r\n");
-					// PrintData(RxBufferWrPtr, ((RxBufferWrPtr[0] & 0xFFF)+2));
-					incr_wrptr_after_write();
-					// xTaskNotifyGive(process_thread);
-				}	
-			} else {
-//				set_timing_ticks(TYPE_DMA_INTR_END);
-//				set_timing_ticks(TYPE_DMA_END);
-				xil_printf("S2MM interrupt wait is timeout.\r\n");				
-			}
 		}
-		return XST_SUCCESS;
 	} else {
 		xil_printf("RX buffer is full.\r\n");
 		return XST_FAILURE;
 	}
+
+	return XST_SUCCESS;
 }
 
-void incr_wrptr_after_write(){
+void incr_wrptr_after_write() {
 	if (data_cnt<MAX_DATA_NUM){
 		data_cnt++;
 		if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - (int)MAX_PKT_LEN/sizeof(RxBufferWrPtr))
