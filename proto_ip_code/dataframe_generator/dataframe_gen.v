@@ -62,13 +62,17 @@ module dataframe_gen (
     reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
     reg [`FRAME_LENGTH_WIDTH:0] adc_cnt;
     wire frame_len_cnt_is_init = (frame_len_cnt==INIT_FRAME_LEN);
+    reg frame_len_cnt_is_init_delay;
+    always @(posedge ACLK ) begin
+        frame_len_cnt_is_init_delay <= #100 frame_len_cnt_is_init;
+    end
 
     reg [`FRAME_LENGTH_WIDTH:0] reg_frame_len; // actual frame_len/2
     wire [`FRAME_LENGTH_WIDTH:0] wire_frame_len = {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
 
     wire hf_rd_en = (HF_FIFO_EMPTY==1'b0)&(|{frame_len_cnt_is_init, pre_tlast&M_AXIS_TREADY});
     
-    wire read_first_frame = (adc_cnt==0)&(frame_len_cnt==0);
+    wire read_first_frame = (frame_len_cnt_is_init_delay==1'b1)&(frame_len_cnt==0);
     wire first_frame_exist = hf_rd_en&frame_len_cnt_is_init;
     reg next_frame_exist;
 
@@ -78,7 +82,7 @@ module dataframe_gen (
 
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
-            reg_frame_len <= #100 0;
+            reg_frame_len <= #100 INIT_FRAME_LEN;
         end else begin
             if (|{read_first_frame, tlast&M_AXIS_TREADY}) begin
                 reg_frame_len <= #100 wire_frame_len;
@@ -125,7 +129,7 @@ module dataframe_gen (
         end
     end
 
-    wire adc_rd_done = (adc_cnt >= reg_frame_len-1);
+    wire adc_rd_done = (adc_cnt+1 >= reg_frame_len);
     always @(posedge ACLK ) begin
         if (|{ARESET, internal_error}) begin
             adc_cnt <= #100 INIT_FRAME_LEN;
