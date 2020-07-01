@@ -88,6 +88,7 @@ void SetMaxTriggerLength(u16 max_trigger_length){
 }
 
 void printData(u64 *dataptr, int frame_size){
+	Xil_DCacheFlushRange((UINTPTR)dataptr, frame_size);
 	for(int i=0; i<frame_size/8; i++) {
 		if ((i+1)%2 == 0){
 			xil_printf("%016llx\n", dataptr[i]);
@@ -103,9 +104,9 @@ void prvDmaTask( void *pvParameters ) {
 	int mm2s_dma_state = XST_SUCCESS;
 	int s2mm_dma_state = XST_SUCCESS;
 
-	int test_max_trigger_len = 32;
+	int test_max_trigger_len = 128;
 
-	int data_length = 25;
+	int data_length = 113;
 	int send_frame_size = 0;
 	int read_frame_size = 0;
 	u64 timestamp_at_beginning = 255;
@@ -185,66 +186,6 @@ void prvDmaTask( void *pvParameters ) {
 	xil_printf("Test exit!\r\n");
 	shutdown_dma();
 	vTaskDelete(NULL);
-
-	// while(TRUE) {
-		
-	// 	if (read_frame_size<=(data_length*16+3*8)+send_frame_size) {
-	// 		s2mm_dma_state = axidma_recv_buff();
-	// 		if (s2mm_dma_state!=XST_SUCCESS) {
-	// 			xil_printf("S2MM Dma failed.\r\n");
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	if (data_length<=test_max_trigger_len) {
-	// 		mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length);
-	// 		if (mm2s_dma_state!=XST_SUCCESS) {
-	// 			xil_printf("MM2S Dma failed.\r\n");
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	while (!TxDone && !Error) {
-	// 		/* code */
-	// 	}
-	// 	if (TxDone && !Error) {
-	// 		send_frame_size = send_frame_size+(data_length*16+3*8);
-	// 	} else {
-	// 		xil_printf("Error interrupt asserted.\r\n");
-	// 		break;
-	// 	}
-
-	// 	while (!RxDone && !Error)
-	// 	{
-	// 		/* code */
-	// 	}
-	// 	if (RxDone && !Error) {
-	// 		incr_wrptr_after_write();
-	// 		dataptr = get_rdptr();
-	// 		if (send_frame_size-read_frame_size<=MAX_PKT_LEN) {
-	// 			printData(dataptr, send_frame_size-read_frame_size);
-	// 			read_frame_size = send_frame_size;
-	// 		} else {
-	// 			printData(dataptr, MAX_PKT_LEN);
-	// 			read_frame_size = read_frame_size+MAX_PKT_LEN;
-	// 		}
-	// 		incr_rdptr_after_read();
-
-
-	// 		if (data_length<test_max_trigger_len) {
-	// 			data_length++;
-	// 		} else {
-	// 			xil_printf("All test frame sent&read!\r\n");
-	// 			break;
-	// 		}
-	// 	} else {
-	// 		xil_printf("Error interrupt asserted.\r\n");
-	// 		break;
-	// 	}
-	// }
-	// xil_printf("Test exit!\r\n");
-	// shutdown_dma();
-	// vTaskDelete(NULL);
 }
 
 int vApplicationDaemonTxTaskStartupHook() {

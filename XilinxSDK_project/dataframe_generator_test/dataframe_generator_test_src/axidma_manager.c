@@ -411,42 +411,34 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	int max_intr_wait = 20;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-	u8 tdata[MAX_GENERATBLE_TRIGGER_LEN][27];
 
 	/* Initialize flags before start transfer test  */
 	Error = 0;
 	TxDone = 0;
 
-	// prepare data to send
 	if (tdata_length <= MAX_GENERATBLE_TRIGGER_LEN) {
-		for (size_t i=0; i<tdata_length; i++) {
-			
-			assign_trigger_config(&tdata[i][0], baseline, threshold);
-			assign_timestamp(&tdata[i][4], timestamp_at_beginning+i);
-			tdata[i][10] = trigger_info;
-			assign_adc_tdata(&tdata[i][11], adc_sample_ary);
-
+		// assign data to TxBufferPtr
+		for (u64 i = 0; i < tdata_length; i++) {
+			assign_trigger_config(&TxBufferPtr[i*27+0], baseline, threshold);
+			assign_timestamp(&TxBufferPtr[i*27+4], timestamp_at_beginning+i);
+			TxBufferPtr[i*27+10] = trigger_info;
+			assign_adc_tdata(&TxBufferPtr[i*27+11], adc_sample_ary);
 			for (size_t j = 0; j < 8; j++) {
 				adc_sample_ary[j]++;
+			}	
+			for (size_t j = 0; j < 27 ; j++) {
+				if (j==0) {
+					xil_printf("Send: %02x", TxBufferPtr[i*27+26-j]);
+				} else if (j==26) {
+					xil_printf("%02x\r\n", TxBufferPtr[i*27+26-j]);
+				} else {
+					xil_printf("%02x", TxBufferPtr[i*27+26-j]);
+				}
 			}
 		}
 	} else {
 		xil_printf("Data length is larger than MAX_TRIGGER_LEN\r\n");
 		return XST_FAILURE;
-	}
-
-	// assign prepared data to TxBufferPtr
-	for (size_t i = 0; i < tdata_length; i++) {
-		for (size_t j = 0; j < 27 ; j++) {
-			if (j==0) {
-				xil_printf("Send: %02x", tdata[i][26-j]);
-			} else if (j==26) {
-				xil_printf("%02x\r\n", tdata[i][26-j]);
-			} else {
-				xil_printf("%02x", tdata[i][26-j]);
-			}
-			TxBufferPtr[i*27+j] = tdata[i][j];
-		}
 	}
 	Xil_DCacheFlushRange((UINTPTR)TxBufferPtr, tdata_length*27);
 
