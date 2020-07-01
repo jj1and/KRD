@@ -146,12 +146,12 @@ static void TxIntrHandler(void *Callback)
 	return;
 }
 
-int SetupTxIntrSystem(INTC * IntcInstancePtr,
-			   XAxiDma * AxiDmaPtr, u16 TxIntrId)
-{
-	int Status;
 
-#ifdef XPAR_INTC_0_DEVICE_ID
+int InitIntrController(INTC * IntcInstancePtr){
+	int Status;
+	XScuGic_Config *IntcConfig;
+
+#ifdef XPAR_INTC_0_DEVICE_ID 
 
 	/* Initialize the interrupt controller and connect the ISRs */
 	Status = XIntc_Initialize(IntcInstancePtr, INTC_DEVICE_ID);
@@ -161,14 +161,30 @@ int SetupTxIntrSystem(INTC * IntcInstancePtr,
 		return XST_FAILURE;
 	}
 
-	Status = XIntc_Connect(IntcInstancePtr, TxIntrId,
-			       (XInterruptHandler) TxIntrHandler, AxiDmaPtr);
-	if (Status != XST_SUCCESS) {
-
-		xil_printf("Failed tx connect intc\r\n");
+#else
+	/*
+	 * Initialize the interrupt controller driver so that it is ready to
+	 * use.
+	 */
+	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
+	if (NULL == IntcConfig) {
 		return XST_FAILURE;
-	}	
+	}
 
+	Status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig,
+					IntcConfig->CpuBaseAddress);
+	if (Status != XST_SUCCESS) {
+		return XST_FAILURE;
+	}
+	
+#endif	
+	return XST_SUCCESS;
+}
+
+int StartXIntc(INTC * IntcInstancePtr) {
+
+#ifdef XPAR_INTC_0_DEVICE_ID 
+	int Status;
 	/* Start the interrupt controller */
 	Status = XIntc_Start(IntcInstancePtr, XIN_REAL_MODE);
 	if (Status != XST_SUCCESS) {
@@ -176,6 +192,25 @@ int SetupTxIntrSystem(INTC * IntcInstancePtr,
 		xil_printf("Failed to start intc\r\n");
 		return XST_FAILURE;
 	}
+#else
+	return XST_SUCCESS;
+#endif	
+}
+
+int SetupTxIntrSystem(INTC * IntcInstancePtr,
+			   XAxiDma * AxiDmaPtr, u16 TxIntrId)
+{
+	int Status;
+
+#ifdef XPAR_INTC_0_DEVICE_ID
+
+	Status = XIntc_Connect(IntcInstancePtr, TxIntrId,
+			       (XInterruptHandler) TxIntrHandler, AxiDmaPtr);
+	if (Status != XST_SUCCESS) {
+
+		xil_printf("Failed tx connect intc\r\n");
+		return XST_FAILURE;
+	}	
 
 	XIntc_Enable(IntcInstancePtr, TxIntrId);	
 
@@ -193,24 +228,6 @@ int SetupTxIntrSystem(INTC * IntcInstancePtr,
 
 	XScuGic_Enable(IntcInstancePtr, TxIntrId);
 #else
-
-	XScuGic_Config *IntcConfig;
-
-
-	/*
-	 * Initialize the interrupt controller driver so that it is ready to
-	 * use.
-	 */
-	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
-	if (NULL == IntcConfig) {
-		return XST_FAILURE;
-	}
-
-	Status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig,
-					IntcConfig->CpuBaseAddress);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
 
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
 	/*
@@ -236,7 +253,6 @@ int SetupTxIntrSystem(INTC * IntcInstancePtr,
 	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT, (Xil_ExceptionHandler)INTC_HANDLER, (void *)IntcInstancePtr );
 	Xil_ExceptionEnable();
 #endif
-
 	return XST_SUCCESS;
 }
 
@@ -246,15 +262,6 @@ int SetupRxIntrSystem(INTC * IntcInstancePtr,
 	int Status;
 
 #ifdef XPAR_INTC_0_DEVICE_ID
-
-	/* Initialize the interrupt controller and connect the ISRs */
-	Status = XIntc_Initialize(IntcInstancePtr, INTC_DEVICE_ID);
-	if (Status != XST_SUCCESS) {
-
-		xil_printf("Failed init intc\r\n");
-		return XST_FAILURE;
-	}
-
 	Status = XIntc_Connect(IntcInstancePtr, RxIntrId,
 			       (XInterruptHandler) RxIntrHandler, AxiDmaPtr);
 	if (Status != XST_SUCCESS) {
@@ -263,19 +270,10 @@ int SetupRxIntrSystem(INTC * IntcInstancePtr,
 		return XST_FAILURE;
 	}
 
-	/* Start the interrupt controller */
-	Status = XIntc_Start(IntcInstancePtr, XIN_REAL_MODE);
-	if (Status != XST_SUCCESS) {
-
-		xil_printf("Failed to start intc\r\n");
-		return XST_FAILURE;
-	}
-	XIntc_Enable(IntcInstancePtr, TxIntrId);	
-
+	XIntc_Enable(IntcInstancePtr, RxIntrId);	
 
 #elif defined(FREE_RTOS)
-
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA1, 0x3);
 	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
 				(Xil_InterruptHandler)RxIntrHandler,
 				AxiDmaPtr);
@@ -285,24 +283,6 @@ int SetupRxIntrSystem(INTC * IntcInstancePtr,
 
 	XScuGic_Enable(IntcInstancePtr, RxIntrId);
 #else
-
-	XScuGic_Config *IntcConfig;
-
-
-	/*
-	 * Initialize the interrupt controller driver so that it is ready to
-	 * use.
-	 */
-	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
-	if (NULL == IntcConfig) {
-		return XST_FAILURE;
-	}
-
-	Status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig,
-					IntcConfig->CpuBaseAddress);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
 
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
 	/*
@@ -431,14 +411,14 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	int max_intr_wait = 20;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-	u8 tdata[MAX_TRIGGER_LEN][27];
+	u8 tdata[MAX_GENERATBLE_TRIGGER_LEN][27];
 
 	/* Initialize flags before start transfer test  */
 	Error = 0;
 	TxDone = 0;
 
 	// prepare data to send
-	if (tdata_length < MAX_TRIGGER_LEN) {
+	if (tdata_length <= MAX_GENERATBLE_TRIGGER_LEN) {
 		for (size_t i=0; i<tdata_length; i++) {
 			
 			assign_trigger_config(&tdata[i][0], baseline, threshold);
@@ -459,7 +439,7 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	for (size_t i = 0; i < tdata_length; i++) {
 		for (size_t j = 0; j < 27 ; j++) {
 			if (j==0) {
-				xil_printf("Assign TxBufferPtr to %02x", tdata[i][26-j]);
+				xil_printf("Send: %02x", tdata[i][26-j]);
 			} else if (j==26) {
 				xil_printf("%02x\r\n", tdata[i][26-j]);
 			} else {
@@ -468,7 +448,7 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 			TxBufferPtr[i*27+j] = tdata[i][j];
 		}
 	}
-	Xil_DCacheFlushRange((UINTPTR)TxBufferPtr, MAX_PKT_LEN);
+	Xil_DCacheFlushRange((UINTPTR)TxBufferPtr, tdata_length*27);
 
 	Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) TxBufferPtr, tdata_length*27, XAXIDMA_DMA_TO_DEVICE);
 	if (Status != XST_SUCCESS) {

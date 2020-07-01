@@ -71,8 +71,9 @@
 /*
  * Buffer and Buffer Descriptor related constant definition
  */
-#define MAX_TRIGGER_LEN 256
-#define MAX_PKT_LEN	512*8
+#define MAX_GENERATBLE_TRIGGER_LEN 256
+#define MAX_TRIGGER_LEN 	16
+#define MAX_PKT_LEN			((MAX_TRIGGER_LEN*16+3*8)/16 + 1)*16  // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
 #define RX_BUFFER_SIZE 		(RX_BUFFER_HIGH - RX_BUFFER_BASE)
 
 /* The interrupt coalescing threshold and delay timer threshold
@@ -112,6 +113,8 @@ TaskHandle_t xDmaTask;
 int axidma_setup();
 int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length);
 int axidma_recv_buff();
+int InitIntrController(INTC * IntcInstancePtr);
+int StartXIntc(INTC * IntcInstancePtr);
 int SetupTxIntrSystem(INTC * IntcInstancePtr, XAxiDma * AxiDmaPtr, u16 TxIntrId);
 int SetupRxIntrSystem(INTC * IntcInstancePtr, XAxiDma * AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
