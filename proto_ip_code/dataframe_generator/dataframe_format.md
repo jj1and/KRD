@@ -35,4 +35,4 @@ and in little-endian (**32bit word unit**)
 b'\x1f\x00\x10\xaa\x45\x23\x01\x10'
 ```
     
-Last Update: 2020/06/09
+Last Update: 2020/07/01
