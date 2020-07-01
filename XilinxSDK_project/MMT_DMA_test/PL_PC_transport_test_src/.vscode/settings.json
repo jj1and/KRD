@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "xparameters.h": "c",
+        "time.h": "c",
+        "xil_sleeptimer.h": "c",
+        "xtime_l.h": "c",
+        "xrfdc.h": "c",
+        "queue.h": "c",
+        "platform_config.h": "c",
+        "xadapter.h": "c"
+    }
+}
