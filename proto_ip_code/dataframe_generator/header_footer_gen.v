@@ -58,7 +58,7 @@ module header_footer_gen # (
     wire [`FRAME_INFO_WIDTH-1:0] frame_info = {trigger_state, frame_continue, gain_type};
 
     reg [`OBJECT_ID_WIDTH-1:0] object_id;
-    wire [`FOOTER_OBJECT_ID_WIDTH_1-1:0] footer_object_id_1 = object_id[`OBJECT_ID_WIDTH-1 -:`FOOTER_OBJECT_ID_WIDTH_1];
+    // wire [`FOOTER_OBJECT_ID_WIDTH_1-1:0] footer_object_id_1 = object_id[`OBJECT_ID_WIDTH-1 -:`FOOTER_OBJECT_ID_WIDTH_1];
     wire [`FOOTER_OBJECT_ID_WIDTH_2-1:0] footer_object_id_2 = object_id[`FOOTER_OBJECT_ID_WIDTH_2-1 :0];
 
     reg [`CHARGE_SUM-2-1:0] partial_charge_sum[`SAMPLE_NUM_PER_CLK-1:0];
@@ -75,7 +75,8 @@ module header_footer_gen # (
 
 
     wire [`HEADER_LINE*`DATAFRAME_WIDTH-1:0] header = {HEADER_ID, CH_ID, dataframe_len, frame_info, trigger_type, header_timestamp, {`HEADER_ID_WIDTH{1'b0}}, charge_sum, trigger_config};
-    wire [`DATAFRAME_WIDTH-1:0] footer = {footer_timestamp, footer_object_id_1, footer_object_id_2, FOOTER_ID};
+    // wire [`DATAFRAME_WIDTH-1:0] footer = {footer_timestamp, footer_object_id_1, footer_object_id_2, FOOTER_ID};
+    wire [`DATAFRAME_WIDTH-1:0] footer = {{`HEADER_ID_WIDTH{1'b0}}, footer_timestamp, footer_object_id_2, FOOTER_ID};
     wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] header_footer = {header, footer};
     wire header_footer_valid =  |{trigger_halt, (trigger_run_state==2'b00)} ? 1'b0 :|{s_axis_tvalid_negedge, frame_len_reached_max, adc_fifo_gets_full};
     wire hf_fifo_gets_full = &{HF_FIFO_ALMOST_FULL==1'b1, header_footer_valid==1'b1, HF_FIFO_RD_EN==1'b0};
