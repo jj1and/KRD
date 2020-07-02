@@ -220,6 +220,7 @@ void prvDmaTask( void *pvParameters ) {
 	vApplicationDaemonRxTaskStartupHook();	
 	vApplicationDaemonTxTaskStartupHook();
 
+	xil_printf("sequential sending test\r\n");
 	while(TRUE) {
 		
 		s2mm_dma_state = axidma_recv_buff();
@@ -270,10 +271,12 @@ void prvDmaTask( void *pvParameters ) {
 			
 		}
 		if (data_length>test_max_trigger_len && read_frame_size==send_frame_size) {
-			xil_printf("all test frame sent&read!\r\n");
+			xil_printf("sequential sending test passed!\r\n");
 			break;
 		}
 	}
+
+
 	xil_printf("Test exit!\r\n");
 	shutdown_dma();
 	vTaskDelete(NULL);
