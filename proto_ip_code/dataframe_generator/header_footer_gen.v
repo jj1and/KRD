@@ -56,7 +56,7 @@ module header_footer_gen # (
 
     reg [1:0] trigger_run_state;
     wire [1:0] trigger_state = (adc_fifo_gets_full|hf_fifo_gets_full) ? 2'b10 : trigger_run_state;
-    wire frame_continue = &{split_frame, S_AXIS_TVALID, !adc_fifo_gets_full, !hf_fifo_gets_full};
+    wire frame_continue = &{split_frame, S_AXIS_TVALID};
     wire [`FRAME_INFO_WIDTH-1:0] frame_info = {trigger_state, frame_continue, gain_type_reg};
 
     reg [`OBJECT_ID_WIDTH-1:0] object_id;
@@ -146,9 +146,9 @@ module header_footer_gen # (
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            object_id <= #100 0;
+            object_id <= #100 {`OBJECT_ID_WIDTH{1'b1}};
         end else begin
-            if (s_axis_tvalid_negedge) begin
+            if (s_axis_tvalid_posedge) begin
                 object_id <= #100 object_id + 1;
             end else begin
                 object_id <= #100 object_id;
