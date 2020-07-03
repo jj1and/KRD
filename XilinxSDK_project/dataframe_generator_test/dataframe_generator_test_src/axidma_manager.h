@@ -111,7 +111,7 @@ volatile int Error;
 TaskHandle_t xDmaTask;
 
 int axidma_setup();
-int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length);
+int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length, int gain_change);
 int axidma_recv_buff();
 int InitIntrController(INTC * IntcInstancePtr);
 int StartXIntc(INTC * IntcInstancePtr);

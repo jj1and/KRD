@@ -406,11 +406,13 @@ static void assign_trigger_config(u8 *u8_trigger_config, u16 baseline, u16 thres
 	}
 }
 
-int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length){
+int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, u16 threshold, int tdata_length, int gain_change){
 	int Status;
 	int max_intr_wait = 20;
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+	u8 gain_inverted_trigger_info;
+	gain_inverted_trigger_info = ~((trigger_info >> 4) << 4) | (trigger_info &0x0F );
 
 	/* Initialize flags before start transfer test  */
 	Error = 0;
@@ -421,7 +423,11 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 		for (u64 i = 0; i < tdata_length; i++) {
 			assign_trigger_config(&TxBufferPtr[i*27+0], baseline, threshold);
 			assign_timestamp(&TxBufferPtr[i*27+4], timestamp_at_beginning+i);
-			TxBufferPtr[i*27+10] = trigger_info;
+			if (gain_change==1 && i>tdata_length/2) {
+				TxBufferPtr[i*27+10] = gain_inverted_trigger_info;
+			} else {
+				TxBufferPtr[i*27+10] = trigger_info;
+			}
 			assign_adc_tdata(&TxBufferPtr[i*27+11], adc_sample_ary);
 			for (size_t j = 0; j < 8; j++) {
 				adc_sample_ary[j]++;
