@@ -432,15 +432,15 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 			for (size_t j = 0; j < 8; j++) {
 				adc_sample_ary[j]++;
 			}	
-			// for (size_t j = 0; j < 27 ; j++) {
-			// 	if (j==0) {
-			// 		xil_printf("Send: %02x", TxBufferPtr[i*27+26-j]);
-			// 	} else if (j==26) {
-			// 		xil_printf("%02x\r\n", TxBufferPtr[i*27+26-j]);
-			// 	} else {
-			// 		xil_printf("%02x", TxBufferPtr[i*27+26-j]);
-			// 	}
-			// }
+			for (size_t j = 0; j < 27 ; j++) {
+				if (j==0) {
+					xil_printf("Send: %02x", TxBufferPtr[i*27+26-j]);
+				} else if (j==26) {
+					xil_printf("%02x\r\n", TxBufferPtr[i*27+26-j]);
+				} else {
+					xil_printf("%02x", TxBufferPtr[i*27+26-j]);
+				}
+			}
 		}
 	} else {
 		xil_printf("Data length is larger than MAX_TRIGGER_LEN\r\n");

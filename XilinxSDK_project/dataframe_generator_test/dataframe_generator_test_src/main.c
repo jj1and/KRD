@@ -97,7 +97,6 @@ void printData(u64 *dataptr, int frame_size){
 		}
 	}
 	xil_printf("\r\n");
-	incr_rdptr_after_read();
 }
 
 int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id){
@@ -149,7 +148,7 @@ int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 time
 	read_footer_timestamp = (dataptr[read_frame_length+3-1] >> 8) & 0x00000FFFFFF000000;
 
 	xil_printf("Rcvd frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", read_frame_length/2, read_footer_timestamp+read_header_timestamp, read_trigger_info, read_baseline, read_threthold, read_object_id);
-//	printData(dataptr, (read_frame_length+3)*sizeof(u64));
+	printData(dataptr, (read_frame_length+3)*sizeof(u64));
 	incr_rdptr_after_read();
 
 	if (read_header_id!=0xAA) {
