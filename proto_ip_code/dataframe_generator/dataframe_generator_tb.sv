@@ -177,7 +177,7 @@ module dataframe_generator_tb;
                 $finish;
             end
 
-            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge|s_axis_gain_type_change) begin
+            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge|(s_axis_gain_type_change&S_AXIS_TVALID)) begin
                 current_input_frame_status.frame = dframe[dframe_index];
                 current_input_frame_status.divide_frame_len.delete();
                 current_input_frame_status.divide_frame_timestamp.delete();
@@ -452,7 +452,8 @@ module dataframe_generator_tb;
                         S_AXIS_TVALID <= #100 1'b1; 
                     end else begin
                         @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0; 
+                        S_AXIS_TVALID <= #100 1'b0;
+                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1]; 
                     end                   
                 end                
             end
@@ -545,7 +546,8 @@ module dataframe_generator_tb;
                         S_AXIS_TVALID <= #100 1'b1; 
                     end else begin
                          @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0; 
+                        S_AXIS_TVALID <= #100 1'b0;
+                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];  
                     end                
                 end                
             end
@@ -638,7 +640,8 @@ module dataframe_generator_tb;
                         S_AXIS_TVALID <= #100 1'b1; 
                     end else begin
                          @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0; 
+                        S_AXIS_TVALID <= #100 1'b0;
+                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];  
                     end                      
                 end                
             end
@@ -729,7 +732,8 @@ module dataframe_generator_tb;
                         S_AXIS_TVALID <= #100 1'b1; 
                     end else begin
                          @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0; 
+                        S_AXIS_TVALID <= #100 1'b0;
+                        S_AXIS_TDATA <= #100 $urandom;  
                     end                     
                 end                
             end
