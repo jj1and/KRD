@@ -199,7 +199,7 @@ void prvDmaTask( void *pvParameters ) {
 	int mm2s_dma_state = XST_SUCCESS;
 	int s2mm_dma_state = XST_SUCCESS;
 	int test_result;
-	int test_max_trigger_len = 9;
+	int test_max_trigger_len = 16;
 	int data_length = 8;
 
 	int send_frame_size = 0;
