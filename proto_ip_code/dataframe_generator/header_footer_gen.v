@@ -44,7 +44,7 @@ module header_footer_gen # (
 
     reg gain_type_reg;
     wire gain_type_wire = S_AXIS_TDATA[`TRIGGER_TYPE_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH];
-    wire gain_change = (gain_type_reg!=gain_type_wire)&(!s_axis_tvalid_posedge);
+    wire gain_change = &{gain_type_reg!=gain_type_wire, !s_axis_tvalid_posedge, S_AXIS_TVALID};
     reg [`TRIGGER_TYPE_WIDTH-1:0] trigger_type;
     reg [`FOOTER_TIMESTAMP_WIDTH-1:0] footer_timestamp;
     reg [`HEADER_TIMESTAMP_WIDTH-1:0] header_timestamp;
