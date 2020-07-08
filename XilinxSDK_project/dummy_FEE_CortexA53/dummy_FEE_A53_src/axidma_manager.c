@@ -484,51 +484,55 @@ int axidma_recv_buff(){
 }
 
 int incr_wrptr_after_write(u64 size) {
-	if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - size) {
-		if ((RxBufferWrPtr+size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
+	u64 word_size = size/sizeof(u64);
+	if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - word_size) {
+		if ((RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
 			xil_printf("Buffer is full\r\n");
 			return -1;
 		} else {
-			RxBufferWrPtr = RxBufferWrPtr+size-(u64 *)RX_BUFFER_BASE;
+			RxBufferWrPtr = RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE;
 			RxBufferWrPtrLoop = ~RxBufferWrPtrLoop;
 		}
 	} else {
-		if ((RxBufferWrPtr+size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
+		if ((RxBufferWrPtr+word_size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
 			xil_printf("Buffer is full\r\n");
 			return -1;
 		} else {
-			RxBufferWrPtr = RxBufferWrPtr + size;
+			RxBufferWrPtr = RxBufferWrPtr + word_size;
 		}
 	}
 	return 0;
 }
 
 int incr_rdptr_after_read(u64 size){
-	if (RxBufferRdPtr >= (u64 *)RX_BUFFER_HIGH - size) {
-		if ((RxBufferRdPtr+size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
+	u64 word_size = size/sizeof(u64);
+	if (RxBufferRdPtr >= (u64 *)RX_BUFFER_HIGH - word_size) {
+		if ((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
 			xil_printf("Buffer is empty\r\n");
 			return -1;
 		} else {
-			RxBufferRdPtr = RxBufferRdPtr+size-(u64 *)RX_BUFFER_BASE;
+			RxBufferRdPtr = RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE;
 			RxBufferRdPtrLoop = ~RxBufferRdPtrLoop;
 		}
 	} else {
-		if ((RxBufferRdPtr+size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
+		if ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
 			xil_printf("Buffer is empty\r\n");
 			return -1;
 		} else {
-			RxBufferRdPtr = RxBufferRdPtr + size;
+			RxBufferRdPtr = RxBufferRdPtr + word_size;
 		}
 	}
 	return 0; 
 }
 
 int buff_will_be_full(u64 size) {
-	return ((RxBufferWrPtr+size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop))||((RxBufferWrPtr+size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop));
+	u64 word_size = size/sizeof(u64);
+	return ((RxBufferWrPtr+word_size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop))||((RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop));
 }
 
 int buff_will_be_empty(u64 size) {
-	return ((RxBufferRdPtr+size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop))||((RxBufferRdPtr+size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop));
+	u64 word_size = size/sizeof(u64);
+	return ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop))||((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop));
 }
 
 u64* get_wrptr(){
