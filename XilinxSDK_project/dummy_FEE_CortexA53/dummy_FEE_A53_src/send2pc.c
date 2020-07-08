@@ -1,7 +1,6 @@
 #include "send2pc.h"
 #include "sleep.h"
 #include "xil_printf.h"
-#include "axidma_manager.h"
 
 int socket_close_flag;
 int dma_task_end_flag;
@@ -56,7 +55,7 @@ void send2pc_application_thread(void *arg) {
 	while (1) {
         if (!buff_will_be_empty(SEND_BUF_SIZE)) {
 			/* handle request */
-			dma_buff_ptr = get_rdptr();
+			dma_buff_ptr = get_wrptr();
 			send_size = 0;
 			header_ptr = 0;
 
@@ -68,7 +67,7 @@ void send2pc_application_thread(void *arg) {
 					actual_frame_size = (((dma_buff_ptr[header_ptr] >> (24+8))&0x00000FFF)+3)*sizeof(u64);
 					send_size += actual_frame_size;
 					header_ptr += actual_frame_size/sizeof(u64);
-				} while (send_size+actual_frame_size<=SEND_BUF_SIZE);				
+				} while (send_size<=SEND_BUF_SIZE);				
 			}
 			
 			if ((send_wrote = lwip_send(sock, dma_buff_ptr, send_size, 0)) < 0) {
@@ -77,15 +76,16 @@ void send2pc_application_thread(void *arg) {
 				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
 				vTaskPrioritySet(NULL, uxDmaPriority+1);
 				break;
-			} else if(total_send_size > SEND_BUF_SIZE*10) {
-				xil_printf("Send %d MBytes to server\r\n", total_send_size*1E-6);
+			} else if(total_send_size+send_size > TOTAL_SEND_SIZE) {
+				total_send_size += send_size;
+				xil_printf("Send %d Bytes to server\r\n", total_send_size);
 				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
 				vTaskPrioritySet(NULL, uxDmaPriority+1);
 				vTaskResume(xDmaTask);
 				break;
 			}
 			total_send_size += send_size;
-			incr_rdptr_after_read(send_size);
+			decr_wrptr_after_read(send_size);
 			vTaskResume(xDmaTask);	
 		} else {
 			if(dma_task_end_flag == DMA_TASK_END){

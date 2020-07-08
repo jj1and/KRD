@@ -3,9 +3,9 @@
 #include "xdebug.h"
 
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
-static u8 RxBufferWrPtrLoop = 1;
-static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
-static u8 RxBufferRdPtrLoop = 1;
+// static u8 RxBufferWrPtrLoop = 1;
+// static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+// static u8 RxBufferRdPtrLoop = 1;
 static u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
 static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
 
@@ -432,15 +432,15 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 			for (size_t j = 0; j < 8; j++) {
 				adc_sample_ary[j]++;
 			}	
-			for (size_t j = 0; j < 27 ; j++) {
-				if (j==0) {
-					xil_printf("Send: %02x", TxBufferPtr[i*27+26-j]);
-				} else if (j==26) {
-					xil_printf("%02x\r\n", TxBufferPtr[i*27+26-j]);
-				} else {
-					xil_printf("%02x", TxBufferPtr[i*27+26-j]);
-				}
-			}
+			// for (size_t j = 0; j < 27 ; j++) {
+			// 	if (j==0) {
+			// 		xil_printf("Send: %02x", TxBufferPtr[i*27+26-j]);
+			// 	} else if (j==26) {
+			// 		xil_printf("%02x\r\n", TxBufferPtr[i*27+26-j]);
+			// 	} else {
+			// 		xil_printf("%02x", TxBufferPtr[i*27+26-j]);
+			// 	}
+			// }
 		}
 	} else {
 		xil_printf("Data length is larger than MAX_TRIGGER_LEN\r\n");
@@ -485,63 +485,66 @@ int axidma_recv_buff(){
 
 int incr_wrptr_after_write(u64 size) {
 	u64 word_size = size/sizeof(u64);
-	if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - word_size) {
-		if ((RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
+	u64 margin_word_size = MAX_PKT_LEN/sizeof(u64);
+	if (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-margin_word_size-word_size) {
 			xil_printf("Buffer is full\r\n");
 			return -1;
-		} else {
-			RxBufferWrPtr = RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE;
-			RxBufferWrPtrLoop = ~RxBufferWrPtrLoop;
-		}
 	} else {
-		if ((RxBufferWrPtr+word_size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
-			xil_printf("Buffer is full\r\n");
-			return -1;
-		} else {
-			RxBufferWrPtr = RxBufferWrPtr + word_size;
-		}
+		RxBufferWrPtr = RxBufferWrPtr + word_size;
 	}
 	return 0;
 }
 
-int incr_rdptr_after_read(u64 size){
+int decr_wrptr_after_read(u64 size) {
 	u64 word_size = size/sizeof(u64);
-	if (RxBufferRdPtr >= (u64 *)RX_BUFFER_HIGH - word_size) {
-		if ((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
+	u64 margin_word_size = MAX_PKT_LEN/sizeof(u64);
+	if (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + word_size) {
 			xil_printf("Buffer is empty\r\n");
 			return -1;
-		} else {
-			RxBufferRdPtr = RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE;
-			RxBufferRdPtrLoop = ~RxBufferRdPtrLoop;
-		}
 	} else {
-		if ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
-			xil_printf("Buffer is empty\r\n");
-			return -1;
-		} else {
-			RxBufferRdPtr = RxBufferRdPtr + word_size;
-		}
+		RxBufferWrPtr = RxBufferWrPtr - word_size;
 	}
-	return 0; 
+	return 0;
 }
+
+// int incr_rdptr_after_read(u64 size){
+// 	u64 word_size = size/sizeof(u64);
+// 	if (RxBufferRdPtr > (u64 *)RX_BUFFER_HIGH - word_size) {
+// 		if ((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_HIGH+(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
+// 			xil_printf("Buffer is empty\r\n");
+// 			return -1;
+// 		} else {
+// 			RxBufferRdPtr = RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_HIGH+(u64 *)RX_BUFFER_BASE;
+// 			RxBufferRdPtrLoop = ~RxBufferRdPtrLoop;
+// 		}
+// 	} else {
+// 		if ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
+// 			xil_printf("Buffer is empty\r\n");
+// 			return -1;
+// 		} else {
+// 			RxBufferRdPtr = RxBufferRdPtr + word_size;
+// 		}
+// 	}
+// 	return 0; 
+// }
 
 int buff_will_be_full(u64 size) {
 	u64 word_size = size/sizeof(u64);
-	return ((RxBufferWrPtr+word_size>RxBufferRdPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop))||((RxBufferWrPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferRdPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop));
+	return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-word_size);
 }
 
 int buff_will_be_empty(u64 size) {
 	u64 word_size = size/sizeof(u64);
-	return ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop))||((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop));
+	return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + word_size);
 }
 
 u64* get_wrptr(){
 	return RxBufferWrPtr;
 }
 
-u64* get_rdptr(){
-	return RxBufferRdPtr;
-}
+// u64* get_rdptr(){
+// 	return RxBufferRdPtr;
+// }
 
 void shutdown_dma(){
 	xil_printf("End dma task...\r\n");

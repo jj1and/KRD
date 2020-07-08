@@ -207,7 +207,9 @@ void prvDmaTask( void *pvParameters ) {
 					send_frame_size = data_length*16;
 					read_frame_size = 0;
 					object_id++;
-					xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);		
+//					if (object_id%1000==0) {
+//						xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
+//					}
 				} else {
 					xil_printf("Error interrupt asserted.\r\n");
 					break;					
@@ -236,7 +238,7 @@ void prvDmaTask( void *pvParameters ) {
 		}
 
 		if (total_recv_size>SEND_BUF_SIZE) {
-			printData(get_rdptr(), total_recv_size);			
+//			printData(get_rdptr(), total_recv_size);
 			total_recv_size = 0;
 			xTaskNotifyGive(app_thread);
 			vTaskSuspend(NULL);
