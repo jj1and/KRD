@@ -219,10 +219,10 @@ void prvDmaTask( void *pvParameters ) {
 			}	
 			if (!Error) {			
 				dataptr = get_wrptr();
+				Xil_DCacheFlushRange((UINTPTR)dataptr, frame_size+3*8);	
 				frame_size = ((dataptr[0] >> (24+8))&0x00000FFF)*sizeof(u64);
 				read_frame_size += frame_size;
-				total_recv_size += frame_size+3*8;
-				printData(dataptr, frame_size+3*8);
+				total_recv_size += frame_size+3*8;			
 				incr_wrptr_after_write(frame_size+3*8);	
 			} else {
 				xil_printf("Error interrupt asserted.\r\n");
@@ -236,8 +236,10 @@ void prvDmaTask( void *pvParameters ) {
 		}
 
 		if (total_recv_size>SEND_BUF_SIZE) {
+			printData(get_rdptr(), total_recv_size);			
 			total_recv_size = 0;
 			xTaskNotifyGive(app_thread);
+			vTaskSuspend(NULL);
 		}
 		
 		if (socket_close_flag==SOCKET_CLOSE) {
