@@ -6,6 +6,8 @@
 int socket_close_flag;
 int dma_task_end_flag;
 
+static int total_send_size = 0;
+
 TaskHandle_t app_thread;
 
 void print_send2pc_app_header(char server_address[], int port) {
@@ -14,7 +16,7 @@ void print_send2pc_app_header(char server_address[], int port) {
 }
 
 void send2pc_application_thread(void *arg) {
-
+	total_send_size = 0;
 	app_arg *argptr = (app_arg *)arg;
 	struct sockaddr_in server_address;
 	int connection_status = -1;
@@ -46,10 +48,10 @@ void send2pc_application_thread(void *arg) {
 	}
 
 	u64* dma_buff_ptr;
-	int send_wrote; 
-	u64 send_size;
-	u64 actual_frame_size;
-	int header_ptr;
+	int send_wrote = 0; 
+	u64 send_size = 0;
+	u64 actual_frame_size = 0;
+	int header_ptr = 0;
 
 	while (1) {
         if (!buff_will_be_empty(SEND_BUF_SIZE)) {
@@ -62,11 +64,11 @@ void send2pc_application_thread(void *arg) {
 				xil_printf("Waiting DmaTask is Timeout\r\n");
 				break;
 			} else {
-				while (send_size+actual_frame_size<=SEND_BUF_SIZE) {
+				do {
 					actual_frame_size = (((dma_buff_ptr[header_ptr] >> (24+8))&0x00000FFF)+3)*sizeof(u64);
 					send_size += actual_frame_size;
 					header_ptr += actual_frame_size/sizeof(u64);
-				}				
+				} while (send_size+actual_frame_size<=SEND_BUF_SIZE);				
 			}
 			
 			if ((send_wrote = lwip_send(sock, dma_buff_ptr, send_size, 0)) < 0) {
@@ -75,8 +77,16 @@ void send2pc_application_thread(void *arg) {
 				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
 				vTaskPrioritySet(NULL, uxDmaPriority+1);
 				break;
+			} else if(total_send_size > SEND_BUF_SIZE*10) {
+				xil_printf("Send %d MBytes to server\r\n", total_send_size*1E-6);
+				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
+				vTaskPrioritySet(NULL, uxDmaPriority+1);
+				vTaskResume(xDmaTask);
+				break;
 			}
-			incr_rdptr_after_read(send_size);	
+			total_send_size += send_size;
+			incr_rdptr_after_read(send_size);
+			vTaskResume(xDmaTask);	
 		} else {
 			if(dma_task_end_flag == DMA_TASK_END){
 					xil_printf("dma is end\r\n");
