@@ -8,12 +8,14 @@
 #include "task.h"
 #include "timers.h"
 
-#include <stdio.h>
-#include "xparameters.h"
-#include "xgpio.h"
+#include "netif/xadapter.h"
 #include "platform_config.h"
+#include "xparameters.h"
 #include "xil_printf.h"
+#include "xgpio.h"
+
 #include "axidma_manager.h"
+#include "send2pc.h"
 
 #define TIMER_ID	1
 #define DELAY_10_SECONDS	10000UL
@@ -27,23 +29,42 @@
 #define SET_CONFIG_BITWIDTH 1
 #define MAX_TRIGGER_LENGTH_BITWIDTH 12
 
-TickType_t x10seconds = pdMS_TO_TICKS( DELAY_10_SECONDS );
-TimerHandle_t xTimer = NULL;
+static struct netif myself_netif;
+
+const TickType_t x10seconds = pdMS_TO_TICKS( DELAY_10_SECONDS );
 XGpio GpioConfig;
+
+app_arg send2pc_setting = {
+	5001,
+	"192.168.1.2",
+	x10seconds
+};
 
 int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId);
 void SetConfig(u8 set_config);
 void SetMaxTriggerLength(u16 max_trigger_length);
+
+void network_thread(void *arg);
 void prvDmaTask( void *pvParameters );
 int vApplicationDaemonTxTaskStartupHook();
 int vApplicationDaemonRxTaskStartupHook();
 void vTimerCallback( TimerHandle_t pxTimer );
 
+void print_ip(char *msg, ip_addr_t *ip) {
+	xil_printf(msg);
+	xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip),	ip4_addr3(ip), ip4_addr4(ip));
+}
+
+void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw) {
+	print_ip("Board IP: ", ip);
+	print_ip("Netmask : ", mask);
+	print_ip("Gateway : ", gw);
+}
+
 int main(){
 	int Status;
 	xil_printf("dataframe_generator test\r\n");
 	
-	XTime_StartTimer();
 	Status = axidma_setup();
 	if (Status != XST_SUCCESS)
 		xil_printf("Failed to Setup AXI-DMA\r\n");
@@ -57,14 +78,56 @@ int main(){
 	SetMaxTriggerLength(MAX_TRIGGER_LEN);
 	SetConfig(0);
 
-	xTaskCreate( prvDmaTask, ( const char *) "AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, &xDmaTask );
+	xTaskCreate( prvDmaTask, ( const char *) "AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO+1, &xDmaTask );
+	sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 	vTaskStartScheduler();
 	while(1);
 	// never reached
 	return 0;
 }
 
-int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId){
+
+void network_thread(void *arg) {
+
+	lwip_init();
+
+    struct netif *netif;
+    /* the mac address of the board. this should be unique per board */
+    unsigned char mac_ethernet_address[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
+
+    ip_addr_t ipaddr, netmask, gw;
+    netif = &myself_netif;
+
+    xil_printf("\r\n\r\n");
+    xil_printf("-----Dummy FEE client ------\r\n");
+
+
+    /* initliaze IP addresses to be used */
+    IP4_ADDR(&ipaddr,  192, 168, 1, 7);
+    IP4_ADDR(&netmask, 255, 255, 255,  0);
+    IP4_ADDR(&gw,      192, 168, 1, 1);
+
+    /* print out IP settings of the board */
+    print_ip_settings(&ipaddr, &netmask, &gw);
+
+    /* Add network interface to the netif_list, and set it as default */
+    if (!xemac_add(netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR)) {
+		xil_printf("Error adding N/W interface\r\n");
+		return;
+	}
+
+    netif_set_default(netif);
+    /* specify that the network if is up */
+    netif_set_up(netif);
+
+    /* start packet receive thread - required for lwIP operation */
+    sys_thread_new("xemacif_input_thread", (void(*)(void*))xemacif_input_thread, netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+	app_thread = sys_thread_new("send2pcd", send2pc_application_thread, arg, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);			
+	vTaskDelete(NULL);
+}
+
+
+int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId) {
 	int Status;
 	Status = XGpio_Initialize(GpioInstPtr, DeviceId);
 	if (Status != XST_SUCCESS) {
@@ -87,8 +150,7 @@ void SetMaxTriggerLength(u16 max_trigger_length){
 	xil_printf("Set Max Trigger Length: %d\r\n", max_trigger_length);
 }
 
-void printData(u64 *dataptr, int frame_size){
-	Xil_DCacheFlushRange((UINTPTR)dataptr, frame_size);
+static void printData(u64 *dataptr, u32 frame_size) {
 	for(int i=0; i<frame_size/8; i++) {
 		if ((i+1)%2 == 0){
 			xil_printf("%016llx\n", dataptr[i]);
@@ -99,132 +161,42 @@ void printData(u64 *dataptr, int frame_size){
 	xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id){
-	u8 read_header_id;
-	u64 read_header_timestamp;
-	u8 read_trigger_info;
-	u16 read_frame_length;
-	u16 read_baseline;
-	u16 read_threthold;	
-	u64 read_footer_timestamp;
-	u32 read_object_id;
-	u8 read_footer_id;
-	int frame_size;
-
-	u64 expected_header_timestamp;
-	u8 expected_trigger_info;
-	u64 expected_footer_timestamp;
-	u32 expected_object_id = object_id;
-
-	Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*16));
-	read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
-	read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
-	read_frame_length = (dataptr[0] >> (24+8)) & 0x00000FFF;
-	read_header_id = (dataptr[0] >> (24+8+12+12)) & 0x000000FF;
-	read_threthold = (dataptr[1] & 0x0000FFFF);
-	read_baseline = (dataptr[1] >> 16) & 0x0000FFFF;
-
-	if (*send_frame_size<=(MAX_TRIGGER_LEN*16)) {
-		frame_size = *send_frame_size;
-		expected_header_timestamp = (timestamp_at_beginning & 0x00000000000FFFFFF);
-		expected_footer_timestamp = (timestamp_at_beginning & 0x00000FFFFFF000000);
-		expected_trigger_info = 0x00 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
-	} else {
-		if ((*send_frame_size-*read_frame_size)>(MAX_TRIGGER_LEN*16)){
-			frame_size = (MAX_TRIGGER_LEN*16);
-			expected_header_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000000000FFFFFF;
-			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x20 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame						
-		} else {
-			frame_size = (*send_frame_size-*read_frame_size);
-			expected_header_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000000000FFFFFF;
-			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x00 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame				
-		}
-	}
-	*read_frame_size = *read_frame_size+read_frame_length*sizeof(u64);
-	read_footer_id = (dataptr[read_frame_length+3-1] & 0x000000FF);
-	read_object_id = (dataptr[read_frame_length+3-1] >> 8) & 0x00FFFFFF;
-	read_footer_timestamp = (dataptr[read_frame_length+3-1] >> 8) & 0x00000FFFFFF000000;
-
-	xil_printf("Rcvd frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", read_frame_length/2, read_footer_timestamp+read_header_timestamp, read_trigger_info, read_baseline, read_threthold, read_object_id);
-	printData(dataptr, (read_frame_length+3)*sizeof(u64));
-	incr_rdptr_after_read();
-
-	if (read_header_id!=0xAA) {
-		xil_printf("HEADER_ID missmatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
-		return XST_FAILURE;
-	} else if (read_threthold!=threthold) {
-		xil_printf("threshold missmatch Data: %d Expected: %d\r\n", read_threthold, threthold);
-		return XST_FAILURE;
-	} else if (read_baseline!=baseline) {
-		xil_printf("baseline missmatch Data: %d Expected: %d\r\n", read_baseline, baseline);
-		return XST_FAILURE;
-	}
-
-	if (read_footer_id!=0x55) {
-		xil_printf("FOOTER_ID missmatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
-		return XST_FAILURE;
-	} else if (read_frame_length*sizeof(u64)!=frame_size) {
-		// xil_printf("frame_size missmatch Data: %d Expected: %d\r\n", read_frame_length*sizeof(u64), frame_size);
-		// return XST_FAILURE;		
-	} else if (read_header_timestamp!=expected_header_timestamp) {
-		xil_printf("header_timestamp missmatch Data: %d Expected: %d\r\n", read_header_timestamp, expected_header_timestamp);
-		return XST_FAILURE;
-	} else if (read_object_id!=expected_object_id) {
-		xil_printf("object_id missmatch Data: %d Expected: %d\r\n", read_object_id, expected_object_id);
-		return XST_FAILURE;
-	} else if (read_footer_timestamp!=expected_footer_timestamp) {
-		xil_printf("footer_timestamp missmatch Data: %d Expected: %d\r\n", read_footer_timestamp, expected_footer_timestamp);
-		return XST_FAILURE;
-	}
-
-	// if (object_id==0) {
-	// 	expected_trigger_info = (expected_trigger_info | 0x40);
-	// 	if (read_trigger_info!=expected_trigger_info) {
-	// 		xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
-	// 		return XST_FAILURE;
-	// 	}
-	// } else {
-	// 	if ((read_trigger_info & 0x3F)!=expected_trigger_info) {
-	// 		xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x3F), expected_trigger_info);
-	// 		return XST_FAILURE;
-	// 	}
-	// }
-
-	return XST_SUCCESS;
-}
-
 void prvDmaTask( void *pvParameters ) {
 	int mm2s_dma_state = XST_SUCCESS;
 	int s2mm_dma_state = XST_SUCCESS;
-	int test_result;
-	int test_max_trigger_len = 16;
 	int data_length = 8;
+	dma_task_end_flag = DMA_TASK_READY;
 
 	int send_frame_size = 0;
 	int read_frame_size = 0;
+	u32 frame_size;
+
 	u64 timestamp_at_beginning = 255;
 	u8 trigger_info = 16;
 	u16 baseline = 0;
 	u16 threthold = 15;
-	int object_id = -1;	
+	u32 object_id = -1;
+
+	u64 total_recv_size = 0;
 
 	u64 *dataptr;
-	if (InitIntrController(&xInterruptController)!=XST_SUCCESS){
+	if (InitIntrController(&xInterruptController)!=XST_SUCCESS) {
 		xil_printf("Failed to setup interrupt controller.\r\n");
 	}
 	
 	vApplicationDaemonRxTaskStartupHook();	
 	vApplicationDaemonTxTaskStartupHook();
 
-	xil_printf("sequential sending test\r\n");
+	xil_printf("Dmatask start up done\r\n");
+	xil_printf("Waiting Send2PC task start\r\n");
+	vTaskSuspend(NULL);
+
 	while(TRUE) {
-		
+		dma_task_end_flag = DMA_TASK_RUN;
 		s2mm_dma_state = axidma_recv_buff();
 		if (s2mm_dma_state == XST_SUCCESS) {
-			if (read_frame_size==send_frame_size) {
-				mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length, 1);
+			if (read_frame_size == send_frame_size) {
+				mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length, 0);
 				if (mm2s_dma_state != XST_SUCCESS) {
 					xil_printf("MM2S Dma failed. \r\n");
 					break;
@@ -236,8 +208,7 @@ void prvDmaTask( void *pvParameters ) {
 					send_frame_size = data_length*16;
 					read_frame_size = 0;
 					object_id++;
-					xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
-					data_length++;		
+					xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);		
 				} else {
 					xil_printf("Error interrupt asserted.\r\n");
 					break;					
@@ -247,36 +218,37 @@ void prvDmaTask( void *pvParameters ) {
 			while (!RxDone && !Error) {
 				/* code */
 			}	
-			if (!Error) {
-				incr_wrptr_after_write();
+			if (!Error) {			
+				dataptr = get_wrptr();
+				frame_size = ((dataptr[0] >> (24+8))&0x00000FFF)*sizeof(u64);
+				read_frame_size += frame_size;
+				total_recv_size += frame_size+3*8;
+				printData(dataptr, frame_size+3*8);
+				incr_wrptr_after_write(frame_size+3*8);	
 			} else {
 				xil_printf("Error interrupt asserted.\r\n");
 				break;					
 			}
-		} else if (buff_is_full()) {
+		} else if (buff_will_be_full(MAX_PKT_LEN)) {
 			xil_printf("S2MM Dma buffer is full. \r\n");
 		} else {
 			xil_printf("S2MM Dma failed beacuse of internal error. \r\n");
 			break;
 		}
 
-		if ((s2mm_dma_state==XST_SUCCESS)||buff_is_full()) {
-			dataptr = get_rdptr();	
-			test_result = checkData(dataptr, &send_frame_size, &read_frame_size, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
-			if (test_result!=XST_SUCCESS) {
-				break;
-			}
-			
+		if (total_recv_size>SEND_BUF_SIZE) {
+			total_recv_size = 0;
+			xTaskNotifyGive(app_thread);
 		}
-		if (data_length>test_max_trigger_len && read_frame_size==send_frame_size) {
-			xil_printf("sequential sending test passed!\r\n");
+		
+		if (socket_close_flag==SOCKET_CLOSE) {
 			break;
 		}
 	}
 
-
-	xil_printf("Test exit!\r\n");
 	shutdown_dma();
+	xil_printf("Dmatask end\r\n");
+	dma_task_end_flag = DMA_TASK_END;
 	vTaskDelete(NULL);
 }
 

@@ -23,4 +23,36 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/axidma_manager.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/axidma_manager.c</locationURI>
+		</link>
+		<link>
+			<name>src/axidma_manager.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/axidma_manager.h</locationURI>
+		</link>
+		<link>
+			<name>src/main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/main.c</locationURI>
+		</link>
+		<link>
+			<name>src/platform_config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/platform_config.h</locationURI>
+		</link>
+		<link>
+			<name>src/send2pc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/send2pc.c</locationURI>
+		</link>
+		<link>
+			<name>src/send2pc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/dummy_FEE_R5_src/send2pc.h</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -119,10 +119,10 @@ int SetupTxIntrSystem(INTC * IntcInstancePtr, XAxiDma * AxiDmaPtr, u16 TxIntrId)
 int SetupRxIntrSystem(INTC * IntcInstancePtr, XAxiDma * AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
 
-void incr_wrptr_after_write();
-void incr_rdptr_after_read();
-int buff_is_empty();
-int buff_is_full();
+int incr_wrptr_after_write(u64 size);
+int incr_rdptr_after_read(u64 size);
+int buff_will_be_empty(u64 size);
+int buff_will_be_full(u64 size);
 u64* get_wrptr();
 u64* get_rdptr();
 
