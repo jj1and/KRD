@@ -4,6 +4,10 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#include "lwipopts.h"
+#include "lwip/sockets.h"
+#include "netif/xadapter.h"
+
 #define THREAD_STACKSIZE 1024
 #define RECV_BUF_SIZE 2048
 #define SEND_BUF_SIZE 1500
