@@ -486,7 +486,7 @@ int axidma_recv_buff(){
 int incr_wrptr_after_write(u64 size) {
 	u64 word_size = size/sizeof(u64);
 	u64 margin_word_size = MAX_PKT_LEN/sizeof(u64);
-	if (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-margin_word_size-word_size) {
+	if ((RxBufferWrPtr+margin_word_size+word_size) > (u64 *)RX_BUFFER_HIGH) {
 			xil_printf("Buffer is full\r\n");
 			return -1;
 	} else {
@@ -497,8 +497,7 @@ int incr_wrptr_after_write(u64 size) {
 
 int decr_wrptr_after_read(u64 size) {
 	u64 word_size = size/sizeof(u64);
-	u64 margin_word_size = MAX_PKT_LEN/sizeof(u64);
-	if (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + word_size) {
+	if ((RxBufferWrPtr-word_size) < (u64 *)RX_BUFFER_BASE) {
 			xil_printf("Buffer is empty\r\n");
 			return -1;
 	} else {
