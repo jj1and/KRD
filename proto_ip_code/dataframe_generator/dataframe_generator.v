@@ -17,6 +17,9 @@ module dataframe_generator # (
     input wire [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] S_AXIS_TDATA, // TDATA from RF Data Converter logic IP
     input wire S_AXIS_TVALID,
 
+    // h-gain data for charge_sum
+    input wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA,
+
     input wire M_AXIS_TREADY,
     output wire M_AXIS_TVALID,
     output wire [`RFDC_TDATA_WIDTH-1:0] M_AXIS_TDATA,
@@ -54,8 +57,10 @@ module dataframe_generator # (
         .MAX_TRIGGER_LENGTH(MAX_TRIGGER_LENGTH),
 
         // Input signals from trigger
-        .S_AXIS_TDATA(S_AXIS_TDATA), // TDATA from RF Data Converter logic IP
+        .S_AXIS_TDATA(S_AXIS_TDATA), // TDATA from data trigger
         .S_AXIS_TVALID(S_AXIS_TVALID),
+
+        .H_GAIN_BASELINE_SUBTRACTED_TDATA(H_GAIN_BASELINE_SUBTRACTED_TDATA),
         
         .HEADER_FOOTER_DATA(HEADER_FOOTER_DATA),
         .HEADER_FOOTER_VALID(HEADER_FOOTER_VALID),

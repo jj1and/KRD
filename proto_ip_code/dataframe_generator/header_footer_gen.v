@@ -15,6 +15,8 @@ module header_footer_gen # (
     input wire [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] S_AXIS_TDATA, // TDATA from RF Data Converter logic IP
     input wire S_AXIS_TVALID,
 
+    input wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA, 
+
     output wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] HEADER_FOOTER_DATA,
     output wire HEADER_FOOTER_VALID,
     input wire HF_FIFO_RD_EN,
@@ -59,7 +61,6 @@ module header_footer_gen # (
     wire [`FOOTER_OBJECT_ID_WIDTH_2-1:0] footer_object_id_2 = object_id[`FOOTER_OBJECT_ID_WIDTH_2-1 :0];
 
     reg [`CHARGE_SUM-2-1:0] h_partial_charge_sum[`SAMPLE_NUM_PER_CLK-1:0];
-    reg [`CHARGE_SUM-1:0] l_charge_sum;
     wire [`CHARGE_SUM-1:0] charge_sum;
     wire [`CHARGE_SUM-1:0] h_charge_sum_step_holder [`SAMPLE_NUM_PER_CLK-2:0];
     genvar i;
@@ -69,7 +70,7 @@ module header_footer_gen # (
             assign h_charge_sum_step_holder[i+1] = h_charge_sum_step_holder[i] + h_partial_charge_sum[i+2][`CHARGE_SUM-3-1:0];
         end
     endgenerate
-    assign charge_sum = gain_type_wire ? h_charge_sum_step_holder[`SAMPLE_NUM_PER_CLK-2] : l_charge_sum;  
+    assign charge_sum = h_charge_sum_step_holder[`SAMPLE_NUM_PER_CLK-2];  
 
 
     wire [`HEADER_LINE*`DATAFRAME_WIDTH-1:0] header = {HEADER_ID, CH_ID, dataframe_len, frame_info, trigger_type, header_timestamp, {`HEADER_ID_WIDTH{1'b0}}, charge_sum, trigger_config};
@@ -160,31 +161,27 @@ module header_footer_gen # (
             for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
                 h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
             end
-            l_charge_sum <= #100 {`CHARGE_SUM{1'b1}};
         end else begin
             if (s_axis_tvalid_posedge|split_frame) begin
                 frame_len <= #100 0;
                 for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                    h_partial_charge_sum[j] <= #100 S_AXIS_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
+                    h_partial_charge_sum[j] <= #100 H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
                 end
-                l_charge_sum <= #100 S_AXIS_TDATA[`SAMPLE_WIDTH-1 :0];
             end else begin
                 if (trigger_run_state!=2'b00) begin
                     frame_len <= #100 frame_len + 1;
                     for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                        if (h_partial_charge_sum[j] + S_AXIS_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH]>{`CHARGE_SUM-3{1'b1}}) begin
+                        if (h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH]>{`CHARGE_SUM-3{1'b1}}) begin
                             h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
                         end else begin
-                            h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + S_AXIS_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
+                            h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
                         end
-                    end
-                    l_charge_sum <= #100 l_charge_sum + S_AXIS_TDATA[`SAMPLE_WIDTH-1 :0];          
+                    end       
                 end else begin
                     frame_len <= #100 {`FRAME_LENGTH_WIDTH{1'b1}};
                     for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
                         h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
-                    end
-                    l_charge_sum <= #100 {`CHARGE_SUM{1'b1}};          
+                    end  
                 end
             end
         end
