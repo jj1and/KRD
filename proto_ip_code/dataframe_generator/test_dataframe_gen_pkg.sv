@@ -53,33 +53,7 @@ package test_dataframe_gen_pkg;
             end
         endfunction
 
-        function automatic dataframe_line_t getDataframe(input bit [`OBJECT_ID_WIDTH-1:0] object_id, input bit [1:0] trigger_state, input bit frame_continue);
-            bit [`FRAME_INFO_WIDTH-1:0] frame_info;
-            bit [`CHARGE_SUM-1:0] charge_sum; 
-            dataframe_line_t data_frame;            
-            data_frame = new[this.frame_len+3];
-            charge_sum = this.charge_sum;
-            frame_info = {trigger_state, frame_continue, this.gain_type};
-            if (this.sample_ary[0]==null) begin
-                this.sampleFilling();
-            end
-            for ( int i=0; i<this.frame_len+3; i++) begin
-                if (i==0) begin
-                    data_frame[0] = {this.HEADER_ID, this.ch_id, this.frame_len, frame_info, this.trigger_type, this.timestamp[`HEADER_TIMESTAMP_WIDTH-1:0]};
-                end else if (i==1) begin
-                    data_frame[1] = {{`HEADER_ID_WIDTH{1'b0}}, charge_sum, this.baseline, this.threshold};
-                end else if ((i>=2)&&(i<this.frame_len+2)) begin
-                    for (int j=0; j<(`DATAFRAME_WIDTH/`SAMPLE_WIDTH); j++ ) begin
-                        data_frame[i][(`DATAFRAME_WIDTH/`SAMPLE_WIDTH)*j +:`SAMPLE_WIDTH] = this.sample_ary[(i-2)*(`DATAFRAME_WIDTH/`SAMPLE_WIDTH)+j];  
-                    end                     
-                end else if (i==this.frame_len+2) begin
-                    data_frame[this.frame_len+2] = {this.timestamp[`TIMESTAMP_WIDTH-1 -:`FOOTER_TIMESTAMP_WIDTH], object_id};
-                end
-            end
-            return data_frame;
-        endfunction
-
-        function automatic datastream_line_t getDataStream();
+        function automatic datastream_line_t getDataStream(int gain_change);
             datastream_line_t raw_stream;
             raw_stream = new[this.raw_stream_len];
             if (this.sample_ary[0]==null) begin
@@ -87,9 +61,18 @@ package test_dataframe_gen_pkg;
             end
             for (int i=0; i<this.raw_stream_len; i++) begin
                 for (int j=0; j<`SAMPLE_NUM_PER_CLK; j++) begin
-                   raw_stream[i][`SAMPLE_WIDTH*j+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`SAMPLE_WIDTH] = this.sample_ary[i*`SAMPLE_NUM_PER_CLK+j]; 
+                    raw_stream[i][`SAMPLE_WIDTH*j+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`SAMPLE_WIDTH] = this.sample_ary[i*`SAMPLE_NUM_PER_CLK+j];  
                 end
-                raw_stream[i][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] = {{3'h0}, this.gain_type, this.trigger_type, this.timestamp+i, this.baseline, this.threshold};
+
+                if (gain_change != 0) begin
+                    if (i/this.raw_stream_len*10 > gain_change) begin
+                        raw_stream[i][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] = {{3'h0}, ~this.gain_type, this.trigger_type, this.timestamp+i, this.baseline, this.threshold}; // L-gain
+                    end else begin
+                        raw_stream[i][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] = {{3'h0}, this.gain_type, this.trigger_type, this.timestamp+i, this.baseline, this.threshold}; // H-gain
+                    end
+                end else begin
+                   raw_stream[i][`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] = {{3'h0}, this.gain_type, this.trigger_type, this.timestamp+i, this.baseline, this.threshold}; 
+                end
             end
             return raw_stream;
         endfunction
