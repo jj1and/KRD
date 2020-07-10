@@ -165,16 +165,16 @@ module header_footer_gen # (
             if (s_axis_tvalid_posedge|split_frame) begin
                 frame_len <= #100 0;
                 for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                    h_partial_charge_sum[j] <= #100 H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
+                    h_partial_charge_sum[j] <= #100 H_GAIN_BASELINE_SUBTRACTED_TDATA[`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
                 end
             end else begin
                 if (trigger_run_state!=2'b00) begin
                     frame_len <= #100 frame_len + 1;
                     for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                        if (h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH]>{`CHARGE_SUM-3{1'b1}}) begin
+                        if (h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH]>{`CHARGE_SUM-3{1'b1}}) begin
                             h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
                         end else begin
-                            h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH+`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
+                            h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + H_GAIN_BASELINE_SUBTRACTED_TDATA[`SAMPLE_WIDTH*j +:`SAMPLE_WIDTH];
                         end
                     end       
                 end else begin
