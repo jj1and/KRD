@@ -3,7 +3,6 @@ module trigger_core # (
     parameter integer SAMPLE_WIDTH = 16,
     parameter integer SAMPLE_NUM_PER_CLK = 8,
     parameter integer ADC_RESOLUTION_WIDTH = 12,
-    parameter integer TRIGGER_CONFIG_WIDTH = 32,
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
     parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4,
@@ -17,7 +16,6 @@ module trigger_core # (
     // S_AXIS interface from RF Data Converter logic IP
     input wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] S_AXIS_TDATA,
     input wire S_AXIS_TVALID,
-    output wire S_AXIS_TREADY,
 
     // trigger settings
     input wire signed [ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
@@ -29,50 +27,8 @@ module trigger_core # (
 
     // trigger and gain-mode for ADC selector
     output wire TRIGGER,
-    output wire [TRIGGER_CONFIG_WIDTH-1:0] TRIGGER_CONFIG,
-    output wire GAIN_TYPE
+    output wire SATURATION_FLAG
 );
-
-    assign S_AXIS_TREADY = 1'b1; // never gets low (receive all data)
-
-    // ------------------------------- trigger configration -------------------------------
-    localparam integer BASELINE_EFFECTIVE_WIDTH = TRIGGER_CONFIG_WIDTH-(ADC_RESOLUTION_WIDTH+1)*2;
-    
-    reg signed [ADC_RESOLUTION_WIDTH:0] rising_edge_threshold;
-    reg signed [ADC_RESOLUTION_WIDTH:0] falling_edge_threshold;
-    reg signed [ADC_RESOLUTION_WIDTH:0] digital_baseline;
-    reg [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] pre_acquisition_length;
-    reg [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] post_acquisition_length;
-    reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_selection_period_length;    
-
-    always @(posedge ACLK ) begin
-        if (ARESET) begin
-            rising_edge_threshold <= #100 1024;
-            falling_edge_threshold <= #100 1024;
-            digital_baseline <= #100 0;
-            pre_acquisition_length <= #100 1;
-            post_acquisition_length <= #100 1;
-            adc_selection_period_length <= #100 2;            
-        end else begin
-            if (SET_CONFIG) begin
-                rising_edge_threshold <= #100 RISING_EDGE_THRSHOLD;
-                falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;
-                digital_baseline <= #100 { DIGITAL_BASELINE[ADC_RESOLUTION_WIDTH -:BASELINE_EFFECTIVE_WIDTH], {ADC_RESOLUTION_WIDTH+1-BASELINE_EFFECTIVE_WIDTH{1'b0}} };
-                pre_acquisition_length <= #100 PRE_ACQUISITION_LENGTH;
-                post_acquisition_length <= #100 POST_ACQUISITION_LENGTH;
-                adc_selection_period_length <= #100 ADC_SELECTION_PERIOD_LENGTH;                  
-            end else begin
-                rising_edge_threshold <= #100 rising_edge_threshold;
-                falling_edge_threshold <= #100 falling_edge_threshold;
-                digital_baseline <= #100 digital_baseline;
-                pre_acquisition_length <= #100 pre_acquisition_length;
-                post_acquisition_length <= #100 post_acquisition_length;
-                adc_selection_period_length <= #100 adc_selection_period_length;
-            end
-        end
-    end
-
-    assign TRIGGER_CONFIG = {digital_baseline[ADC_RESOLUTION_WIDTH -:BASELINE_EFFECTIVE_WIDTH], rising_edge_threshold, falling_edge_threshold};
 
     // ------------------------------- hit detection -------------------------------
     wire signed [ADC_RESOLUTION_WIDTH:0] rfdc_sample[SAMPLE_NUM_PER_CLK];    
@@ -90,8 +46,8 @@ module trigger_core # (
     generate
         for (i=0; i<SAMPLE_NUM_PER_CLK; i++) begin
             assign rfdc_sample[i] = { {SAMPLE_WIDTH-ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*ADC_RESOLUTION_WIDTH +:ADC_RESOLUTION_WIDTH] };
-            assign rise_edge_thre_over[i] = rfdc_sample[i]-digital_baseline > rising_edge_threshold;
-            assign fall_edge_thre_under[i] = rfdc_sample[i]-digital_baseline < falling_edge_threshold;
+            assign rise_edge_thre_over[i] = rfdc_sample[i]-DIGITAL_BASELINE > RISING_EDGE_THRSHOLD;
+            assign fall_edge_thre_under[i] = rfdc_sample[i]-DIGITAL_BASELINE < FALLING_EDGE_THRESHOLD;
         end
 
         assign hit_rising_edge[SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  
@@ -108,18 +64,11 @@ module trigger_core # (
 
 
     // ------------------------------- trigger generation -------------------------------
-    wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] tdata_bl_subtracted;
     reg [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK*2-1:0] tdata_shiftreg;
     wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] tdata_delay = tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1 :0];
     wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] tdata_2delay = tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK*2-1 -:SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK];
 
     reg tvalid_delay;
-
-    generate
-        for (i=0; i<SAMPLE_NUM_PER_CLK; i++) begin
-            assign tdata_bl_subtracted[i*SAMPLE_WIDTH +:SAMPLE_WIDTH] = rfdc_sample[i]-digital_baseline;
-        end
-    endgenerate
 
     reg trigger;
     reg trigger_delay;
@@ -127,10 +76,10 @@ module trigger_core # (
     wire trigger_negedge = (trigger == 1'b0)&(trigger_delay == 1'b1);
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH)-1:0] extend_count;
     wire [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH)-1:0] EXTEND_COUNT_INIT_VAL = {$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH){1'b1}};
-    wire extend_trigger = (extend_count <= pre_acquisition_length+post_acquisition_length);
+    wire extend_trigger = (extend_count <= PRE_ACQUISITION_LENGTH+POST_ACQUISITION_LENGTH);
 
     always @(posedge ACLK ) begin
-        tdata_shiftreg <= #100 {tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1 :0], tdata_bl_subtracted};
+        tdata_shiftreg <= #100 {tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1 :0], S_AXIS_TDATA};
     end
 
     always @(posedge ACLK ) begin
@@ -161,7 +110,7 @@ module trigger_core # (
             if (trigger) begin
                 extend_count <= #100 0;
             end else begin
-                if (extend_count < pre_acquisition_length+post_acquisition_length) begin
+                if (extend_count < PRE_ACQUISITION_LENGTH+POST_ACQUISITION_LENGTH) begin
                     extend_count <= #100 extend_count + 1;
                 end else begin
                     extend_count <= #100 EXTEND_COUNT_INIT_VAL;
@@ -176,13 +125,13 @@ module trigger_core # (
     // ------------------------------- h-gain saturation detection -------------------------------
     reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_select_count;
     wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECT_COUNT_INIT_VAL = {$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH){1'b1}};
-    wire adc_select_enable = (adc_select_count < adc_selection_period_length);
+    wire adc_select_enable = (adc_select_count < ADC_SELECTION_PERIOD_LENGTH);
     wire [SAMPLE_NUM_PER_CLK-1:0] saturation_detect;
-    reg gain_type;
+    reg saturation_flag;
 
     generate
         for (i=0; i<SAMPLE_NUM_PER_CLK; i++) begin
-            assign saturation_detect[i] = (tdata_2delay[i*SAMPLE_WIDTH +:ADC_RESOLUTION_WIDTH] == {ADC_RESOLUTION_WIDTH+1{1'b1}});
+            assign saturation_detect[i] = (tdata_2delay[i*SAMPLE_WIDTH +:ADC_RESOLUTION_WIDTH] == {ADC_RESOLUTION_WIDTH{1'b1}});
         end
     endgenerate
 
@@ -204,20 +153,20 @@ module trigger_core # (
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            gain_type <= #100 1'b1;
+            saturation_flag <= #100 1'b0;
         end else begin
             if (&{adc_select_enable, |saturation_detect}) begin
-                gain_type <= #100 1'b0;
+                saturation_flag <= #100 1'b1;
             end else begin
                 if (trigger_negedge) begin
-                    gain_type <= #100 1'b1;
+                    saturation_flag <= #100 1'b0;
                 end else begin
-                    gain_type <= #100 gain_type;
+                    saturation_flag <= #100 saturation_flag;
                 end
             end
         end
     end
 
-    assign GAIN_TYPE = gain_type;
+    assign SATURATION_FLAG = saturation_flag;
 
 endmodule 
