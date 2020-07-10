@@ -41,7 +41,10 @@ module data_trigger # (
     input wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH,
 
     output wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK+TRIGGER_INFO_WIDTH+TIMESTAMP_WIDTH+TRIGGER_CONFIG_WIDTH-1:0] M_AXIS_TDATA,
-    output wire M_AXIS_TVALID
+    output wire M_AXIS_TVALID,
+
+    // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
+    output wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA
 );
 
     assign H_S_AXIS_TREADY = 1'b1;
@@ -163,7 +166,8 @@ module data_trigger # (
 
 
     // ------------------------------- ADC selector -------------------------------
-    wire SATURATED_FLAG; 
+    wire SATURATED_FLAG;
+    reg [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] h_gain_baseline_subtracted_tdata;
     reg [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK+TRIGGER_INFO_WIDTH+TIMESTAMP_WIDTH+TRIGGER_CONFIG_WIDTH-1:0] m_axis_tdata;
     reg m_axis_tvalid;
 
@@ -187,8 +191,17 @@ module data_trigger # (
         end
     end
 
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            h_gain_baseline_subtracted_tdata <= #100 {SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK{1'b1}};
+        end else begin
+            h_gain_baseline_subtracted_tdata <= #100 delayed_h_data_baseline_subtracted;
+        end
+    end
+
     assign M_AXIS_TDATA = m_axis_tdata;
     assign M_AXIS_TVALID = m_axis_tvalid;
+    assign H_GAIN_BASELINE_SUBTRACTED_TDATA = delayed_h_data_baseline_subtracted;
 
     // trigger_core TRIGGER & GAIN_TYPE is syncronized to 3CLK delayed H_S_AXIS_TDATA
     // trigger is already extended in trigger_core, for pre & post acquisition
