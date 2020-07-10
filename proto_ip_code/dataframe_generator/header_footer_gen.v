@@ -14,7 +14,6 @@ module header_footer_gen # (
     // Input signals from trigger
     input wire [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] S_AXIS_TDATA, // TDATA from RF Data Converter logic IP
     input wire S_AXIS_TVALID,
-    output wire S_AXIS_TREADY,
 
     output wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] HEADER_FOOTER_DATA,
     output wire HEADER_FOOTER_VALID,
@@ -34,8 +33,6 @@ module header_footer_gen # (
     reg s_axis_tvalid_delay;
     wire s_axis_tvalid_posedge = (S_AXIS_TVALID==1'b1)&(s_axis_tvalid_delay==1'b0);
     wire s_axis_tvalid_negedge = (S_AXIS_TVALID==1'b0)&(s_axis_tvalid_delay==1'b1);
-    wire tready = 1'b1;
-    assign S_AXIS_TREADY = tready;
 
     reg [`FRAME_LENGTH_WIDTH-2:0] frame_len;
     wire [`FRAME_LENGTH_WIDTH-1:0] dataframe_len = (frame_len+1)*2;
