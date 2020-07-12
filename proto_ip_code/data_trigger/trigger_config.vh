@@ -1,0 +1,14 @@
+`ifndef __TRIGGER_CONFIG_VH__
+`define __TRIGGER_CONFIG_VH__
+
+// Trigger parameters
+`define ADC_RESOLUTION_WIDTH 12
+`define SAMPLE_WIDTH 16
+`define SAMPLE_NUM_PER_CLK 8
+`define RFDC_TDATA_WIDTH `SAMPLE_WIDTH*`SAMPLE_NUM_PER_CLK
+`define TRIGGER_INFO_WIDTH 8 // {{3'h0}, GAIN_TYPE [0:0], TRIGGER_TYPE[3:0]}
+`define TRIGGER_CONFIG_WIDTH 32 
+// common parameters
+`define TIMESTAMP_WIDTH 48
+
+`endif

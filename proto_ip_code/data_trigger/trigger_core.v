@@ -1,8 +1,6 @@
 `timescale 1 ps/1 ps
+`include "trigger_config.vh"
 module trigger_core # (
-    parameter integer SAMPLE_WIDTH = 16,
-    parameter integer SAMPLE_NUM_PER_CLK = 8,
-    parameter integer ADC_RESOLUTION_WIDTH = 12,
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
     parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4,
@@ -14,13 +12,13 @@ module trigger_core # (
     input wire STOP,
 
     // S_AXIS interface from RF Data Converter logic IP
-    input wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] S_AXIS_TDATA,
+    input wire [`RFDC_TDATA_WIDTH-1:0] S_AXIS_TDATA,
     input wire S_AXIS_TVALID,
 
     // trigger settings
-    input wire signed [ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
-    input wire signed [ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD,
-    input wire signed [ADC_RESOLUTION_WIDTH:0] DIGITAL_BASELINE,
+    input wire signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
+    input wire signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD,
+    input wire signed [`ADC_RESOLUTION_WIDTH:0] DIGITAL_BASELINE,
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH,
@@ -31,28 +29,28 @@ module trigger_core # (
 );
 
     // ------------------------------- hit detection -------------------------------
-    wire signed [ADC_RESOLUTION_WIDTH:0] rfdc_sample[SAMPLE_NUM_PER_CLK];    
-    wire [SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over;
-    reg [SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over_delay;
-    wire [SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge;
-    reg [SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge_delay;        
+    wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK];    
+    wire [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over;
+    reg [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over_delay;
+    wire [`SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge;
+    reg [`SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge_delay;        
     wire hit_start = |hit_rising_edge_delay;
 
-    wire [SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under;
-    reg [SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under_delay;
+    wire [`SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under;
+    reg [`SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under_delay;
     wire hit_end = &fall_edge_thre_under_delay;
 
     genvar i;
     generate
-        for (i=0; i<SAMPLE_NUM_PER_CLK; i++) begin
-            assign rfdc_sample[i] = { {SAMPLE_WIDTH-ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*ADC_RESOLUTION_WIDTH +:ADC_RESOLUTION_WIDTH] };
+        for (i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            assign rfdc_sample[i] = { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH] };
             assign rise_edge_thre_over[i] = rfdc_sample[i]-DIGITAL_BASELINE > RISING_EDGE_THRSHOLD;
             assign fall_edge_thre_under[i] = rfdc_sample[i]-DIGITAL_BASELINE < FALLING_EDGE_THRESHOLD;
         end
 
-        assign hit_rising_edge[SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  
-        for (i=1; i<SAMPLE_NUM_PER_CLK; i++) begin
-            assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[SAMPLE_NUM_PER_CLK-1:i])|(|rise_edge_thre_over[i-1:0]);
+        assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  
+        for (i=1; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[`SAMPLE_NUM_PER_CLK-1:i])|(|rise_edge_thre_over[i-1:0]);
         end
     endgenerate    
 
@@ -64,9 +62,9 @@ module trigger_core # (
 
 
     // ------------------------------- trigger generation -------------------------------
-    reg [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK*2-1:0] tdata_shiftreg;
-    wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] tdata_delay = tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1 :0];
-    wire [SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1:0] tdata_2delay = tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK*2-1 -:SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK];
+    reg [`RFDC_TDATA_WIDTH*2-1:0] tdata_shiftreg;
+    wire [`RFDC_TDATA_WIDTH-1:0] tdata_delay = tdata_shiftreg[`RFDC_TDATA_WIDTH-1 :0];
+    wire [`RFDC_TDATA_WIDTH-1:0] tdata_2delay = tdata_shiftreg[`RFDC_TDATA_WIDTH*2-1 -:`RFDC_TDATA_WIDTH];
 
     reg tvalid_delay;
 
@@ -79,7 +77,7 @@ module trigger_core # (
     wire extend_trigger = (extend_count <= PRE_ACQUISITION_LENGTH+POST_ACQUISITION_LENGTH);
 
     always @(posedge ACLK ) begin
-        tdata_shiftreg <= #100 {tdata_shiftreg[SAMPLE_WIDTH*SAMPLE_NUM_PER_CLK-1 :0], S_AXIS_TDATA};
+        tdata_shiftreg <= #100 {tdata_shiftreg[`RFDC_TDATA_WIDTH-1 :0], S_AXIS_TDATA};
     end
 
     always @(posedge ACLK ) begin
@@ -126,12 +124,12 @@ module trigger_core # (
     reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_select_count;
     wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECT_COUNT_INIT_VAL = {$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH){1'b1}};
     wire adc_select_enable = (adc_select_count < ADC_SELECTION_PERIOD_LENGTH);
-    wire [SAMPLE_NUM_PER_CLK-1:0] saturation_detect;
+    wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect;
     reg saturation_flag;
 
     generate
-        for (i=0; i<SAMPLE_NUM_PER_CLK; i++) begin
-            assign saturation_detect[i] = (tdata_2delay[i*SAMPLE_WIDTH +:ADC_RESOLUTION_WIDTH] == {ADC_RESOLUTION_WIDTH{1'b1}});
+        for (i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            assign saturation_detect[i] = (tdata_2delay[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] == {`ADC_RESOLUTION_WIDTH{1'b1}});
         end
     endgenerate
 
