@@ -5,8 +5,7 @@ module data_trigger # (
     // these parameter must be configured before logic synthesis
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
-    parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4,
-    parameter integer ADC_SELECTION_PERIOD = 2
+    parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4
 )(
     input wire ACLK,
     input wire ARESET,
@@ -18,7 +17,7 @@ module data_trigger # (
     input wire H_S_AXIS_TVALID,
 
     // S_AXIS interfrace from L-gain ADC
-    input wire [`SAMPLE_WIDTH*2-1:0] L_S_AXIS_TDATA,
+    input wire [`LGAIN_TDATA_WIDTH-1:0] L_S_AXIS_TDATA,
     input wire L_S_AXIS_TVALID,
 
     // Timestamp
@@ -38,9 +37,6 @@ module data_trigger # (
     // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
     output wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA
 );
-
-    assign H_S_AXIS_TREADY = 1'b1;
-    assign L_S_AXIS_TREADY = 1'b1;
 
     // ------------------------------- trigger configration -------------------------------
     localparam integer BASELINE_EFFECTIVE_WIDTH = `TRIGGER_CONFIG_WIDTH-(`ADC_RESOLUTION_WIDTH+1)*2;
@@ -82,32 +78,31 @@ module data_trigger # (
 
 
     // ------------------------------- data stream for dataformat generation -------------------------------
-    wire signed [`SAMPLE_WIDTH-1:0] rfdc_sample[`SAMPLE_NUM_PER_CLK];
-    wire signed [`SAMPLE_WIDTH-1:0] normal_tdata_sample[`SAMPLE_NUM_PER_CLK];
+    wire signed [`SAMPLE_WIDTH-1:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];
+    wire signed [`SAMPLE_WIDTH-1:0] normal_tdata_sample[`SAMPLE_NUM_PER_CLK-1:0];
     wire [`RFDC_TDATA_WIDTH-1:0] normal_tdata; 
     wire [`RFDC_TDATA_WIDTH-1:0] combined_tdata;
-    wire [`SAMPLE_WIDTH:0] sum_of_2samples[4];
-    wire [`SAMPLE_WIDTH-1:0] average_of_2samples[4];
+    wire [`SAMPLE_WIDTH:0] sum_of_2samples[3:0];
+    wire [`SAMPLE_WIDTH-1:0] average_of_2samples[3:0];
 
     genvar i;
     generate
-            for (i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
                 assign rfdc_sample[i] =  { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{H_S_AXIS_TDATA[`SAMPLE_WIDTH*(i+1)-1]}}, H_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] };
                 assign normal_tdata_sample[i] = rfdc_sample[i] - digital_baseline;
                 assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = normal_tdata_sample[i];
             end
-            for (i=0; i<4; i++) begin
+            for (i=0; i<4; i=i+1) begin
                 assign sum_of_2samples[i] = normal_tdata_sample[i*2] + normal_tdata_sample[i*2+1];
                 assign average_of_2samples[i] = sum_of_2samples[i][`SAMPLE_WIDTH:1]; // divided by 2nsec
             end
-            for (i=0; i<2; i++) begin
+            for (i=0; i<2; i=i+1) begin
                 assign combined_tdata[i*(`RFDC_TDATA_WIDTH/2) +:(`RFDC_TDATA_WIDTH/2)] = {16'hCC00, average_of_2samples[i*2+1], average_of_2samples[i*2], L_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] };
             end
     endgenerate
 
 
     // ------------------------------- Trigger & ADC data, timstamp delay ------------------------------- 
-    wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH+3)-1:0] TRIGGER_CORE_DELAY_FOR_TRIGGER = 3;
     wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH+MAX_PRE_ACQUISITION_LENGTH+3)-1:0] TRIGGER_CORE_DELAY_FOR_DATA = 3;
 
     wire EXTEND_TRIGGER;
@@ -118,11 +113,11 @@ module data_trigger # (
 
     variable_shiftreg_delay # (
         .DATA_WIDTH(1),
-        .MAX_DELAY_LENGTH(MAX_ADC_SELECTION_PERIOD_LENGTH+3)
+        .MAX_DELAY_LENGTH(MAX_ADC_SELECTION_PERIOD_LENGTH)
     ) extend_trigger_delay_inst (
         .CLK(ACLK),
         .DIN(EXTEND_TRIGGER),
-        .DELAY(adc_selection_period_length+TRIGGER_CORE_DELAY_FOR_TRIGGER),
+        .DELAY(adc_selection_period_length),
         .DOUT(delayed_extend_trigger)
     );
 
@@ -193,7 +188,7 @@ module data_trigger # (
 
     assign M_AXIS_TDATA = m_axis_tdata;
     assign M_AXIS_TVALID = m_axis_tvalid;
-    assign H_GAIN_BASELINE_SUBTRACTED_TDATA = delayed_normal_tdata;
+    assign H_GAIN_BASELINE_SUBTRACTED_TDATA = h_gain_baseline_subtracted_tdata;
 
     // trigger_core TRIGGER & GAIN_TYPE is syncronized to 3CLK delayed H_S_AXIS_TDATA
     // trigger is already extended in trigger_core, for pre & post acquisition
@@ -201,8 +196,7 @@ module data_trigger # (
     trigger_core # (
         .MAX_PRE_ACQUISITION_LENGTH(MAX_PRE_ACQUISITION_LENGTH),
         .MAX_POST_ACQUISITION_LENGTH(MAX_POST_ACQUISITION_LENGTH),
-        .MAX_ADC_SELECTION_PERIOD_LENGTH(MAX_ADC_SELECTION_PERIOD_LENGTH),
-        .ADC_SELECTION_PERIOD(ADC_SELECTION_PERIOD)
+        .MAX_ADC_SELECTION_PERIOD_LENGTH(MAX_ADC_SELECTION_PERIOD_LENGTH)
     ) trigger_core_inst (
         .ACLK(ACLK),
         .ARESET(ARESET),

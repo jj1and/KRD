@@ -3,8 +3,7 @@
 module trigger_core # (
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
-    parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4,
-    parameter integer ADC_SELECTION_PERIOD = 2
+    parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4
 )(
     input wire ACLK,
     input wire ARESET,
@@ -29,7 +28,7 @@ module trigger_core # (
 );
 
     // ------------------------------- hit detection -------------------------------
-    wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK];    
+    wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];    
     wire [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over;
     reg [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over_delay;
     wire [`SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge;
@@ -42,14 +41,14 @@ module trigger_core # (
 
     genvar i;
     generate
-        for (i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
-            assign rfdc_sample[i] = { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH] };
+        for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
+            assign rfdc_sample[i] = { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] };
             assign rise_edge_thre_over[i] = rfdc_sample[i]-DIGITAL_BASELINE > RISING_EDGE_THRSHOLD;
             assign fall_edge_thre_under[i] = rfdc_sample[i]-DIGITAL_BASELINE < FALLING_EDGE_THRESHOLD;
         end
 
         assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  
-        for (i=1; i<`SAMPLE_NUM_PER_CLK; i++) begin
+        for (i=1; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[`SAMPLE_NUM_PER_CLK-1:i])|(|rise_edge_thre_over[i-1:0]);
         end
     endgenerate    
@@ -128,7 +127,7 @@ module trigger_core # (
     reg saturation_flag;
 
     generate
-        for (i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+        for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign saturation_detect[i] = (tdata_2delay[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] == {`ADC_RESOLUTION_WIDTH{1'b1}});
         end
     endgenerate
