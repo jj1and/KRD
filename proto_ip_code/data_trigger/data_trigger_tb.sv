@@ -152,7 +152,7 @@ module data_trigger_tb;
         while (signal_index<sample_num) begin
             saturation_flag = 0;
             input_stream_index = -1;
-            output_stream_index = -1;
+            output_stream_index = 0;
             trigger_start = -1;
             trigger_end = -1;
 
@@ -168,11 +168,11 @@ module data_trigger_tb;
                         end
                     end
                     // get index trigger ends
-                    if (&{trigger_end==-1, sample_signal[signal_index].sample_ary[i*`SAMPLE_NUM_PER_CLK+j]>DUT.falling_edge_threshold}) begin
-                        if (i+DUT.post_acquisition_length>sample_signal[signal_index].total_stream_len-1) begin
+                    if (&{trigger_end==-1, sample_signal[signal_index].sample_ary[i*`SAMPLE_NUM_PER_CLK+j]<DUT.falling_edge_threshold, i>=trigger_start, trigger_start!=-1}) begin
+                        if ((i+DUT.post_acquisition_length)>(sample_signal[signal_index].total_stream_len-1)) begin
                             trigger_end = sample_signal[signal_index].total_stream_len-1;    
                         end else begin
-                            trigger_end= i+DUT.post_acquisition_length;
+                            trigger_end = i+DUT.post_acquisition_length;
                         end
                     end                    
                 end    
@@ -192,7 +192,6 @@ module data_trigger_tb;
 
                 // macthing with data_trigger output
                 if (M_AXIS_TVALID) begin
-                    output_stream_index++;
                     // read out data from queue
                     if (|{acquired_h_gain_tdata_queue.size()==0, acquired_l_gain_tdata_queue.size()==0}) begin
                         $display("TEST FAILED: acquired tdata queue is empty!");
@@ -220,7 +219,8 @@ module data_trigger_tb;
                             $display("TEST FAILED: output data doesn't match with input; input:%0x output:%0x", read_out_h_tdata, m_axis_rfdc_tdata); 
                             $finish;
                         end                        
-                    end                         
+                    end
+                    output_stream_index++;                         
                 end
             end
             $display("TEST INFO: sample_signal[%0d] is acuqired", signal_index);
