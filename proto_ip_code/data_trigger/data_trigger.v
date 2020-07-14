@@ -45,7 +45,7 @@ module data_trigger # (
     reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_selection_period_length;
     reg signed [`ADC_RESOLUTION_WIDTH:0] rising_edge_threshold;
     reg signed [`ADC_RESOLUTION_WIDTH:0] falling_edge_threshold;   
-    wire trigger_config = { 
+    wire [`TRIGGER_CONFIG_WIDTH-1:0] trigger_config = { 
         {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){rising_edge_threshold[`ADC_RESOLUTION_WIDTH]}}, rising_edge_threshold}, 
         {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){falling_edge_threshold[`ADC_RESOLUTION_WIDTH]}}, falling_edge_threshold} 
     };

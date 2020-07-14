@@ -46,7 +46,7 @@ module trigger_core # (
             assign fall_edge_thre_under[i] = rfdc_sample[i] < FALLING_EDGE_THRESHOLD;
         end
 
-        assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  
+        assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &rise_edge_thre_over;  
         for (i=1; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[`SAMPLE_NUM_PER_CLK-1:i])|(|rise_edge_thre_over[i-1:0]);
         end
@@ -65,6 +65,7 @@ module trigger_core # (
     wire [`RFDC_TDATA_WIDTH-1:0] tdata_2delay = tdata_shiftreg[`RFDC_TDATA_WIDTH*2-1 -:`RFDC_TDATA_WIDTH];
 
     reg tvalid_delay;
+    reg tvalid_2delay;
 
     reg trigger;
     reg trigger_delay;
@@ -81,16 +82,17 @@ module trigger_core # (
     always @(posedge ACLK ) begin
         trigger_delay <= #100 trigger;
         tvalid_delay <= #100 S_AXIS_TVALID;
+        tvalid_2delay <= #100 tvalid_delay;
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
             trigger <= #100 1'b0;
         end else begin
-            if (&{hit_start, !STOP, tvalid_delay}) begin
+            if (&{hit_start, !STOP, tvalid_2delay}) begin
                 trigger <= #100 1'b1;
             end else begin
-                if (|{hit_end, !tvalid_delay}) begin
+                if (|{hit_end, !tvalid_2delay}) begin
                     trigger <= #100 1'b0;
                 end else begin
                     trigger <= #100 trigger;
