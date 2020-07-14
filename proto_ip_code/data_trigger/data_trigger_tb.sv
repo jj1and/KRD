@@ -58,6 +58,7 @@ module data_trigger_tb;
     wire [`SAMPLE_WIDTH-1:0] h_sample = H_S_AXIS_TDATA[h_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
     wire [`SAMPLE_WIDTH-1:0] h_out_sample = H_GAIN_TDATA[h_out_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
     wire [`SAMPLE_WIDTH-1:0] l_sample = L_S_AXIS_TDATA[l_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+    wire [`RFDC_TDATA_WIDTH-1:0] m_axis_rfdc_tdata = M_AXIS_TDATA[`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1 -:`RFDC_TDATA_WIDTH];
     
     always @(posedge SIG_CLK) begin
         h_disp_ptr <= h_disp_ptr + 1;
@@ -132,6 +133,103 @@ module data_trigger_tb;
         forever #(SIGNAL_PERIOD*4/2)   L_GAIN_SIG_CLK = ~ L_GAIN_SIG_CLK;   
     end
 
+    task data_trigger_monitor(input SignalGenerator sample_signal[], input int sample_num);
+        int test_failed;
+        bit [`RFDC_TDATA_WIDTH-1:0] acquired_h_gain_tdata_queue[$];
+        bit [`LGAIN_TDATA_WIDTH-1:0] acquired_l_gain_tdata_queue[$];
+        bit [`RFDC_TDATA_WIDTH-1:0] read_out_h_tdata;
+        bit [`LGAIN_TDATA_WIDTH-1:0] read_out_l_tdata;
+        int signal_index;
+        int trigger;
+        int trigger_start;
+        int trigger_end;
+        int saturation_flag;
+        int input_stream_index;
+        int output_stream_index;
+
+        signal_index = 0;
+
+        while (signal_index<sample_num) begin
+            saturation_flag = 0;
+            input_stream_index = -1;
+            output_stream_index = -1;
+            trigger_start = -1;
+            trigger_end = -1;
+
+            // get triggered range in sample
+            for (int i=0; i<sample_signal[signal_index].total_stream_len; i++) begin
+                for (int j=0; j<`SAMPLE_NUM_PER_CLK; j++) begin
+                    // get index trigger starts
+                    if (&{trigger_start==-1, sample_signal[signal_index].sample_ary[i*`SAMPLE_NUM_PER_CLK+j]>DUT.rising_edge_threshold}) begin
+                        if (i<DUT.pre_acquisition_length) begin
+                            trigger_start = 0;    
+                        end else begin
+                            trigger_start = i-DUT.pre_acquisition_length;
+                        end
+                    end
+                    // get index trigger ends
+                    if (&{trigger_end==-1, sample_signal[signal_index].sample_ary[i*`SAMPLE_NUM_PER_CLK+j]>DUT.falling_edge_threshold}) begin
+                        if (i+DUT.post_acquisition_length>sample_signal[signal_index].total_stream_len-1) begin
+                            trigger_end = sample_signal[signal_index].total_stream_len-1;    
+                        end else begin
+                            trigger_end= i+DUT.post_acquisition_length;
+                        end
+                    end                    
+                end    
+            end
+
+            while (output_stream_index<sample_signal[signal_index].total_stream_len) begin
+                @(posedge ACLK);
+
+                // push back data (to be triggered) into queue
+                if (H_S_AXIS_TVALID) begin
+                    input_stream_index++;
+                end
+                if (&{!ARESET, !SET_CONFIG, input_stream_index>=trigger_start, input_stream_index<=trigger_end}) begin
+                    acquired_h_gain_tdata_queue.push_back(H_S_AXIS_TDATA);
+                    acquired_l_gain_tdata_queue.push_back(L_S_AXIS_TDATA);
+                end
+
+                // macthing with data_trigger output
+                if (M_AXIS_TVALID) begin
+                    output_stream_index++;
+                    // read out data from queue
+                    if (|{acquired_h_gain_tdata_queue.size()==0, acquired_l_gain_tdata_queue.size()==0}) begin
+                        $display("TEST FAILED: acquired tdata queue is empty!");
+                        $finish;
+                    end else begin
+                        read_out_h_tdata = acquired_h_gain_tdata_queue.pop_front();
+                        read_out_l_tdata = acquired_l_gain_tdata_queue.pop_front();                        
+                    end
+
+                    // check if h_gain is saturated or not
+                    for (int j=0; j<`SAMPLE_NUM_PER_CLK; j++) begin
+                        if ((read_out_h_tdata[j*`SAMPLE_WIDTH +:`SAMPLE_WIDTH]-sample_signal[signal_index].baseline)>2046) begin
+                            saturation_flag = 1;
+                        end
+                    end                    
+
+                    // macthing with data_trigger output
+                    if (saturation_flag) begin
+                        if (m_axis_rfdc_tdata!=read_out_l_tdata) begin
+                            $display("TEST FAILED: output data doesn't match with input; input:%0x output:%0x", read_out_l_tdata, m_axis_rfdc_tdata); 
+                            $finish;
+                        end
+                    end else begin
+                        if (m_axis_rfdc_tdata!=read_out_h_tdata) begin
+                            $display("TEST FAILED: output data doesn't match with input; input:%0x output:%0x", read_out_h_tdata, m_axis_rfdc_tdata); 
+                            $finish;
+                        end                        
+                    end                         
+                end
+            end
+            $display("TEST INFO: sample_signal[%0d] is acuqired", signal_index);
+            signal_index++;
+        end
+
+
+    endtask
+
     task normal_signal_input(input SignalGenerator sample_signal[], input int sample_num);
         test_status = NORMAL_SIGNAL_INPUT;
 
@@ -156,6 +254,9 @@ module data_trigger_tb;
                         L_S_AXIS_TDATA <= #100 l_gain_signal_set[j];
                     end                    
                 end
+            end
+            begin
+                data_trigger_monitor(sample_signal, sample_num);
             end
         join
         $display("TEST PASSED: non-satuated signal test passed!");
