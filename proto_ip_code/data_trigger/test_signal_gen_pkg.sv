@@ -14,42 +14,52 @@ package test_signal_gen_pkg;
     } signal_config_pack;
 
     class SignalGenerator;
-        int max_val;
-        int baseline;
+        shortint max_val;
+        shortint baseline;
         int rise_time;
         int high_time;
         int fall_time;
         int total_length;
         int total_stream_len;
-        int noise_amp;
-        int sample_ary[];
+        bit [`SAMPLE_WIDTH-1:0] sample_ary[];
 
         function new(input signal_config_pack signal_config);
+            int remain;
             this.rise_time = signal_config.rise_time;
             this.high_time = signal_config.high_time;
             this.fall_time = signal_config.fall_time;
             this.total_length = this.rise_time + this.high_time + this.fall_time;
-            this.total_stream_len = this.total_length/`SAMPLE_NUM_PER_CLK;  
+            remain = (this.rise_time + this.high_time + this.fall_time)%`SAMPLE_NUM_PER_CLK;
+            if (remain) begin
+                this.total_length = this.rise_time + this.high_time + this.fall_time + (`SAMPLE_NUM_PER_CLK-remain);  
+            end else begin
+                this.total_length = this.rise_time + this.high_time + this.fall_time;  
+            end
+            this.total_stream_len = this.total_length/`SAMPLE_NUM_PER_CLK; 
         endfunction //new()
 
-        virtual function void sampleFilling(input int max_val, input int baseline, input int noise_amp);
-            int sign;
+        virtual function void sampleFilling(input shortint max_val, input shortint baseline);
+            shortint val;
+            int extended;
             this.max_val = max_val;
             this.baseline = baseline;
-            this.noise_amp = noise_amp;
             this.sample_ary = new[this.total_length];
+            extended = `SAMPLE_NUM_PER_CLK-(this.rise_time + this.high_time + this.fall_time)%`SAMPLE_NUM_PER_CLK;
 
             for (int i=0; i<this.rise_time; i++) begin
-                sign = $urandom_range(0, 1);
-                sample_ary[i] = i*(max_val-baseline)/(this.rise_time-1) + baseline + sign*$urandom_range(0, noise_amp/2) - (1-sign)*$urandom_range(0, noise_amp/2);
+                val = i*(max_val-baseline)/(this.rise_time-1) + baseline;
+                sample_ary[i] = {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){val[$bits(val)-1]}}, val[0 +:`ADC_RESOLUTION_WIDTH+1]};
             end
             for (int i=this.rise_time; i<this.rise_time+this.high_time; i++) begin
-                sign = $urandom_range(0, 1);
-                sample_ary[i] = max_val + sign*$urandom_range(0, noise_amp/2) - (1-sign)*$urandom_range(0, noise_amp/2);
+                val = max_val;
+                sample_ary[i] = {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){val[$bits(val)-1]}}, val[0 +:`ADC_RESOLUTION_WIDTH+1]};
             end
             for (int i=this.rise_time+this.high_time; i<this.rise_time+this.high_time+this.fall_time; i++) begin
-                sign = $urandom_range(0, 1);
-                sample_ary[i] = max_val - (i-this.rise_time-this.high_time)*(max_val-baseline)/(this.fall_time-1) + sign*$urandom_range(0, noise_amp/2) - (1-sign)*$urandom_range(0, noise_amp/2);
+                val = max_val - (i-this.rise_time-this.high_time)*(max_val-baseline)/(this.fall_time-1);
+                sample_ary[i] = {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){val[$bits(val)-1]}}, val[0 +:`ADC_RESOLUTION_WIDTH+1]};
+            end
+            for (int i=this.rise_time+this.high_time+this.fall_time; i<this.rise_time+this.high_time+this.fall_time+extended; i++) begin
+                sample_ary[i] = 0;
             end
         endfunction
 
@@ -69,7 +79,7 @@ package test_signal_gen_pkg;
         function automatic l_gain_signal_line_t getLGainSignalStream();
             int GAIN_CORRECTION = 20;
             l_gain_signal_line_t signal_stream;
-            int sample_sum;
+            bit [`SAMPLE_WIDTH:0] sample_sum;
             signal_stream = new[this.total_stream_len];
             for (int i=0; i<this.total_stream_len; i++) begin
                 for (int j=0; j<`LGAIN_SAMPLE_NUM_PER_CLK; j++) begin
@@ -77,7 +87,7 @@ package test_signal_gen_pkg;
                     for (int k=0; k<`SAMPLE_NUM_PER_CLK/`LGAIN_SAMPLE_NUM_PER_CLK; k++) begin
                         sample_sum += sample_ary[i*`SAMPLE_NUM_PER_CLK+j*(`SAMPLE_NUM_PER_CLK/`LGAIN_SAMPLE_NUM_PER_CLK)+k];
                     end
-                    signal_stream[i][j*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = {sample_sum[`SAMPLE_WIDTH] ,sample_sum[`SAMPLE_WIDTH:2]}/GAIN_CORRECTION;
+                    signal_stream[i][j*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = sample_sum[`SAMPLE_WIDTH:1]/GAIN_CORRECTION;
                 end
             end
             return signal_stream;
