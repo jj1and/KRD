@@ -149,8 +149,8 @@ void SetMaxTriggerLength(u16 max_trigger_length){
 	xil_printf("Set Max Trigger Length: %d\r\n", max_trigger_length);
 }
 
-static void printData(u64 *dataptr, u32 frame_size) {
-	for(int i=0; i<frame_size/8; i++) {
+static void printData(u64 *dataptr, u64 frame_size) {
+	for(int i=0; i<frame_size; i++) {
 		if ((i+1)%2 == 0){
 			xil_printf("%016llx\n", dataptr[i]);
 		} else {
@@ -166,9 +166,9 @@ void prvDmaTask( void *pvParameters ) {
 	int data_length = 8;
 	dma_task_end_flag = DMA_TASK_READY;
 
-	int send_frame_size = 0;
-	int read_frame_size = 0;
-	u32 frame_size;
+	int send_frame_len = 0;
+	int read_frame_len = 0;
+	u32 frame_len;
 
 	u64 timestamp_at_beginning = 255;
 	u8 trigger_info = 16;
@@ -193,13 +193,13 @@ void prvDmaTask( void *pvParameters ) {
 	while(TRUE) {
 		dma_task_end_flag = DMA_TASK_RUN;
 
-		if (read_frame_size<send_frame_size || read_frame_size==0)
+		if (read_frame_len<send_frame_len || read_frame_len==0)
 			s2mm_dma_state = axidma_recv_buff();
 		
 		if (s2mm_dma_state == XST_SUCCESS) {
-			if (read_frame_size==send_frame_size)
-				send_frame_size = 0;
-			while (send_frame_size+MAX_PKT_LEN < AXIDMA_BUFF_SIZE) {
+			if (read_frame_len==send_frame_len)
+				send_frame_len = 0;
+			while (send_frame_len*sizeof(u64)+MAX_PKT_LEN < AXIDMA_BUFF_SIZE) {
 				mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length, 0);
 				if (mm2s_dma_state != XST_SUCCESS) {
 					xil_printf("MM2S Dma failed. \r\n");
@@ -209,7 +209,7 @@ void prvDmaTask( void *pvParameters ) {
 					/* code */
 				}
 				if (!Error) {
-					send_frame_size += data_length*16+3*8;
+					send_frame_len += (data_length*2)+3;
 					object_id++;
 //					if (object_id%1000==0) {
 //						xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
@@ -226,11 +226,12 @@ void prvDmaTask( void *pvParameters ) {
 			}	
 			if (!Error) {			
 				dataptr = get_wrptr();
-				Xil_DCacheFlushRange((UINTPTR)dataptr, frame_size+3*8);	
-				frame_size = ((dataptr[0] >> (24+8))&0x00000FFF)*sizeof(u64);
-				read_frame_size += frame_size+3*8;
-				dump_recv_size += frame_size+3*8;			
-				incr_wrptr_after_write(frame_size+3*8);	
+				Xil_DCacheFlushRange((UINTPTR)dataptr, MAX_PKT_LEN);	
+				frame_len = ((dataptr[0] >> (24+8))&0x00000FFF);
+//				printData(dataptr, frame_len+3);
+				read_frame_len += frame_len+3;
+				dump_recv_size += (frame_len+3)*sizeof(u64);
+				incr_wrptr_after_write(frame_len+3);
 			} else {
 				xil_printf("Error interrupt asserted.\r\n");
 				break;					
@@ -243,7 +244,6 @@ void prvDmaTask( void *pvParameters ) {
 		}
 
 		if (dump_recv_size>SEND_BUF_SIZE) {
-//			printData(get_rdptr(), dump_recv_size);
 			dump_recv_size = 0;
 			xTaskNotifyGive(app_thread);
 			vTaskSuspend(NULL);

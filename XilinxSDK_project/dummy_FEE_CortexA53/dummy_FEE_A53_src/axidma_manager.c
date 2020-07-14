@@ -2,11 +2,11 @@
 #include "xil_exception.h"
 #include "xdebug.h"
 
-static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 // static u8 RxBufferWrPtrLoop = 1;
 // static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 // static u8 RxBufferRdPtrLoop = 1;
-static u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
+u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
 static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
 
 
@@ -484,24 +484,25 @@ int axidma_recv_buff(){
 }
 
 int incr_wrptr_after_write(u64 size) {
-	u64 word_size = size/sizeof(u64);
-	u64 margin_word_size = MAX_PKT_LEN/sizeof(u64);
-	if ((RxBufferWrPtr+margin_word_size+word_size) > (u64 *)RX_BUFFER_HIGH) {
+	u64 *expectedPtr;
+	expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN/sizeof(u64) - size;
+	if (RxBufferWrPtr > expectedPtr) {
 			xil_printf("Buffer is full\r\n");
 			return -1;
 	} else {
-		RxBufferWrPtr = RxBufferWrPtr + word_size;
+		RxBufferWrPtr = RxBufferWrPtr + size;
 	}
 	return 0;
 }
 
 int decr_wrptr_after_read(u64 size) {
-	u64 word_size = size/sizeof(u64);
-	if ((RxBufferWrPtr-word_size) < (u64 *)RX_BUFFER_BASE) {
+	u64 *expectedPtr;
+	expectedPtr = (u64 *)RX_BUFFER_BASE + size;
+	if (RxBufferWrPtr < expectedPtr) {
 			xil_printf("Buffer is empty\r\n");
 			return -1;
 	} else {
-		RxBufferWrPtr = RxBufferWrPtr - word_size;
+		RxBufferWrPtr = RxBufferWrPtr - size;
 	}
 	return 0;
 }
