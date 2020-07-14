@@ -13,18 +13,18 @@ module data_trigger_tb;
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2;
     parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4;
 
-    reg ACLK = 1'b0;
-    reg ARESET = 1'b0;
+    reg ACLK = 1'b1;
+    reg ARESET = 1'b1;
     reg SET_CONFIG = 1'b0;
     reg STOP = 1'b1;
 
     // S_AXIS interface from RF Data Converter logic IP
-    reg [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA;
-    reg H_S_AXIS_TVALID;
+    reg [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA = {`RFDC_TDATA_WIDTH{1'b1}};
+    reg H_S_AXIS_TVALID = 1'b0;
 
     // S_AXIS interfrace from L-gain ADC
-    reg [`LGAIN_TDATA_WIDTH-1:0] L_S_AXIS_TDATA;
-    reg L_S_AXIS_TVALID;
+    reg [`LGAIN_TDATA_WIDTH-1:0] L_S_AXIS_TDATA = {`LGAIN_TDATA_WIDTH{1'b1}};
+    reg L_S_AXIS_TVALID = 1'b0;
 
     // Timestamp
     reg [`TIMESTAMP_WIDTH-1:0] TIMESTAMP = 0;
@@ -38,11 +38,11 @@ module data_trigger_tb;
         
 
     // trigger settings
-    reg signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD;
-    reg signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD;
-    reg [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH;
-    reg [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH;
-    reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH;
+    reg signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD = 1024;
+    reg signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD = 1024;
+    reg [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH = 1;
+    reg [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH = 1;
+    reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH = 2;
 
     wire [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] M_AXIS_TDATA;
     wire M_AXIS_TVALID;
@@ -50,7 +50,8 @@ module data_trigger_tb;
     // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
     wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA;
 
-    reg SIG_CLK = 1'b0;
+    reg SIG_CLK = 1'b1;
+    reg L_GAIN_SIG_CLK = 1'b1;
     reg [$clog2(`SAMPLE_NUM_PER_CLK)-1:0] h_disp_ptr = 0;
     reg [$clog2(`SAMPLE_NUM_PER_CLK)-1:0] h_out_disp_ptr = 0;
     reg [$clog2(`LGAIN_SAMPLE_NUM_PER_CLK)-1:0] l_disp_ptr = 0;
@@ -59,10 +60,13 @@ module data_trigger_tb;
     wire [`SAMPLE_WIDTH-1:0] l_sample = L_S_AXIS_TDATA[l_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
     
     always @(posedge SIG_CLK) begin
-        h_disp_ptr <= #100 h_disp_ptr + 1;
-        l_disp_ptr <= #100 l_disp_ptr + 1;
-        h_out_disp_ptr <= #100 h_out_disp_ptr + 1;
+        h_disp_ptr <= h_disp_ptr + 1;
+        h_out_disp_ptr <= h_out_disp_ptr + 1;
     end
+    
+    always @(posedge L_GAIN_SIG_CLK) begin
+        l_disp_ptr <= l_disp_ptr + 1;
+    end    
     
     data_trigger # (
         // these parameter must be configured before logic synthesis
@@ -112,13 +116,20 @@ module data_trigger_tb;
     endtask        
 
     initial begin
-        ACLK =0;
+        ACLK =1;
         forever #(ACLK_PERIOD/2)   ACLK = ~ ACLK;   
     end
 
     initial begin
-        SIG_CLK =0;
+        #100
+        SIG_CLK =1;
         forever #(SIGNAL_PERIOD/2)   SIG_CLK = ~ SIG_CLK;   
+    end
+
+    initial begin
+        #100
+        L_GAIN_SIG_CLK =1;
+        forever #(SIGNAL_PERIOD*4/2)   L_GAIN_SIG_CLK = ~ L_GAIN_SIG_CLK;   
     end
 
     task normal_signal_input(input SignalGenerator sample_signal[], input int sample_num);
@@ -161,7 +172,7 @@ module data_trigger_tb;
             signal_config[i].high_time = 10*(i+1);
             signal_config[i].fall_time = 20*(i+1);
             sample_signal_set[i] = new(signal_config[i]);
-            sample_signal_set[i].sampleFilling(2046, 0, 20); // max, baselibe, noise_amp
+            sample_signal_set[i].sampleFilling(2046, 0); // max, baselibe, noise_amp
         end
 
         reset_all;
