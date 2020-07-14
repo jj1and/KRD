@@ -17,7 +17,6 @@ module trigger_core # (
     // trigger settings
     input wire signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
     input wire signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD,
-    input wire signed [`ADC_RESOLUTION_WIDTH:0] DIGITAL_BASELINE,
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH,
@@ -42,9 +41,9 @@ module trigger_core # (
     genvar i;
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
-            assign rfdc_sample[i] = { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{S_AXIS_TDATA[16*(i+1)-1]}}, S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] };
-            assign rise_edge_thre_over[i] = rfdc_sample[i]-DIGITAL_BASELINE > RISING_EDGE_THRSHOLD;
-            assign fall_edge_thre_under[i] = rfdc_sample[i]-DIGITAL_BASELINE < FALLING_EDGE_THRESHOLD;
+            assign rfdc_sample[i] = S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH+1];
+            assign rise_edge_thre_over[i] = rfdc_sample[i] > RISING_EDGE_THRSHOLD;
+            assign fall_edge_thre_under[i] = rfdc_sample[i] < FALLING_EDGE_THRESHOLD;
         end
 
         assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &hit_rising_edge;  

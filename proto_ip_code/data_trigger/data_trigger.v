@@ -26,7 +26,6 @@ module data_trigger # (
     // trigger settings
     input wire signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
     input wire signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD,
-    input wire signed [`ADC_RESOLUTION_WIDTH:0] DIGITAL_BASELINE,
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH,
@@ -35,19 +34,21 @@ module data_trigger # (
     output wire M_AXIS_TVALID,
 
     // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
-    output wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA
+    output wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA
 );
 
     // ------------------------------- trigger configration -------------------------------
-    localparam integer BASELINE_EFFECTIVE_WIDTH = `TRIGGER_CONFIG_WIDTH-(`ADC_RESOLUTION_WIDTH+1)*2;
+    localparam integer BASELINE_DISPLAY_WIDTH = `TRIGGER_CONFIG_WIDTH-(`ADC_RESOLUTION_WIDTH+1)*2;
 
     reg [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] pre_acquisition_length;
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] post_acquisition_length;
     reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_selection_period_length;
     reg signed [`ADC_RESOLUTION_WIDTH:0] rising_edge_threshold;
-    reg signed [`ADC_RESOLUTION_WIDTH:0] falling_edge_threshold;
-    reg signed [`ADC_RESOLUTION_WIDTH:0] digital_baseline;        
-    wire trigger_config = {digital_baseline[`ADC_RESOLUTION_WIDTH -:BASELINE_EFFECTIVE_WIDTH], rising_edge_threshold, falling_edge_threshold};
+    reg signed [`ADC_RESOLUTION_WIDTH:0] falling_edge_threshold;   
+    wire trigger_config = { 
+        {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){rising_edge_threshold[`ADC_RESOLUTION_WIDTH]}}, rising_edge_threshold}, 
+        {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){falling_edge_threshold[`ADC_RESOLUTION_WIDTH]}}, falling_edge_threshold} 
+    };
 
     always @(posedge ACLK ) begin
         if (ARESET) begin
@@ -55,31 +56,27 @@ module data_trigger # (
             post_acquisition_length <= #100 1;
             adc_selection_period_length <= #100 2;
             rising_edge_threshold <= #100 1024;
-            falling_edge_threshold <= #100 1024;
-            digital_baseline <= #100 0;                               
+            falling_edge_threshold <= #100 1024;                          
         end else begin
             if (SET_CONFIG) begin
                 pre_acquisition_length <= #100 PRE_ACQUISITION_LENGTH;
                 post_acquisition_length <= #100 POST_ACQUISITION_LENGTH;
                 adc_selection_period_length <= #100 ADC_SELECTION_PERIOD_LENGTH;
                 rising_edge_threshold <= #100 RISING_EDGE_THRSHOLD;
-                falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;
-                digital_baseline <= #100 { DIGITAL_BASELINE[`ADC_RESOLUTION_WIDTH -:BASELINE_EFFECTIVE_WIDTH], {`ADC_RESOLUTION_WIDTH+1-BASELINE_EFFECTIVE_WIDTH{1'b0}} };                                      
+                falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;                                      
             end else begin
                 pre_acquisition_length <= #100 pre_acquisition_length;
                 post_acquisition_length <= #100 post_acquisition_length;
                 adc_selection_period_length <= #100 adc_selection_period_length;
                 rising_edge_threshold <= #100 rising_edge_threshold;
-                falling_edge_threshold <= #100 falling_edge_threshold;
-                digital_baseline <= #100 digital_baseline;                
+                falling_edge_threshold <= #100 falling_edge_threshold;              
             end
         end
     end
 
 
     // ------------------------------- data stream for dataformat generation -------------------------------
-    wire signed [`SAMPLE_WIDTH-1:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];
-    wire signed [`SAMPLE_WIDTH-1:0] normal_tdata_sample[`SAMPLE_NUM_PER_CLK-1:0];
+    wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];
     wire [`RFDC_TDATA_WIDTH-1:0] normal_tdata; 
     wire [`RFDC_TDATA_WIDTH-1:0] combined_tdata;
     wire [`SAMPLE_WIDTH:0] sum_of_2samples[3:0];
@@ -88,12 +85,11 @@ module data_trigger # (
     genvar i;
     generate
             for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
-                assign rfdc_sample[i] =  { {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{H_S_AXIS_TDATA[`SAMPLE_WIDTH*(i+1)-1]}}, H_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] };
-                assign normal_tdata_sample[i] = rfdc_sample[i] - digital_baseline;
-                assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = normal_tdata_sample[i];
+                assign rfdc_sample[i] =  H_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH+1];
+                assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = {{`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){rfdc_sample[i][`ADC_RESOLUTION_WIDTH]}}, rfdc_sample[i]};
             end
             for (i=0; i<4; i=i+1) begin
-                assign sum_of_2samples[i] = normal_tdata_sample[i*2] + normal_tdata_sample[i*2+1];
+                assign sum_of_2samples[i] = rfdc_sample[i*2] + rfdc_sample[i*2+1];
                 assign average_of_2samples[i] = sum_of_2samples[i][`SAMPLE_WIDTH:1]; // divided by 2nsec
             end
             for (i=0; i<2; i=i+1) begin
@@ -154,7 +150,7 @@ module data_trigger # (
 
     // ------------------------------- ADC selector -------------------------------
     wire SATURATED_FLAG;
-    reg [`RFDC_TDATA_WIDTH-1:0] h_gain_baseline_subtracted_tdata;
+    reg [`RFDC_TDATA_WIDTH-1:0] h_gain_tdata;
     reg [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] m_axis_tdata;
     reg m_axis_tvalid;
 
@@ -180,15 +176,15 @@ module data_trigger # (
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            h_gain_baseline_subtracted_tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
+            h_gain_tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
         end else begin
-            h_gain_baseline_subtracted_tdata <= #100 delayed_normal_tdata;
+            h_gain_tdata <= #100 delayed_normal_tdata;
         end
     end
 
     assign M_AXIS_TDATA = m_axis_tdata;
     assign M_AXIS_TVALID = m_axis_tvalid;
-    assign H_GAIN_BASELINE_SUBTRACTED_TDATA = h_gain_baseline_subtracted_tdata;
+    assign H_GAIN_TDATA = h_gain_tdata;
 
     // trigger_core TRIGGER & GAIN_TYPE is syncronized to 3CLK delayed H_S_AXIS_TDATA
     // trigger is already extended in trigger_core, for pre & post acquisition
@@ -210,7 +206,6 @@ module data_trigger # (
         // trigger settings
         .RISING_EDGE_THRSHOLD(rising_edge_threshold),
         .FALLING_EDGE_THRESHOLD(falling_edge_threshold),
-        .DIGITAL_BASELINE(digital_baseline),
         .PRE_ACQUISITION_LENGTH(pre_acquisition_length),
         .POST_ACQUISITION_LENGTH(post_acquisition_length),
         .ADC_SELECTION_PERIOD_LENGTH(adc_selection_period_length),

@@ -40,7 +40,6 @@ module data_trigger_tb;
     // trigger settings
     reg signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD;
     reg signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD;
-    reg signed [`ADC_RESOLUTION_WIDTH:0] DIGITAL_BASELINE;
     reg [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH;
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH;
     reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH;
@@ -49,20 +48,20 @@ module data_trigger_tb;
     wire M_AXIS_TVALID;
 
     // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
-    wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA;
+    wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA;
 
     reg SIG_CLK = 1'b0;
     reg [$clog2(`SAMPLE_NUM_PER_CLK)-1:0] h_disp_ptr = 0;
-    reg [$clog2(`SAMPLE_NUM_PER_CLK)-1:0] h_subtracted_disp_ptr = 0;
+    reg [$clog2(`SAMPLE_NUM_PER_CLK)-1:0] h_out_disp_ptr = 0;
     reg [$clog2(`LGAIN_SAMPLE_NUM_PER_CLK)-1:0] l_disp_ptr = 0;
     wire [`SAMPLE_WIDTH-1:0] h_sample = H_S_AXIS_TDATA[h_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
-    wire [`SAMPLE_WIDTH-1:0] h_subtracted_sample = H_GAIN_BASELINE_SUBTRACTED_TDATA[h_subtracted_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+    wire [`SAMPLE_WIDTH-1:0] h_out_sample = H_GAIN_TDATA[h_out_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
     wire [`SAMPLE_WIDTH-1:0] l_sample = L_S_AXIS_TDATA[l_disp_ptr*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
     
     always @(posedge SIG_CLK) begin
         h_disp_ptr <= #100 h_disp_ptr + 1;
         l_disp_ptr <= #100 l_disp_ptr + 1;
-        h_subtracted_disp_ptr <= #100 h_subtracted_disp_ptr + 1;
+        h_out_disp_ptr <= #100 h_out_disp_ptr + 1;
     end
     
     data_trigger # (
@@ -94,7 +93,6 @@ module data_trigger_tb;
     task config_module( 
         input int rise_edge_thre, 
         input int fall_edge_thre, 
-        input int digtal_baseline, 
         input int pre_acqui_len, 
         input int post_acqui_len, 
         input int adc_select_len );
@@ -105,7 +103,6 @@ module data_trigger_tb;
         SET_CONFIG <= #100 1'b1;
         RISING_EDGE_THRSHOLD <= #100 rise_edge_thre;
         FALLING_EDGE_THRESHOLD <= #100 fall_edge_thre;
-        DIGITAL_BASELINE <= #100 digtal_baseline;
         PRE_ACQUISITION_LENGTH <= #100 pre_acqui_len;
         POST_ACQUISITION_LENGTH <= #100 post_acqui_len;
         ADC_SELECTION_PERIOD_LENGTH <= #100 adc_select_len;
@@ -168,7 +165,7 @@ module data_trigger_tb;
         end
 
         reset_all;
-        config_module(1024, 512, 0, 1, 1, 2); // rise_thre, fall_thre, dig_baseline, pre_acqui_len, post_acqui_len, adc_select_period
+        config_module(1024, 512, 1, 1, 2); // rise_thre, fall_thre, dig_baseline, pre_acqui_len, post_acqui_len, adc_select_period
         normal_signal_input(sample_signal_set, SAMPLE_NUM);
     end
     
