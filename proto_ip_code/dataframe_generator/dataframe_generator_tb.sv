@@ -24,7 +24,7 @@ module dataframe_generator_tb;
     wire [`TRIGGER_INFO_WIDTH-1:0] s_axis_trigger_info = S_AXIS_TDATA[`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`TRIGGER_INFO_WIDTH];
     wire [`TIMESTAMP_WIDTH-1:0] s_axis_timestamp =  S_AXIS_TDATA[`TRIGGER_CONFIG_WIDTH +:`TIMESTAMP_WIDTH];
     wire [`TRIGGER_CONFIG_WIDTH-1:0] s_axis_trigger_config = S_AXIS_TDATA[0 +:`TRIGGER_CONFIG_WIDTH];
-    wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA = s_axis_rfdc_tdata;
+    wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA = s_axis_rfdc_tdata;
 
     reg M_AXIS_TREADY;
     wire M_AXIS_TVALID;
@@ -50,8 +50,8 @@ module dataframe_generator_tb;
     wire [`HEADER_TIMESTAMP_WIDTH-1:0] header_timestamp = m_axis_tdata_dframe[0][0 +:`HEADER_TIMESTAMP_WIDTH];
     wire [`CHARGE_SUM-1:0] charge_sum = m_axis_tdata_dframe[1][`TRIGGER_CONFIG_WIDTH +:`CHARGE_SUM];
     wire [`TRIGGER_CONFIG_WIDTH-1:0] trigger_config = m_axis_tdata_dframe[1][0 +:`TRIGGER_CONFIG_WIDTH];
-    wire [`FOOTER_TIMESTAMP_WIDTH-1:0] footer_timestamp = m_axis_tdata_dframe[0][`FOOTER_ID_WIDTH+`OBJECT_ID_WIDTH +:`FOOTER_TIMESTAMP_WIDTH];
-    wire [`OBJECT_ID_WIDTH-1:0] object_id = m_axis_tdata_dframe[0][`FOOTER_ID_WIDTH +:`OBJECT_ID_WIDTH];
+    wire [`FOOTER_TIMESTAMP_WIDTH-1:0] footer_timestamp = m_axis_tdata_dframe[0][`OBJECT_ID_WIDTH +:`FOOTER_TIMESTAMP_WIDTH];
+    wire [`OBJECT_ID_WIDTH-1:0] object_id = m_axis_tdata_dframe[0][0 +:`OBJECT_ID_WIDTH];
     wire [`TIMESTAMP_WIDTH-1:0] timestamp = {footer_timestamp, header_timestamp};    
     wire DATAFRAME_GEN_ERROR;
 
@@ -300,7 +300,7 @@ module dataframe_generator_tb;
                         end               
                     end
                     
-                end else if (&{m_axis_tdata_dframe[0][0 +:`FOOTER_ID_WIDTH]==FOOTER_ID, M_AXIS_TLAST}) begin // FOOTER check                    
+                end else if (&{m_axis_tdata_dframe[0][`DATAFRAME_WIDTH-1 -:`FOOTER_ID_WIDTH]==FOOTER_ID, M_AXIS_TLAST}) begin // FOOTER check                    
                     //  footer_timestamp check
                     if (current_output_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH]!=footer_timestamp) begin
                         $display("TEST FAILED: footer timestamp doesn't match; input:%d output:%d", current_output_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
