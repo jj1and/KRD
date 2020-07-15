@@ -529,13 +529,11 @@ int decr_wrptr_after_read(u64 size) {
 // }
 
 int buff_will_be_full(u64 size) {
-	u64 word_size = size/sizeof(u64);
-	return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-word_size);
+	return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-size);
 }
 
 int buff_will_be_empty(u64 size) {
-	u64 word_size = size/sizeof(u64);
-	return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + word_size);
+	return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + size);
 }
 
 u64* get_wrptr(){
