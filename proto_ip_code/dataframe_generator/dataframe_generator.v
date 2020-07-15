@@ -18,7 +18,7 @@ module dataframe_generator # (
     input wire S_AXIS_TVALID,
 
     // h-gain data for charge_sum
-    input wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_BASELINE_SUBTRACTED_TDATA,
+    input wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA,
 
     input wire M_AXIS_TREADY,
     output wire M_AXIS_TVALID,
@@ -60,7 +60,7 @@ module dataframe_generator # (
         .S_AXIS_TDATA(S_AXIS_TDATA), // TDATA from data trigger
         .S_AXIS_TVALID(S_AXIS_TVALID),
 
-        .H_GAIN_BASELINE_SUBTRACTED_TDATA(H_GAIN_BASELINE_SUBTRACTED_TDATA),
+        .H_GAIN_TDATA(H_GAIN_TDATA),
         
         .HEADER_FOOTER_DATA(HEADER_FOOTER_DATA),
         .HEADER_FOOTER_VALID(HEADER_FOOTER_VALID),
