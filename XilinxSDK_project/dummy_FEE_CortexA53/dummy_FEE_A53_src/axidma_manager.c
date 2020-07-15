@@ -2,12 +2,11 @@
 #include "xil_exception.h"
 #include "xdebug.h"
 
-u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 // static u8 RxBufferWrPtrLoop = 1;
 // static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 // static u8 RxBufferRdPtrLoop = 1;
-u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
-static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
+static u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
 
 
 /*****************************************************************************/
@@ -412,7 +411,7 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);	
 	u16 adc_sample_ary[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 	u8 gain_inverted_trigger_info;
-	gain_inverted_trigger_info = ~((trigger_info >> 4) << 4) | (trigger_info &0x0F );
+	gain_inverted_trigger_info = (0x1F & (~(trigger_info >> 4) << 4) )| (trigger_info &0x0F );
 
 	/* Initialize flags before start transfer test  */
 	Error = 0;
@@ -458,14 +457,11 @@ int axidma_send_buff(u8 trigger_info, u64 timestamp_at_beginning, u16 baseline, 
 
 int axidma_recv_buff(){
     int Status;
-	int S2MM_Status;
-	int max_intr_wait = 10;
-	TickType_t max_intr_wait_tick = pdMS_TO_TICKS(max_intr_wait*1000);
     /* Initialize flags before start transfer test  */
 	Error = 0;
 	RxDone = 0;
 
-	if (!buff_will_be_full(MAX_PKT_LEN)) {
+	if (!buff_will_be_full( MAX_PKT_LEN/sizeof(u64)) ) {
 		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferWrPtr,
 					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);			
 		if (Status == XST_FAILURE) {
