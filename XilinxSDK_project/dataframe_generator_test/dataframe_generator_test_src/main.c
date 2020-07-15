@@ -87,9 +87,8 @@ void SetMaxTriggerLength(u16 max_trigger_length){
 	xil_printf("Set Max Trigger Length: %d\r\n", max_trigger_length);
 }
 
-void printData(u64 *dataptr, int frame_size){
-	Xil_DCacheFlushRange((UINTPTR)dataptr, frame_size);
-	for(int i=0; i<frame_size/8; i++) {
+void printData(u64 *dataptr, u64 frame_size){
+	for(int i=0; i<frame_size; i++) {
 		if ((i+1)%2 == 0){
 			xil_printf("%016llx\n", dataptr[i]);
 		} else {
@@ -99,7 +98,7 @@ void printData(u64 *dataptr, int frame_size){
 	xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id){
+int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id){
 	u8 read_header_id;
 	u64 read_header_timestamp;
 	u8 read_trigger_info;
@@ -116,40 +115,40 @@ int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 time
 	u64 expected_footer_timestamp;
 	u32 expected_object_id = object_id;
 
-	Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*16));
+	Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*sizeof(u64)*2));
 	read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
 	read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
 	read_frame_length = (dataptr[0] >> (24+8)) & 0x00000FFF;
 	read_header_id = (dataptr[0] >> (24+8+12+12)) & 0x000000FF;
 	read_threthold = (dataptr[1] & 0x0000FFFF);
 	read_baseline = (dataptr[1] >> 16) & 0x0000FFFF;
+	incr_wrptr_after_write(read_frame_length+3);
 
-	if (*send_frame_size<=(MAX_TRIGGER_LEN*16)) {
-		frame_size = *send_frame_size;
+	if (*send_frame_len<=(MAX_TRIGGER_LEN*2)) {
+		frame_size = *send_frame_len;
 		expected_header_timestamp = (timestamp_at_beginning & 0x00000000000FFFFFF);
 		expected_footer_timestamp = (timestamp_at_beginning & 0x00000FFFFFF000000);
-		expected_trigger_info = 0x00 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
+		expected_trigger_info = 0x0F & trigger_info; // (1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0] = 8'00001111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
 	} else {
-		if ((*send_frame_size-*read_frame_size)>(MAX_TRIGGER_LEN*16)){
-			frame_size = (MAX_TRIGGER_LEN*16);
-			expected_header_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000000000FFFFFF;
-			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000FFFFFF000000;
+		if ((*send_frame_len-*read_frame_len)>(MAX_TRIGGER_LEN*2)){
+			frame_size = (MAX_TRIGGER_LEN*2);
+			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len/16) & 0x00000000000FFFFFF;
+			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len/16) & 0x00000FFFFFF000000;
 			expected_trigger_info = 0x20 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame						
 		} else {
-			frame_size = (*send_frame_size-*read_frame_size);
-			expected_header_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000000000FFFFFF;
-			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_size/16) & 0x00000FFFFFF000000;
+			frame_size = (*send_frame_len-*read_frame_len);
+			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len/16) & 0x00000000000FFFFFF;
+			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len/16) & 0x00000FFFFFF000000;
 			expected_trigger_info = 0x00 | trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame				
 		}
 	}
-	*read_frame_size = *read_frame_size+read_frame_length*sizeof(u64);
-	read_footer_id = (dataptr[read_frame_length+3-1] & 0x000000FF);
-	read_object_id = (dataptr[read_frame_length+3-1] >> 8) & 0x00FFFFFF;
-	read_footer_timestamp = (dataptr[read_frame_length+3-1] >> 8) & 0x00000FFFFFF000000;
+	*read_frame_len = *read_frame_len+read_frame_length+3;
+	read_footer_id = (dataptr[read_frame_length+3-1] >> 56 ) & 0x000000FF;
+	read_object_id = dataptr[read_frame_length+3-1] & 0xFFFFFFFF;
+	read_footer_timestamp = (dataptr[read_frame_length+3-1] >> 8 ) & 0x00000FFFFFF000000;
 
 	xil_printf("Rcvd frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", read_frame_length/2, read_footer_timestamp+read_header_timestamp, read_trigger_info, read_baseline, read_threthold, read_object_id);
-	printData(dataptr, (read_frame_length+3)*sizeof(u64));
-	incr_rdptr_after_read();
+	printData(dataptr, read_frame_length+3);
 
 	if (read_header_id!=0xAA) {
 		xil_printf("HEADER_ID missmatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
@@ -179,19 +178,19 @@ int checkData(u64 *dataptr, int *send_frame_size, int *read_frame_size, u64 time
 		return XST_FAILURE;
 	}
 
-	// if (object_id==0) {
-	// 	expected_trigger_info = (expected_trigger_info | 0x40);
-	// 	if (read_trigger_info!=expected_trigger_info) {
-	// 		xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
-	// 		return XST_FAILURE;
-	// 	}
-	// } else {
-	// 	if ((read_trigger_info & 0x3F)!=expected_trigger_info) {
-	// 		xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x3F), expected_trigger_info);
-	// 		return XST_FAILURE;
-	// 	}
-	// }
-
+	if (object_id==0) {
+		expected_trigger_info = (expected_trigger_info | 0x40);
+		if (read_trigger_info!=expected_trigger_info) {
+			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
+			return XST_FAILURE;
+		}
+	} else {
+		if ((read_trigger_info & 0x3F)!=expected_trigger_info) {
+			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x3F), expected_trigger_info);
+			return XST_FAILURE;
+		}
+	}
+	decr_wrptr_after_read(read_frame_length+3);
 	return XST_SUCCESS;
 }
 
@@ -202,8 +201,8 @@ void prvDmaTask( void *pvParameters ) {
 	int test_max_trigger_len = 16;
 	int data_length = 8;
 
-	int send_frame_size = 0;
-	int read_frame_size = 0;
+	int send_frame_len = 0;
+	int read_frame_len = 0;
 	u64 timestamp_at_beginning = 255;
 	u8 trigger_info = 16;
 	u16 baseline = 0;
@@ -223,7 +222,7 @@ void prvDmaTask( void *pvParameters ) {
 		
 		s2mm_dma_state = axidma_recv_buff();
 		if (s2mm_dma_state == XST_SUCCESS) {
-			if (read_frame_size==send_frame_size) {
+			if (read_frame_len==send_frame_len) {
 				mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length, 1);
 				if (mm2s_dma_state != XST_SUCCESS) {
 					xil_printf("MM2S Dma failed. \r\n");
@@ -233,8 +232,8 @@ void prvDmaTask( void *pvParameters ) {
 					/* code */
 				}
 				if (!Error) {
-					send_frame_size = data_length*16;
-					read_frame_size = 0;
+					send_frame_len = data_length*2+3;
+					read_frame_len = 0;
 					object_id++;
 					xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
 					data_length++;		
@@ -247,28 +246,25 @@ void prvDmaTask( void *pvParameters ) {
 			while (!RxDone && !Error) {
 				/* code */
 			}	
-			if (!Error) {
-				incr_wrptr_after_write();
-			} else {
+			if (Error) {
 				xil_printf("Error interrupt asserted.\r\n");
 				break;					
 			}
-		} else if (buff_is_full()) {
+		} else if (buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
 			xil_printf("S2MM Dma buffer is full. \r\n");
 		} else {
 			xil_printf("S2MM Dma failed beacuse of internal error. \r\n");
 			break;
 		}
 
-		if ((s2mm_dma_state==XST_SUCCESS)||buff_is_full()) {
-			dataptr = get_rdptr();	
-			test_result = checkData(dataptr, &send_frame_size, &read_frame_size, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
+		if ((s2mm_dma_state==XST_SUCCESS)||buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
+			dataptr = get_wrptr();	
+			test_result = checkData(dataptr, &send_frame_len, &read_frame_len, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
 			if (test_result!=XST_SUCCESS) {
 				break;
-			}
-			
+			}		
 		}
-		if (data_length>test_max_trigger_len && read_frame_size==send_frame_size) {
+		if (data_length>test_max_trigger_len && read_frame_len==send_frame_len) {
 			xil_printf("sequential sending test passed!\r\n");
 			break;
 		}

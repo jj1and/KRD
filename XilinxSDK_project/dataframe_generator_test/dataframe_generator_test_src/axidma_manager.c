@@ -3,9 +3,10 @@
 #include "xdebug.h"
 
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
-static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+// static u8 RxBufferWrPtrLoop = 1;
+// static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+// static u8 RxBufferRdPtrLoop = 1;
 static u8 *TxBufferPtr = (u8 *)TX_BUFFER_BASE;
-int data_cnt;
 static int MAX_DATA_NUM = RX_BUFFER_SIZE/MAX_PKT_LEN;
 
 
@@ -380,7 +381,6 @@ int axidma_setup(){
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
 							XAXIDMA_DEVICE_TO_DMA);							
 
-	data_cnt = 0;
 	xil_printf("AXI-DMA Setup is done successfully.\r\n");
 	return XST_SUCCESS;
 }
@@ -465,7 +465,7 @@ int axidma_recv_buff(){
 	Error = 0;
 	RxDone = 0;
 
-	if (!buff_is_full()) {
+	if (!buff_will_be_full( MAX_PKT_LEN/sizeof(u64)) ) {
 		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferWrPtr,
 					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);			
 		if (Status == XST_FAILURE) {
@@ -476,48 +476,73 @@ int axidma_recv_buff(){
 			return XST_FAILURE;
 		}
 	} else {
-		xil_printf("RX buffer is full.\r\n");
+		xil_printf("RX buffer will be full.\r\n");
 		return XST_FAILURE;
 	}
 
 	return XST_SUCCESS;
 }
 
-void incr_wrptr_after_write() {
-	if (data_cnt<MAX_DATA_NUM){
-		data_cnt++;
-		if (RxBufferWrPtr >= (u64 *)RX_BUFFER_HIGH - (int)MAX_PKT_LEN/sizeof(RxBufferWrPtr))
-			RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
-		else
-			RxBufferWrPtr = RxBufferWrPtr + (int)MAX_PKT_LEN/sizeof(RxBufferWrPtr);
+int incr_wrptr_after_write(u64 size) {
+	u64 *expectedPtr;
+	expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN/sizeof(u64) - size;
+	if (RxBufferWrPtr > expectedPtr) {
+			xil_printf("Buffer is full\r\n");
+			return -1;
+	} else {
+		RxBufferWrPtr = RxBufferWrPtr + size;
 	}
+	return 0;
 }
 
-void incr_rdptr_after_read(){
-	if (data_cnt>0) {
-		data_cnt--;
-		if (RxBufferRdPtr >= (u64 *)RX_BUFFER_HIGH - (int)MAX_PKT_LEN/sizeof(RxBufferRdPtr))
-			RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
-		else
-			RxBufferRdPtr = RxBufferRdPtr + (int)MAX_PKT_LEN/sizeof(RxBufferRdPtr);
+int decr_wrptr_after_read(u64 size) {
+	u64 *expectedPtr;
+	expectedPtr = (u64 *)RX_BUFFER_BASE + size;
+	if (RxBufferWrPtr < expectedPtr) {
+			xil_printf("Buffer is empty\r\n");
+			return -1;
+	} else {
+		RxBufferWrPtr = RxBufferWrPtr - size;
 	}
+	return 0;
 }
 
-int buff_is_empty() {
-	return (data_cnt <= 0);
+// int incr_rdptr_after_read(u64 size){
+// 	u64 word_size = size/sizeof(u64);
+// 	if (RxBufferRdPtr > (u64 *)RX_BUFFER_HIGH - word_size) {
+// 		if ((RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_HIGH+(u64 *)RX_BUFFER_BASE > RxBufferWrPtr)&&(RxBufferRdPtrLoop!=RxBufferWrPtrLoop)) {
+// 			xil_printf("Buffer is empty\r\n");
+// 			return -1;
+// 		} else {
+// 			RxBufferRdPtr = RxBufferRdPtr+word_size-(u64 *)RX_BUFFER_HIGH+(u64 *)RX_BUFFER_BASE;
+// 			RxBufferRdPtrLoop = ~RxBufferRdPtrLoop;
+// 		}
+// 	} else {
+// 		if ((RxBufferRdPtr+word_size>RxBufferWrPtr)&&(RxBufferRdPtrLoop==RxBufferWrPtrLoop)) {
+// 			xil_printf("Buffer is empty\r\n");
+// 			return -1;
+// 		} else {
+// 			RxBufferRdPtr = RxBufferRdPtr + word_size;
+// 		}
+// 	}
+// 	return 0; 
+// }
+
+int buff_will_be_full(u64 size) {
+	return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH-size);
 }
 
-int buff_is_full(){
-	return (data_cnt >= MAX_DATA_NUM);
+int buff_will_be_empty(u64 size) {
+	return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + size);
 }
 
 u64* get_wrptr(){
 	return RxBufferWrPtr;
 }
 
-u64* get_rdptr(){
-	return RxBufferRdPtr;
-}
+// u64* get_rdptr(){
+// 	return RxBufferRdPtr;
+// }
 
 void shutdown_dma(){
 	xil_printf("End dma task...\r\n");
