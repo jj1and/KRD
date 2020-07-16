@@ -2,24 +2,25 @@
 `include "trigger_config.vh"
 module trigger_core # (
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
-    parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
-    parameter integer MAX_ADC_SELECTION_PERIOD_LENGTH = 4
+    parameter integer MAX_POST_ACQUISITION_LENGTH = 2
 )(
     input wire ACLK,
     input wire ARESET,
     input wire SET_CONFIG,
     input wire STOP,
 
-    // S_AXIS interface from RF Data Converter logic IP
+    // S_AXIS interface from DBLR
     input wire [`RFDC_TDATA_WIDTH-1:0] S_AXIS_TDATA,
     input wire S_AXIS_TVALID,
 
+    // S_AXIS interface from RF Data Converter logic IP
+    input wire [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA,
+
     // trigger settings
-    input wire signed [`ADC_RESOLUTION_WIDTH:0] RISING_EDGE_THRSHOLD,
-    input wire signed [`ADC_RESOLUTION_WIDTH:0] FALLING_EDGE_THRESHOLD,
-    input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH)-1:0] PRE_ACQUISITION_LENGTH,
-    input wire [$clog2(MAX_POST_ACQUISITION_LENGTH)-1:0] POST_ACQUISITION_LENGTH,
-    input wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECTION_PERIOD_LENGTH,
+    input wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRSHOLD,
+    input wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD,
+    input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH,
+    input wire [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH,
 
     // trigger and gain-mode for ADC selector
     output wire TRIGGER,
@@ -27,12 +28,12 @@ module trigger_core # (
 );
 
     // ------------------------------- hit detection -------------------------------
-    wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];    
+    wire signed [`SAMPLE_WIDTH-1:0] dsp_sample[`SAMPLE_NUM_PER_CLK-1:0];    
     wire [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over;
     reg [`SAMPLE_NUM_PER_CLK-1:0] rise_edge_thre_over_delay;
     wire [`SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge;
     reg [`SAMPLE_NUM_PER_CLK-1:0] hit_rising_edge_delay;        
-    wire hit_start = |hit_rising_edge_delay;
+    wire hit_start = |{hit_rising_edge_delay, saturation_detect_delay};
 
     wire [`SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under;
     reg [`SAMPLE_NUM_PER_CLK-1:0] fall_edge_thre_under_delay;
@@ -41,14 +42,14 @@ module trigger_core # (
     genvar i;
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
-            assign rfdc_sample[i] = S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH+1];
-            assign rise_edge_thre_over[i] = rfdc_sample[i] > RISING_EDGE_THRSHOLD;
-            assign fall_edge_thre_under[i] = rfdc_sample[i] < FALLING_EDGE_THRESHOLD;
+            assign dsp_sample[i] = S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+            assign rise_edge_thre_over[i] = dsp_sample[i] > RISING_EDGE_THRSHOLD;
+            assign fall_edge_thre_under[i] = dsp_sample[i] < FALLING_EDGE_THRESHOLD;
         end
 
         assign hit_rising_edge[`SAMPLE_NUM_PER_CLK-1] = &rise_edge_thre_over;  
         for (i=1; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
-            assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[`SAMPLE_NUM_PER_CLK-1:i])|(|rise_edge_thre_over[i-1:0]);
+            assign hit_rising_edge[i-1] = (&rise_edge_thre_over_delay[`SAMPLE_NUM_PER_CLK-1:i])&(|rise_edge_thre_over[i-1:0]);
         end
     endgenerate    
 
@@ -62,7 +63,6 @@ module trigger_core # (
     // ------------------------------- trigger generation -------------------------------
     reg [`RFDC_TDATA_WIDTH*2-1:0] tdata_shiftreg;
     wire [`RFDC_TDATA_WIDTH-1:0] tdata_delay = tdata_shiftreg[`RFDC_TDATA_WIDTH-1 :0];
-    wire [`RFDC_TDATA_WIDTH-1:0] tdata_2delay = tdata_shiftreg[`RFDC_TDATA_WIDTH*2-1 -:`RFDC_TDATA_WIDTH];
 
     reg tvalid_delay;
     reg tvalid_2delay;
@@ -121,39 +121,29 @@ module trigger_core # (
 
 
     // ------------------------------- h-gain saturation detection -------------------------------
-    reg [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] adc_select_count;
-    wire [$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH)-1:0] ADC_SELECT_COUNT_INIT_VAL = {$clog2(MAX_ADC_SELECTION_PERIOD_LENGTH){1'b1}};
-    wire adc_select_enable = (adc_select_count < ADC_SELECTION_PERIOD_LENGTH);
+    wire signed [`ADC_RESOLUTION_WIDTH-1:0] h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
+    reg [`SAMPLE_NUM_PER_CLK*2-1:0] saturation_detect_shiftreg;
     wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect;
+    wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect_delay = saturation_detect_shiftreg[0 +:`SAMPLE_NUM_PER_CLK];
+    wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect_2delay = saturation_detect_shiftreg[`SAMPLE_NUM_PER_CLK +:`SAMPLE_NUM_PER_CLK];
     reg saturation_flag;
 
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
-            assign saturation_detect[i] = (tdata_2delay[i*`SAMPLE_WIDTH +:`ADC_RESOLUTION_WIDTH] == {`ADC_RESOLUTION_WIDTH{1'b1}});
+            assign h_gain_sample[i] = H_S_AXIS_TDATA[i*`SAMPLE_WIDTH+`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH];
+            assign saturation_detect[i] = (h_gain_sample[i] == 2047);
         end
     endgenerate
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
-            adc_select_count <= #100 ADC_SELECT_COUNT_INIT_VAL;
-        end else begin
-            if (trigger_posedge) begin
-                adc_select_count <= #100 0;
-            end else begin
-                if (&{trigger, adc_select_enable}) begin
-                    adc_select_count <= #100 adc_select_count + 1;
-                end else begin
-                    adc_select_count <= #100 ADC_SELECT_COUNT_INIT_VAL;
-                end
-            end
-        end
-    end    
+        saturation_detect_shiftreg <= #100 {saturation_detect_shiftreg[`SAMPLE_NUM_PER_CLK-1:0], saturation_detect};
+    end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
             saturation_flag <= #100 1'b0;
         end else begin
-            if (&{adc_select_enable, |saturation_detect}) begin
+            if (saturation_detect_2delay) begin
                 saturation_flag <= #100 1'b1;
             end else begin
                 if (trigger_negedge) begin
