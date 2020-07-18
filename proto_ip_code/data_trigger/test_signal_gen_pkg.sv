@@ -40,7 +40,7 @@ package test_signal_gen_pkg;
             this.total_stream_len = this.total_length/`SAMPLE_NUM_PER_CLK; 
         endfunction //new()
 
-        function bit [`SAMPLE_WIDTH-1:0] convert_int2hsample(input shortint val);
+        function bit [`SAMPLE_WIDTH-1:0] int16_to_hGainSample(input shortint val);
             bit [`SAMPLE_WIDTH-1:0] result;
             if (val>2046) begin
                 val = 2047;
@@ -49,7 +49,7 @@ package test_signal_gen_pkg;
             end            
             result = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
             return result;
-        endfunction
+        endfunction    
 
         virtual function void sampleFilling(input shortint h_gain_max_val, input shortint h_gain_baseline, input shortint l_gain_max_val, input shortint l_gain_baseline);
             shortint val;
@@ -64,7 +64,7 @@ package test_signal_gen_pkg;
 
             for (int i=0; i<this.pre_time; i++) begin
                 val = h_gain_baseline;
-                sample_ary[i] = this.convert_int2hsample(val);
+                sample_ary[i] = this.int16_to_hGainSample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_baseline;
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
@@ -72,7 +72,7 @@ package test_signal_gen_pkg;
             end
             for (int i=this.pre_time; i<this.pre_time+this.rise_time; i++) begin
                 val = (i-this.pre_time)*(h_gain_max_val-h_gain_baseline)/(this.rise_time-1) + h_gain_baseline;
-                sample_ary[i] = this.convert_int2hsample(val);
+                sample_ary[i] = this.int16_to_hGainSample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val =  (i-this.pre_time)*(l_gain_max_val-l_gain_baseline)/(this.rise_time-1) + l_gain_baseline;
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;    
@@ -80,7 +80,7 @@ package test_signal_gen_pkg;
             end
             for (int i=this.pre_time+this.rise_time; i<this.pre_time+this.rise_time+this.high_time; i++) begin
                 val = h_gain_max_val;
-                sample_ary[i] = this.convert_int2hsample(val);
+                sample_ary[i] = this.int16_to_hGainSample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_max_val;
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
@@ -88,7 +88,7 @@ package test_signal_gen_pkg;
             end
             for (int i=this.pre_time+this.rise_time+this.high_time; i<this.pre_time+this.rise_time+this.high_time+this.fall_time; i++) begin
                 val = h_gain_max_val - (i-this.pre_time-this.rise_time-this.high_time)*(h_gain_max_val-h_gain_baseline)/(this.fall_time-1);
-                sample_ary[i] = this.convert_int2hsample(val);
+                sample_ary[i] = this.int16_to_hGainSample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_max_val - (i-this.pre_time-this.rise_time-this.high_time)*(l_gain_max_val-l_gain_baseline)/(this.fall_time-1);
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];                    
@@ -96,7 +96,7 @@ package test_signal_gen_pkg;
             end
             for (int i=this.pre_time+this.rise_time+this.high_time+this.fall_time; i<this.pre_time+this.rise_time+this.high_time+this.fall_time+extended; i++) begin
                 val = h_gain_baseline;
-                sample_ary[i] = this.convert_int2hsample(val);
+                sample_ary[i] = this.int16_to_hGainSample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_baseline;
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
@@ -130,6 +130,106 @@ package test_signal_gen_pkg;
             return signal_stream;
         endfunction        
     endclass
+
+    function bit [15:0] int12_to_int16(input bit [11:0] sample);
+        bit [15:0] result;
+        bit [3:0] sign_extention;
+        sign_extention = {4{sample[11]}};
+        result = {sign_extention, sample};
+        return result;
+    endfunction
+
+    function bit [12:0] int12_to_int13(input bit [11:0] sample);
+        bit [12:0] result;
+        bit sign_extention;
+        sign_extention = sample[11];
+        result = {sign_extention, sample};
+        return result;
+    endfunction
+
+    function bit [15:0] int13_to_int16(input bit [12:0] sample);
+        bit [15:0] result;
+        bit [2:0] sign_extention;
+        sign_extention = {3{sample[12]}};
+        result = {sign_extention, sample};
+        return result;
+    endfunction
+
+    function bit [11:0] int16_to_int12(input bit [15:0] sample);
+        bit [11:0] result;
+        bit sign;
+        bit [10:0] lower_11bits;
+        sign = sample[15];
+        lower_11bits = sample[10:0];
+        result = {sign, lower_11bits};
+        return result;
+    endfunction
+
+    function bit [12:0] int16_to_int13(input bit [15:0] sample);
+        bit [11:0] result;
+        bit sign;
+        bit [10:0] lower_12bits;
+        sign = sample[15];
+        lower_12bits = sample[11:0];
+        result = {sign, lower_12bits};
+        return result;
+    endfunction
+
+    function bit [`ADC_RESOLUTION_WIDTH:0] iSample_in_rawHGainTDATA(input bit [`RFDC_TDATA_WIDTH-1:0] raw_h_gain_tdata, input int i);
+        bit [`ADC_RESOLUTION_WIDTH:0] result;
+        result = {raw_h_gain_tdata[(i+1)*`SAMPLE_WIDTH-1], raw_h_gain_tdata[i*`SAMPLE_WIDTH+`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH]};
+        return result;
+    endfunction
+
+    function bit [`SAMPLE_WIDTH-1:0] iSample_in_expectedTDATA(input bit [`RFDC_TDATA_WIDTH-1:0] expected_tdata, input int i);
+        bit [`SAMPLE_WIDTH-1:0] result;
+        result = expected_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+        return result;
+    endfunction
+
+    function bit [`RFDC_TDATA_WIDTH-1:0] rawHGainTDATA_to_expectedNormalTDATA(input bit [`RFDC_TDATA_WIDTH-1:0] raw_h_gain_tdata, input bit signed [`ADC_RESOLUTION_WIDTH:0] h_gain_baseline);
+        bit [`RFDC_TDATA_WIDTH-1:0] result;
+        bit signed [`ADC_RESOLUTION_WIDTH:0] int13_sample;
+        bit signed [`ADC_RESOLUTION_WIDTH:0] int13_sample_bl_subtracted;
+        for (int i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            int13_sample = iSample_in_rawHGainTDATA(raw_h_gain_tdata, i);
+            int13_sample_bl_subtracted = int13_sample-h_gain_baseline;
+            result[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = int13_to_int16(int13_sample_bl_subtracted);
+        end
+        return result;
+    endfunction
+
+    function bit [`RFDC_TDATA_WIDTH-1:0] rawTDATA_to_expectedCombinedTDATA(
+        input bit [`RFDC_TDATA_WIDTH-1:0] raw_h_gain_tdata, input bit signed [`ADC_RESOLUTION_WIDTH:0] h_gain_baseline, 
+        input bit [`LGAIN_TDATA_WIDTH-1:0] raw_l_gain_tdata, input bit signed [`SAMPLE_WIDTH-1:0] l_gain_baseline );
+        bit [`RFDC_TDATA_WIDTH-1:0] result;
+        bit signed [`ADC_RESOLUTION_WIDTH:0] int13_hGainSample[`SAMPLE_NUM_PER_CLK];
+        bit signed [`ADC_RESOLUTION_WIDTH+1:0] int13_hGainSampleSum;
+        bit signed [`ADC_RESOLUTION_WIDTH:0] int13_hGainAveragedSample_bl_subtracted;
+        bit signed [`SAMPLE_WIDTH-1:0] int16_lGainSample;
+        for (int i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            int13_hGainSample[i] = iSample_in_rawHGainTDATA(raw_h_gain_tdata, i);
+        end
+
+        for (int i=0; i<`SAMPLE_NUM_PER_CLK; i++) begin
+            if (i%4==0) begin
+                int16_lGainSample = raw_l_gain_tdata[(i/4)*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+                result[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = int16_lGainSample - l_gain_baseline;
+            end else if ((i-1)%4==0) begin
+                int13_hGainSampleSum = int13_hGainSample[i] + int13_hGainSample[i-1];
+                int13_hGainAveragedSample_bl_subtracted = int13_hGainSampleSum[`ADC_RESOLUTION_WIDTH+1:1]-h_gain_baseline;
+                result[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = int13_to_int16(int13_hGainAveragedSample_bl_subtracted);
+            end else if ((i-2)%4==0) begin
+                int13_hGainSampleSum = int13_hGainSample[i] + int13_hGainSample[i+1];
+                int13_hGainAveragedSample_bl_subtracted = int13_hGainSampleSum[`ADC_RESOLUTION_WIDTH+1:1]-h_gain_baseline;
+                result[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = int13_to_int16(int13_hGainAveragedSample_bl_subtracted);
+            end else if ((i-3)%4==0) begin
+                result[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] =16'hCC00;
+            end                      
+        end
+        return result;
+    endfunction           
+
 
 endpackage
 `endif
