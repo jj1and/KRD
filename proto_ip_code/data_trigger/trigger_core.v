@@ -122,39 +122,32 @@ module trigger_core # (
 
     // ------------------------------- h-gain saturation detection -------------------------------
     wire signed [`ADC_RESOLUTION_WIDTH-1:0] h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
-    reg [`SAMPLE_NUM_PER_CLK*2-1:0] saturation_detect_shiftreg;
     wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect;
-    wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect_delay = saturation_detect_shiftreg[0 +:`SAMPLE_NUM_PER_CLK];
-    wire [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect_2delay = saturation_detect_shiftreg[`SAMPLE_NUM_PER_CLK +:`SAMPLE_NUM_PER_CLK];
-    reg saturation_flag;
+    reg [`SAMPLE_NUM_PER_CLK-1:0] saturation_detect_delay;
+    wire saturation_flag_delay = |saturation_detect_delay;
+    reg saturation_flag_2delay;
+    reg saturation_flag_3delay;
 
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign h_gain_sample[i] = H_S_AXIS_TDATA[i*`SAMPLE_WIDTH+`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH];
-            assign saturation_detect[i] = (h_gain_sample[i] == 2047);
+            assign saturation_detect[i] = (h_gain_sample[i] == 2047)|(h_gain_sample[i] == -2048);
         end
     endgenerate
 
     always @(posedge ACLK ) begin
-        saturation_detect_shiftreg <= #100 {saturation_detect_shiftreg[`SAMPLE_NUM_PER_CLK-1:0], saturation_detect};
+        saturation_detect_delay <= #100 saturation_detect;
+        saturation_flag_2delay <= #100 saturation_flag_delay;  
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            saturation_flag <= #100 1'b0;
+            saturation_flag_3delay <= #100 1'b0;
         end else begin
-            if (saturation_detect_2delay) begin
-                saturation_flag <= #100 1'b1;
-            end else begin
-                if (trigger_negedge) begin
-                    saturation_flag <= #100 1'b0;
-                end else begin
-                    saturation_flag <= #100 saturation_flag;
-                end
-            end
+            saturation_flag_3delay <= #100 saturation_flag_2delay;
         end
     end
 
-    assign SATURATION_FLAG = saturation_flag;
+    assign SATURATION_FLAG = saturation_flag_3delay;
 
 endmodule 
