@@ -48,7 +48,9 @@ module data_trigger # (
     reg [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] pre_acquisition_length;
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH):0] post_acquisition_length;
     reg signed [`SAMPLE_WIDTH-1:0] rising_edge_threshold;
-    reg signed [`SAMPLE_WIDTH-1:0] falling_edge_threshold;   
+    reg signed [`SAMPLE_WIDTH-1:0] falling_edge_threshold;
+    reg signed [`ADC_RESOLUTION_WIDTH:0] h_gain_baseline;
+    reg signed [`SAMPLE_WIDTH-1:0] l_gain_baseline;   
     wire [`TRIGGER_CONFIG_WIDTH-1:0] trigger_config = { rising_edge_threshold, falling_edge_threshold };
 
     always @(posedge ACLK ) begin
@@ -57,20 +59,26 @@ module data_trigger # (
             pre_acquisition_length <= #100 1;
             post_acquisition_length <= #100 1;
             rising_edge_threshold <= #100 1024;
-            falling_edge_threshold <= #100 1024;                          
+            falling_edge_threshold <= #100 1024;
+            h_gain_baseline <= #100 -1024;
+            l_gain_baseline <= #100 128;                          
         end else begin
             if (SET_CONFIG) begin
                 acquire_mode <= #100 ACQUIRE_MODE;
                 pre_acquisition_length <= #100 PRE_ACQUISITION_LENGTH;
                 post_acquisition_length <= #100 POST_ACQUISITION_LENGTH;
                 rising_edge_threshold <= #100 RISING_EDGE_THRSHOLD;
-                falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;                                      
+                falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;
+                h_gain_baseline <= #100 H_GAIN_BASELINE;
+                l_gain_baseline <= #100 L_GAIN_BASELINE;                                                        
             end else begin
                 acquire_mode <= #100 acquire_mode;
                 pre_acquisition_length <= #100 pre_acquisition_length;
                 post_acquisition_length <= #100 post_acquisition_length;
                 rising_edge_threshold <= #100 rising_edge_threshold;
-                falling_edge_threshold <= #100 falling_edge_threshold;              
+                falling_edge_threshold <= #100 falling_edge_threshold;
+                h_gain_baseline <= #100 h_gain_baseline;
+                l_gain_baseline <= #100 l_gain_baseline;                    
             end
         end
     end
@@ -89,7 +97,7 @@ module data_trigger # (
     generate
             for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
                 assign rfdc_sample[i] =  {H_S_AXIS_TDATA[(i+1)*`SAMPLE_WIDTH-1], H_S_AXIS_TDATA[i*`SAMPLE_WIDTH+`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH]};
-                assign h_gain_bl_subtracted[i] = rfdc_sample[i] - H_GAIN_BASELINE;
+                assign h_gain_bl_subtracted[i] = rfdc_sample[i] - h_gain_baseline;
                 assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = { {`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH]}}, h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH:0] };
             end
             for (i=0; i<4; i=i+1) begin
@@ -97,7 +105,7 @@ module data_trigger # (
                 assign average_of_2samples[i] = sum_of_2samples[i][`SAMPLE_WIDTH:1]; // divided by 2nsec
             end
             for (i=0; i<2; i=i+1) begin
-                assign l_gain_bl_subtracted[i] = L_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] - L_GAIN_BASELINE;
+                assign l_gain_bl_subtracted[i] = L_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] - l_gain_baseline;
                 assign combined_tdata[i*(`RFDC_TDATA_WIDTH/2) +:(`RFDC_TDATA_WIDTH/2)] = {16'hCC00, average_of_2samples[i*2+1], average_of_2samples[i*2],  l_gain_bl_subtracted[i]};
             end
     endgenerate
@@ -164,9 +172,9 @@ module data_trigger # (
             m_axis_tdata <= #100 {`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH{1'b1}};    
         end else begin
             if (delayed_saturated_flag|acquire_mode) begin
-                m_axis_tdata <= #100 {delayed_combined_tdata, {3'b0, ~delayed_saturated_flag, 4'b0}, delayed_timestamp, trigger_config};
+                m_axis_tdata <= #100 {delayed_combined_tdata, {3'b0, ~(delayed_saturated_flag|acquire_mode), 4'b0}, delayed_timestamp, trigger_config};
             end else begin
-                m_axis_tdata <= #100 {delayed_normal_tdata, {3'b0, ~delayed_saturated_flag, 4'b0}, delayed_timestamp, trigger_config};
+                m_axis_tdata <= #100 {delayed_normal_tdata, {3'b0, ~(delayed_saturated_flag|acquire_mode), 4'b0}, delayed_timestamp, trigger_config};
             end
         end
     end
