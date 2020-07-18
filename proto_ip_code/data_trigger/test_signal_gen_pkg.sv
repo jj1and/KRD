@@ -40,6 +40,17 @@ package test_signal_gen_pkg;
             this.total_stream_len = this.total_length/`SAMPLE_NUM_PER_CLK; 
         endfunction //new()
 
+        function bit [`SAMPLE_WIDTH-1:0] convert_int2hsample(input shortint val);
+            bit [`SAMPLE_WIDTH-1:0] result;
+            if (val>2046) begin
+                val = 2047;
+            end else if (val<-2047) begin
+                val = -2048;
+            end            
+            result = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+            return result;
+        endfunction
+
         virtual function void sampleFilling(input shortint h_gain_max_val, input shortint h_gain_baseline, input shortint l_gain_max_val, input shortint l_gain_baseline);
             shortint val;
             int GAIN_CORRECTION = 20;
@@ -53,31 +64,31 @@ package test_signal_gen_pkg;
 
             for (int i=0; i<this.pre_time; i++) begin
                 val = h_gain_baseline;
-                sample_ary[i] = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+                sample_ary[i] = this.convert_int2hsample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_baseline;
-                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];                    
+                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
                 end                
             end
             for (int i=this.pre_time; i<this.pre_time+this.rise_time; i++) begin
                 val = (i-this.pre_time)*(h_gain_max_val-h_gain_baseline)/(this.rise_time-1) + h_gain_baseline;
-                sample_ary[i] = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+                sample_ary[i] = this.convert_int2hsample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val =  (i-this.pre_time)*(l_gain_max_val-l_gain_baseline)/(this.rise_time-1) + l_gain_baseline;
-                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];    
+                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;    
                 end
             end
             for (int i=this.pre_time+this.rise_time; i<this.pre_time+this.rise_time+this.high_time; i++) begin
                 val = h_gain_max_val;
-                sample_ary[i] = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+                sample_ary[i] = this.convert_int2hsample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_max_val;
-                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];                    
+                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
                 end
             end
             for (int i=this.pre_time+this.rise_time+this.high_time; i<this.pre_time+this.rise_time+this.high_time+this.fall_time; i++) begin
                 val = h_gain_max_val - (i-this.pre_time-this.rise_time-this.high_time)*(h_gain_max_val-h_gain_baseline)/(this.fall_time-1);
-                sample_ary[i] = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+                sample_ary[i] = this.convert_int2hsample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_max_val - (i-this.pre_time-this.rise_time-this.high_time)*(l_gain_max_val-l_gain_baseline)/(this.fall_time-1);
                     l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];                    
@@ -85,10 +96,10 @@ package test_signal_gen_pkg;
             end
             for (int i=this.pre_time+this.rise_time+this.high_time+this.fall_time; i<this.pre_time+this.rise_time+this.high_time+this.fall_time+extended; i++) begin
                 val = h_gain_baseline;
-                sample_ary[i] = {val[`SAMPLE_WIDTH-1], val[0 +:`ADC_RESOLUTION_WIDTH-1], {`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH{1'b0}}};
+                sample_ary[i] = this.convert_int2hsample(val);
                 if (i%LGAIN_TIME_SCALE==0) begin
                     val = l_gain_baseline;
-                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val[`SAMPLE_WIDTH-1:0];                    
+                    l_gain_sample_ary[i/LGAIN_TIME_SCALE] = val;                    
                 end                
             end
 
