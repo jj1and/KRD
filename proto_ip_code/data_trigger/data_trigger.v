@@ -152,7 +152,7 @@ module data_trigger # (
 
     variable_shiftreg_delay # (
         .DATA_WIDTH(`TIMESTAMP_WIDTH),
-        .MAX_DELAY_LENGTH(MAX_PRE_ACQUISITION_LENGTH+1+3)
+        .MAX_DELAY_LENGTH(MAX_PRE_ACQUISITION_LENGTH+3)
     ) timestamp_delay_inst (
         .CLK(ACLK),
         .DIN(TIMESTAMP),
