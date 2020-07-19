@@ -113,9 +113,14 @@ module data_trigger # (
 
     // ------------------------------- Trigger & ADC data, timstamp delay ------------------------------- 
     wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+3)-1:0] TRIGGER_CORE_DELAY_FOR_DATA = 3;
+    wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+2)-1:0] TRIGGER_CORE_DELAY_FOR_RST_CONFIG = 2;
 
     wire EXTEND_TRIGGER;
     wire delayed_saturated_flag;
+
+    // trigger_core must supress trigger until data in shift register gets valid data
+    wire extend_areset;
+    wire extend_set_config;
     wire [`RFDC_TDATA_WIDTH-1:0] delayed_normal_tdata;
     wire [`RFDC_TDATA_WIDTH-1:0] delayed_combined_tdata;
     wire [`TIMESTAMP_WIDTH-1:0] delayed_timestamp;
@@ -128,7 +133,17 @@ module data_trigger # (
         .DIN(SATURATED_FLAG),
         .DELAY(pre_acquisition_length),
         .DOUT(delayed_saturated_flag)
-    );    
+    );
+
+    variable_shiftreg_delay # (
+        .DATA_WIDTH(2),
+        .MAX_DELAY_LENGTH(MAX_PRE_ACQUISITION_LENGTH+2)
+    ) extend_areset_set_config_inst (
+        .CLK(ACLK),
+        .DIN({ARESET, SET_CONFIG}),
+        .DELAY(pre_acquisition_length+TRIGGER_CORE_DELAY_FOR_RST_CONFIG),
+        .DOUT({extend_areset, extend_set_config})
+    );         
 
     variable_shiftreg_delay # (
         .DATA_WIDTH(`RFDC_TDATA_WIDTH),
@@ -207,8 +222,8 @@ module data_trigger # (
         .MAX_POST_ACQUISITION_LENGTH(MAX_POST_ACQUISITION_LENGTH)
     ) trigger_core_inst (
         .ACLK(ACLK),
-        .ARESET(ARESET),
-        .SET_CONFIG(SET_CONFIG),
+        .ARESET(ARESET|extend_areset),
+        .SET_CONFIG(SET_CONFIG|extend_set_config),
         .STOP(STOP),
 
         .S_AXIS_TDATA(DSP_S_AXIS_TDATA),
