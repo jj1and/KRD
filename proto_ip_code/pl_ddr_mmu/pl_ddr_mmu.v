@@ -68,7 +68,7 @@ module pl_ddr_mmu # (
     reg burst_type;
     reg [BTT_WIDTH-1:0] btt;
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (ARESET) begin
             rsvd <= #100 0;
             drr <= #100 0;
             eof <= #100 1'b1;
