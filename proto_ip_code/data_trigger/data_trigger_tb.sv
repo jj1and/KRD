@@ -14,9 +14,16 @@
 
     reg ACLK = 1'b1;
     reg ARESET = 1'b1;
+    reg areset_delay;
     reg SET_CONFIG = 1'b0;
+    reg set_config_delay;
     reg STOP = 1'b1;
-    reg ACQUIRE_MODE = 1'b0;   
+    reg ACQUIRE_MODE = 1'b0;
+    
+    always @(posedge ACLK) begin
+        areset_delay <= #100 ARESET;
+        set_config_delay <= #100 SET_CONFIG;
+    end
 
     // trigger settings
     reg signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRSHOLD = 1024;
@@ -183,7 +190,7 @@
     always @(posedge ACLK ) begin
         h_s_axis_tdata_shiftreg <= #100 {h_s_axis_tdata_shiftreg[`RFDC_TDATA_WIDTH*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], H_S_AXIS_TDATA};
         l_s_axis_tdata_shiftreg <= #100 {l_s_axis_tdata_shiftreg[`LGAIN_TDATA_WIDTH*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], L_S_AXIS_TDATA};
-        signal_info_shiftreg <= #100 {signal_info_shiftreg[(`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH)*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], TIMESTAMP, RISING_EDGE_THRSHOLD, FALLING_EDGE_THRESHOLD};
+        signal_info_shiftreg <= #100 {signal_info_shiftreg[(`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH)*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], TIMESTAMP, DUT.rising_edge_threshold, DUT.falling_edge_threshold};
     end
 
     generate
@@ -206,9 +213,9 @@
         test_status = RESET_ALL;
         
         ARESET <= #100 1'b1;
-        
         repeat(RESET_CLK_NUM) @(posedge ACLK);
         ARESET <= #100 1'b0;
+        
     endtask
 
     task config_module( 
@@ -223,6 +230,7 @@
         test_status = CONFIGURING;
         // configuring DUT
         SET_CONFIG <= #100 1'b1;
+
         ACQUIRE_MODE <= #100 acquire_mode;
         RISING_EDGE_THRSHOLD <= #100 rise_edge_thre;
         FALLING_EDGE_THRESHOLD <= #100 fall_edge_thre;
@@ -230,9 +238,10 @@
         L_GAIN_BASELINE <= #100 l_baseline;
         PRE_ACQUISITION_LENGTH <= #100 pre_acqui_len;
         POST_ACQUISITION_LENGTH <= #100 post_acqui_len;
-        
+
         repeat(RESET_CLK_NUM) @(posedge ACLK);
-        SET_CONFIG <= #100 1'b0;       
+        SET_CONFIG <= #100 1'b0;                   
+
     endtask        
 
     initial begin
@@ -276,11 +285,7 @@
         while (timeout_counter<TIME_OUT_THRE) begin
             @(posedge ACLK);                                 
             test_failed = 0;
-            if (|{ARESET, SET_CONFIG}) begin
-                acquired_hGainTDATA_queue.delete();
-                acquired_lGainTDATA_queue.delete();
-                acquired_signal_info.delete();
-            end else if (extend_trigger[DUT.pre_acquisition_length-1]) begin
+            if (&{extend_trigger[DUT.pre_acquisition_length-1], H_S_AXIS_TVALID, L_S_AXIS_TVALID, DSP_S_AXIS_TVALID}) begin
                 if (extend_trigger_posedge[DUT.pre_acquisition_length-1]) begin
                     for (int i=0; i<DUT.pre_acquisition_length; i++) begin
                         acquired_hGainTDATA_queue.push_back({
@@ -295,7 +300,7 @@
                 end            
                 acquired_hGainTDATA_queue.push_back({rawHGainTDATA_to_expectedNormalTDATA(H_S_AXIS_TDATA, DUT.h_gain_baseline), (|saturation)|DUT.acquire_mode});
                 acquired_lGainTDATA_queue.push_back(rawTDATA_to_expectedCombinedTDATA(H_S_AXIS_TDATA, DUT.h_gain_baseline, L_S_AXIS_TDATA, DUT.l_gain_baseline));
-                acquired_signal_info.push_back({TIMESTAMP, RISING_EDGE_THRSHOLD, FALLING_EDGE_THRESHOLD});
+                acquired_signal_info.push_back({TIMESTAMP, DUT.rising_edge_threshold, DUT.falling_edge_threshold});
             end                        
                                     
             // macthing with data_trigger output
@@ -335,6 +340,12 @@
             end else begin
                 timeout_counter++;
             end
+            if (|{areset_delay|ARESET, set_config_delay|SET_CONFIG}) begin
+                acquired_hGainTDATA_queue.delete();
+                acquired_lGainTDATA_queue.delete();
+                acquired_signal_info.delete();
+            end            
+            
             if (test_failed!=0) begin
                 $finish;
             end
@@ -398,7 +409,7 @@
                             
                             // get index trigger starts
                             if (int16_sample_bl_subtracted>DUT.rising_edge_threshold) begin
-                                // $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is larger than rising threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.rising_edge_threshold);
+//                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is larger than rising threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.rising_edge_threshold);
                                 rise_thre_over[k] = 1'b1;
                             end else begin
                                 rise_thre_over[k] = 1'b0;
@@ -414,24 +425,24 @@
                             end                                                    
                             // get index trigger ends
                             if (int16_sample_bl_subtracted<DUT.falling_edge_threshold) begin
-                                // $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is smaller than falling threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.falling_edge_threshold);
+//                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is smaller than falling threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.falling_edge_threshold);
                                 fall_thre_under[k] = 1'b1;    
                             end else begin
                                 fall_thre_under[k] = 1'b0; 
                             end                
                         end
-                        if (&{trigger_start[i].size()>0, &fall_thre_under}) begin
+                        if (&fall_thre_under) begin
                             trigger_end[i].push_back(j);
                         end                                
                     end
                  
                     for (int j=0; j<sample_signal[i].total_stream_len; j++) begin
                         @(posedge ACLK);                                                    
-                        if (j==trigger_start[i][0]) begin
+                        if (&{j==trigger_start[i][0], trigger_start[i].size()>0}) begin
                             normal_trigger <= #100 1'b1;
                             trigger_start[i].pop_front();
                         end
-                        if (j==trigger_end[i][0]) begin
+                        if (&{j==trigger_end[i][0], trigger_end[i].size()>0}) begin
                             normal_trigger <= #100 1'b0;
                             trigger_end[i].pop_front();
                         end
@@ -474,7 +485,8 @@
         FIXED_NORMAL_SIGNAL_INPUT_COMBINED_OUTPUT,
         FIXED_SATURATED_SIGNAL_INPUT_COMBINED_OUTPUT,
         RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT,
-        RANDOM_SIGNAL_INPUT_COMBINED_OUTPUT       
+        RANDOM_SIGNAL_INPUT_COMBINED_OUTPUT,
+        RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG       
     } test_status;    
 
     initial begin
@@ -482,6 +494,9 @@
         int random_h_gain_baseline;
         int random_l_gain_max_val;
         int random_l_gain_baseline;
+        int random_total_sample_stream_len;
+        int random_reset_timing;
+        int random_config_timing;
         // sample_signal MUST NOT HAVE MORE THAN 1 TRIGGER PER SAMPLE. 
         // testbench cannot recognize  2 trigger in 1 sample
         test_status = INTITIALIZE;
@@ -577,9 +592,41 @@
         $display("TEST START: input random signal with combined mode");        
         signal_input(sample_signal_set, SAMPLE_NUM);
         $display("TEST PASSED: random signal with combined mode test passed!");                                 
-        
+
+        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        $display("TEST INFO: Normal acquire mode enable");
+
+        test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;
+        $display("TEST START: input random signal with normal mode (with sudden reset/config)");            
+        fork
+            begin
+                signal_input(sample_signal_set, SAMPLE_NUM);             
+            end
+            begin
+                random_total_sample_stream_len = 0;
+                for (int i=0; i<SAMPLE_NUM; i++) begin
+                    random_total_sample_stream_len += sample_signal_set[i].total_stream_len;
+                end
+                random_reset_timing = $urandom_range(TEST_SETUP_PERIOD+1, random_total_sample_stream_len*$urandom_range(1,3)/10);
+                repeat(random_reset_timing) @(posedge ACLK);
+                $display("TEST INFO: SUDDEN RESET START");
+                reset_all;
+                $display("TEST INFO: SUDDEN RESET END");
+                test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;
+                random_config_timing = $urandom_range(random_reset_timing, random_total_sample_stream_len*$urandom_range(4,9)/10);
+                repeat(random_config_timing) @(posedge ACLK);
+                $display("TEST INFO: SUDDEN CONFIG START");
+                config_module(1, 512, 128, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len                
+                $display("TEST INFO: SUDDEN CONFIG END");
+                test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;
+            end
+        join
+
+        $display("TEST PASSED: random signal with normal mode (with sudden reset/config) test passed!");
+
         $display("TEST INFO: All test passed!");
         $finish;
+
     end
 
     endmodule
