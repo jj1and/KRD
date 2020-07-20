@@ -15,14 +15,22 @@
     reg ACLK = 1'b1;
     reg ARESET = 1'b1;
     reg areset_delay;
+    reg areset_2delay;
+    reg areset_3delay;
     reg SET_CONFIG = 1'b0;
     reg set_config_delay;
+    reg set_config_2delay;
+    reg set_config_3delay;
     reg STOP = 1'b1;
     reg ACQUIRE_MODE = 1'b0;
     
     always @(posedge ACLK) begin
         areset_delay <= #100 ARESET;
+        areset_2delay <= #100 areset_delay;
+        areset_3delay <= #100 areset_2delay;
         set_config_delay <= #100 SET_CONFIG;
+        set_config_2delay <= #100 set_config_delay;
+        set_config_3delay <= #100 set_config_2delay;
     end
 
     // trigger settings
@@ -32,18 +40,25 @@
     reg signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE = 256;
     reg [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH = 1;
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH = 1;
+    
+    wire [`RFDC_TDATA_WIDTH-1:0] h_gain_default = {`SAMPLE_NUM_PER_CLK{{{`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH-1{H_GAIN_BASELINE[`ADC_RESOLUTION_WIDTH]}}, H_GAIN_BASELINE}}};
+    wire [`LGAIN_TDATA_WIDTH-1:0] l_gain_default = {`LGAIN_SAMPLE_NUM_PER_CLK{L_GAIN_BASELINE}};   
 
     // S_AXIS interface from RF Data Converter logic IP
-    reg [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA;
-    reg H_S_AXIS_TVALID = 1'b0;
+    reg [`RFDC_TDATA_WIDTH-1:0] S_AXIS_TDATA = h_gain_default;
+    reg S_AXIS_TVALID = 1'b0;
+
+    // S_AXIS interface from RF Data Converter logic IP
+    wire [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA;
+    wire H_S_AXIS_TVALID;
 
     // S_AXIS interfrace from L-gain ADC
-    reg [`LGAIN_TDATA_WIDTH-1:0] L_S_AXIS_TDATA;
-    reg L_S_AXIS_TVALID = 1'b0;
+    wire [`LGAIN_TDATA_WIDTH-1:0] L_S_AXIS_TDATA;
+    wire L_S_AXIS_TVALID;
 
     // S_AXIS interface from DSP module
-    reg [`RFDC_TDATA_WIDTH-1:0] DSP_S_AXIS_TDATA = {`RFDC_TDATA_WIDTH{1'b1}};
-    reg DSP_S_AXIS_TVALID = 1'b0;    
+    wire [`RFDC_TDATA_WIDTH-1:0] DSP_S_AXIS_TDATA;
+    wire DSP_S_AXIS_TVALID;    
 
     // Timestamp
     reg [`TIMESTAMP_WIDTH-1:0] TIMESTAMP = 0;
@@ -152,7 +167,8 @@
     end    
 
     reg normal_trigger = 1'b0;
-    wire trigger = normal_trigger|saturation_trigger;
+    wire trigger = normal_trigger_delay|saturation_trigger;
+    reg normal_trigger_delay;
     wire extend_trigger[MAX_POST_ACQUISITION_LENGTH-1:0];
     reg [MAX_POST_ACQUISITION_LENGTH-1:0] trigger_shift_reg;
     generate
@@ -175,6 +191,7 @@
     reg  extend_trigger_delay[MAX_POST_ACQUISITION_LENGTH-1:0];
     wire extend_trigger_posedge[MAX_POST_ACQUISITION_LENGTH-1:0];
     always @(posedge ACLK) begin
+        normal_trigger_delay <= #100 normal_trigger;
         trigger_shift_reg <= #100 {trigger_shift_reg[MAX_POST_ACQUISITION_LENGTH-1:0], trigger};
         for (int i=0; i<=MAX_POST_ACQUISITION_LENGTH; i++) begin
             extend_trigger_delay[i] <= #100 extend_trigger[i];
@@ -187,10 +204,13 @@
     wire [`LGAIN_TDATA_WIDTH-1:0] l_s_axis_tdata_nDelay[MAX_PRE_ACQUISITION_LENGTH];
     reg [(`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH)*MAX_PRE_ACQUISITION_LENGTH-1:0] signal_info_shiftreg;
     wire [`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] signal_info_nDelay[MAX_PRE_ACQUISITION_LENGTH];
+    reg [MAX_PRE_ACQUISITION_LENGTH-1:0] saturation_shiftreg;
+    wire saturation_nDelay[MAX_PRE_ACQUISITION_LENGTH];
     always @(posedge ACLK ) begin
         h_s_axis_tdata_shiftreg <= #100 {h_s_axis_tdata_shiftreg[`RFDC_TDATA_WIDTH*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], H_S_AXIS_TDATA};
         l_s_axis_tdata_shiftreg <= #100 {l_s_axis_tdata_shiftreg[`LGAIN_TDATA_WIDTH*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], L_S_AXIS_TDATA};
         signal_info_shiftreg <= #100 {signal_info_shiftreg[(`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH)*(MAX_PRE_ACQUISITION_LENGTH-1)-1:0], TIMESTAMP, DUT.rising_edge_threshold, DUT.falling_edge_threshold};
+        saturation_shiftreg <= #100 {saturation_shiftreg[MAX_PRE_ACQUISITION_LENGTH-2:0], saturation};
     end
 
     generate
@@ -198,8 +218,37 @@
             assign h_s_axis_tdata_nDelay[i] = h_s_axis_tdata_shiftreg[i*`RFDC_TDATA_WIDTH +:`RFDC_TDATA_WIDTH];
             assign l_s_axis_tdata_nDelay[i] = l_s_axis_tdata_shiftreg[i*`LGAIN_TDATA_WIDTH +:`LGAIN_TDATA_WIDTH];
             assign signal_info_nDelay[i] = signal_info_shiftreg[i*(`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH) +:`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH];
+            assign saturation_nDelay[i] = saturation_shiftreg[i];
         end
     endgenerate
+
+    dummy_signal_generator # (
+        .LGAIN_CORRECTION(8)
+    ) data_converter_inst (
+        .ACLK(ACLK),
+        .ARESET(ARESET),
+        .SET_CONFIG(SET_CONFIG),
+        
+        .H_GAIN_BASELINE(H_GAIN_BASELINE),
+        .L_GAIN_BASELINE(L_GAIN_BASELINE),
+
+        // S_AXIS interface from AXI DMA IP
+        .S_AXIS_TDATA(S_AXIS_TDATA),
+        .S_AXIS_TVALID(S_AXIS_TVALID),
+        .S_AXIS_TREADY(),
+
+        // M_AXIS interface of dummy RF Data Converter logic IP
+        .H_M_AXIS_TDATA(H_S_AXIS_TDATA),
+        .H_M_AXIS_TVALID(H_S_AXIS_TVALID),
+
+        // M_AXIS interfrace of dummy L-gain ADC
+        .L_M_AXIS_TDATA(L_S_AXIS_TDATA),
+        .L_M_AXIS_TVALID(L_S_AXIS_TVALID),
+
+        // M_AXIS interface of dummy DSP module
+        .DSP_M_AXIS_TDATA(DSP_S_AXIS_TDATA),
+        .DSP_M_AXIS_TVALID(DSP_S_AXIS_TVALID)           
+    );
 
     data_trigger # (
         // these parameter must be configured before logic synthesis
@@ -286,11 +335,11 @@
             @(posedge ACLK);                                 
             test_failed = 0;
             if (&{extend_trigger[DUT.pre_acquisition_length-1], H_S_AXIS_TVALID, L_S_AXIS_TVALID, DSP_S_AXIS_TVALID}) begin
-                if (extend_trigger_posedge[DUT.pre_acquisition_length-1]) begin
+                if (|{extend_trigger_posedge[DUT.pre_acquisition_length-1], set_config_3delay&(!set_config_2delay), areset_3delay&(!areset_2delay)}) begin
                     for (int i=0; i<DUT.pre_acquisition_length; i++) begin
                         acquired_hGainTDATA_queue.push_back({
                             rawHGainTDATA_to_expectedNormalTDATA(h_s_axis_tdata_nDelay[DUT.pre_acquisition_length-i-1], DUT.h_gain_baseline), 
-                            DUT.acquire_mode} );
+                            DUT.acquire_mode|saturation_nDelay[DUT.pre_acquisition_length-i-1]} );
                         
                         acquired_lGainTDATA_queue.push_back(rawTDATA_to_expectedCombinedTDATA(
                             h_s_axis_tdata_nDelay[DUT.pre_acquisition_length-i-1], DUT.h_gain_baseline,
@@ -340,7 +389,7 @@
             end else begin
                 timeout_counter++;
             end
-            if (|{areset_delay|ARESET, set_config_delay|SET_CONFIG}) begin
+            if ((|{set_config_delay, set_config_2delay})|(|{areset_delay, areset_2delay})) begin
                 acquired_hGainTDATA_queue.delete();
                 acquired_lGainTDATA_queue.delete();
                 acquired_signal_info.delete();
@@ -363,9 +412,6 @@
     int trigger_start[SAMPLE_NUM][$];
     int trigger_end[SAMPLE_NUM][$];
 
-    wire [`RFDC_TDATA_WIDTH-1:0] h_gain_default = {`SAMPLE_NUM_PER_CLK{{{`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH-1{H_GAIN_BASELINE[`ADC_RESOLUTION_WIDTH]}}, H_GAIN_BASELINE}}};
-    wire [`LGAIN_TDATA_WIDTH-1:0] l_gain_default = {`LGAIN_SAMPLE_NUM_PER_CLK{L_GAIN_BASELINE}};   
-
     task signal_input(input SignalGenerator sample_signal[], input int sample_num);
         bit [`RFDC_TDATA_WIDTH-1:0] expectedNormalTDATA;
         bit signed [`SAMPLE_WIDTH-1:0] int16_sample_bl_subtracted;    
@@ -373,30 +419,21 @@
         bit [`SAMPLE_NUM_PER_CLK-1:0] fall_thre_under;
 
         @(posedge ACLK);
-        H_S_AXIS_TVALID <= #100 1'b1;
-        L_S_AXIS_TVALID <= #100 1'b1;
+        S_AXIS_TVALID <= #100 1'b1;
         STOP <= #100 1'b0;        
         
         fork
             begin
                 for (int i=0; i<TEST_SETUP_PERIOD; i++) begin
                     @(posedge ACLK);
-                    H_S_AXIS_TVALID <= #100 1'b1;
-                    H_S_AXIS_TDATA <= #100 h_gain_default;
-                    
-                    L_S_AXIS_TVALID <= #100 1'b1;
-                    L_S_AXIS_TDATA <= #100 l_gain_default;
-                    
-                    DSP_S_AXIS_TVALID <= #100 1'b1;
-                    DSP_S_AXIS_TDATA <= #100 rawHGainTDATA_to_expectedNormalTDATA(h_gain_default, DUT.h_gain_baseline);                          
+                    S_AXIS_TVALID <= #100 1'b1;
+                    S_AXIS_TDATA <= #100 h_gain_default;                       
                 end            
             
                 for (int i=0; i<sample_num; i++) begin
                     h_gain_signal_line_t h_gain_signal_set;
-                    l_gain_signal_line_t l_gain_signal_set;
 
-                    h_gain_signal_set =  sample_signal[i].getHGainSignalStream();
-                    l_gain_signal_set =  sample_signal[i].getLGainSignalStream();                       
+                    h_gain_signal_set =  sample_signal[i].getHGainSignalStream();                    
                     
                     trigger_start[i].delete();
                     trigger_end[i].delete();
@@ -409,7 +446,7 @@
                             
                             // get index trigger starts
                             if (int16_sample_bl_subtracted>DUT.rising_edge_threshold) begin
-//                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is larger than rising threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.rising_edge_threshold);
+                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is larger than rising threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.rising_edge_threshold);
                                 rise_thre_over[k] = 1'b1;
                             end else begin
                                 rise_thre_over[k] = 1'b0;
@@ -425,7 +462,7 @@
                             end                                                    
                             // get index trigger ends
                             if (int16_sample_bl_subtracted<DUT.falling_edge_threshold) begin
-//                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is smaller than falling threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.falling_edge_threshold);
+                                 $display("TEST INFO: sample[%0d][%0d][%0d] (%0d) is smaller than falling threshold (%0d)", i, j, k, int16_sample_bl_subtracted, DUT.falling_edge_threshold);
                                 fall_thre_under[k] = 1'b1;    
                             end else begin
                                 fall_thre_under[k] = 1'b0; 
@@ -446,28 +483,16 @@
                             normal_trigger <= #100 1'b0;
                             trigger_end[i].pop_front();
                         end
-                        H_S_AXIS_TVALID <= #100 1'b1;
-                        H_S_AXIS_TDATA <= #100 h_gain_signal_set[j];
-                        
-                        L_S_AXIS_TVALID <= #100 1'b1;
-                        L_S_AXIS_TDATA <= #100 l_gain_signal_set[j];
-                        
-                        DSP_S_AXIS_TVALID <= #100 1'b1;
-                        DSP_S_AXIS_TDATA <= #100 rawHGainTDATA_to_expectedNormalTDATA(h_gain_signal_set[j], DUT.h_gain_baseline);
+                        S_AXIS_TVALID <= #100 1'b1;
+                        S_AXIS_TDATA <= #100 h_gain_signal_set[j];
                     end                                            
                 end
                 for (int i=0; i<TEST_SETUP_PERIOD; i++) begin
                     @(posedge ACLK);
                     normal_trigger <= #100 1'b0;
          
-                    H_S_AXIS_TVALID <= #100 1'b1;
-                    H_S_AXIS_TDATA <= #100 h_gain_default;
-                    
-                    L_S_AXIS_TVALID <= #100 1'b1;
-                    L_S_AXIS_TDATA <= #100 l_gain_default;
-                    
-                    DSP_S_AXIS_TVALID <= #100 1'b1;
-                    DSP_S_AXIS_TDATA <= #100 rawHGainTDATA_to_expectedNormalTDATA(h_gain_default, DUT.h_gain_baseline);                          
+                    S_AXIS_TVALID <= #100 1'b1;
+                    S_AXIS_TDATA <= #100 h_gain_default;                      
                 end                
             end
             begin
@@ -489,6 +514,10 @@
         RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG       
     } test_status;    
 
+    // knownn issue: testbench cannot simulate trigger behavior
+    // e.x. signal like -2048 -> positive value larger than falling threshold in 1 clock
+    // testbench ... stop trigger
+    // data_trigger ...  continues trigger (trigger stop condition is falling_threshold > ADC for 8nsec)
     initial begin
         int random_h_gain_max_val;
         int random_h_gain_baseline;
@@ -577,7 +606,7 @@
             sample_signal_set[i].sampleFilling(random_h_gain_max_val, random_h_gain_baseline, random_l_gain_max_val, random_l_gain_baseline); // h_gain_height, h_gain_baseline, l_gain_height, l_gain_baseline
         end
 
-        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(0, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
 
         test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT;
@@ -593,7 +622,11 @@
         signal_input(sample_signal_set, SAMPLE_NUM);
         $display("TEST PASSED: random signal with combined mode test passed!");                                 
 
-        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+
+        // WARNING!!! Testbench cannot know trigger start/stop timing after reset/set_config when the configuration is changed before and after reset/set_config
+        // So, it's need to set default configuration
+        // this test's purpose is chencking the trigger is back to normal mode after reset/set_config
+        config_module(0, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
 
         test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;
@@ -616,7 +649,7 @@
                 random_config_timing = $urandom_range(random_reset_timing, random_total_sample_stream_len*$urandom_range(4,9)/10);
                 repeat(random_config_timing) @(posedge ACLK);
                 $display("TEST INFO: SUDDEN CONFIG START");
-                config_module(1, 512, 128, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len                
+                config_module(1, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len                
                 $display("TEST INFO: SUDDEN CONFIG END");
                 test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;
             end
