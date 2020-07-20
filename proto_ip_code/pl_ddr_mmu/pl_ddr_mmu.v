@@ -107,77 +107,53 @@ module pl_ddr_mmu # (
     end    
 
     // ------------------------------- write/read address control -------------------------------
+    reg [(LOCAL_ADDRESS_WIDTH+1)-1:0] addr_ram[PTR_FIFO_DEPTH-1:0];
+    reg [$clog2(PTR_FIFO_DEPTH):0] addr_fifo_wp;
+    reg [$clog2(PTR_FIFO_DEPTH):0] addr_fifo_rp;
+    wire addr_fifo_empty = (addr_fifo_rp == addr_fifo_wp);
+    wire addr_fifo_full = (addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)-1:0]==addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)-1:0])&(addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)]!=addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)]);
+
     reg [LOCAL_ADDRESS_WIDTH:0] wp;
-    reg [(LOCAL_ADDRESS_WIDTH+1)*PTR_FIFO_DEPTH-1:0] wp_shiftreg;
-    reg [$clog2(PTR_FIFO_DEPTH)-1:0] wp_selector;
-    reg wp_fifo_empty;
-    wire wp_fifo_full = (wp_selector[$clog2(PTR_FIFO_DEPTH)-1:0]==PTR_FIFO_DEPTH-1);
-    wire [LOCAL_ADDRESS_WIDTH:0] current_wp = wp_fifo_empty ? wp : wp_shiftreg[LOCAL_ADDRESS_WIDTH*wp_selector[$clog2(PTR_FIFO_DEPTH)-1:0] +:LOCAL_ADDRESS_WIDTH];
-    wire [LOCAL_ADDRESS_WIDTH:0] next_current_wp = current_wp+1;
-
+    wire [LOCAL_ADDRESS_WIDTH:0] current_wp;
     reg [LOCAL_ADDRESS_WIDTH:0] rp;
-    wire [LOCAL_ADDRESS_WIDTH:0] next_rp = rp+1;
-
     assign EMPTY = (rp == current_wp);
     assign FULL = (current_wp[LOCAL_ADDRESS_WIDTH-1:0] == rp[LOCAL_ADDRESS_WIDTH-1:0])&(current_wp[LOCAL_ADDRESS_WIDTH] != rp[LOCAL_ADDRESS_WIDTH]);
     wire wr_en = &{S2MM_CMD_M_AXIS_TVALID, S2MM_CMD_M_AXIS_TREADY};
     wire rd_en = &{MM2S_CMD_M_AXIS_TVALID, MM2S_CMD_M_AXIS_TREADY};
 
     always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            addr_fifo_wp <= #100 0;
+        end else begin
+            if (wr_en) begin
+                addr_fifo_wp <= #100 addr_fifo_wp + 1; 
+            end else begin
+                addr_fifo_wp <= #100 addr_fifo_wp;
+            end
+        end
+    end
+
+    always @(posedge ACLK ) begin
         if (wr_en) begin
-            wp_shiftreg <= #100 {wp_shiftreg[(LOCAL_ADDRESS_WIDTH+1)*(PTR_FIFO_DEPTH-1)-1:0], wp};
+            addr_ram[addr_fifo_wp] <= #100 wp; 
         end else begin
-            wp_shiftreg <= #100 wp_shiftreg;
+            addr_ram[addr_fifo_wp] <= #100 addr_ram[addr_fifo_wp];
         end
     end
-
+    
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            wp_fifo_empty <= #100 1'b1;
+            addr_fifo_rp <= #100 0;
         end else begin
-            if (&{S2MM_WR_XFER_CMPLT, wp_selector==0}) begin
-                wp_fifo_empty <= #100 1'b1;
+            if (S2MM_WR_XFER_CMPLT) begin
+                addr_fifo_rp <= #100 addr_fifo_rp + 1; 
             end else begin
-                if (wr_en) begin
-                    wp_fifo_empty <= #100 1'b0;
-                end else begin
-                    wp_fifo_empty <= #100 1'b1;
-                end
+                addr_fifo_rp <= #100 addr_fifo_rp;
             end
         end
     end
 
-    always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
-            wp_selector <= #100 0;
-        end else begin
-            if (&{wr_en, S2MM_WR_XFER_CMPLT}) begin
-                wp_selector <= #100 wp_selector;
-            end else begin
-                if (&{wr_en, !wp_fifo_full}) begin
-                    wp_selector <= #100 wp_selector + 1;
-                end else begin
-                    if (&{S2MM_WR_XFER_CMPLT, !wp_fifo_empty}) begin
-                        wp_selector <= wp_selector - 1;
-                    end else begin
-                        wp_selector <= #100 wp_selector;
-                    end
-                end
-            end
-        end
-    end
-
-    // always @(posedge ACLK ) begin
-    //     if (|{ARESET, SET_CONFIG}) begin
-    //         current_wp <= #100 wp;
-    //     end else begin
-    //         if (wp_fifo_empty) begin
-    //             current_wp <= #100 wp;
-    //         end else begin
-    //             current_wp <= #100 wp_shiftreg[LOCAL_ADDRESS_WIDTH*wp_selector[$clog2(PTR_FIFO_DEPTH)-1:0] +:LOCAL_ADDRESS_WIDTH];
-    //         end
-    //     end
-    // end
+    assign current_wp = addr_fifo_empty ? wp : addr_ram[addr_fifo_rp];
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
@@ -214,7 +190,7 @@ module pl_ddr_mmu # (
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
     assign S2MM_M_AXIS_TVALID = S_AXIS_TVALID;
     assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
-    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, S2MM_CMD_M_AXIS_TREADY, !wp_fifo_full};
+    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, S2MM_CMD_M_AXIS_TREADY, !addr_fifo_full};
 
     // ------------------------------- M_AXIS/MM2S DATA assigment -------------------------------
     reg m_axis_tvalid;
