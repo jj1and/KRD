@@ -27,6 +27,11 @@
 #define SET_CONFIG_BITWIDTH 1
 #define MAX_TRIGGER_LENGTH_BITWIDTH 12
 
+#define INTERNAL_ADC_BUFF_SIZE 2048*16
+#define INTERNAL_HF_BUFF_DEPTH 256
+#define EXTERNAL_FRAME_BUFF_SIZE 512*16
+#define INTERNAL_BUFFER_FULL 3
+
 TickType_t x10seconds = pdMS_TO_TICKS( DELAY_10_SECONDS );
 TimerHandle_t xTimer = NULL;
 XGpio GpioConfig;
@@ -98,7 +103,8 @@ void printData(u64 *dataptr, u64 frame_size){
 	xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_frame_len_exclude_HF, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id){
+int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_frame_len_exclude_HF, u64 timestamp_at_beginning, u8 trigger_info, u16 baseline, u16 threthold, int object_id, int print_enable){
+	int Status = XST_SUCCESS;
 	u8 read_header_id;
 	u64 read_header_timestamp;
 	u8 read_trigger_info;
@@ -128,18 +134,18 @@ int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_
 		frame_len = *send_frame_len;
 		expected_header_timestamp = (timestamp_at_beginning & 0x00000000000FFFFFF);
 		expected_footer_timestamp = (timestamp_at_beginning & 0x00000FFFFFF000000);
-		expected_trigger_info = 0x0F & trigger_info; // (1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0] = 8'00001111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
+		expected_trigger_info = 0x0F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
 	} else {
 		if ((*send_frame_len-*read_frame_len)>(MAX_TRIGGER_LEN*2+3)){
 			frame_len = (MAX_TRIGGER_LEN*2+3);
 			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000000000FFFFFF;
 			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x1F & trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
+			expected_trigger_info = 0x1F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0001_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
 		} else {
 			frame_len = (*send_frame_len-*read_frame_len);
 			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000000000FFFFFF;
 			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x0F & trigger_info; // (TRIGGER_STATE[1:0], FRAME_CONTINUE[0], GAIN_TYPE[0], TRIGGER_TYPE[3:0] = 8'00011111 & trigger_info), TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
+			expected_trigger_info = 0x0F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
 		}
 	}
 	*read_frame_len = *read_frame_len+read_frame_length+3;
@@ -149,50 +155,69 @@ int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_
 	read_footer_timestamp = (dataptr[read_frame_length+3-1] >> 8 ) & 0x00000FFFFFF000000;
 
 	xil_printf("Rcvd frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", read_frame_length/2, read_footer_timestamp+read_header_timestamp, read_trigger_info, read_baseline, read_threthold, read_object_id);
-//	printData(dataptr, read_frame_length+3);
+	if (print_enable!=0) {
+		printData(dataptr, read_frame_length+3);
+	}
 
 	if (read_header_id!=0xAA) {
 		xil_printf("HEADER_ID missmatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
 	} else if (read_threthold!=threthold) {
 		xil_printf("threshold missmatch Data: %d Expected: %d\r\n", read_threthold, threthold);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
 	} else if (read_baseline!=baseline) {
 		xil_printf("baseline missmatch Data: %d Expected: %d\r\n", read_baseline, baseline);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
+	}
+
+	if (object_id==0) {
+		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'0010_0000 *trigger state must be 2'b01 at first frame (expected_trigger_info= 8'b000X_1111 & trigger_info)
+		expected_trigger_info = (expected_trigger_info | 0x20);
+		if (read_trigger_info!=expected_trigger_info) {
+			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
+			Status = XST_FAILURE;
+		}
+	} else {
+		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'0101_0000 *trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+		if (read_trigger_info == (expected_trigger_info | 0x50)) {
+			xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
+			Status = INTERNAL_BUFFER_FULL;
+		}
+
+		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = read_trigger_info & 8'0001_1111 *mask trigger_state because it is unknown
+		if ((read_trigger_info & 0x1F)!= expected_trigger_info) {
+			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x1F), expected_trigger_info);
+			Status = XST_FAILURE;
+		}
 	}
 
 	if (read_footer_id!=0x55) {
 		xil_printf("FOOTER_ID missmatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
 	} else if ((read_frame_length+3)!=frame_len) {
-		 xil_printf("frame_size missmatch Data: %d Expected: %d\r\n", read_frame_length, frame_len);
-		 return XST_FAILURE;
+		if (Status==INTERNAL_BUFFER_FULL) {
+			xil_printf("frame_size missmatch because of fifo full. Data: %d Expected: %d\r\n", read_frame_length+3, frame_len);
+		} else {
+			xil_printf("frame_size missmatch Data: %d Expected: %d\r\n", read_frame_length+3, frame_len);
+			Status = XST_FAILURE;
+		}
 	} else if (read_header_timestamp!=expected_header_timestamp) {
 		xil_printf("header_timestamp missmatch Data: %d Expected: %d\r\n", read_header_timestamp, expected_header_timestamp);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
 	} else if (read_object_id!=expected_object_id) {
-		xil_printf("object_id missmatch Data: %d Expected: %d\r\n", read_object_id, expected_object_id);
-		return XST_FAILURE;
+		if (expected_object_id==-1) {
+			xil_printf("object_id check is manually disabled (Data: %d)\r\n", read_object_id);
+		} else {
+			xil_printf("object_id missmatch Data: %d Expected: %d\r\n", read_object_id, expected_object_id);
+			Status = XST_FAILURE;
+		}
 	} else if (read_footer_timestamp!=expected_footer_timestamp) {
 		xil_printf("footer_timestamp missmatch Data: %d Expected: %d\r\n", read_footer_timestamp, expected_footer_timestamp);
-		return XST_FAILURE;
+		Status = XST_FAILURE;
 	}
 
-	if (object_id==0) {
-		expected_trigger_info = (expected_trigger_info | 0x20);
-		if (read_trigger_info!=expected_trigger_info) {
-			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
-			return XST_FAILURE;
-		}
-	} else {
-		if ((read_trigger_info & 0x1F)!= expected_trigger_info) {
-			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x3F), expected_trigger_info);
-			return XST_FAILURE;
-		}
-	}
 	decr_wrptr_after_read(read_frame_length+3);
-	return XST_SUCCESS;
+	return Status;
 }
 
 void prvDmaTask( void *pvParameters ) {
@@ -207,7 +232,7 @@ void prvDmaTask( void *pvParameters ) {
 	int read_frame_len = 0;
 	int read_frame_len_exclude_HF = 0;
 	u64 timestamp_at_beginning = 255;
-	u8 trigger_info = 16;
+	u8 trigger_info = 0x10;
 	u16 baseline = 0;
 	u16 threthold = 15;
 	int object_id = -1;	
@@ -237,11 +262,11 @@ void prvDmaTask( void *pvParameters ) {
 				if (!Error) {
 					if (data_length%MAX_TRIGGER_LEN>0) {
 						divide_frame_num = ((data_length-data_length%MAX_TRIGGER_LEN)/MAX_TRIGGER_LEN + 1);
-						send_frame_len = data_length*2+divide_frame_num*3;
 					} else {
 						divide_frame_num = (data_length/MAX_TRIGGER_LEN);
-						send_frame_len = data_length*2+divide_frame_num*3;
+
 					}
+					send_frame_len = data_length*2+divide_frame_num*3;
 					read_frame_len = 0;
 					read_frame_len_exclude_HF = 0;
 					object_id++;
@@ -269,7 +294,7 @@ void prvDmaTask( void *pvParameters ) {
 
 		if ((s2mm_dma_state==XST_SUCCESS)||buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
 			dataptr = get_wrptr();	
-			test_result = checkData(dataptr, &send_frame_len, &read_frame_len, &read_frame_len_exclude_HF, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
+			test_result = checkData(dataptr, &send_frame_len, &read_frame_len, &read_frame_len_exclude_HF, timestamp_at_beginning, trigger_info, baseline, threthold, object_id, 0);
 			if (test_result!=XST_SUCCESS) {
 				break;
 			}		
@@ -280,6 +305,139 @@ void prvDmaTask( void *pvParameters ) {
 		}
 	}
 
+	const int fixed_data_length = 100;
+	if (fixed_data_length%MAX_TRIGGER_LEN>0) {
+		divide_frame_num = ((fixed_data_length-fixed_data_length%MAX_TRIGGER_LEN)/MAX_TRIGGER_LEN + 1);
+
+	} else {
+		divide_frame_num = (fixed_data_length/MAX_TRIGGER_LEN);
+	}
+	send_frame_len = fixed_data_length*2+divide_frame_num*3;
+
+	int total_send_frame_len = 0;
+	int total_read_frame_len = 0;
+	read_frame_len = 0;
+	read_frame_len_exclude_HF = 0;
+
+	xil_printf("backpressure sending test\r\n");
+	while (total_send_frame_len*sizeof(u64) < AXIDMA_BUFF_SIZE+INTERNAL_ADC_BUFF_SIZE+EXTERNAL_FRAME_BUFF_SIZE+send_frame_len*sizeof(u64)) {
+		mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, fixed_data_length, 1);
+		if (mm2s_dma_state != XST_SUCCESS) {
+			xil_printf("MM2S Dma failed. \r\n");
+			break;
+		}				
+		while (!TxDone && !Error) {
+			/* code */
+		}
+		if (!Error) {
+			total_send_frame_len += send_frame_len;
+			object_id++;
+			xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", fixed_data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
+		} else {
+			xil_printf("Error interrupt asserted.\r\n");
+			break;					
+		}			
+	}
+	
+	while (total_read_frame_len<total_send_frame_len) {
+		s2mm_dma_state = axidma_recv_buff();
+		if (s2mm_dma_state == XST_SUCCESS) {
+			while (!RxDone && !Error) {
+				/* code */
+			}	
+			if (Error) {
+				xil_printf("Error interrupt asserted.\r\n");
+				break;					
+			}
+		} else if (buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
+			xil_printf("S2MM Dma buffer is full. \r\n");
+		} else {
+			xil_printf("S2MM Dma failed beacuse of internal error. \r\n");
+			break;
+		}
+		if ((s2mm_dma_state==XST_SUCCESS)||buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
+			dataptr = get_wrptr();	
+			test_result = checkData(dataptr, &send_frame_len, &read_frame_len, &read_frame_len_exclude_HF, timestamp_at_beginning, trigger_info, baseline, threthold, -1, 0);
+			if (test_result==XST_FAILURE) {
+				break;
+			} else if (test_result==INTERNAL_BUFFER_FULL) {
+				xil_printf("backpressure sending test finished!\r\n");
+				break;					
+			}
+
+			if (send_frame_len == read_frame_len) {
+				total_read_frame_len += read_frame_len;
+				read_frame_len = 0;
+				read_frame_len_exclude_HF = 0;
+			}
+		}
+	}
+
+	data_length = 1;
+	trigger_info = 0x1F;
+	read_frame_len = 0;
+	send_frame_len = 0;
+	read_frame_len_exclude_HF = 0;
+
+	xil_printf("sequential sending test\r\n");
+	while(TRUE) {
+
+		s2mm_dma_state = axidma_recv_buff();
+		if (s2mm_dma_state == XST_SUCCESS) {
+			if (read_frame_len==send_frame_len) {
+				mm2s_dma_state = axidma_send_buff(trigger_info, timestamp_at_beginning, baseline, threthold, data_length, 1);
+				if (mm2s_dma_state != XST_SUCCESS) {
+					xil_printf("MM2S Dma failed. \r\n");
+					break;
+				}
+				while (!TxDone && !Error) {
+					/* code */
+				}
+				if (!Error) {
+					if (data_length%MAX_TRIGGER_LEN>0) {
+						divide_frame_num = ((data_length-data_length%MAX_TRIGGER_LEN)/MAX_TRIGGER_LEN + 1);
+					} else {
+						divide_frame_num = (data_length/MAX_TRIGGER_LEN);
+
+					}
+					send_frame_len = data_length*2+divide_frame_num*3;
+					read_frame_len = 0;
+					read_frame_len_exclude_HF = 0;
+					object_id++;
+					xil_printf("\nSend frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, baseline:%4d, threshold:%4d, object_id:%4d\r\n", data_length, timestamp_at_beginning, trigger_info, baseline, threthold, object_id);
+					data_length++;
+				} else {
+					xil_printf("Error interrupt asserted.\r\n");
+					break;
+				}
+
+			}
+			while (!RxDone && !Error) {
+				/* code */
+			}
+			if (Error) {
+				xil_printf("Error interrupt asserted.\r\n");
+				break;
+			}
+		} else if (buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
+			xil_printf("S2MM Dma buffer is full. \r\n");
+		} else {
+			xil_printf("S2MM Dma failed beacuse of internal error. \r\n");
+			break;
+		}
+
+		if ((s2mm_dma_state==XST_SUCCESS)||buff_will_be_full( MAX_PKT_LEN/sizeof(u64) )) {
+			dataptr = get_wrptr();
+			test_result = checkData(dataptr, &send_frame_len, &read_frame_len, &read_frame_len_exclude_HF, timestamp_at_beginning, trigger_info, baseline, threthold, -1, 0);
+			if (test_result!=XST_SUCCESS) {
+				break;
+			}
+		}
+		if (data_length>test_max_trigger_len && read_frame_len==send_frame_len) {
+			xil_printf("sequential sending test passed!\r\n");
+			break;
+		}
+	}
 
 	xil_printf("Test exit!\r\n");
 	shutdown_dma();
