@@ -53,7 +53,7 @@ module header_footer_gen # (
 
     reg [1:0] trigger_run_state;
     wire [1:0] trigger_state = (adc_fifo_gets_full|hf_fifo_gets_full) ? 2'b10 : trigger_run_state;
-    wire frame_continue = &{split_frame, S_AXIS_TVALID};
+    wire frame_continue = (|{split_frame, adc_fifo_gets_full, hf_fifo_gets_full})&S_AXIS_TVALID;
     wire [`FRAME_INFO_WIDTH-1:0] frame_info = {1'b0, trigger_state, frame_continue};
 
     reg [`OBJECT_ID_WIDTH-1:0] object_id;
