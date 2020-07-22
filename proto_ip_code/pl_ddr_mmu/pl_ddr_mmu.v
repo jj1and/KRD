@@ -19,6 +19,7 @@ module pl_ddr_mmu # (
     // S_AXIS interface from dataframe_generator
     input wire [TDATA_WIDTH-1:0] S_AXIS_TDATA,
     input wire S_AXIS_TVALID,
+    input wire [TDATA_WIDTH/8-1:0] S_AXIS_TKEEP,
     input wire S_AXIS_TLAST,
     output wire S_AXIS_TREADY,
 
@@ -30,6 +31,7 @@ module pl_ddr_mmu # (
     // M_AXIS interface for S2MM DATA port of AXI Data Mover IP
     output wire [TDATA_WIDTH-1:0] S2MM_M_AXIS_TDATA,
     output wire S2MM_M_AXIS_TVALID,
+    output wire [TDATA_WIDTH/8-1:0] S2MM_M_AXIS_TKEEP,
     output wire S2MM_M_AXIS_TLAST,
     input wire S2MM_M_AXIS_TREADY,
 
@@ -44,12 +46,14 @@ module pl_ddr_mmu # (
     // S_AXIS interface for MM2S DATA port of AXI Data Mover IP
     input wire [TDATA_WIDTH-1:0] MM2S_S_AXIS_TDATA,
     input wire MM2S_S_AXIS_TVALID,
+    input wire [TDATA_WIDTH/8-1:0] MM2S_S_AXIS_TKEEP,
     output wire MM2S_S_AXIS_TREADY,
 
     // M_AXIS interface for AXIS Interconnect
     output wire [TDATA_WIDTH-1:0] M_AXIS_TDATA,
     output wire M_AXIS_TVALID,
     output wire M_AXIS_TLAST,
+    output wire [TDATA_WIDTH/8-1:0] M_AXIS_TKEEP,
     input wire M_AXIS_TREADY
 );
 
@@ -95,7 +99,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (!{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG}) begin
             tag <= #100 15;
         end else begin
             if (wr_en) begin
@@ -114,6 +118,7 @@ module pl_ddr_mmu # (
     wire addr_fifo_full = (addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)-1:0]==addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)-1:0])&(addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)]!=addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)]);
 
     reg [LOCAL_ADDRESS_WIDTH:0] wp;
+    wire [LOCAL_ADDRESS_WIDTH-1:0] ACTUAL_HIGH_ADDRESS = {LOCAL_ADDRESS_WIDTH{1'b1}} - btt; 
     wire [LOCAL_ADDRESS_WIDTH:0] current_wp;
     reg [LOCAL_ADDRESS_WIDTH:0] rp;
     assign EMPTY = (rp == current_wp);
@@ -160,7 +165,11 @@ module pl_ddr_mmu # (
             wp <= #100 0;
         end else begin
             if (wr_en&(!FULL)) begin
-                wp <= #100 wp + btt;
+                if (wp+btt>ACTUAL_HIGH_ADDRESS) begin
+                    wp <= #100 0;
+                end else begin
+                    wp <= #100 wp + btt;
+                end
             end else begin
                 wp <= #100 wp;
             end
@@ -172,7 +181,11 @@ module pl_ddr_mmu # (
             rp <= #100 0;
         end else begin
             if (rd_en&(!EMPTY)) begin
-                rp <= #100 rp + btt;
+                if (rp+btt>ACTUAL_HIGH_ADDRESS) begin
+                    rp <= #100 0;
+                end else begin
+                    rp <= #100 rp + btt; 
+                end
             end else begin
                 rp <= #100 rp;
             end
@@ -181,19 +194,21 @@ module pl_ddr_mmu # (
 
 
     // ------------------------------- S2MM/MM2S Command assigment -------------------------------
-    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, tag, wp, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
-    assign S2MM_CMD_M_AXIS_TVALID = &{S_AXIS_TDATA[TDATA_WIDTH -:8]==HEADER_ID, S_AXIS_TVALID};
-    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, tag, rp, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
+    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, tag, wp+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
+    assign S2MM_CMD_M_AXIS_TVALID = &{S_AXIS_TDATA[TDATA_WIDTH-1 -:8]==HEADER_ID, S_AXIS_TVALID};
+    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, tag, rp+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
     assign MM2S_CMD_M_AXIS_TVALID = !EMPTY;
 
     // ------------------------------- S_AXIS/S2MM DATA assigment -------------------------------
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
     assign S2MM_M_AXIS_TVALID = S_AXIS_TVALID;
+    assign S2MM_M_AXIS_TKEEP = S_AXIS_TKEEP; 
     assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
     assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, S2MM_CMD_M_AXIS_TREADY, !addr_fifo_full};
 
     // ------------------------------- M_AXIS/MM2S DATA assigment -------------------------------
     reg m_axis_tvalid;
+    reg [TDATA_WIDTH/8-1:0] m_axis_tkeep;
     reg [TDATA_WIDTH-1:0] m_axis_tdata;
 
     always @(posedge ACLK ) begin
@@ -216,9 +231,14 @@ module pl_ddr_mmu # (
         m_axis_tdata <= #100 MM2S_S_AXIS_TDATA;
     end
 
+    always @(posedge ACLK ) begin
+        m_axis_tkeep <= #100 MM2S_S_AXIS_TKEEP;
+    end
+
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;
     assign M_AXIS_TVALID = m_axis_tvalid;
+    assign M_AXIS_TKEEP = m_axis_tkeep;
     assign M_AXIS_TLAST = &{m_axis_tdata[TDATA_WIDTH -:8]==FOOTER_ID, m_axis_tvalid};
 
 endmodule
