@@ -78,7 +78,7 @@ module dummy_signal_generator # (
         end
 
         for (i=0; i<`LGAIN_SAMPLE_NUM_PER_CLK; i=i+1) begin
-            assign l_gain_sample[i] = { {(`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH)+$clog2(LGAIN_CORRECTION){s_axis_sample[i][`ADC_RESOLUTION_WIDTH-1]}},  s_axis_sample[i][`ADC_RESOLUTION_WIDTH-1:$clog2(LGAIN_CORRECTION)]};
+            assign l_gain_sample[i] = { {(`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH)+$clog2(LGAIN_CORRECTION){s_axis_sample[i*4][`ADC_RESOLUTION_WIDTH-1]}},  s_axis_sample[i*4][`ADC_RESOLUTION_WIDTH-1:$clog2(LGAIN_CORRECTION)]};
         end
     endgenerate
 
