@@ -52,6 +52,8 @@
 #define NORMAL_ACQUIRE_MODE 0    // 3'b000
 
 #define H_GAIN_BASELINE 0
+#define L_GAIN_BASELINE -2048
+#define L_GAIN_CORRECTION 3
 
 const u8 PRE_ACQUISITION_LENGTH = 1;
 const u8 POST_ACQUISITION_LENGTH = 1;
@@ -206,17 +208,24 @@ int SetThreshold(short int rising_threshold, short int falling_threshold) {
 }
 
 void printData(u64 *dataptr, u64 frame_size) {
-    for (int i = 0; i < frame_size; i++) {
-        if ((i + 1) % 2 == 0) {
-            xil_printf("%016llx\n", dataptr[i]);
-        } else {
-            xil_printf("Rcvd : %016llx ", dataptr[i]);
-        }
+    xil_printf("Rcvd : %016llx ", dataptr[0]);
+    xil_printf("%016llx (Header)\n", dataptr[1]);
+    for (int i = 2; i < frame_size-1; i++) {
+    	for (int j = 0; j < 4; j++) {
+            if (((i-2) * 4 + j) % 8 == 0) {
+                xil_printf("Rcvd : %04x ", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
+            } else if (((i-2) * 4 + j + 1) % 8 == 0) {
+                xil_printf("%04x\n", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
+            } else {
+                xil_printf("%04x ", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
+            }
+    	}
     }
+    xil_printf("Rcvd : %016llx (Footer)\n", dataptr[frame_size-1]);
     xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall_time, int max_val, int baseline, u16 fall_thre, u16 rise_thre, int print_enable) {
+int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, u16 fall_thre, u16 rise_thre, int print_enable) {
     int Status = XST_SUCCESS;
     u8 read_header_id;
     u64 read_header_timestamp;
@@ -227,6 +236,12 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     u64 read_footer_timestamp;
     u32 read_object_id;
     u8 read_footer_id;
+
+    u16 *expected_sample;
+    int signal_length;
+    int remain;
+    int total_signal_length;
+    int matched = 0;
 
     Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 3) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
@@ -241,21 +256,10 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     read_object_id = dataptr[read_trigger_length + 3 - 1] & 0xFFFFFFFF;
     read_footer_timestamp = (dataptr[read_trigger_length + 3 - 1] >> 8) & 0x00000FFFFFF000000;
 
-    xil_printf("Rcvd frame  trigger_length:%4d, timestamp:%5d, trigger_info:%2x, fall_thre:%4d, threshold:%4d, object_id:%4d\r\n", read_trigger_length / 2, read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
     if (print_enable != 0) {
         printData(dataptr, read_trigger_length + 3);
     }
-
-    if (read_header_id != 0xAA) {
-        xil_printf("HEADER_ID missmatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
-        Status = XST_FAILURE;
-    } else if (read_rise_thre != rise_thre) {
-        xil_printf("threshold missmatch Data: %d Expected: %d\r\n", read_rise_thre, rise_thre);
-        Status = XST_FAILURE;
-    } else if (read_fall_thre != fall_thre) {
-        xil_printf("fall_thre missmatch Data: %d Expected: %d\r\n", read_fall_thre, fall_thre);
-        Status = XST_FAILURE;
-    }
+    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4, read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
 
     if (read_object_id == 0) {
         // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
@@ -263,7 +267,7 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
         if ((read_trigger_info & 0x60) != 0x20) {
-            xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0x60, 0x20);
+            xil_printf("trigger_info mismatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0x60, 0x20);
             Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
@@ -292,12 +296,93 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         }
     }
 
+    if (read_header_id != 0xAA) {
+        xil_printf("HEADER_ID mismatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
+        Status = XST_FAILURE;
+    } else if (read_rise_thre != rise_thre) {
+        xil_printf("threshold mismatch Data: %d Expected: %d\r\n", read_rise_thre, rise_thre);
+        Status = XST_FAILURE;
+    } else if (read_fall_thre != fall_thre) {
+        xil_printf("fall_thre mismatch Data: %d Expected: %d\r\n", read_fall_thre, fall_thre);
+        Status = XST_FAILURE;
+    }
+
+    // ---------------------------- matching read samples and send samples ----------------------------
+    signal_length = pre_time + rise_time + high_time + fall_time + post_time;
+    remain = signal_length % 8;
+    total_signal_length = signal_length + remain;
+    expected_sample = (u16 *)malloc(total_signal_length);
+    u64 tmp_expected_data = 0;
+    short int tmp_expected_sample_sum;
+    short int tmp_expected_l_gain_bl_subtracted;
+    if (expected_sample == NULL) {
+        xil_printf("Failed to allocate memory for preparing expected_samples\r\n");
+        return XST_FAILURE;
+    }
+
+    // assign sent data to expected_sample
+    if (generate_signal(expected_sample, pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, 0) == XST_FAILURE) {
+        return XST_FAILURE;
+    }
+
+    //matching expected and read
+    for (int i = 0; i <= ((total_signal_length / 4) - read_trigger_length); i++) {
+    	xil_printf("\nShift[%d]\r\n", i);
+    	matched = 1;
+        for (int j = 0; j < read_trigger_length; j++) {
+            tmp_expected_data = 0;
+            if ((dataptr[j + 2] & 0xFFFF000000000000) == 0xCC00000000000000) {
+                tmp_expected_data = 0xCC00000000000000;
+
+                tmp_expected_sample_sum = ((short int)expected_sample[(i + j) * 4 + 2] >> 4) + ((short int)expected_sample[(i + j) * 4 + 3] >> 4);
+                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_sample_sum >> 1 & 0x000000000000FFFF) << 32;
+
+                tmp_expected_sample_sum = ((short int)expected_sample[(i + j) * 4 + 1] >> 4) + ((short int)expected_sample[(i + j) * 4 + 0] >> 4);
+                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_sample_sum >> 1 & 0x000000000000FFFF) << 16;
+
+                tmp_expected_l_gain_bl_subtracted = ((short int)expected_sample[(i + j) * 4] >> (L_GAIN_CORRECTION+4)) - (short int)L_GAIN_BASELINE;
+                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_l_gain_bl_subtracted & 0x000000000000FFFF);
+                //debug
+                // xil_printf("expected combined data[%d] %016llx\r\n", j, tmp_expected_data);
+            } else {
+                for (int k = 0; k < 4; k++) {
+                    tmp_expected_data = tmp_expected_data | (u64)((short int)expected_sample[(i + j) * 4 + k] >> 4 & 0x000000000000FFFF) << (k * 16);
+                    //debug
+                    // xil_printf("expected sample[%d] %04x\r\n", (i + j) * 4 + k, expected_sample[(i + j) * 4 + k] >> 4);
+                }
+            }
+            // debug
+            xil_printf("Expected[%d] %016llx : Read[%d] %016llx\r\n", j, tmp_expected_data, j, dataptr[j + 2]);
+
+            if (dataptr[j + 2] == tmp_expected_data) {
+                matched = matched*1;
+            } else {
+                matched = 0;
+                xil_printf("mismatch data found. increment shift\r\n");
+                break;
+            }
+        }
+        if (matched == 1) {
+            // debug
+            xil_printf("expected data matched with read samples\r\n");
+            break;
+        }
+    }
+    // if any sequence doesn't match with read data -> Status failed
+    if (matched == 0) {
+        xil_printf("Any sequence in send data doesn't match with read samples\r\n");
+        Status = XST_FAILURE;
+    }
+    free(expected_sample);
+    // ---------------------------- ---------------------------- ----------------------------
+
     if (read_footer_id != 0x55) {
-        xil_printf("FOOTER_ID missmatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
+        xil_printf("FOOTER_ID mismatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
         Status = XST_FAILURE;
     }
 
     decr_wrptr_after_read(read_trigger_length + 3);
+    xil_printf("\n");
     return Status;
 }
 
@@ -306,18 +391,18 @@ void prvDmaTask(void *pvParameters) {
     int s2mm_dma_state = XST_SUCCESS;
     int test_result = LAST_FRAME;
 
-    int test_fall_time = 256;
-
-    int pre_time = 10;
-    int rise_time = 5;
-    int high_time = 10;
-    int fall_time = 20;
+    int pre_time = (PRE_ACQUISITION_LENGTH + 1) * 8;
+    int rise_time = 8;
+    int high_time = 16;
+    int fall_time = 32;
+    int post_time = (POST_ACQUISITION_LENGTH + 1) * 8;
 
     int signal_length;
     int remain;
 
-    int max_val = 1500;
-    int baseline = H_GAIN_BASELINE;
+    int test_max_val = 2050;
+    int max_val = 2040;
+    int baseline = -100;
 
     u64 *dataptr;
     if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
@@ -332,7 +417,7 @@ void prvDmaTask(void *pvParameters) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
             if (test_result == LAST_FRAME) {
-                mm2s_dma_state = axidma_send_buff(pre_time, rise_time, high_time, fall_time, max_val, baseline, 1);
+                mm2s_dma_state = axidma_send_buff(pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, 1);
                 if (mm2s_dma_state != XST_SUCCESS) {
                     xil_printf("MM2S Dma failed. \r\n");
                     break;
@@ -341,11 +426,9 @@ void prvDmaTask(void *pvParameters) {
                     /* code */
                 }
                 if (!Error) {
-                    signal_length = pre_time + rise_time + high_time + fall_time;
+                    signal_length = pre_time + rise_time + high_time + fall_time + post_time;
                     remain = signal_length % 8;
-                    xil_printf("\nSend frame  Signal length:%4d, Max:%4d, Min:%4d\r\n", signal_length + remain, max_val, baseline);
-                    max_val++;
-                    fall_time++;
+                    xil_printf("Send frame  Signal length:%4d, Max:%4d, Min:%4d\r\n\n", signal_length + remain, max_val, baseline);
                 } else {
                     xil_printf("Error interrupt asserted.\r\n");
                     break;
@@ -367,13 +450,14 @@ void prvDmaTask(void *pvParameters) {
 
         if ((s2mm_dma_state == XST_SUCCESS) || buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
             dataptr = get_wrptr();
-            test_result = checkData(dataptr, pre_time, rise_time, high_time, fall_time, max_val, baseline, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1);
+            test_result = checkData(dataptr, pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1);
             if (test_result == XST_FAILURE) {
                 break;
             }
+            max_val++;
         }
 
-        if (fall_time > test_fall_time && test_result == LAST_FRAME) {
+        if (max_val > test_max_val && test_result == LAST_FRAME) {
             xil_printf("sequential sending test passed!\r\n");
             break;
         }

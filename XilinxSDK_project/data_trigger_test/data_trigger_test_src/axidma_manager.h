@@ -71,7 +71,7 @@
 /*
  * Buffer and Buffer Descriptor related constant definition
  */
-#define MAX_GENERATBLE_TRIGGER_LEN 128
+#define MAX_GENERATBLE_TRIGGER_LEN 256
 #define MAX_TRIGGER_LEN 16
 #define MAX_PKT_LEN ((MAX_TRIGGER_LEN * 16 + 3 * 8) / 16 + 1) * 16  // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
 #define RX_BUFFER_SIZE (RX_BUFFER_HIGH - RX_BUFFER_BASE)
@@ -112,8 +112,8 @@ volatile int Error;
 TaskHandle_t xDmaTask;
 
 int axidma_setup();
-int generate_signal(u16* tx_buff_ptr, int pre_time, int rise_time, int high_time, int fall_time, int max_val, int baseline, int print_enable);
-int axidma_send_buff(int pre_time, int rise_time, int high_time, int fall_time, int max_val, int baseline, int print_enable);
+int generate_signal(u16* tx_buff_ptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable);
+int axidma_send_buff(int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable);
 int axidma_recv_buff();
 int InitIntrController(INTC* IntcInstancePtr);
 int StartXIntc(INTC* IntcInstancePtr);

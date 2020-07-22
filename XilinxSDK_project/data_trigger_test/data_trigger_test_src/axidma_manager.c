@@ -381,8 +381,8 @@ static void assign_adc_sample(u16 *tx_buff_ptr, short int adc_sample) {
     *tx_buff_ptr = (adc_sample & 0x8000) | (adc_sample << 4);
 }
 
-int generate_signal(u16 *tx_buff_ptr, int pre_time, int rise_time, int high_time, int fall_time, int max_val, int baseline, int print_enable) {
-    int signal_length = pre_time + rise_time + high_time + fall_time;
+int generate_signal(u16 *tx_buff_ptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable) {
+    int signal_length = pre_time + rise_time + high_time + fall_time + post_time;
     int remain = signal_length % 8;
     short int sample;
     if (signal_length + remain <= MAX_GENERATBLE_TRIGGER_LEN) {
@@ -396,6 +396,8 @@ int generate_signal(u16 *tx_buff_ptr, int pre_time, int rise_time, int high_time
                 sample = max_val;
             } else if ((i >= pre_time + rise_time + high_time) & (i < pre_time + rise_time + high_time + fall_time)) {
                 sample = max_val - (i - (pre_time + rise_time + high_time)) * (max_val - baseline) / fall_time;
+            } else if ((i >= pre_time + rise_time + high_time + fall_time) & (i < pre_time + rise_time + high_time + fall_time + post_time + remain)) {
+                sample = baseline;
             }
             assign_adc_sample(&tx_buff_ptr[i], sample);
             if (print_enable != 0) {
@@ -415,15 +417,15 @@ int generate_signal(u16 *tx_buff_ptr, int pre_time, int rise_time, int high_time
     return XST_SUCCESS;
 }
 
-int axidma_send_buff(int pre_time, int rise_time, int high_time, int fall_time, int max_val, int baseline, int print_enable) {
+int axidma_send_buff(int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable) {
     int Status;
-    int signal_length = pre_time + rise_time + high_time + fall_time;
+    int signal_length = pre_time + rise_time + high_time + fall_time + post_time;
     int remain = signal_length % 8;
     /* Initialize flags before start transfer test  */
     Error = 0;
     TxDone = 0;
 
-    Status = generate_signal(TxBufferPtr, pre_time, rise_time, high_time, fall_time, max_val, baseline, print_enable);
+    Status = generate_signal(TxBufferPtr, pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, print_enable);
     if (Status != XST_SUCCESS) {
         return XST_FAILURE;
     }
