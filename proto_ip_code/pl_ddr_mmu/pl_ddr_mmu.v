@@ -2,11 +2,13 @@
 
 module pl_ddr_mmu # (
     parameter integer TDATA_WIDTH = 128,
+    parameter integer HEADER_FOOTER_ID_WIDTH = 8,
+    parameter integer CHANNEL_ID_WIDTH = 12,
+    parameter integer FRAME_LENGTH_WIDTH = 12,
     // global address size of PL DDR e.g. 4GiB -> 32bit
     parameter integer ADDRESS_WIDTH = 32,
     // local address size which pl_ddr_mmu manages. e.g. 256MiB -> 28bit 
     parameter integer LOCAL_ADDRESS_WIDTH = 28,
-    parameter integer PTR_FIFO_DEPTH = 16,
     parameter integer BASE_ADDRESS = 32'h0000_0000
 )(
     input wire ACLK,
@@ -64,13 +66,12 @@ module pl_ddr_mmu # (
     // ------------------------------- mmu configration -------------------------------
     localparam integer BTT_WIDTH = $clog2((2**15-1)*16+3*8)+1;
     reg [3:0] rsvd;
-    reg [3:0] tag;
     reg drr;
     reg eof;
     // dsa is effective when drr = 1'b1
     reg [5:0] dsa;
     reg burst_type;
-    reg [BTT_WIDTH-1:0] btt;
+    reg [BTT_WIDTH-1:0] max_btt;
     always @(posedge ACLK ) begin
         if (ARESET) begin
             rsvd <= #100 0;
@@ -78,7 +79,7 @@ module pl_ddr_mmu # (
             eof <= #100 1'b1;
             dsa <= #100 0;
             burst_type <= #100 1'b1;
-            btt <= #100 152;
+            max_btt <= #100 16*16+32;
         end else begin
             if (SET_CONFIG) begin
                 rsvd <= #100 0;
@@ -86,139 +87,235 @@ module pl_ddr_mmu # (
                 eof <= #100 1'b1;
                 dsa <= #100 0;      
                 burst_type <= #100 1'b1;
-                btt <= #100 (MAX_TRIGGER_LENGTH*16+3*8);                  
+                max_btt <= #100 (MAX_TRIGGER_LENGTH*16+32);                  
             end else begin
                 rsvd <= #100 rsvd;
                 drr <= #100 drr;
                 eof <= #100 eof;
                 dsa <= #100 dsa;      
                 burst_type <= #100 burst_type;
-                btt <= #100 btt;                
+                max_btt <= #100 max_btt;                
+            end
+        end
+    end
+
+    // ------------------------------- write/read address control -------------------------------
+    reg [LOCAL_ADDRESS_WIDTH:0] src_addr;
+    reg [LOCAL_ADDRESS_WIDTH:0] dest_addr;
+    reg [LOCAL_ADDRESS_WIDTH:0] next_src_addr;
+    reg [LOCAL_ADDRESS_WIDTH:0] next_dest_addr;
+    wire [LOCAL_ADDRESS_WIDTH-1:0] ACTUAL_HIGH_ADDRESS = {LOCAL_ADDRESS_WIDTH{1'b1}} - max_btt; 
+    wire empty = (src_addr == dest_addr);
+    wire full = (src_addr[LOCAL_ADDRESS_WIDTH-1:0] == dest_addr[LOCAL_ADDRESS_WIDTH-1:0])&(src_addr[LOCAL_ADDRESS_WIDTH] != dest_addr[LOCAL_ADDRESS_WIDTH]);
+    wire almost_empty = (next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] == dest_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_src_addr[LOCAL_ADDRESS_WIDTH] == dest_addr[LOCAL_ADDRESS_WIDTH]);
+    wire almost_full = (next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] == src_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_dest_addr[LOCAL_ADDRESS_WIDTH] != src_addr[LOCAL_ADDRESS_WIDTH]);    
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+            dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
+        end else begin
+            if (S2MM_WR_XFER_CMPLT) begin
+                if (dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~dest_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                    dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH];
+                end
+            end else begin
+                dest_addr <= #100 dest_addr;
             end
         end
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            tag <= #100 15;
+            next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
+            next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (wr_en) begin
-                tag <= #100 tag+1;
+            if (S2MM_WR_XFER_CMPLT) begin
+                if (next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_dest_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                    next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH];
+                end
             end else begin
-                tag <= #100 tag;
+                next_dest_addr <= #100 next_dest_addr;
             end
         end
     end    
 
-    // ------------------------------- write/read address control -------------------------------
-    reg [(LOCAL_ADDRESS_WIDTH+1)-1:0] addr_ram[PTR_FIFO_DEPTH-1:0];
-    reg [$clog2(PTR_FIFO_DEPTH):0] addr_fifo_wp;
-    reg [$clog2(PTR_FIFO_DEPTH):0] addr_fifo_rp;
-    wire addr_fifo_empty = (addr_fifo_rp == addr_fifo_wp);
-    wire addr_fifo_full = (addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)-1:0]==addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)-1:0])&(addr_fifo_wp[$clog2(PTR_FIFO_DEPTH)]!=addr_fifo_rp[$clog2(PTR_FIFO_DEPTH)]);
-
-    reg [LOCAL_ADDRESS_WIDTH:0] wp;
-    wire [LOCAL_ADDRESS_WIDTH-1:0] ACTUAL_HIGH_ADDRESS = {LOCAL_ADDRESS_WIDTH{1'b1}} - btt; 
-    wire [LOCAL_ADDRESS_WIDTH:0] current_wp;
-    reg [LOCAL_ADDRESS_WIDTH:0] rp;
-    assign EMPTY = (rp == current_wp);
-    assign FULL = (current_wp[LOCAL_ADDRESS_WIDTH-1:0] == rp[LOCAL_ADDRESS_WIDTH-1:0])&(current_wp[LOCAL_ADDRESS_WIDTH] != rp[LOCAL_ADDRESS_WIDTH]);
-    wire wr_en = &{S2MM_CMD_M_AXIS_TVALID, S2MM_CMD_M_AXIS_TREADY};
-    wire rd_en = &{MM2S_CMD_M_AXIS_TVALID, MM2S_CMD_M_AXIS_TREADY};
-
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            addr_fifo_wp <= #100 0;
+            src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+            src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (wr_en) begin
-                addr_fifo_wp <= #100 addr_fifo_wp + 1; 
+            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+                if (src_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~src_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                    src_addr[LOCAL_ADDRESS_WIDTH] <= #100 src_addr[LOCAL_ADDRESS_WIDTH];
+                end
             end else begin
-                addr_fifo_wp <= #100 addr_fifo_wp;
+                src_addr <= #100 src_addr;
             end
         end
     end
 
     always @(posedge ACLK ) begin
-        if (wr_en) begin
-            addr_ram[addr_fifo_wp] <= #100 wp; 
+        if (|{ARESET, SET_CONFIG}) begin
+            next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
+            next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            addr_ram[addr_fifo_wp] <= #100 addr_ram[addr_fifo_wp];
+            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+                if (next_src_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_src_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                    next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH];
+                end
+            end else begin
+                next_src_addr <= #100 next_src_addr;
+            end
+        end
+    end    
+
+    // ------------------------------- S_AXIS/S2MM DATA assigment -------------------------------
+    reg ready;
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            ready <= #100 1'b1;
+        end else begin
+            if (S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY) begin
+                ready <= #100 1'b0;
+            end else begin
+                if (S2MM_WR_XFER_CMPLT) begin
+                    ready <= #100 1'b1;
+                end else begin
+                    ready <= #100 ready;
+                end
+            end
         end
     end
     
+    assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
+    assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, ready, !almost_full, !full};
+    // assign S2MM_M_AXIS_TKEEP = S_AXIS_TKEEP; 
+    assign S2MM_M_AXIS_TKEEP = {TDATA_WIDTH/8{1'b1}};
+    assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
+    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, ready, !almost_full, !full};
+
+    // ------------------------------- S2MM Command assigment -------------------------------
+    reg s2mm_cmd_tvaild;
+    reg [3:0] s2mm_tag;
+
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            addr_fifo_rp <= #100 0;
+            s2mm_cmd_tvaild <= #100 1'b0;
+        end else begin
+            if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
+                s2mm_cmd_tvaild <= #100 1'b1;
+            end else begin
+                if (S2MM_CMD_M_AXIS_TREADY) begin
+                    s2mm_cmd_tvaild <= #100 1'b0;
+                end else begin
+                    s2mm_cmd_tvaild <= #100 s2mm_cmd_tvaild;
+                end
+            end
+        end
+    end
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            s2mm_tag <= #100 0;
         end else begin
             if (S2MM_WR_XFER_CMPLT) begin
-                addr_fifo_rp <= #100 addr_fifo_rp + 1; 
+                s2mm_tag <= #100 s2mm_tag+1;
             end else begin
-                addr_fifo_rp <= #100 addr_fifo_rp;
+                s2mm_tag <= #100 s2mm_tag;
             end
         end
     end
 
-    assign current_wp = addr_fifo_empty ? wp : addr_ram[addr_fifo_rp];
+    // For Non-IBTT Mode
+    // reg [BTT_WIDTH-1:0] s2mm_btt;
+    // always @(posedge ACLK ) begin
+    //     if (|{ARESET, SET_CONFIG}) begin
+    //         s2mm_btt <= #100 max_btt;
+    //     end else begin
+    //         if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
+    //             s2mm_btt <= #100 S_AXIS_TDATA[TDATA_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH]*8+32;
+    //         end else begin
+    //             s2mm_btt <= #100 s2mm_btt;
+    //         end
+    //     end
+    // end
+    // assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, src_addr+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, s2mm_btt};
+
+    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, max_btt};
+    assign S2MM_CMD_M_AXIS_TVALID = s2mm_cmd_tvaild;
+
+    // ------------------------------- MM2S Command assigment -------------------------------
+    reg mm2s_cmd_tvalid;
+    reg [3:0] mm2s_tag;    
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            wp <= #100 0;
+            mm2s_cmd_tvalid <= #100 1'b0;
         end else begin
-            if (wr_en&(!FULL)) begin
-                if (wp+btt>ACTUAL_HIGH_ADDRESS) begin
-                    wp <= #100 0;
-                end else begin
-                    wp <= #100 wp + btt;
-                end
+            if (~|{empty, mm2s_cmd_tvalid}) begin
+                mm2s_cmd_tvalid <= #100 1'b1;
             end else begin
-                wp <= #100 wp;
+                if (&{mm2s_cmd_tvalid, MM2S_CMD_M_AXIS_TREADY, almost_empty}) begin
+                    mm2s_cmd_tvalid <= #100 1'b0;
+                end else begin
+                    mm2s_cmd_tvalid <= #100 mm2s_cmd_tvalid;
+                end
             end
         end
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            rp <= #100 0;
+            mm2s_tag <= #100 0;
         end else begin
-            if (rd_en&(!EMPTY)) begin
-                if (rp+btt>ACTUAL_HIGH_ADDRESS) begin
-                    rp <= #100 0;
-                end else begin
-                    rp <= #100 rp + btt; 
-                end
+            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+                mm2s_tag <= #100 mm2s_tag+1;
             end else begin
-                rp <= #100 rp;
+                mm2s_tag <= #100 mm2s_tag;
             end
         end
-    end
+    end    
 
-
-    // ------------------------------- S2MM/MM2S Command assigment -------------------------------
-    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, tag, wp+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
-    assign S2MM_CMD_M_AXIS_TVALID = &{S_AXIS_TDATA[TDATA_WIDTH-1 -:8]==HEADER_ID, S_AXIS_TVALID};
-    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, tag, rp+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, btt};
-    assign MM2S_CMD_M_AXIS_TVALID = !EMPTY;
-
-    // ------------------------------- S_AXIS/S2MM DATA assigment -------------------------------
-    assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
-    assign S2MM_M_AXIS_TVALID = S_AXIS_TVALID;
-    assign S2MM_M_AXIS_TKEEP = S_AXIS_TKEEP; 
-    assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
-    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, S2MM_CMD_M_AXIS_TREADY, !addr_fifo_full};
+    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, mm2s_tag, src_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, max_btt};
+    assign MM2S_CMD_M_AXIS_TVALID = mm2s_cmd_tvalid;
 
     // ------------------------------- M_AXIS/MM2S DATA assigment -------------------------------
     reg m_axis_tvalid;
+    reg mm2s_tvalid_delay;
+    wire mm2s_tvalid_posedge = (MM2S_S_AXIS_TVALID==1'b1)&(mm2s_tvalid_delay==1'b0);
     reg [TDATA_WIDTH/8-1:0] m_axis_tkeep;
     reg [TDATA_WIDTH-1:0] m_axis_tdata;
+
+    always @(posedge ACLK ) begin
+        mm2s_tvalid_delay <= #100 MM2S_S_AXIS_TVALID;
+    end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
-            if (&{MM2S_S_AXIS_TDATA[TDATA_WIDTH -:8]==HEADER_ID, MM2S_S_AXIS_TVALID}) begin
+            if (&{MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, mm2s_tvalid_posedge}) begin
                 m_axis_tvalid <= #100 1'b1;
             end else begin
-                if (&{m_axis_tdata[TDATA_WIDTH -:8]==FOOTER_ID, MM2S_S_AXIS_TVALID, M_AXIS_TREADY}) begin
+                if (&{m_axis_tdata[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, MM2S_S_AXIS_TVALID, M_AXIS_TREADY}) begin
                     m_axis_tvalid <= #100 1'b0;
                 end else begin
                     m_axis_tvalid <= #100 m_axis_tvalid;
@@ -232,13 +329,25 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        m_axis_tkeep <= #100 MM2S_S_AXIS_TKEEP;
+        if (|{ARESET, SET_CONFIG}) begin
+            m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+        end else begin
+            if (MM2S_S_AXIS_TVALID) begin
+                if (MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
+                    m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b1}}, {TDATA_WIDTH/16{1'b0}}};
+                end else begin
+                    m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
+                end
+            end else begin
+                m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+            end
+        end
     end
 
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;
     assign M_AXIS_TVALID = m_axis_tvalid;
     assign M_AXIS_TKEEP = m_axis_tkeep;
-    assign M_AXIS_TLAST = &{m_axis_tdata[TDATA_WIDTH -:8]==FOOTER_ID, m_axis_tvalid};
+    assign M_AXIS_TLAST = &{m_axis_tdata[TDATA_WIDTH-1 -:8]==FOOTER_ID, m_axis_tvalid};
 
 endmodule
