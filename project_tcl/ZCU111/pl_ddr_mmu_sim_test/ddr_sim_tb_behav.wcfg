@@ -16,15 +16,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="728666667fs"></ZoomStartTime>
-      <ZoomEndTime time="1186666668fs"></ZoomEndTime>
-      <Cursor1Time time="922167000fs"></Cursor1Time>
+      <ZoomStartTime time="777700000fs"></ZoomStartTime>
+      <ZoomEndTime time="858700001fs"></ZoomEndTime>
+      <Cursor1Time time="880100000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="329"></NameColumnWidth>
-      <ValueColumnWidth column_width="317"></ValueColumnWidth>
+      <ValueColumnWidth column_width="297"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="17" />
+   <WVObjectSize size="18" />
    <wvobject fp_name="/ddr_sim_tb/test_status" type="array">
       <obj_property name="ElementShortName">test_status[31:0]</obj_property>
       <obj_property name="ObjectShortName">test_status[31:0]</obj_property>
@@ -85,8 +85,8 @@
       <obj_property name="label">testbench</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <wvobject fp_name="/ddr_sim_tb/sample_frame_length" type="array">
-         <obj_property name="ElementShortName">sample_frame_length[0:9][31:0]</obj_property>
-         <obj_property name="ObjectShortName">sample_frame_length[0:9][31:0]</obj_property>
+         <obj_property name="ElementShortName">sample_frame_length[0:29][31:0]</obj_property>
+         <obj_property name="ObjectShortName">sample_frame_length[0:29][31:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/MAX_TRIGGER_LENGTH_0" type="array">
          <obj_property name="ElementShortName">MAX_TRIGGER_LENGTH_0[15:0]</obj_property>
@@ -113,6 +113,14 @@
          <obj_property name="ElementShortName">MAX_TRIGGER_LENGTH[15:0]</obj_property>
          <obj_property name="ObjectShortName">MAX_TRIGGER_LENGTH[15:0]</obj_property>
       </wvobject>
+      <wvobject type="divider" fp_name="divider417">
+         <obj_property name="label">S_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/S_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">S_AXIS</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">S_AXIS_TDATA[127:0]</obj_property>
          <obj_property name="ObjectShortName">S_AXIS_TDATA[127:0]</obj_property>
@@ -133,9 +141,341 @@
          <obj_property name="ElementShortName">S_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">S_AXIS_TREADY</obj_property>
       </wvobject>
+      <wvobject type="divider" fp_name="divider418">
+         <obj_property name="label">S2MM_CMD_M_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/S2MM_CMD_M_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">S2MM_CMD_M_AXIS</obj_property>
+         <obj_property name="ObjectShortName">S2MM_CMD_M_AXIS</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">S2MM_CMD_M_AXIS_TDATA[71:0]</obj_property>
          <obj_property name="ObjectShortName">S2MM_CMD_M_AXIS_TDATA[71:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="vbus365" type="vbus">
+         <obj_property name="label">btt</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[22]" type="logic">
+            <obj_property name="ElementShortName">[22]</obj_property>
+            <obj_property name="ObjectShortName">[22]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[21]" type="logic">
+            <obj_property name="ElementShortName">[21]</obj_property>
+            <obj_property name="ObjectShortName">[21]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[20]" type="logic">
+            <obj_property name="ElementShortName">[20]</obj_property>
+            <obj_property name="ObjectShortName">[20]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[19]" type="logic">
+            <obj_property name="ElementShortName">[19]</obj_property>
+            <obj_property name="ObjectShortName">[19]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[18]" type="logic">
+            <obj_property name="ElementShortName">[18]</obj_property>
+            <obj_property name="ObjectShortName">[18]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[17]" type="logic">
+            <obj_property name="ElementShortName">[17]</obj_property>
+            <obj_property name="ObjectShortName">[17]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[16]" type="logic">
+            <obj_property name="ElementShortName">[16]</obj_property>
+            <obj_property name="ObjectShortName">[16]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[15]" type="logic">
+            <obj_property name="ElementShortName">[15]</obj_property>
+            <obj_property name="ObjectShortName">[15]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[14]" type="logic">
+            <obj_property name="ElementShortName">[14]</obj_property>
+            <obj_property name="ObjectShortName">[14]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[13]" type="logic">
+            <obj_property name="ElementShortName">[13]</obj_property>
+            <obj_property name="ObjectShortName">[13]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[12]" type="logic">
+            <obj_property name="ElementShortName">[12]</obj_property>
+            <obj_property name="ObjectShortName">[12]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[11]" type="logic">
+            <obj_property name="ElementShortName">[11]</obj_property>
+            <obj_property name="ObjectShortName">[11]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[10]" type="logic">
+            <obj_property name="ElementShortName">[10]</obj_property>
+            <obj_property name="ObjectShortName">[10]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[9]" type="logic">
+            <obj_property name="ElementShortName">[9]</obj_property>
+            <obj_property name="ObjectShortName">[9]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[8]" type="logic">
+            <obj_property name="ElementShortName">[8]</obj_property>
+            <obj_property name="ObjectShortName">[8]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[7]" type="logic">
+            <obj_property name="ElementShortName">[7]</obj_property>
+            <obj_property name="ObjectShortName">[7]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[6]" type="logic">
+            <obj_property name="ElementShortName">[6]</obj_property>
+            <obj_property name="ObjectShortName">[6]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[5]" type="logic">
+            <obj_property name="ElementShortName">[5]</obj_property>
+            <obj_property name="ObjectShortName">[5]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[4]" type="logic">
+            <obj_property name="ElementShortName">[4]</obj_property>
+            <obj_property name="ObjectShortName">[4]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[3]" type="logic">
+            <obj_property name="ElementShortName">[3]</obj_property>
+            <obj_property name="ObjectShortName">[3]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[2]" type="logic">
+            <obj_property name="ElementShortName">[2]</obj_property>
+            <obj_property name="ObjectShortName">[2]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[1]" type="logic">
+            <obj_property name="ElementShortName">[1]</obj_property>
+            <obj_property name="ObjectShortName">[1]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[0]" type="logic">
+            <obj_property name="ElementShortName">[0]</obj_property>
+            <obj_property name="ObjectShortName">[0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus363" type="vbus">
+         <obj_property name="label">type</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[23]" type="logic">
+            <obj_property name="ElementShortName">[23]</obj_property>
+            <obj_property name="ObjectShortName">[23]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus356" type="vbus">
+         <obj_property name="label">dsa</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[29]" type="logic">
+            <obj_property name="ElementShortName">[29]</obj_property>
+            <obj_property name="ObjectShortName">[29]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[28]" type="logic">
+            <obj_property name="ElementShortName">[28]</obj_property>
+            <obj_property name="ObjectShortName">[28]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[27]" type="logic">
+            <obj_property name="ElementShortName">[27]</obj_property>
+            <obj_property name="ObjectShortName">[27]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[26]" type="logic">
+            <obj_property name="ElementShortName">[26]</obj_property>
+            <obj_property name="ObjectShortName">[26]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[25]" type="logic">
+            <obj_property name="ElementShortName">[25]</obj_property>
+            <obj_property name="ObjectShortName">[25]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[24]" type="logic">
+            <obj_property name="ElementShortName">[24]</obj_property>
+            <obj_property name="ObjectShortName">[24]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus354" type="vbus">
+         <obj_property name="label">eof</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[30]" type="logic">
+            <obj_property name="ElementShortName">[30]</obj_property>
+            <obj_property name="ObjectShortName">[30]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus352" type="vbus">
+         <obj_property name="label">drr</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[31]" type="logic">
+            <obj_property name="ElementShortName">[31]</obj_property>
+            <obj_property name="ObjectShortName">[31]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus318" type="vbus">
+         <obj_property name="label">dest_addr</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[63]" type="logic">
+            <obj_property name="ElementShortName">[63]</obj_property>
+            <obj_property name="ObjectShortName">[63]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[62]" type="logic">
+            <obj_property name="ElementShortName">[62]</obj_property>
+            <obj_property name="ObjectShortName">[62]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[61]" type="logic">
+            <obj_property name="ElementShortName">[61]</obj_property>
+            <obj_property name="ObjectShortName">[61]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[60]" type="logic">
+            <obj_property name="ElementShortName">[60]</obj_property>
+            <obj_property name="ObjectShortName">[60]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[59]" type="logic">
+            <obj_property name="ElementShortName">[59]</obj_property>
+            <obj_property name="ObjectShortName">[59]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[58]" type="logic">
+            <obj_property name="ElementShortName">[58]</obj_property>
+            <obj_property name="ObjectShortName">[58]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[57]" type="logic">
+            <obj_property name="ElementShortName">[57]</obj_property>
+            <obj_property name="ObjectShortName">[57]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[56]" type="logic">
+            <obj_property name="ElementShortName">[56]</obj_property>
+            <obj_property name="ObjectShortName">[56]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[55]" type="logic">
+            <obj_property name="ElementShortName">[55]</obj_property>
+            <obj_property name="ObjectShortName">[55]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[54]" type="logic">
+            <obj_property name="ElementShortName">[54]</obj_property>
+            <obj_property name="ObjectShortName">[54]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[53]" type="logic">
+            <obj_property name="ElementShortName">[53]</obj_property>
+            <obj_property name="ObjectShortName">[53]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[52]" type="logic">
+            <obj_property name="ElementShortName">[52]</obj_property>
+            <obj_property name="ObjectShortName">[52]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[51]" type="logic">
+            <obj_property name="ElementShortName">[51]</obj_property>
+            <obj_property name="ObjectShortName">[51]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[50]" type="logic">
+            <obj_property name="ElementShortName">[50]</obj_property>
+            <obj_property name="ObjectShortName">[50]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[49]" type="logic">
+            <obj_property name="ElementShortName">[49]</obj_property>
+            <obj_property name="ObjectShortName">[49]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[48]" type="logic">
+            <obj_property name="ElementShortName">[48]</obj_property>
+            <obj_property name="ObjectShortName">[48]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[47]" type="logic">
+            <obj_property name="ElementShortName">[47]</obj_property>
+            <obj_property name="ObjectShortName">[47]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[46]" type="logic">
+            <obj_property name="ElementShortName">[46]</obj_property>
+            <obj_property name="ObjectShortName">[46]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[45]" type="logic">
+            <obj_property name="ElementShortName">[45]</obj_property>
+            <obj_property name="ObjectShortName">[45]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[44]" type="logic">
+            <obj_property name="ElementShortName">[44]</obj_property>
+            <obj_property name="ObjectShortName">[44]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[43]" type="logic">
+            <obj_property name="ElementShortName">[43]</obj_property>
+            <obj_property name="ObjectShortName">[43]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[42]" type="logic">
+            <obj_property name="ElementShortName">[42]</obj_property>
+            <obj_property name="ObjectShortName">[42]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[41]" type="logic">
+            <obj_property name="ElementShortName">[41]</obj_property>
+            <obj_property name="ObjectShortName">[41]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[40]" type="logic">
+            <obj_property name="ElementShortName">[40]</obj_property>
+            <obj_property name="ObjectShortName">[40]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[39]" type="logic">
+            <obj_property name="ElementShortName">[39]</obj_property>
+            <obj_property name="ObjectShortName">[39]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[38]" type="logic">
+            <obj_property name="ElementShortName">[38]</obj_property>
+            <obj_property name="ObjectShortName">[38]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[37]" type="logic">
+            <obj_property name="ElementShortName">[37]</obj_property>
+            <obj_property name="ObjectShortName">[37]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[36]" type="logic">
+            <obj_property name="ElementShortName">[36]</obj_property>
+            <obj_property name="ObjectShortName">[36]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[35]" type="logic">
+            <obj_property name="ElementShortName">[35]</obj_property>
+            <obj_property name="ObjectShortName">[35]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[34]" type="logic">
+            <obj_property name="ElementShortName">[34]</obj_property>
+            <obj_property name="ObjectShortName">[34]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[33]" type="logic">
+            <obj_property name="ElementShortName">[33]</obj_property>
+            <obj_property name="ObjectShortName">[33]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[32]" type="logic">
+            <obj_property name="ElementShortName">[32]</obj_property>
+            <obj_property name="ObjectShortName">[32]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus313" type="vbus">
+         <obj_property name="label">tag</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[67]" type="logic">
+            <obj_property name="ElementShortName">[67]</obj_property>
+            <obj_property name="ObjectShortName">[67]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[66]" type="logic">
+            <obj_property name="ElementShortName">[66]</obj_property>
+            <obj_property name="ObjectShortName">[66]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[65]" type="logic">
+            <obj_property name="ElementShortName">[65]</obj_property>
+            <obj_property name="ObjectShortName">[65]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[64]" type="logic">
+            <obj_property name="ElementShortName">[64]</obj_property>
+            <obj_property name="ObjectShortName">[64]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="vbus308" type="vbus">
+         <obj_property name="label">rsvd</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[71]" type="logic">
+            <obj_property name="ElementShortName">[71]</obj_property>
+            <obj_property name="ObjectShortName">[71]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[70]" type="logic">
+            <obj_property name="ElementShortName">[70]</obj_property>
+            <obj_property name="ObjectShortName">[70]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[69]" type="logic">
+            <obj_property name="ElementShortName">[69]</obj_property>
+            <obj_property name="ObjectShortName">[69]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TDATA[68]" type="logic">
+            <obj_property name="ElementShortName">[68]</obj_property>
+            <obj_property name="ObjectShortName">[68]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/s2mm_cmd_tvaild" type="logic">
+         <obj_property name="ElementShortName">s2mm_cmd_tvaild</obj_property>
+         <obj_property name="ObjectShortName">s2mm_cmd_tvaild</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TVALID" type="logic">
          <obj_property name="ElementShortName">S2MM_CMD_M_AXIS_TVALID</obj_property>
@@ -144,6 +484,14 @@
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_CMD_M_AXIS_TREADY" type="logic">
          <obj_property name="ElementShortName">S2MM_CMD_M_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">S2MM_CMD_M_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider419">
+         <obj_property name="label">S2MM_M_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/S2MM_M_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">S2MM_M_AXIS</obj_property>
+         <obj_property name="ObjectShortName">S2MM_M_AXIS</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/S2MM_M_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">S2MM_M_AXIS_TDATA[127:0]</obj_property>
@@ -169,9 +517,61 @@
          <obj_property name="ElementShortName">S2MM_WR_XFER_CMPLT</obj_property>
          <obj_property name="ObjectShortName">S2MM_WR_XFER_CMPLT</obj_property>
       </wvobject>
+      <wvobject type="divider" fp_name="divider283">
+         <obj_property name="label">ADDRESS_CONTROL</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/ready" type="logic">
+         <obj_property name="ElementShortName">ready</obj_property>
+         <obj_property name="ObjectShortName">ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/dest_addr" type="array">
+         <obj_property name="ElementShortName">dest_addr[12:0]</obj_property>
+         <obj_property name="ObjectShortName">dest_addr[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/next_dest_addr" type="array">
+         <obj_property name="ElementShortName">next_dest_addr[12:0]</obj_property>
+         <obj_property name="ObjectShortName">next_dest_addr[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/src_addr" type="array">
+         <obj_property name="ElementShortName">src_addr[12:0]</obj_property>
+         <obj_property name="ObjectShortName">src_addr[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/next_src_addr" type="array">
+         <obj_property name="ElementShortName">next_src_addr[12:0]</obj_property>
+         <obj_property name="ObjectShortName">next_src_addr[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/almost_empty" type="logic">
+         <obj_property name="ElementShortName">almost_empty</obj_property>
+         <obj_property name="ObjectShortName">almost_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/almost_full" type="logic">
+         <obj_property name="ElementShortName">almost_full</obj_property>
+         <obj_property name="ObjectShortName">almost_full</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider420">
+         <obj_property name="label">MM2S_CMD_M_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/MM2S_CMD_M_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">MM2S_CMD_M_AXIS</obj_property>
+         <obj_property name="ObjectShortName">MM2S_CMD_M_AXIS</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/MM2S_CMD_M_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">MM2S_CMD_M_AXIS_TDATA[71:0]</obj_property>
          <obj_property name="ObjectShortName">MM2S_CMD_M_AXIS_TDATA[71:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/mm2s_cmd_tvalid" type="logic">
+         <obj_property name="ElementShortName">mm2s_cmd_tvalid</obj_property>
+         <obj_property name="ObjectShortName">mm2s_cmd_tvalid</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/MM2S_CMD_M_AXIS_TVALID" type="logic">
          <obj_property name="ElementShortName">MM2S_CMD_M_AXIS_TVALID</obj_property>
@@ -180,6 +580,14 @@
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/MM2S_CMD_M_AXIS_TREADY" type="logic">
          <obj_property name="ElementShortName">MM2S_CMD_M_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">MM2S_CMD_M_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="divider" fp_name="divider421">
+         <obj_property name="label">MM2S_S_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/MM2S_S_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">MM2S_S_AXIS</obj_property>
+         <obj_property name="ObjectShortName">MM2S_S_AXIS</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/MM2S_S_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">MM2S_S_AXIS_TDATA[127:0]</obj_property>
@@ -197,9 +605,25 @@
          <obj_property name="ElementShortName">MM2S_S_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">MM2S_S_AXIS_TREADY</obj_property>
       </wvobject>
+      <wvobject type="divider" fp_name="divider422">
+         <obj_property name="label">M_AXIS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/M_AXIS" type="protoinst">
+         <obj_property name="ElementShortName">M_AXIS</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tdata" type="array">
+         <obj_property name="ElementShortName">m_axis_tdata[127:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tdata[127:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/M_AXIS_TDATA" type="array">
          <obj_property name="ElementShortName">M_AXIS_TDATA[127:0]</obj_property>
          <obj_property name="ObjectShortName">M_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tvalid" type="logic">
+         <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/M_AXIS_TVALID" type="logic">
          <obj_property name="ElementShortName">M_AXIS_TVALID</obj_property>
@@ -209,6 +633,10 @@
          <obj_property name="ElementShortName">M_AXIS_TLAST</obj_property>
          <obj_property name="ObjectShortName">M_AXIS_TLAST</obj_property>
       </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tkeep" type="array">
+         <obj_property name="ElementShortName">m_axis_tkeep[15:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_tkeep[15:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/M_AXIS_TKEEP" type="array">
          <obj_property name="ElementShortName">M_AXIS_TKEEP[15:0]</obj_property>
          <obj_property name="ObjectShortName">M_AXIS_TKEEP[15:0]</obj_property>
@@ -217,13 +645,21 @@
          <obj_property name="ElementShortName">M_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">M_AXIS_TREADY</obj_property>
       </wvobject>
+      <wvobject type="divider" fp_name="divider423">
+         <obj_property name="label">INTERNAL_SIGNALS</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/rsvd" type="array">
          <obj_property name="ElementShortName">rsvd[3:0]</obj_property>
          <obj_property name="ObjectShortName">rsvd[3:0]</obj_property>
       </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/tag" type="array">
-         <obj_property name="ElementShortName">tag[3:0]</obj_property>
-         <obj_property name="ObjectShortName">tag[3:0]</obj_property>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/s2mm_tag" type="array">
+         <obj_property name="ElementShortName">s2mm_tag[3:0]</obj_property>
+         <obj_property name="ObjectShortName">s2mm_tag[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/mm2s_tag" type="array">
+         <obj_property name="ElementShortName">mm2s_tag[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mm2s_tag[3:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/drr" type="logic">
          <obj_property name="ElementShortName">drr</obj_property>
@@ -241,219 +677,15 @@
          <obj_property name="ElementShortName">burst_type</obj_property>
          <obj_property name="ObjectShortName">burst_type</obj_property>
       </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/btt" type="array">
-         <obj_property name="ElementShortName">btt[20:0]</obj_property>
-         <obj_property name="ObjectShortName">btt[20:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/addr_ram" type="array">
-         <obj_property name="ElementShortName">addr_ram[15:0][16:0]</obj_property>
-         <obj_property name="ObjectShortName">addr_ram[15:0][16:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/addr_fifo_wp" type="array">
-         <obj_property name="ElementShortName">addr_fifo_wp[4:0]</obj_property>
-         <obj_property name="ObjectShortName">addr_fifo_wp[4:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/addr_fifo_rp" type="array">
-         <obj_property name="ElementShortName">addr_fifo_rp[4:0]</obj_property>
-         <obj_property name="ObjectShortName">addr_fifo_rp[4:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/addr_fifo_empty" type="logic">
-         <obj_property name="ElementShortName">addr_fifo_empty</obj_property>
-         <obj_property name="ObjectShortName">addr_fifo_empty</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/addr_fifo_full" type="logic">
-         <obj_property name="ElementShortName">addr_fifo_full</obj_property>
-         <obj_property name="ObjectShortName">addr_fifo_full</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/wp" type="array">
-         <obj_property name="ElementShortName">wp[16:0]</obj_property>
-         <obj_property name="ObjectShortName">wp[16:0]</obj_property>
-      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/ACTUAL_HIGH_ADDRESS" type="array">
-         <obj_property name="ElementShortName">ACTUAL_HIGH_ADDRESS[15:0]</obj_property>
-         <obj_property name="ObjectShortName">ACTUAL_HIGH_ADDRESS[15:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/current_wp" type="array">
-         <obj_property name="ElementShortName">current_wp[16:0]</obj_property>
-         <obj_property name="ObjectShortName">current_wp[16:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/rp" type="array">
-         <obj_property name="ElementShortName">rp[16:0]</obj_property>
-         <obj_property name="ObjectShortName">rp[16:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/wr_en" type="logic">
-         <obj_property name="ElementShortName">wr_en</obj_property>
-         <obj_property name="ObjectShortName">wr_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/rd_en" type="logic">
-         <obj_property name="ElementShortName">rd_en</obj_property>
-         <obj_property name="ObjectShortName">rd_en</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tvalid" type="logic">
-         <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
-         <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tkeep" type="array">
-         <obj_property name="ElementShortName">m_axis_tkeep[15:0]</obj_property>
-         <obj_property name="ObjectShortName">m_axis_tkeep[15:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/m_axis_tdata" type="array">
-         <obj_property name="ElementShortName">m_axis_tdata[127:0]</obj_property>
-         <obj_property name="ObjectShortName">m_axis_tdata[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/EMPTY" type="logic">
-         <obj_property name="ElementShortName">EMPTY</obj_property>
-         <obj_property name="ObjectShortName">EMPTY</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/FULL" type="logic">
-         <obj_property name="ElementShortName">FULL</obj_property>
-         <obj_property name="ObjectShortName">FULL</obj_property>
+         <obj_property name="ElementShortName">ACTUAL_HIGH_ADDRESS[11:0]</obj_property>
+         <obj_property name="ObjectShortName">ACTUAL_HIGH_ADDRESS[11:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group146" type="group">
       <obj_property name="label">axi_vip_0</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/aclk" type="logic">
-         <obj_property name="ElementShortName">aclk</obj_property>
-         <obj_property name="ObjectShortName">aclk</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/aresetn" type="logic">
-         <obj_property name="ElementShortName">aresetn</obj_property>
-         <obj_property name="ObjectShortName">aresetn</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awid" type="array">
-         <obj_property name="ElementShortName">s_axi_awid[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awid[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awaddr" type="array">
-         <obj_property name="ElementShortName">s_axi_awaddr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awaddr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awlen" type="array">
-         <obj_property name="ElementShortName">s_axi_awlen[7:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awlen[7:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awburst" type="array">
-         <obj_property name="ElementShortName">s_axi_awburst[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awburst[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awcache" type="array">
-         <obj_property name="ElementShortName">s_axi_awcache[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awcache[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awprot" type="array">
-         <obj_property name="ElementShortName">s_axi_awprot[2:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awprot[2:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awuser" type="array">
-         <obj_property name="ElementShortName">s_axi_awuser[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awuser[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awvalid" type="logic">
-         <obj_property name="ElementShortName">s_axi_awvalid</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_awready" type="logic">
-         <obj_property name="ElementShortName">s_axi_awready</obj_property>
-         <obj_property name="ObjectShortName">s_axi_awready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_wdata" type="array">
-         <obj_property name="ElementShortName">s_axi_wdata[127:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_wdata[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_wstrb" type="array">
-         <obj_property name="ElementShortName">s_axi_wstrb[15:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_wstrb[15:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_wlast" type="logic">
-         <obj_property name="ElementShortName">s_axi_wlast</obj_property>
-         <obj_property name="ObjectShortName">s_axi_wlast</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_wvalid" type="logic">
-         <obj_property name="ElementShortName">s_axi_wvalid</obj_property>
-         <obj_property name="ObjectShortName">s_axi_wvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_wready" type="logic">
-         <obj_property name="ElementShortName">s_axi_wready</obj_property>
-         <obj_property name="ObjectShortName">s_axi_wready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_bid" type="array">
-         <obj_property name="ElementShortName">s_axi_bid[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_bid[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_bresp" type="array">
-         <obj_property name="ElementShortName">s_axi_bresp[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_bresp[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_bvalid" type="logic">
-         <obj_property name="ElementShortName">s_axi_bvalid</obj_property>
-         <obj_property name="ObjectShortName">s_axi_bvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_bready" type="logic">
-         <obj_property name="ElementShortName">s_axi_bready</obj_property>
-         <obj_property name="ObjectShortName">s_axi_bready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arid" type="array">
-         <obj_property name="ElementShortName">s_axi_arid[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arid[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_araddr" type="array">
-         <obj_property name="ElementShortName">s_axi_araddr[31:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_araddr[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arlen" type="array">
-         <obj_property name="ElementShortName">s_axi_arlen[7:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arlen[7:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arburst" type="array">
-         <obj_property name="ElementShortName">s_axi_arburst[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arburst[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arcache" type="array">
-         <obj_property name="ElementShortName">s_axi_arcache[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arcache[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arprot" type="array">
-         <obj_property name="ElementShortName">s_axi_arprot[2:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arprot[2:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_aruser" type="array">
-         <obj_property name="ElementShortName">s_axi_aruser[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_aruser[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arvalid" type="logic">
-         <obj_property name="ElementShortName">s_axi_arvalid</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_arready" type="logic">
-         <obj_property name="ElementShortName">s_axi_arready</obj_property>
-         <obj_property name="ObjectShortName">s_axi_arready</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rid" type="array">
-         <obj_property name="ElementShortName">s_axi_rid[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rid[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rdata" type="array">
-         <obj_property name="ElementShortName">s_axi_rdata[127:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rdata[127:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rresp" type="array">
-         <obj_property name="ElementShortName">s_axi_rresp[1:0]</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rresp[1:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rlast" type="logic">
-         <obj_property name="ElementShortName">s_axi_rlast</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rlast</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rvalid" type="logic">
-         <obj_property name="ElementShortName">s_axi_rvalid</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rvalid</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/s_axi_rready" type="logic">
-         <obj_property name="ElementShortName">s_axi_rready</obj_property>
-         <obj_property name="ObjectShortName">s_axi_rready</obj_property>
-      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_vip_0/S_AXI" type="protoinst">
          <obj_property name="children_use_element_short_name">true</obj_property>
          <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
@@ -466,6 +698,52 @@
          <obj_property name="CellHeight">36</obj_property>
          <obj_property name="ElementShortName">S_AXI</obj_property>
          <obj_property name="ObjectShortName">S_AXI</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group916" type="group">
+      <obj_property name="label">AXI Data Mover</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_err" type="logic">
+         <obj_property name="ElementShortName">mm2s_err</obj_property>
+         <obj_property name="ObjectShortName">mm2s_err</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt" type="logic">
+         <obj_property name="ElementShortName">s2mm_halt</obj_property>
+         <obj_property name="ObjectShortName">s2mm_halt</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt_cmplt" type="logic">
+         <obj_property name="ElementShortName">s2mm_halt_cmplt</obj_property>
+         <obj_property name="ObjectShortName">s2mm_halt_cmplt</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_err" type="logic">
+         <obj_property name="ElementShortName">s2mm_err</obj_property>
+         <obj_property name="ObjectShortName">s2mm_err</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_allow_addr_req" type="logic">
+         <obj_property name="ElementShortName">s2mm_allow_addr_req</obj_property>
+         <obj_property name="ObjectShortName">s2mm_allow_addr_req</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_addr_req_posted" type="logic">
+         <obj_property name="ElementShortName">s2mm_addr_req_posted</obj_property>
+         <obj_property name="ObjectShortName">s2mm_addr_req_posted</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_wr_xfer_cmplt" type="logic">
+         <obj_property name="ElementShortName">s2mm_wr_xfer_cmplt</obj_property>
+         <obj_property name="ObjectShortName">s2mm_wr_xfer_cmplt</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_ld_nxt_len" type="logic">
+         <obj_property name="ElementShortName">s2mm_ld_nxt_len</obj_property>
+         <obj_property name="ObjectShortName">s2mm_ld_nxt_len</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_sel" type="array">
+         <obj_property name="ElementShortName">s2mm_dbg_sel[3:0]</obj_property>
+         <obj_property name="ObjectShortName">s2mm_dbg_sel[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_data" type="array">
+         <obj_property name="ElementShortName">s2mm_dbg_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">s2mm_dbg_data[31:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
