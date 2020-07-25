@@ -345,21 +345,33 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        m_axis_tdata <= #100 MM2S_S_AXIS_TDATA;
+        if (|{ARESET, SET_CONFIG}) begin
+            m_axis_tdata <= #100 {TDATA_WIDTH{1'b1}};
+        end else begin
+           if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin
+               m_axis_tdata <= #100 m_axis_tdata;
+           end else begin
+               m_axis_tdata <= #100 MM2S_S_AXIS_TDATA;
+           end 
+        end
     end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
             m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
         end else begin
-            if (MM2S_S_AXIS_TVALID) begin
-                if (MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
-                    m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b1}}, {TDATA_WIDTH/16{1'b0}}};
-                end else begin
-                    m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
-                end
+            if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin
+                m_axis_tkeep <= #100 m_axis_tkeep;
             end else begin
-                m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+                if (!MM2S_S_AXIS_TVALID) begin
+                    m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+                end else begin
+                    if (MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
+                        m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b1}}, {TDATA_WIDTH/16{1'b0}}};
+                    end else begin
+                        m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
+                    end                    
+                end
             end
         end
     end
