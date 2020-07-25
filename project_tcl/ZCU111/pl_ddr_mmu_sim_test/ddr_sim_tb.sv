@@ -43,15 +43,6 @@ module ddr_sim_tb;
         .*
     );
 
-    enum integer {
-        INTITIALIZE,
-        RESET_ALL,
-        CONFIGURING,
-        SEQUENCIAL_SENDING_TEST,
-        BACKPRESSURE_SENDING_TEST   
-    } test_status;    
-
-
     task reset_all;
         test_status = RESET_ALL;
         
@@ -157,18 +148,14 @@ module ddr_sim_tb;
         end
     endtask 
 
-    task sequencial_sending_test(input dataframe_line_t sample_frame[], input int sample_num, input int sample_frame_length[]);
+    task sample_send(input dataframe_line_t sample_frame[], input int sample_num, input int sample_frame_length[]);
         int line_index;
-        test_status = SEQUENCIAL_SENDING_TEST;
-        $display("TEST START: sequencial sending test start");
-
         @(posedge CLK);
         S_AXIS_0_tvalid <= #100 1'b0;
         S_AXIS_0_tlast <= #100 1'b0;
         S_AXIS_0_tkeep <= #100 16'hFFFF;
         S_AXIS_0_tdata <= #100 {128{1'b1}};
         
-        M_AXIS_0_tready <= #100 1'b1;
         fork
             begin
                 for (int i=0; i<sample_num; i++) begin
@@ -199,55 +186,6 @@ module ddr_sim_tb;
                 mmu_output_monitor(sample_frame, sample_num);
             end
         join
-
-        $display("TEST PASSED: sequencial sending test passed!");
-    endtask
-
-    task backpressure_sending_test(input dataframe_line_t sample_frame[], input int sample_num, input int sample_frame_length[]);
-        int line_index;
-        test_status = BACKPRESSURE_SENDING_TEST;
-        slv_gen_after_valid_osc_readies();
-
-        $display("TEST START: backpressure sending test start");
-
-        @(posedge CLK);
-        S_AXIS_0_tvalid <= #100 1'b0;
-        S_AXIS_0_tlast <= #100 1'b0;
-        S_AXIS_0_tkeep <= #100 16'hFFFF;
-        S_AXIS_0_tdata <= #100 {128{1'b1}};
-        
-        M_AXIS_0_tready <= #100 1'b1;
-        fork
-            begin
-                for (int i=0; i<sample_num; i++) begin
-                    line_index = 0;
-
-                    while (line_index< sample_frame_length[i]/2+2) begin 
-                        @(posedge CLK);
-                        if (line_index==sample_frame_length[i]/2+2) begin
-                            break;
-                        end else if (S_AXIS_0_tvalid&S_AXIS_0_tready) begin
-                            line_index++;
-                        end 
-                        
-                        S_AXIS_0_tdata <= #100 sample_frame[i][line_index].tdata;
-                        S_AXIS_0_tvalid <= #100 sample_frame[i][line_index].tvalid;
-                        S_AXIS_0_tkeep <= #100 sample_frame[i][line_index].tkeep;
-                        S_AXIS_0_tlast <= #100 sample_frame[i][line_index].tlast;
-                    end
-
-                    S_AXIS_0_tvalid <= #100 1'b0;
-                    S_AXIS_0_tlast <= #100 1'b0;
-                    S_AXIS_0_tkeep <= #100 16'hFFFF;
-                    S_AXIS_0_tdata <= #100 {128{1'b1}};
-                end
-            end
-            begin
-                mmu_output_monitor(sample_frame, sample_num);
-            end
-        join
-
-        $display("TEST PASSED: backpressure sending test passed!");
     endtask
 
     initial begin
@@ -378,7 +316,18 @@ module ddr_sim_tb;
         slv_gen_after_valid_osc_arready();
     endtask  : slv_gen_after_valid_osc_readies
 
+    enum integer {
+        INTITIALIZE,
+        RESET_ALL,
+        CONFIGURING,
+        SEQUENCIAL_SENDING_TEST,
+        BACKPRESSURE_SENDING_TEST,
+        RANDOM_SENDING_TEST
+    } test_status;  
+
     initial begin
+        int tmp_random_frame_len;
+    
         test_status = INTITIALIZE;
         /***********************************************************************************************
         * Before agent is newed, user has to run simulation with an empty testbench(disable below two
@@ -400,9 +349,41 @@ module ddr_sim_tb;
         repeat(20) @(posedge CLK);
         config_module(16);
 
-        sequencial_sending_test(sample_frame, SAMPLE_NUM, sample_frame_length);
-        backpressure_sending_test(sample_frame, SAMPLE_NUM, sample_frame_length);
+        test_status = SEQUENCIAL_SENDING_TEST;
+        M_AXIS_0_tready <= #100 1'b1;
+        $display("TEST START: sequencial sending test start");
+        sample_send(sample_frame, SAMPLE_NUM, sample_frame_length);
+        $display("TEST PASSED: sequencial sending test passed!");        
 
+        test_status = BACKPRESSURE_SENDING_TEST;
+        slv_gen_after_valid_osc_readies();
+        $display("TEST START: backpressure sending test start");
+        sample_send(sample_frame, SAMPLE_NUM, sample_frame_length);
+        $display("TEST PASSED: backpressure sending test passed!");
+        
+        for (int i=0; i<SAMPLE_NUM; i++) begin
+            tmp_random_frame_len = $urandom_range(1, 4)*2;
+            sample_frame[i] = generateFrame(tmp_random_frame_len);
+            sample_frame_length[i] = tmp_random_frame_len;
+        end
+        
+        test_status = RANDOM_SENDING_TEST;
+        slv_random_backpressure_readies();
+        $display("TEST START: random frame length & backpressure sending test start");
+        fork
+            begin
+                while(1) begin
+                    @(posedge CLK);
+                    M_AXIS_0_tready <= #100 $urandom_range(0, 1);
+                end
+            end
+            begin
+                sample_send(sample_frame, SAMPLE_NUM, sample_frame_length);
+            end
+        join_any
+        $display("TEST PASSED: random frame length & backpressure sending test passed!");
+        
+        
         $display("TEST PASSED: All test passed!");
         $finish;
     end
