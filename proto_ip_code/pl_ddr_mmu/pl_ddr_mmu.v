@@ -21,7 +21,6 @@ module pl_ddr_mmu # (
     // S_AXIS interface from dataframe_generator
     input wire [TDATA_WIDTH-1:0] S_AXIS_TDATA,
     input wire S_AXIS_TVALID,
-    input wire [TDATA_WIDTH/8-1:0] S_AXIS_TKEEP,
     input wire S_AXIS_TLAST,
     output wire S_AXIS_TREADY,
 
@@ -33,7 +32,6 @@ module pl_ddr_mmu # (
     // M_AXIS interface for S2MM DATA port of AXI Data Mover IP
     output wire [TDATA_WIDTH-1:0] S2MM_M_AXIS_TDATA,
     output wire S2MM_M_AXIS_TVALID,
-    output wire [TDATA_WIDTH/8-1:0] S2MM_M_AXIS_TKEEP,
     output wire S2MM_M_AXIS_TLAST,
     input wire S2MM_M_AXIS_TREADY,
 
@@ -51,7 +49,6 @@ module pl_ddr_mmu # (
     // S_AXIS interface for MM2S DATA port of AXI Data Mover IP
     input wire [TDATA_WIDTH-1:0] MM2S_S_AXIS_TDATA,
     input wire MM2S_S_AXIS_TVALID,
-    input wire [TDATA_WIDTH/8-1:0] MM2S_S_AXIS_TKEEP,
     output wire MM2S_S_AXIS_TREADY,
 
     // M_AXIS interface for AXIS Interconnect
@@ -210,8 +207,6 @@ module pl_ddr_mmu # (
     
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
     assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, write_ready, !almost_full, !full};
-    // assign S2MM_M_AXIS_TKEEP = S_AXIS_TKEEP; 
-    assign S2MM_M_AXIS_TKEEP = {TDATA_WIDTH/8{1'b1}};
     assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
     assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, write_ready, !almost_full, !full};
 

@@ -31,7 +31,6 @@ module ddr_sim_tb;
     reg S_AXIS_0_tlast = 1'b0;
     wire S_AXIS_0_tready;
     reg S_AXIS_0_tvalid = 1'b0;
-    reg [15:0] S_AXIS_0_tkeep = 16'hFFFF;
 
     wire [127:0] M_AXIS_0_tdata;
     wire M_AXIS_0_tlast;
@@ -153,7 +152,6 @@ module ddr_sim_tb;
         @(posedge CLK);
         S_AXIS_0_tvalid <= #100 1'b0;
         S_AXIS_0_tlast <= #100 1'b0;
-        S_AXIS_0_tkeep <= #100 16'hFFFF;
         S_AXIS_0_tdata <= #100 {128{1'b1}};
         
         fork
@@ -172,13 +170,11 @@ module ddr_sim_tb;
                         
                         S_AXIS_0_tdata <= #100 sample_frame[i][line_index].tdata;
                         S_AXIS_0_tvalid <= #100 sample_frame[i][line_index].tvalid;
-                        S_AXIS_0_tkeep <= #100 sample_frame[i][line_index].tkeep;
                         S_AXIS_0_tlast <= #100 sample_frame[i][line_index].tlast;
                     end
 
                     S_AXIS_0_tvalid <= #100 1'b0;
                     S_AXIS_0_tlast <= #100 1'b0;
-                    S_AXIS_0_tkeep <= #100 16'hFFFF;
                     S_AXIS_0_tdata <= #100 {128{1'b1}};
                 end
             end

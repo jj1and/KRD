@@ -1,8 +1,8 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Wed Jul 22 18:56:57 2020
-//Host        : AKABEKO03 running 64-bit major release  (build 9200)
+//Date        : Sat Jul 25 21:41:32 2020
+//Host        : Nakamura running 64-bit major release  (build 9200)
 //Command     : generate_target ddr_sim_wrapper.bd
 //Design      : ddr_sim_wrapper
 //Purpose     : IP block netlist
@@ -20,7 +20,6 @@ module ddr_sim_wrapper
     M_AXIS_0_tvalid,
     SET_CONFIG_0,
     S_AXIS_0_tdata,
-    S_AXIS_0_tkeep,
     S_AXIS_0_tlast,
     S_AXIS_0_tready,
     S_AXIS_0_tvalid);
@@ -34,7 +33,6 @@ module ddr_sim_wrapper
   output M_AXIS_0_tvalid;
   input SET_CONFIG_0;
   input [127:0]S_AXIS_0_tdata;
-  input [15:0]S_AXIS_0_tkeep;
   input S_AXIS_0_tlast;
   output S_AXIS_0_tready;
   input S_AXIS_0_tvalid;
@@ -49,7 +47,6 @@ module ddr_sim_wrapper
   wire M_AXIS_0_tvalid;
   wire SET_CONFIG_0;
   wire [127:0]S_AXIS_0_tdata;
-  wire [15:0]S_AXIS_0_tkeep;
   wire S_AXIS_0_tlast;
   wire S_AXIS_0_tready;
   wire S_AXIS_0_tvalid;
@@ -65,7 +62,6 @@ module ddr_sim_wrapper
         .M_AXIS_0_tvalid(M_AXIS_0_tvalid),
         .SET_CONFIG_0(SET_CONFIG_0),
         .S_AXIS_0_tdata(S_AXIS_0_tdata),
-        .S_AXIS_0_tkeep(S_AXIS_0_tkeep),
         .S_AXIS_0_tlast(S_AXIS_0_tlast),
         .S_AXIS_0_tready(S_AXIS_0_tready),
         .S_AXIS_0_tvalid(S_AXIS_0_tvalid));
