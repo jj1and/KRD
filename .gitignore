@@ -47,7 +47,7 @@ project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 project_tcl/ZCU111/data_trigger_test/data_trigger_test
 project_tcl/ZCU111/pl_ddr_mmu_sim_test/pl_ddr_mmu_sim_test
-
+project_tcl/ZCU111/minimal_module_test/minimal_module_test
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
