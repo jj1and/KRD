@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Sat Jul 25 21:41:32 2020
+//Date        : Sat Jul 25 22:12:46 2020
 //Host        : Nakamura running 64-bit major release  (build 9200)
 //Command     : generate_target ddr_sim_wrapper.bd
 //Design      : ddr_sim_wrapper
@@ -11,6 +11,7 @@
 
 module ddr_sim_wrapper
    (CLK,
+    DATAMOVER_ERROR_0,
     EXT_RESET,
     MAX_TRIGGER_LENGTH_0,
     M_AXIS_0_tdata,
@@ -24,6 +25,7 @@ module ddr_sim_wrapper
     S_AXIS_0_tready,
     S_AXIS_0_tvalid);
   input CLK;
+  output DATAMOVER_ERROR_0;
   input EXT_RESET;
   input [15:0]MAX_TRIGGER_LENGTH_0;
   output [127:0]M_AXIS_0_tdata;
@@ -38,6 +40,7 @@ module ddr_sim_wrapper
   input S_AXIS_0_tvalid;
 
   wire CLK;
+  wire DATAMOVER_ERROR_0;
   wire EXT_RESET;
   wire [15:0]MAX_TRIGGER_LENGTH_0;
   wire [127:0]M_AXIS_0_tdata;
@@ -53,6 +56,7 @@ module ddr_sim_wrapper
 
   ddr_sim ddr_sim_i
        (.CLK(CLK),
+        .DATAMOVER_ERROR_0(DATAMOVER_ERROR_0),
         .EXT_RESET(EXT_RESET),
         .MAX_TRIGGER_LENGTH_0(MAX_TRIGGER_LENGTH_0),
         .M_AXIS_0_tdata(M_AXIS_0_tdata),

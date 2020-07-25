@@ -56,12 +56,17 @@ module pl_ddr_mmu # (
     output wire M_AXIS_TVALID,
     output wire M_AXIS_TLAST,
     output wire [TDATA_WIDTH/8-1:0] M_AXIS_TKEEP,
-    input wire M_AXIS_TREADY
+    input wire M_AXIS_TREADY,
+
+    input wire S2MM_ERR,
+    input wire MM2S_ERR,
+    output wire DATAMOVER_ERROR
 );
 
     wire [7:0] HEADER_ID = 8'hAA;
     wire [7:0] FOOTER_ID = 8'h55;
 
+    assign DATAMOVER_ERROR = S2MM_ERR|MM2S_ERR;
 
     // ------------------------------- mmu configration -------------------------------
     localparam integer BTT_WIDTH = $clog2((2**15-1)*16+3*8)+1;
@@ -73,7 +78,7 @@ module pl_ddr_mmu # (
     reg burst_type;
     reg [BTT_WIDTH-1:0] max_btt;
     always @(posedge ACLK ) begin
-        if (ARESET) begin
+        if (|{ARESET, DATAMOVER_ERROR}) begin
             rsvd <= #100 0;
             drr <= #100 0;
             eof <= #100 1'b1;
@@ -111,7 +116,7 @@ module pl_ddr_mmu # (
     wire almost_full = (next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] == src_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_dest_addr[LOCAL_ADDRESS_WIDTH] != src_addr[LOCAL_ADDRESS_WIDTH]);    
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -130,7 +135,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -149,7 +154,7 @@ module pl_ddr_mmu # (
     end    
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -168,7 +173,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -193,7 +198,7 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG}) begin
             write_ready <= #100 1'b1;
         end else begin
-            if (S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY) begin
+            if (|{S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
                 write_ready <= #100 1'b0;
             end else begin
                 if (S2MM_WR_XFER_CMPLT) begin
@@ -215,7 +220,7 @@ module pl_ddr_mmu # (
     reg [3:0] s2mm_tag;
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             s2mm_cmd_tvaild <= #100 1'b0;
         end else begin
             if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
@@ -231,7 +236,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             s2mm_tag <= #100 0;
         end else begin
             if (S2MM_WR_XFER_CMPLT) begin
@@ -269,7 +274,7 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG}) begin
             read_ready <= #100 1'b1;
         end else begin
-            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+            if (|{MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
                 read_ready <= #100 1'b0;
             end else begin
                 if (MM2S_RD_XFER_CMPLT) begin
@@ -282,7 +287,7 @@ module pl_ddr_mmu # (
     end    
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             mm2s_cmd_tvalid <= #100 1'b0;
         end else begin
             if (&{read_ready, !empty, !mm2s_cmd_tvalid}) begin
@@ -298,7 +303,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             mm2s_tag <= #100 0;
         end else begin
             if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
@@ -324,7 +329,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
             if (&{MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, mm2s_tvalid_posedge}) begin
@@ -340,7 +345,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tdata <= #100 {TDATA_WIDTH{1'b1}};
         end else begin
            if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin
@@ -352,7 +357,7 @@ module pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{ARESET, SET_CONFIG}) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
         end else begin
             if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin

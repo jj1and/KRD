@@ -38,6 +38,8 @@ module ddr_sim_tb;
     wire M_AXIS_0_tvalid;
     wire [15:0] M_AXIS_0_tkeep;
 
+    wire DATAMOVER_ERROR_0;
+    
     ddr_sim_wrapper DUT (
         .*
     );
