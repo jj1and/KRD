@@ -45,6 +45,9 @@ module pl_ddr_mmu # (
     output wire MM2S_CMD_M_AXIS_TVALID,
     input wire MM2S_CMD_M_AXIS_TREADY,
 
+    // read transaction done signal frmo AXI Data Mover IP
+    input wire MM2S_RD_XFER_CMPLT,
+
     // S_AXIS interface for MM2S DATA port of AXI Data Mover IP
     input wire [TDATA_WIDTH-1:0] MM2S_S_AXIS_TDATA,
     input wire MM2S_S_AXIS_TVALID,
@@ -153,7 +156,7 @@ module pl_ddr_mmu # (
             src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+            if (MM2S_RD_XFER_CMPLT) begin
                 if (src_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
                     src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~src_addr[LOCAL_ADDRESS_WIDTH];
@@ -172,7 +175,7 @@ module pl_ddr_mmu # (
             next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+            if (MM2S_RD_XFER_CMPLT) begin
                 if (next_src_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
                     next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_src_addr[LOCAL_ADDRESS_WIDTH];
@@ -187,30 +190,30 @@ module pl_ddr_mmu # (
     end    
 
     // ------------------------------- S_AXIS/S2MM DATA assigment -------------------------------
-    reg ready;
+    reg write_ready;
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
-            ready <= #100 1'b1;
+            write_ready <= #100 1'b1;
         end else begin
             if (S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY) begin
-                ready <= #100 1'b0;
+                write_ready <= #100 1'b0;
             end else begin
                 if (S2MM_WR_XFER_CMPLT) begin
-                    ready <= #100 1'b1;
+                    write_ready <= #100 1'b1;
                 end else begin
-                    ready <= #100 ready;
+                    write_ready <= #100 write_ready;
                 end
             end
         end
     end
     
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
-    assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, ready, !almost_full, !full};
+    assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, write_ready, !almost_full, !full};
     // assign S2MM_M_AXIS_TKEEP = S_AXIS_TKEEP; 
     assign S2MM_M_AXIS_TKEEP = {TDATA_WIDTH/8{1'b1}};
     assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
-    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, ready, !almost_full, !full};
+    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, write_ready, !almost_full, !full};
 
     // ------------------------------- S2MM Command assigment -------------------------------
     reg s2mm_cmd_tvaild;
@@ -223,7 +226,7 @@ module pl_ddr_mmu # (
             if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
                 s2mm_cmd_tvaild <= #100 1'b1;
             end else begin
-                if (S2MM_CMD_M_AXIS_TREADY) begin
+                if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
                     s2mm_cmd_tvaild <= #100 1'b0;
                 end else begin
                     s2mm_cmd_tvaild <= #100 s2mm_cmd_tvaild;
@@ -264,16 +267,33 @@ module pl_ddr_mmu # (
 
     // ------------------------------- MM2S Command assigment -------------------------------
     reg mm2s_cmd_tvalid;
-    reg [3:0] mm2s_tag;    
+    reg [3:0] mm2s_tag;
+    reg read_ready;
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            read_ready <= #100 1'b1;
+        end else begin
+            if (MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY) begin
+                read_ready <= #100 1'b0;
+            end else begin
+                if (MM2S_RD_XFER_CMPLT) begin
+                    read_ready <= #100 1'b1;
+                end else begin
+                    read_ready <= #100 read_ready;
+                end
+            end
+        end
+    end    
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG}) begin
             mm2s_cmd_tvalid <= #100 1'b0;
         end else begin
-            if (~|{empty, mm2s_cmd_tvalid}) begin
+            if (&{read_ready, !empty, !mm2s_cmd_tvalid}) begin
                 mm2s_cmd_tvalid <= #100 1'b1;
             end else begin
-                if (&{mm2s_cmd_tvalid, MM2S_CMD_M_AXIS_TREADY, almost_empty}) begin
+                if (mm2s_cmd_tvalid&MM2S_CMD_M_AXIS_TREADY) begin
                     mm2s_cmd_tvalid <= #100 1'b0;
                 end else begin
                     mm2s_cmd_tvalid <= #100 mm2s_cmd_tvalid;
