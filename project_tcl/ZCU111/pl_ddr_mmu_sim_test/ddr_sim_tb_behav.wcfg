@@ -16,13 +16,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="777700000fs"></ZoomStartTime>
-      <ZoomEndTime time="858700001fs"></ZoomEndTime>
-      <Cursor1Time time="880100000fs"></Cursor1Time>
+      <ZoomStartTime time="141475100000fs"></ZoomStartTime>
+      <ZoomEndTime time="144025100001fs"></ZoomEndTime>
+      <Cursor1Time time="147400100000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="329"></NameColumnWidth>
-      <ValueColumnWidth column_width="297"></ValueColumnWidth>
+      <NameColumnWidth column_width="255"></NameColumnWidth>
+      <ValueColumnWidth column_width="199"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="18" />
    <wvobject fp_name="/ddr_sim_tb/test_status" type="array">
@@ -521,10 +521,6 @@
          <obj_property name="label">ADDRESS_CONTROL</obj_property>
          <obj_property name="DisplayName">label</obj_property>
       </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/ready" type="logic">
-         <obj_property name="ElementShortName">ready</obj_property>
-         <obj_property name="ObjectShortName">ready</obj_property>
-      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/dest_addr" type="array">
          <obj_property name="ElementShortName">dest_addr[12:0]</obj_property>
          <obj_property name="ObjectShortName">dest_addr[12:0]</obj_property>
@@ -533,6 +529,10 @@
          <obj_property name="ElementShortName">next_dest_addr[12:0]</obj_property>
          <obj_property name="ObjectShortName">next_dest_addr[12:0]</obj_property>
       </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/write_ready" type="logic">
+         <obj_property name="ElementShortName">write_ready</obj_property>
+         <obj_property name="ObjectShortName">write_ready</obj_property>
+      </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/src_addr" type="array">
          <obj_property name="ElementShortName">src_addr[12:0]</obj_property>
          <obj_property name="ObjectShortName">src_addr[12:0]</obj_property>
@@ -540,6 +540,10 @@
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/next_src_addr" type="array">
          <obj_property name="ElementShortName">next_src_addr[12:0]</obj_property>
          <obj_property name="ObjectShortName">next_src_addr[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/read_ready" type="logic">
+         <obj_property name="ElementShortName">read_ready</obj_property>
+         <obj_property name="ObjectShortName">read_ready</obj_property>
       </wvobject>
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/empty" type="logic">
          <obj_property name="ElementShortName">empty</obj_property>
@@ -580,6 +584,10 @@
       <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/inst/MM2S_CMD_M_AXIS_TREADY" type="logic">
          <obj_property name="ElementShortName">MM2S_CMD_M_AXIS_TREADY</obj_property>
          <obj_property name="ObjectShortName">MM2S_CMD_M_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/pl_ddr_mmu_0/MM2S_RD_XFER_CMPLT" type="logic">
+         <obj_property name="ElementShortName">MM2S_RD_XFER_CMPLT</obj_property>
+         <obj_property name="ObjectShortName">MM2S_RD_XFER_CMPLT</obj_property>
       </wvobject>
       <wvobject type="divider" fp_name="divider421">
          <obj_property name="label">MM2S_S_AXIS</obj_property>
@@ -705,45 +713,83 @@
       <obj_property name="label">AXI Data Mover</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_err" type="logic">
-         <obj_property name="ElementShortName">mm2s_err</obj_property>
-         <obj_property name="ObjectShortName">mm2s_err</obj_property>
+      <wvobject fp_name="group328" type="group">
+         <obj_property name="label">s2mm_ctrl_signal</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_err" type="logic">
+            <obj_property name="ElementShortName">s2mm_err</obj_property>
+            <obj_property name="ObjectShortName">s2mm_err</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt" type="logic">
+            <obj_property name="ElementShortName">s2mm_halt</obj_property>
+            <obj_property name="ObjectShortName">s2mm_halt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt_cmplt" type="logic">
+            <obj_property name="ElementShortName">s2mm_halt_cmplt</obj_property>
+            <obj_property name="ObjectShortName">s2mm_halt_cmplt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_allow_addr_req" type="logic">
+            <obj_property name="ElementShortName">s2mm_allow_addr_req</obj_property>
+            <obj_property name="ObjectShortName">s2mm_allow_addr_req</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_addr_req_posted" type="logic">
+            <obj_property name="ElementShortName">s2mm_addr_req_posted</obj_property>
+            <obj_property name="ObjectShortName">s2mm_addr_req_posted</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_wr_xfer_cmplt" type="logic">
+            <obj_property name="ElementShortName">s2mm_wr_xfer_cmplt</obj_property>
+            <obj_property name="ObjectShortName">s2mm_wr_xfer_cmplt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_ld_nxt_len" type="logic">
+            <obj_property name="ElementShortName">s2mm_ld_nxt_len</obj_property>
+            <obj_property name="ObjectShortName">s2mm_ld_nxt_len</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_sel" type="array">
+            <obj_property name="ElementShortName">s2mm_dbg_sel[3:0]</obj_property>
+            <obj_property name="ObjectShortName">s2mm_dbg_sel[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_data" type="array">
+            <obj_property name="ElementShortName">s2mm_dbg_data[31:0]</obj_property>
+            <obj_property name="ObjectShortName">s2mm_dbg_data[31:0]</obj_property>
+         </wvobject>
       </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt" type="logic">
-         <obj_property name="ElementShortName">s2mm_halt</obj_property>
-         <obj_property name="ObjectShortName">s2mm_halt</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_halt_cmplt" type="logic">
-         <obj_property name="ElementShortName">s2mm_halt_cmplt</obj_property>
-         <obj_property name="ObjectShortName">s2mm_halt_cmplt</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_err" type="logic">
-         <obj_property name="ElementShortName">s2mm_err</obj_property>
-         <obj_property name="ObjectShortName">s2mm_err</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_allow_addr_req" type="logic">
-         <obj_property name="ElementShortName">s2mm_allow_addr_req</obj_property>
-         <obj_property name="ObjectShortName">s2mm_allow_addr_req</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_addr_req_posted" type="logic">
-         <obj_property name="ElementShortName">s2mm_addr_req_posted</obj_property>
-         <obj_property name="ObjectShortName">s2mm_addr_req_posted</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_wr_xfer_cmplt" type="logic">
-         <obj_property name="ElementShortName">s2mm_wr_xfer_cmplt</obj_property>
-         <obj_property name="ObjectShortName">s2mm_wr_xfer_cmplt</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_ld_nxt_len" type="logic">
-         <obj_property name="ElementShortName">s2mm_ld_nxt_len</obj_property>
-         <obj_property name="ObjectShortName">s2mm_ld_nxt_len</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_sel" type="array">
-         <obj_property name="ElementShortName">s2mm_dbg_sel[3:0]</obj_property>
-         <obj_property name="ObjectShortName">s2mm_dbg_sel[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/s2mm_dbg_data" type="array">
-         <obj_property name="ElementShortName">s2mm_dbg_data[31:0]</obj_property>
-         <obj_property name="ObjectShortName">s2mm_dbg_data[31:0]</obj_property>
+      <wvobject fp_name="group329" type="group">
+         <obj_property name="label">mm2s_ctrl_signal</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_err" type="logic">
+            <obj_property name="ElementShortName">mm2s_err</obj_property>
+            <obj_property name="ObjectShortName">mm2s_err</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_halt" type="logic">
+            <obj_property name="ElementShortName">mm2s_halt</obj_property>
+            <obj_property name="ObjectShortName">mm2s_halt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_halt_cmplt" type="logic">
+            <obj_property name="ElementShortName">mm2s_halt_cmplt</obj_property>
+            <obj_property name="ObjectShortName">mm2s_halt_cmplt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_allow_addr_req" type="logic">
+            <obj_property name="ElementShortName">mm2s_allow_addr_req</obj_property>
+            <obj_property name="ObjectShortName">mm2s_allow_addr_req</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_addr_req_posted" type="logic">
+            <obj_property name="ElementShortName">mm2s_addr_req_posted</obj_property>
+            <obj_property name="ObjectShortName">mm2s_addr_req_posted</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_rd_xfer_cmplt" type="logic">
+            <obj_property name="ElementShortName">mm2s_rd_xfer_cmplt</obj_property>
+            <obj_property name="ObjectShortName">mm2s_rd_xfer_cmplt</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_dbg_sel" type="array">
+            <obj_property name="ElementShortName">mm2s_dbg_sel[3:0]</obj_property>
+            <obj_property name="ObjectShortName">mm2s_dbg_sel[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/ddr_sim_tb/DUT/ddr_sim_i/axi_datamover_0/mm2s_dbg_data" type="array">
+            <obj_property name="ElementShortName">mm2s_dbg_data[31:0]</obj_property>
+            <obj_property name="ObjectShortName">mm2s_dbg_data[31:0]</obj_property>
+         </wvobject>
       </wvobject>
    </wvobject>
 </wave_config>
