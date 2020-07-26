@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="fee_cfg_sim_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi_vip_pkg" />
+            <top_module name="fee_cfg_sim_tb" />
+            <top_module name="glbl" />
+            <top_module name="std" />
+            <top_module name="xil_common_vip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="5850000001fs"></ZoomEndTime>
+      <Cursor1Time time="1190000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="255"></NameColumnWidth>
+      <ValueColumnWidth column_width="191"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/fee_cfg_sim_tb/CLK" type="logic">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/EXT_RESET" type="logic">
+      <obj_property name="ElementShortName">EXT_RESET</obj_property>
+      <obj_property name="ObjectShortName">EXT_RESET</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/SET_CONFIG_0" type="array">
+      <obj_property name="ElementShortName">SET_CONFIG_0[0:0]</obj_property>
+      <obj_property name="ObjectShortName">SET_CONFIG_0[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/STOP_0" type="array">
+      <obj_property name="ElementShortName">STOP_0[0:0]</obj_property>
+      <obj_property name="ObjectShortName">STOP_0[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/ACQUIRE_MODE_0" type="array">
+      <obj_property name="ElementShortName">ACQUIRE_MODE_0[0:0]</obj_property>
+      <obj_property name="ObjectShortName">ACQUIRE_MODE_0[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/RISING_EDGE_THRESHOLD_0" type="array">
+      <obj_property name="ElementShortName">RISING_EDGE_THRESHOLD_0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">RISING_EDGE_THRESHOLD_0[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/FALLING_EDGE_THRESHOLD_0" type="array">
+      <obj_property name="ElementShortName">FALLING_EDGE_THRESHOLD_0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">FALLING_EDGE_THRESHOLD_0[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/H_GAIN_BASELINE_0" type="array">
+      <obj_property name="ElementShortName">H_GAIN_BASELINE_0[12:0]</obj_property>
+      <obj_property name="ObjectShortName">H_GAIN_BASELINE_0[12:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/L_GAIN_BASELINE_0" type="array">
+      <obj_property name="ElementShortName">L_GAIN_BASELINE_0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">L_GAIN_BASELINE_0[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/MAX_TRIGGER_LENGTH_0" type="array">
+      <obj_property name="ElementShortName">MAX_TRIGGER_LENGTH_0[15:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX_TRIGGER_LENGTH_0[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/POST_ACQUISITION_LENGTH_0" type="array">
+      <obj_property name="ElementShortName">POST_ACQUISITION_LENGTH_0[1:0]</obj_property>
+      <obj_property name="ObjectShortName">POST_ACQUISITION_LENGTH_0[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/PRE_ACQUISITION_LENGTH_0" type="array">
+      <obj_property name="ElementShortName">PRE_ACQUISITION_LENGTH_0[1:0]</obj_property>
+      <obj_property name="ObjectShortName">PRE_ACQUISITION_LENGTH_0[1:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/resp" type="array">
+      <obj_property name="ElementShortName">resp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">resp[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_configrator_0/S_AXI" type="protoinst">
+      <obj_property name="ElementShortName">S_AXI</obj_property>
+      <obj_property name="ObjectShortName">S_AXI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_configrator_0/inst/option_reg" type="array">
+      <obj_property name="ElementShortName">option_reg[3:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">option_reg[3:0][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+</wave_config>
