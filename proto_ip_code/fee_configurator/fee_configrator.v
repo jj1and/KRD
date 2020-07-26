@@ -28,22 +28,22 @@
 		parameter integer C_S_AXI_BUSER_WIDTH	= 0
 	)(
 		// Users to add ports here
-		output wire SET_CONFIG[CHANNEL_NUM-1:0],
-		output wire STOP[CHANNEL_NUM-1:0],
+		output wire [CHANNEL_NUM-1:0] SET_CONFIG,
+		output wire [CHANNEL_NUM-1:0] STOP,
 		
 		// data_trigger configration ports
-		output wire ACQUIRE_MODE[CHANNEL_NUM-1:0],
-		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD[CHANNEL_NUM-1:0],
-		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD[CHANNEL_NUM-1:0],
+		output wire [CHANNEL_NUM-1:0] ACQUIRE_MODE,
+		output wire signed [CHANNEL_NUM*`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD,
+		output wire signed [CHANNEL_NUM*`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD,
 		
-		output wire signed [`ADC_RESOLUTION_WIDTH:0] H_GAIN_BASELINE[CHANNEL_NUM-1:0],
-		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE[CHANNEL_NUM-1:0],
+		output wire signed [CHANNEL_NUM*(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE,
+		output wire signed [CHANNEL_NUM*`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE,
 
-		output wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH[CHANNEL_NUM-1:0],
-		output wire [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH[CHANNEL_NUM-1:0],
+		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)*CHANNEL_NUM-1:0] PRE_ACQUISITION_LENGTH,
+		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)*CHANNEL_NUM-1:0] POST_ACQUISITION_LENGTH,
 		
 		// dataframe_generator & pl__ddr_mmu configration ports
-		output wire [15:0] MAX_TRIGGER_LENGTH[CHANNEL_NUM-1:0], // maximum value should be 512 (charge_sum will be over-flow with larger value)
+		output wire [CHANNEL_NUM*16-1:0] MAX_TRIGGER_LENGTH, // maximum value should be 512 (charge_sum will be over-flow with larger value)
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -714,7 +714,7 @@
 				end
 			end
 		end
-		assign MAX_TRIGGER_LENGTH[channel_index] = option_reg[channel_index*4+0][0 +:16];
+		assign MAX_TRIGGER_LENGTH[channel_index*16 +:16] = option_reg[channel_index*4+0][0 +:16];
 
 		// THRESHOLD configration
 		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_RISING_EDGE_THRESHOLD = 0;
@@ -730,8 +730,8 @@
 				end
 			end
 		end
-		assign RISING_EDGE_THRESHOLD[channel_index] = option_reg[channel_index*4+1][16 +:`SAMPLE_WIDTH];
-		assign FALLING_EDGE_THRESHOLD[channel_index] = option_reg[channel_index*4+1][0 +: `SAMPLE_WIDTH];
+		assign RISING_EDGE_THRESHOLD[channel_index*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = option_reg[channel_index*4+1][16 +:`SAMPLE_WIDTH];
+		assign FALLING_EDGE_THRESHOLD[channel_index*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = option_reg[channel_index*4+1][0 +: `SAMPLE_WIDTH];
 
 		// PRE/POST ACQUISITION configration
 		wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] DEFAULT_PRE_ACQUISITION_LENGTH = 1;
@@ -740,32 +740,32 @@
 			if (!S_AXI_ARESETN) begin
 				option_reg[channel_index*4+2][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 {{16-$clog2(MAX_PRE_ACQUISITION_LENGTH)-1{1'b0}}, DEFAULT_PRE_ACQUISITION_LENGTH, {16-$clog2(MAX_POST_ACQUISITION_LENGTH)-1{1'b0}}, DEFAULT_POST_ACQUISITION_LENGTH};
 			end else begin
-				if (&{reg_wen, S_AXI_WSTRB, mem_address==(channel_index*4+1)}) begin
+				if (&{reg_wen, S_AXI_WSTRB, mem_address==(channel_index*4+2)}) begin
 					option_reg[channel_index*4+2][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 S_AXI_WDATA[C_S_AXI_DATA_WIDTH-1 : 0];
 				end else begin
 					option_reg[channel_index*4+2][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 option_reg[channel_index*4+2][C_S_AXI_DATA_WIDTH-1 : 0];
 				end
 			end
 		end
-		assign PRE_ACQUISITION_LENGTH[channel_index] = option_reg[channel_index*4+2][16 +:$clog2(MAX_PRE_ACQUISITION_LENGTH)];
-		assign POST_ACQUISITION_LENGTH[channel_index] = option_reg[channel_index*4+2][0 +:$clog2(MAX_POST_ACQUISITION_LENGTH)];		
+		assign PRE_ACQUISITION_LENGTH[channel_index*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1) +:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] = option_reg[channel_index*4+2][16 +:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1];
+		assign POST_ACQUISITION_LENGTH[channel_index*($clog2(MAX_POST_ACQUISITION_LENGTH)+1) +:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] = option_reg[channel_index*4+2][0 +:$clog2(MAX_POST_ACQUISITION_LENGTH)+1];		
 
 		// H/L GAIN (vlotage) BASELINE configuration
 		wire signed [`ADC_RESOLUTION_WIDTH:0] DEFAULT_H_GAIN_BASELINE= 0;
 		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_L_GAIN_BASELINE = 0;
 		always @(posedge S_AXI_ACLK ) begin
 			if (!S_AXI_ARESETN) begin
-				option_reg[channel_index*4+2][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 {{16-(`ADC_RESOLUTION_WIDTH+1){1'b0}}, DEFAULT_H_GAIN_BASELINE, {16-`SAMPLE_WIDTH{1'b0}}, DEFAULT_L_GAIN_BASELINE};
+				option_reg[channel_index*4+3][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 {{16-(`ADC_RESOLUTION_WIDTH+1){1'b0}}, DEFAULT_H_GAIN_BASELINE, {16-`SAMPLE_WIDTH{1'b0}}, DEFAULT_L_GAIN_BASELINE};
 			end else begin
-				if (&{reg_wen, S_AXI_WSTRB, mem_address==(channel_index*4+1)}) begin
+				if (&{reg_wen, S_AXI_WSTRB, mem_address==(channel_index*4+3)}) begin
 					option_reg[channel_index*4+3][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 S_AXI_WDATA[C_S_AXI_DATA_WIDTH-1 : 0];
 				end else begin
 					option_reg[channel_index*4+3][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 option_reg[channel_index*4+3][C_S_AXI_DATA_WIDTH-1 : 0];
 				end
 			end
 		end
-		assign H_GAIN_BASELINE[channel_index] = option_reg[channel_index*4+3][16 +:`ADC_RESOLUTION_WIDTH];
-		assign L_GAIN_BASELINE[channel_index] = option_reg[channel_index*4+3][0 +:`SAMPLE_WIDTH];					 		
+		assign H_GAIN_BASELINE[channel_index*(`ADC_RESOLUTION_WIDTH+1) +:`ADC_RESOLUTION_WIDTH+1] = option_reg[channel_index*4+3][16 +:`ADC_RESOLUTION_WIDTH+1];
+		assign L_GAIN_BASELINE[channel_index*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = option_reg[channel_index*4+3][0 +:`SAMPLE_WIDTH];					 		
 
 	end
 	endgenerate
