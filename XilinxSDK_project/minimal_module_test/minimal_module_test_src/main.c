@@ -210,18 +210,18 @@ int SetThreshold(short int rising_threshold, short int falling_threshold) {
 void printData(u64 *dataptr, u64 frame_size) {
     xil_printf("Rcvd : %016llx ", dataptr[0]);
     xil_printf("%016llx (Header)\n", dataptr[1]);
-    for (int i = 2; i < frame_size-1; i++) {
-    	for (int j = 0; j < 4; j++) {
-            if (((i-2) * 4 + j) % 8 == 0) {
-                xil_printf("Rcvd : %04x ", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
-            } else if (((i-2) * 4 + j + 1) % 8 == 0) {
-                xil_printf("%04x\n", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
+    for (int i = 2; i < frame_size - 1; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (((i - 2) * 4 + j) % 8 == 0) {
+                xil_printf("Rcvd : %04x ", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
+            } else if (((i - 2) * 4 + j + 1) % 8 == 0) {
+                xil_printf("%04x\n", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
             } else {
-                xil_printf("%04x ", (dataptr[i] >> (3-j)*16) & 0x000000000000FFFF);
+                xil_printf("%04x ", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
             }
-    	}
+        }
     }
-    xil_printf("Rcvd : %016llx (Footer)\n", dataptr[frame_size-1]);
+    xil_printf("Rcvd : %016llx (Footer)\n", dataptr[frame_size - 1]);
     xil_printf("\r\n");
 }
 
@@ -231,6 +231,8 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     u64 read_header_timestamp;
     u8 read_trigger_info;
     u16 read_trigger_length;
+    int read_raw_charge_sum;
+    int read_charge_sum;
     u16 read_fall_thre;
     u16 read_rise_thre;
     u64 read_footer_timestamp;
@@ -238,9 +240,11 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     u8 read_footer_id;
 
     u16 *expected_sample;
+    int expected_charge_sum = 0;
     int signal_length;
     int remain;
     int total_signal_length;
+    int shift;
     int matched = 0;
 
     Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 3) * sizeof(u64));
@@ -248,6 +252,8 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
     read_header_id = (dataptr[0] >> (24 + 8 + 12 + 12)) & 0x000000FF;
+    read_raw_charge_sum = (dataptr[1] >> 32) & 0x00FFFFFF;
+    read_charge_sum = (read_raw_charge_sum << 8) >> 8;  // sign extention
     read_rise_thre = (dataptr[1] & 0x0000FFFF);
     read_fall_thre = (dataptr[1] >> 16) & 0x0000FFFF;
     incr_wrptr_after_write(read_trigger_length + 3);
@@ -327,8 +333,8 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
 
     //matching expected and read
     for (int i = 0; i <= ((total_signal_length / 4) - read_trigger_length); i++) {
-    	xil_printf("\nShift[%d]\r\n", i);
-    	matched = 1;
+        xil_printf("\nShift[%d]\r\n", i);
+        matched = 1;
         for (int j = 0; j < read_trigger_length; j++) {
             tmp_expected_data = 0;
             if ((dataptr[j + 2] & 0xFFFF000000000000) == 0xCC00000000000000) {
@@ -340,7 +346,7 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
                 tmp_expected_sample_sum = ((short int)expected_sample[(i + j) * 4 + 1] >> 4) + ((short int)expected_sample[(i + j) * 4 + 0] >> 4);
                 tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_sample_sum >> 1 & 0x000000000000FFFF) << 16;
 
-                tmp_expected_l_gain_bl_subtracted = ((short int)expected_sample[(i + j) * 4] >> (L_GAIN_CORRECTION+4)) - (short int)L_GAIN_BASELINE;
+                tmp_expected_l_gain_bl_subtracted = ((short int)expected_sample[(i + j) * 4] >> (L_GAIN_CORRECTION + 4)) - (short int)L_GAIN_BASELINE;
                 tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_l_gain_bl_subtracted & 0x000000000000FFFF);
                 //debug
                 // xil_printf("expected combined data[%d] %016llx\r\n", j, tmp_expected_data);
@@ -355,7 +361,7 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
             xil_printf("Expected[%d] %016llx : Read[%d] %016llx\r\n", j, tmp_expected_data, j, dataptr[j + 2]);
 
             if (dataptr[j + 2] == tmp_expected_data) {
-                matched = matched*1;
+                matched = matched * 1;
             } else {
                 matched = 0;
                 xil_printf("mismatch data found. increment shift\r\n");
@@ -365,6 +371,7 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         if (matched == 1) {
             // debug
             xil_printf("expected data matched with read samples\r\n");
+            shift = i * 4;
             break;
         }
     }
@@ -373,6 +380,21 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         xil_printf("Any sequence in send data doesn't match with read samples\r\n");
         Status = XST_FAILURE;
     }
+
+    for (int i = 0; i < read_trigger_length * 4; i++) {
+        expected_charge_sum += (short int)expected_sample[i + shift] >> 4;
+        // debug
+        // if ((i + 1) % 8 == 0) {
+        //     xil_printf("%4x\r\n", (short int)expected_sample[i + shift] >> 4);
+        // } else {
+        //     xil_printf("%04x ", (short int)expected_sample[i + shift] >> 4);
+        // }
+    }
+    if (read_charge_sum != expected_charge_sum) {
+        xil_printf("charge_sim mismatch Data:%d Expected:%d\r\n", read_charge_sum, expected_charge_sum);
+        Status = XST_FAILURE;
+    }
+
     free(expected_sample);
     // ---------------------------- ---------------------------- ----------------------------
 
