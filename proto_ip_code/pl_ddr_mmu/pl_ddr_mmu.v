@@ -63,6 +63,7 @@ module pl_ddr_mmu # (
     output wire DATAMOVER_ERROR
 );
 
+    localparam integer DATAFRAME_WIDTH = TDATA_WIDTH/2;
     wire [7:0] HEADER_ID = 8'hAA;
     wire [7:0] FOOTER_ID = 8'h55;
 
@@ -125,8 +126,14 @@ module pl_ddr_mmu # (
                     dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~dest_addr[LOCAL_ADDRESS_WIDTH];
                 end else begin
-                    dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
-                    dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH];
+                    if ({1'b0, dest_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {dest_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 dest_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
                 end
             end else begin
                 dest_addr <= #100 dest_addr;
@@ -144,8 +151,14 @@ module pl_ddr_mmu # (
                     next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_dest_addr[LOCAL_ADDRESS_WIDTH];
                 end else begin
-                    next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
-                    next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH];
+                    if ({1'b0, next_dest_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {next_dest_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_dest_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
                 end
             end else begin
                 next_dest_addr <= #100 next_dest_addr;
@@ -163,8 +176,14 @@ module pl_ddr_mmu # (
                     src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~src_addr[LOCAL_ADDRESS_WIDTH];
                 end else begin
-                    src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
-                    src_addr[LOCAL_ADDRESS_WIDTH] <= #100 src_addr[LOCAL_ADDRESS_WIDTH];
+                    if ({1'b0, src_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {src_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        src_addr[LOCAL_ADDRESS_WIDTH] <= #100 src_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        src_addr[LOCAL_ADDRESS_WIDTH] <= #100 src_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
                 end
             end else begin
                 src_addr <= #100 src_addr;
@@ -182,8 +201,14 @@ module pl_ddr_mmu # (
                     next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_src_addr[LOCAL_ADDRESS_WIDTH];
                 end else begin
-                    next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
-                    next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH];
+                    if ({1'b0, next_src_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {next_src_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_src_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
                 end
             end else begin
                 next_src_addr <= #100 next_src_addr;
@@ -223,7 +248,7 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             s2mm_cmd_tvaild <= #100 1'b0;
         end else begin
-            if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
+            if (&{S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
                 s2mm_cmd_tvaild <= #100 1'b1;
             end else begin
                 if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
@@ -253,8 +278,8 @@ module pl_ddr_mmu # (
     //     if (|{ARESET, SET_CONFIG}) begin
     //         s2mm_btt <= #100 max_btt;
     //     end else begin
-    //         if (&{S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
-    //             s2mm_btt <= #100 S_AXIS_TDATA[TDATA_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH]*8+32;
+    //         if (&{S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
+    //             s2mm_btt <= #100 S_AXIS_TDATA[DATAFRAME_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH]*8+32;
     //         end else begin
     //             s2mm_btt <= #100 s2mm_btt;
     //         end
@@ -332,10 +357,10 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
-            if (&{MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, mm2s_tvalid_posedge}) begin
+            if (&{MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, mm2s_tvalid_posedge}) begin
                 m_axis_tvalid <= #100 1'b1;
             end else begin
-                if (&{m_axis_tdata[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, MM2S_S_AXIS_TVALID, M_AXIS_TREADY}) begin
+                if (&{m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, MM2S_S_AXIS_TVALID, M_AXIS_TREADY}) begin
                     m_axis_tvalid <= #100 1'b0;
                 end else begin
                     m_axis_tvalid <= #100 m_axis_tvalid;
@@ -366,8 +391,8 @@ module pl_ddr_mmu # (
                 if (!MM2S_S_AXIS_TVALID) begin
                     m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
                 end else begin
-                    if (MM2S_S_AXIS_TDATA[TDATA_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
-                        m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b1}}, {TDATA_WIDTH/16{1'b0}}};
+                    if (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
+                        m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
                     end else begin
                         m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
                     end                    
@@ -378,8 +403,8 @@ module pl_ddr_mmu # (
 
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;
-    assign M_AXIS_TVALID = m_axis_tvalid;
+    assign M_AXIS_TVALID = m_axis_tvalid&mm2s_tvalid_delay;
     assign M_AXIS_TKEEP = m_axis_tkeep;
-    assign M_AXIS_TLAST = &{m_axis_tdata[TDATA_WIDTH-1 -:8]==FOOTER_ID, m_axis_tvalid};
+    assign M_AXIS_TLAST = &{m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, m_axis_tvalid};
 
 endmodule
