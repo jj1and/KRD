@@ -76,7 +76,7 @@ module ddr_sim_tb;
         result = new[frame_length/2+2];
         frame_len = frame_length;
         
-        result[0].tdata = {HEADER_ID, 12'd0, frame_len, {128-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-FRAME_LENGTH_WIDTH{1'b0}}};
+        result[0].tdata = {64'b0, HEADER_ID, 12'd0, frame_len, {64-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-FRAME_LENGTH_WIDTH{1'b0}}};
         result[0].tvalid = 1'b1;
         result[0].tkeep = 16'hFFFF;
         result[0].tlast = 1'b0;
@@ -91,9 +91,9 @@ module ddr_sim_tb;
             result[i].tlast = 1'b0;
         end
 
-        result[frame_length/2+1].tdata = {FOOTER_ID, {128-8{1'b1}}};
+        result[frame_length/2+1].tdata = {64'b0, FOOTER_ID, {64-8{1'b1}}};
         result[frame_length/2+1].tvalid = 1'b1;
-        result[frame_length/2+1].tkeep = 16'hFF00;
+        result[frame_length/2+1].tkeep = 16'h00FF;
         result[frame_length/2+1].tlast = 1'b1;        
         return result;
     endfunction
@@ -140,7 +140,7 @@ module ddr_sim_tb;
                     $finish;
                 end
                 line_index++;
-                if (M_AXIS_0_tdata[127 -:8]==FOOTER_ID) begin
+                if (M_AXIS_0_tdata[63 -:8]==FOOTER_ID) begin
                     $display("TEST INFO: sample[%0d] is acquired", sample_index);
                     sample_index++;
                     line_index = 0;
