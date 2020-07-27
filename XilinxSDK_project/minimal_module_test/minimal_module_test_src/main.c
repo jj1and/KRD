@@ -225,7 +225,7 @@ void printData(u64 *dataptr, u64 frame_size) {
     xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, u16 fall_thre, u16 rise_thre, int print_enable) {
+int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, u16 rise_thre, u16 fall_thre, int print_enable) {
     int Status = XST_SUCCESS;
     u8 read_header_id;
     u64 read_header_timestamp;
@@ -254,8 +254,8 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     read_header_id = (dataptr[0] >> (24 + 8 + 12 + 12)) & 0x000000FF;
     read_raw_charge_sum = (dataptr[1] >> 32) & 0x00FFFFFF;
     read_charge_sum = (read_raw_charge_sum << 8) >> 8;  // sign extention
-    read_rise_thre = (dataptr[1] & 0x0000FFFF);
-    read_fall_thre = (dataptr[1] >> 16) & 0x0000FFFF;
+    read_fall_thre = (dataptr[1] & 0x0000FFFF);
+    read_rise_thre = (dataptr[1] >> 16) & 0x0000FFFF;
     incr_wrptr_after_write(read_trigger_length + 3);
 
     read_footer_id = (dataptr[read_trigger_length + 3 - 1] >> 56) & 0x000000FF;
