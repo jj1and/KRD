@@ -44,15 +44,5 @@
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/minimal_module_test_src/platform_config.h</locationURI>
 		</link>
-		<link>
-			<name>src/send2pc.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/minimal_module_test_src/send2pc.c</locationURI>
-		</link>
-		<link>
-			<name>src/send2pc.h</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/minimal_module_test_src/send2pc.h</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>
