@@ -3,7 +3,6 @@ data_trigger test
 
 Setup AXI-DMA...
 
-
 Initialize DMA engine
 AXI-DMA Setup is done successfully.
 Config mode
@@ -31,7 +30,8 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2040, Min:-100
 
-Rcvd : AA00000E209A27FB 0003171C04000200 (Header)
+
+Rcvd : AA00000E201FD7A1 0001171C04000200 (Header)
 Rcvd : 02BE 01B3 00A7 FF9C 06EC 05E1 04D5 03CA
 Rcvd : 07F8 07F8 07F8 07F8 07F8 07F8 07F8 07F8
 Rcvd : 07F8 07F8 07F8 07F8 07F8 07F8 07F8 07F8
@@ -39,9 +39,9 @@ Rcvd : 0730 0773 07B6 07F8 0624 0667 06AA 06ED
 Rcvd : 0519 055C 059F 05E1 040D 0450 0493 04D6
 Rcvd : 0302 0345 0388 03CA 01F6 0239 027C 02BF
 Rcvd : 00EB 012E 0171 01B3 FFDF 0022 0065 00A8
-Rcvd : 5500001500000000 (Footer)
+Rcvd : 5500004200000000 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:362424315, trigger_info:20, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   0
+Rcvd frame  signal_length:  56, timestamp:1109383073, trigger_info:20, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   0
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -90,7 +90,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2041, Min:-100
 
-Rcvd : AA00000E602B9709 0003174004000200 (Header)
+Rcvd : AA00000E60B17098 0001174004000200 (Header)
 Rcvd : 02BE 01B3 00A7 FF9C 06ED 05E1 04D6 03CA
 Rcvd : 07F9 07F9 07F9 07F9 07F9 07F9 07F9 07F9
 Rcvd : 07F9 07F9 07F9 07F9 07F9 07F9 07F9 07F9
@@ -98,9 +98,9 @@ Rcvd : 0731 0774 07B7 07F9 0625 0668 06AB 06EE
 Rcvd : 051A 055C 059F 05E2 040E 0451 0494 04D7
 Rcvd : 0302 0345 0388 03CB 01F7 023A 027C 02BF
 Rcvd : 00EB 012E 0171 01B4 FFDF 0022 0065 00A8
-Rcvd : 5500001700000001 (Footer)
+Rcvd : 5500004300000001 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:388732681, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   1
+Rcvd frame  signal_length:  56, timestamp:1135702168, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   1
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -149,7 +149,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2042, Min:-100
 
-Rcvd : AA00000E60BD065D 0003176404000200 (Header)
+Rcvd : AA00000E604309D8 0001176404000200 (Header)
 Rcvd : 02BF 01B3 00A7 FF9C 06EE 05E2 04D6 03CB
 Rcvd : 07FA 07FA 07FA 07FA 07FA 07FA 07FA 07FA
 Rcvd : 07FA 07FA 07FA 07FA 07FA 07FA 07FA 07FA
@@ -157,9 +157,9 @@ Rcvd : 0732 0775 07B8 07FA 0626 0669 06AC 06EF
 Rcvd : 051A 055D 05A0 05E3 040E 0451 0494 04D7
 Rcvd : 0303 0346 0389 03CB 01F7 023A 027D 02C0
 Rcvd : 00EB 012E 0171 01B4 FFDF 0022 0065 00A8
-Rcvd : 5500001800000002 (Footer)
+Rcvd : 5500004500000002 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:415041117, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   2
+Rcvd frame  signal_length:  56, timestamp:1162021336, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   2
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -172,7 +172,6 @@ mismatch data found. increment shift
 
 Shift[2]
 Expected[0] FF9CFF9CFF9CFF9C : Read[0] 02BF01B300A7FF9C
-
 mismatch data found. increment shift
 
 Shift[3]
@@ -209,7 +208,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2043, Min:-100
 
-Rcvd : AA00000E604E75AC 0003178804000200 (Header)
+Rcvd : AA00000E60D4A2FD 0001178804000200 (Header)
 Rcvd : 02BF 01B3 00A7 FF9C 06EF 05E3 04D7 03CB
 Rcvd : 07FB 07FB 07FB 07FB 07FB 07FB 07FB 07FB
 Rcvd : 07FB 07FB 07FB 07FB 07FB 07FB 07FB 07FB
@@ -217,9 +216,9 @@ Rcvd : 0733 0776 07B9 07FB 0627 066A 06AD 06F0
 Rcvd : 051B 055E 05A1 05E4 040F 0452 0495 04D8
 Rcvd : 0303 0346 0389 03CC 01F7 023A 027D 02C0
 Rcvd : 00EB 012E 0171 01B4 FFDF 0022 0065 00A8
-Rcvd : 5500001A00000003 (Footer)
+Rcvd : 5500004600000003 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:441349548, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   3
+Rcvd frame  signal_length:  56, timestamp:1188340477, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   3
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -268,7 +267,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2044, Min:-100
 
-Rcvd : AA00000E60DFE4F1 000317A004000200 (Header)
+Rcvd : AA00000E60663C31 000117A004000200 (Header)
 Rcvd : 02C0 01B4 00A8 FF9C 06F0 05E4 04D8 03CC
 Rcvd : 07FC 07FC 07FC 07FC 07FC 07FC 07FC 07FC
 Rcvd : 07FC 07FC 07FC 07FC 07FC 07FC 07FC 07FC
@@ -276,9 +275,9 @@ Rcvd : 0733 0776 07B9 07FC 0627 066A 06AD 06F0
 Rcvd : 051B 055E 05A1 05E4 040F 0452 0495 04D8
 Rcvd : 0303 0346 0389 03CC 01F7 023A 027D 02C0
 Rcvd : 00EB 012E 0171 01B4 FFDF 0022 0065 00A8
-Rcvd : 5500001B00000004 (Footer)
+Rcvd : 5500004800000004 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:467657969, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   4
+Rcvd frame  signal_length:  56, timestamp:1214659633, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   4
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -327,7 +326,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2045, Min:-100
 
-Rcvd : AA00000E60715431 000317D004000200 (Header)
+Rcvd : AA00000E60F7D55B 000117D004000200 (Header)
 Rcvd : 02C0 01B4 00A8 FF9C 06F0 05E4 04D8 03CC
 Rcvd : 07FD 07FD 07FD 07FD 07FD 07FD 07FD 07FD
 Rcvd : 07FD 07FD 07FD 07FD 07FD 07FD 07FD 07FD
@@ -335,9 +334,9 @@ Rcvd : 0734 0777 07BA 07FD 0628 066B 06AE 06F1
 Rcvd : 051C 055F 05A2 05E5 0410 0453 0496 04D9
 Rcvd : 0304 0347 038A 03CD 01F8 023B 027E 02C1
 Rcvd : 00EC 012F 0172 01B5 FFE0 0023 0066 00A9
-Rcvd : 5500001D00000005 (Footer)
+Rcvd : 5500004900000005 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:493966385, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   5
+Rcvd frame  signal_length:  56, timestamp:1240978779, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   5
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -386,7 +385,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2046, Min:-100
 
-Rcvd : AA00000E6002C378 000317F404000200 (Header)
+Rcvd : AA00000E60896E7A 000117F404000200 (Header)
 Rcvd : 02C0 01B4 00A8 FF9C 06F1 05E5 04D9 03CD
 Rcvd : 07FE 07FE 07FE 07FE 07FE 07FE 07FE 07FE
 Rcvd : 07FE 07FE 07FE 07FE 07FE 07FE 07FE 07FE
@@ -394,9 +393,9 @@ Rcvd : 0735 0778 07BB 07FE 0629 066C 06AF 06F2
 Rcvd : 051D 0560 05A3 05E6 0411 0454 0497 04DA
 Rcvd : 0304 0347 038A 03CD 01F8 023B 027E 02C1
 Rcvd : 00EC 012F 0172 01B5 FFE0 0023 0066 00A9
-Rcvd : 5500001F00000006 (Footer)
+Rcvd : 5500004B00000006 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:520274808, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   6
+Rcvd frame  signal_length:  56, timestamp:1267297914, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   6
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -445,7 +444,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2047, Min:-100
 
-Rcvd : AA00000E609432D5 0003181804000200 (Header)
+Rcvd : AA00000E601B07BB 0001181804000200 (Header)
 Rcvd : 02C1 01B4 00A8 FF9C 06F2 05E6 04D9 03CD
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
@@ -453,9 +452,9 @@ Rcvd : CC00 0757 07DD 08FF CC00 064B 06D1 08DE
 Rcvd : 051D 0561 05A4 05E7 0411 0454 0497 04DA
 Rcvd : 0305 0348 038B 03CE 01F8 023B 027F 02C2
 Rcvd : 00EC 012F 0172 01B5 FFE0 0023 0066 00A9
-Rcvd : 5500002000000007 (Footer)
+Rcvd : 5500004D00000007 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:546583253, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   7
+Rcvd frame  signal_length:  56, timestamp:1293617083, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   7
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -504,7 +503,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2048, Min:-100
 
-Rcvd : AA00000E6025A21B 0003182B04000200 (Header)
+Rcvd : AA00000E60ACA0D6 0001182B04000200 (Header)
 Rcvd : 02C1 01B5 00A8 FF9C 06F3 05E7 04DA 03CE
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
@@ -512,9 +511,9 @@ Rcvd : CC00 0758 07DE 08FF CC00 064C 06D2 08DE
 Rcvd : 051E 0561 05A4 05E7 0412 0455 0498 04DB
 Rcvd : 0305 0348 038B 03CE 01F9 023C 027F 02C2
 Rcvd : 00EC 012F 0172 01B5 FFE0 0023 0066 00A9
-Rcvd : 5500002200000008 (Footer)
+Rcvd : 5500004E00000008 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:572891675, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   8
+Rcvd frame  signal_length:  56, timestamp:1319936214, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   8
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -563,7 +562,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2049, Min:-100
 
-Rcvd : AA00000E60B71151 0003183E04000200 (Header)
+Rcvd : AA00000E603E3A13 0001183E04000200 (Header)
 Rcvd : 02C1 01B5 00A8 FF9C 06F4 05E7 04DB 03CE
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
@@ -571,9 +570,9 @@ Rcvd : CC00 0759 07DE 08FF CC00 064D 06D3 08DE
 Rcvd : 051F 0562 05A5 05E8 0412 0455 0498 04DC
 Rcvd : 0306 0349 038C 03CF 01F9 023C 027F 02C2
 Rcvd : 00EC 012F 0173 01B6 FFE0 0023 0066 00A9
-Rcvd : 5500002300000009 (Footer)
+Rcvd : 5500005000000009 (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:599200081, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:   9
+Rcvd frame  signal_length:  56, timestamp:1346255379, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:   9
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -622,7 +621,7 @@ Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send : F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0 F9C0
 Send frame  Signal length:  88, Max:2050, Min:-100
 
-Rcvd : AA00000E6048809B 0003185104000200 (Header)
+Rcvd : AA00000E60CFD336 0001185104000200 (Header)
 Rcvd : 02C2 01B5 00A8 FF9C 06F5 05E8 04DB 03CF
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
 Rcvd : CC00 07FF 07FF 08FF CC00 07FF 07FF 08FF
@@ -630,9 +629,9 @@ Rcvd : CC00 075A 07DF 08FF CC00 064D 06D4 08DE
 Rcvd : 051F 0563 05A6 05E9 0413 0456 0499 04DC
 Rcvd : 0306 0349 038C 03CF 01F9 023C 0280 02C3
 Rcvd : 00EC 0130 0173 01B6 FFE0 0023 0066 00A9
-Rcvd : 550000250000000A (Footer)
+Rcvd : 550000510000000A (Footer)
 
-Rcvd frame  signal_length:  56, timestamp:625508507, trigger_info:60, falling_edge_threshold:1024, rising_edge_threshold: 512, object_id:  10
+Rcvd frame  signal_length:  56, timestamp:1372574518, trigger_info:60, falling_edge_threshold: 512, rising_edge_threshold:1024, object_id:  10
 trigger_info indicates this is last frame
 
 Shift[0]
@@ -658,6 +657,7 @@ Expected[2] CC0007FF07FF08FF : Read[2] CC0007FF07FF08FF
 Expected[3] CC0007FF07FF08FF : Read[3] CC0007FF07FF08FF
 Expected[4] CC0007FF07FF08FF : Read[4] CC0007FF07FF08FF
 Expected[5] CC0007FF07FF08FF : Read[5] CC0007FF07FF08FF
+
 Expected[6] CC00075A07DF08FF : Read[6] CC00075A07DF08FF
 Expected[7] CC00064D06D408DE : Read[7] CC00064D06D408DE
 Expected[8] 051F056305A605E9 : Read[8] 051F056305A605E9
