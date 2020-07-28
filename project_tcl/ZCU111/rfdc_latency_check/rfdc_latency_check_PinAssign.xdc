@@ -1,0 +1,6 @@
+set_property PACKAGE_PIN AF15 [get_ports EXT_RESET]
+set_property IOSTANDARD LVCMOS18 [get_ports EXT_RESET]
+set_property PACKAGE_PIN AP13 [get_ports ADC_CLK_LED]
+set_property IOSTANDARD LVCMOS18 [get_ports ADC_CLK_LED]
+set_property PACKAGE_PIN AR16 [get_ports DAC_LED_OUT]
+set_property IOSTANDARD LVCMOS18 [get_ports DAC_LED_OUT]

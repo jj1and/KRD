@@ -49,6 +49,7 @@ project_tcl/ZCU111/data_trigger_test/data_trigger_test
 project_tcl/ZCU111/pl_ddr_mmu_sim_test/pl_ddr_mmu_sim_test
 project_tcl/ZCU111/minimal_module_test/minimal_module_test
 project_tcl/ZCU111/fee_configurator_sim_test/fee_configurator_sim_test
+project_tcl/ZCU111/rfdc_latency_check/rfdc_latency_check
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
