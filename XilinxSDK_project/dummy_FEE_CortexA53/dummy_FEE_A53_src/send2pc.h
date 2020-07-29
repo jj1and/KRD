@@ -2,17 +2,15 @@
 #define __SEND2PC_H__
 
 #include "FreeRTOS.h"
-#include "task.h"
-
-#include "lwipopts.h"
-#include "lwip/sockets.h"
-#include "netif/xadapter.h"
-
 #include "axidma_manager.h"
+#include "lwip/sockets.h"
+#include "lwipopts.h"
+#include "netif/xadapter.h"
+#include "task.h"
 
 #define THREAD_STACKSIZE 1024
 #define RECV_BUF_SIZE 2048
-#define SEND_BUF_SIZE (TCP_SND_BUF-MAX_PKT_LEN)
+#define SEND_BUF_SIZE (TCP_SND_BUF - MAX_PKT_LEN)
 #define TOTAL_SEND_SIZE 10000000
 #define SOCKET_READY 2
 #define SOCKET_OPEN 1
