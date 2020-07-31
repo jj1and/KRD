@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Tue Jul 28 15:40:11 2020
+//Date        : Thu Jul 30 21:20:23 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -13,6 +13,10 @@ module design_1_wrapper
    (ADC_CLK_LED,
     DAC_LED_OUT,
     EXT_RESET,
+    PL_CLK_in_clk_n,
+    PL_CLK_in_clk_p,
+    PL_SYSREF_CLK_in_clk_n,
+    PL_SYSREF_CLK_in_clk_p,
     adc0_clk_clk_n,
     adc0_clk_clk_p,
     adc1_clk_clk_n,
@@ -62,6 +66,10 @@ module design_1_wrapper
   output ADC_CLK_LED;
   output DAC_LED_OUT;
   input EXT_RESET;
+  input [0:0]PL_CLK_in_clk_n;
+  input [0:0]PL_CLK_in_clk_p;
+  input [0:0]PL_SYSREF_CLK_in_clk_n;
+  input [0:0]PL_SYSREF_CLK_in_clk_p;
   input adc0_clk_clk_n;
   input adc0_clk_clk_p;
   input adc1_clk_clk_n;
@@ -112,6 +120,10 @@ module design_1_wrapper
   wire ADC_CLK_LED;
   wire DAC_LED_OUT;
   wire EXT_RESET;
+  wire [0:0]PL_CLK_in_clk_n;
+  wire [0:0]PL_CLK_in_clk_p;
+  wire [0:0]PL_SYSREF_CLK_in_clk_n;
+  wire [0:0]PL_SYSREF_CLK_in_clk_p;
   wire adc0_clk_clk_n;
   wire adc0_clk_clk_p;
   wire adc1_clk_clk_n;
@@ -163,6 +175,10 @@ module design_1_wrapper
        (.ADC_CLK_LED(ADC_CLK_LED),
         .DAC_LED_OUT(DAC_LED_OUT),
         .EXT_RESET(EXT_RESET),
+        .PL_CLK_in_clk_n(PL_CLK_in_clk_n),
+        .PL_CLK_in_clk_p(PL_CLK_in_clk_p),
+        .PL_SYSREF_CLK_in_clk_n(PL_SYSREF_CLK_in_clk_n),
+        .PL_SYSREF_CLK_in_clk_p(PL_SYSREF_CLK_in_clk_p),
         .adc0_clk_clk_n(adc0_clk_clk_n),
         .adc0_clk_clk_p(adc0_clk_clk_p),
         .adc1_clk_clk_n(adc1_clk_clk_n),
