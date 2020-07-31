@@ -52,10 +52,10 @@ int main() {
 }
 
 static void prvRFdcSetupTask(void *pvParameters) {
-    double ADC_refClkFreq_MHz = 250;
-    double ADC_samplingRate_Msps = 2000;
-    double DAC_refClkFreq_MHz = 250;
-    double DAC_samplingRate_Msps = 1000;
+    double ADC_refClkFreq_MHz = 245.76;
+    double ADC_samplingRate_Msps = 1966.08;
+    double DAC_refClkFreq_MHz = 245.76;
+    double DAC_samplingRate_Msps = 983.04;
 
     rfdcMTS_setup(RFDC_DEVICE_ID, ADC_refClkFreq_MHz, ADC_samplingRate_Msps, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
     while (1) {

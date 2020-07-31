@@ -11,14 +11,15 @@
 #include "xuartps.h"
 
 #define MAX_FREQ 1
+#define LMK04208_CONFIG_NUM 2
 
 static XRFdc RFdcInst; /* RFdc driver instance */
 XIicPs Iic;            /* Instance of the IIC Device */
 
 // Designed by TI tool (TICS pro)
-// [0]: clk_in: 122.88MHz (LMK04208), clkA_out : 245.76MHz, clkB_out : 245.76MHz, for Multi-Tile-Sync design
+// [0]: clk_in: 122.88MHz (LMK04208), clkA_out : 245.76MHz, clkB_out : 245.76MHz, for MTS design
 static XClockingLmx Lmx2594_config[1] = {
-    {250000, {0x700000, 0x6F0000, 0x6E0000, 0x6D0000, 0x6C0000, 0x6B0000, 0x6A0000, 0x690021, 0x680000, 0x670000, 0x660000, 0x650011, 0x640000, 0x630000, 0x620000, 0x610888, 0x600000,
+    {245760, {0x700000, 0x6F0000, 0x6E0000, 0x6D0000, 0x6C0000, 0x6B0000, 0x6A0000, 0x690021, 0x680000, 0x670000, 0x660000, 0x650011, 0x640000, 0x630000, 0x620000, 0x610888, 0x600000,
               0x5F0000, 0x5E0000, 0x5D0000, 0x5C0000, 0x5B0000, 0x5A0000, 0x590000, 0x580000, 0x570000, 0x560000, 0x550000, 0x540000, 0x530000, 0x520000, 0x510000, 0x500000, 0x4F0000,
               0x4E00E5, 0x4D0000, 0x4C000C, 0x4B09C0, 0x4A0000, 0x49003F, 0x480001, 0x470081, 0x46C350, 0x450000, 0x4403E8, 0x430000, 0x4201F4, 0x410000, 0x401388, 0x3F0000, 0x3E0322,
               0x3D00A8, 0x3C0000, 0x3B0001, 0x3A0001, 0x390020, 0x380000, 0x370000, 0x360000, 0x350000, 0x340820, 0x330080, 0x320000, 0x314180, 0x300300, 0x2F0300, 0x2E07FC, 0x2DC0D8,
@@ -27,10 +28,18 @@ static XClockingLmx Lmx2594_config[1] = {
               0x0A10D8, 0x091604, 0x082000, 0x0740B2, 0x06C802, 0x0500C8, 0x040C43, 0x030642, 0x020500, 0x010808, 0x00259C}}};
 
 // Designed by TI tool (TICS pro)
-// clk_in: 122.88MHz (External VCXO), clk1_out : 7.68MHz, clk3_out : 122.88MHz, clk4_out : 122.88MHz clk5_out : 7.68MHz
-static unsigned int Lmk04208_config[1][LMK04208_count] = {{0x00160040, 0x80140300, 0x00143001, 0x80140302, 0x00140303, 0x00140304, 0x00143005, 0x01400006, 0x04400007,
-                                                           0x08010008, 0x55555549, 0x9102440A, 0x0401100B, 0x130C006C, 0x2302820D, 0x0220000E, 0x8000800F, 0xC1550410,
-                                                           0x00000058, 0x02C9C419, 0xAFA8001A, 0x1040009B, 0x0020011C, 0x0180019D, 0x0100019E, 0x003F001F}};
+// [0]
+// clk_in: 122.88MHz (External VCXO), clk0_out(PL_SYSREF_clk) 61.44MHz, clk1_out(RFDC_SYSREF_clk) : 7.68MHz, clk2_out(PL_clk) : 122.88MHz,
+// clk3_out(LMX2594) : 122.88MHz, clk4_out(LMX2594) : 122.88MHz clk5_out(J108) : 7.68MHz
+// [1]
+// clk_in: 122.88MHz (External VCXO), clk0_out(PL_SYSREF_clk) 7.68MHz, clk1_out(RFDC_SYSREF_clk) : 7.68MHz, clk2_out(PL_clk) : 122.88MHz,
+// clk3_out(LMX2594) : 122.88MHz, clk4_out(LMX2594) : 122.88MHz clk5_out(J108) : 7.68MHz
+// PL_SYSREF_clk is delayed 300ps from PL_clk for MTS design
+static unsigned int Lmk04208_config[LMK04208_CONFIG_NUM][LMK04208_count] = {
+    {0x00160040, 0x20140600, 0x10143001, 0x20140302, 0x10140303, 0x10140304, 0x10143005, 0x01100186, 0x01100007, 0x08010008, 0x55555549, 0x9102440A, 0x0401100B,
+     0x130C006C, 0x2302820D, 0x0220000E, 0x8000800F, 0xC1550410, 0x00000058, 0x02C9C419, 0xAFA8001A, 0x1040009B, 0x0020011C, 0x0180019D, 0x0100019E, 0x003F001F},
+    {0x00160040, 0x20143000, 0x10143001, 0x20140302, 0x10140303, 0x10140304, 0x10143005, 0x01100186, 0x01100007, 0x08010008, 0x55555549, 0x9102440A, 0x0401100B,
+     0x130C006C, 0x2302820D, 0x0220000E, 0x8000800F, 0xC1550410, 0x00000058, 0x02C9C419, 0xAFA8001A, 0x1040009B, 0x0020011C, 0x0180019D, 0x0100019E, 0x003F001F}};
 
 /****************************************************************************/
 /**
@@ -43,19 +52,27 @@ static unsigned int Lmk04208_config[1][LMK04208_count] = {{0x00160040, 0x8014030
  *           - For Linux it is the Bus Id to which LMK04208 device is connected.
  * @param	LMK04208_CKin is the configuration array to configure the LMK04208.
  *
+ * @param	config_index is index of the configuration register in LMK04208_CKin to configure the LMK04208.
+ *
  * @return
  *		- None
  *
  * @note   	None
  *
  ****************************************************************************/
-static void LMK04208ClockConfig(int XIicBus, unsigned int LMK04208_CKin[1][26]) {
+static void LMK04208ClockConfig(int XIicBus, unsigned int LMK04208_CKin[LMK04208_CONFIG_NUM][26], int config_index) {
     XIicPs_Config *Config_iic;
     int Status;
     u8 tx_array[10];
     u8 rx_array[10];
     u32 ClkRate = 100000;
     int Index;
+
+    if (config_index >= LMK04208_CONFIG_NUM) {
+        xil_printf("ERROR: config_index (%d) is out of range of LMK04208 config register array\r\n", config_index);
+        xil_printf("defalut valule (0) will be used\r\n");
+        config_index = 0;
+    }
 
     Config_iic = XIicPs_LookupConfig(XIicBus);
     if (NULL == Config_iic) {
@@ -129,10 +146,10 @@ static void LMK04208ClockConfig(int XIicBus, unsigned int LMK04208_CKin[1][26]) 
 
     for (Index = 0; Index < LMK04208_count; Index++) {
         tx_array[0] = 0x02;
-        tx_array[4] = (u8)(LMK04208_CKin[0][Index]) & (0xFF);
-        tx_array[3] = (u8)(LMK04208_CKin[0][Index] >> 8) & (0xFF);
-        tx_array[2] = (u8)(LMK04208_CKin[0][Index] >> 16) & (0xFF);
-        tx_array[1] = (u8)(LMK04208_CKin[0][Index] >> 24) & (0xFF);
+        tx_array[4] = (u8)(LMK04208_CKin[config_index][Index]) & (0xFF);
+        tx_array[3] = (u8)(LMK04208_CKin[config_index][Index] >> 8) & (0xFF);
+        tx_array[2] = (u8)(LMK04208_CKin[config_index][Index] >> 16) & (0xFF);
+        tx_array[1] = (u8)(LMK04208_CKin[config_index][Index] >> 24) & (0xFF);
         Status = XIicPs_MasterSendPolled(&Iic, tx_array, 0x05, 0x2F);
         usleep(25000);
         while (XIicPs_BusIsBusy(&Iic))
@@ -380,8 +397,8 @@ int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sampli
     xil_printf("Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
 
     xil_printf("Configuring clock on ZCU111\r\n");
-    LMK04208ClockConfig(I2C_BUS, Lmk04208_config);
-    LMX2594ClockConfig(I2C_BUS, 250000);
+    LMK04208ClockConfig(I2C_BUS, Lmk04208_config, 1);
+    LMX2594ClockConfig(I2C_BUS, (int)(ADC_refClkFreq_MHz * 1E3));
 
     if (metal_init(&init_param)) {
         printf("ERROR: Failed to run metal initialization\r\n");
@@ -400,32 +417,32 @@ int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sampli
 
     /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
     printf("Configuring Clock Frequency and Sampling Rate\r\n");
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_DAC_TILE, 0, XRFDC_EXTERNAL_CLK, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_DAC_TILE, 0, XRFDC_INTERNAL_PLL_CLK, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For DAC 0\r\n");
         return XRFDC_FAILURE;
     }
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_DAC_TILE, 1, XRFDC_EXTERNAL_CLK, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_DAC_TILE, 1, XRFDC_INTERNAL_PLL_CLK, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For DAC 1\r\n");
         return XRFDC_FAILURE;
     }
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 0, XRFDC_EXTERNAL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 0, XRFDC_INTERNAL_PLL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For ADC 0\r\n");
         return XRFDC_FAILURE;
     }
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 1, XRFDC_EXTERNAL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 1, XRFDC_INTERNAL_PLL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For ADC 1\r\n");
         return XRFDC_FAILURE;
     }
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 2, XRFDC_EXTERNAL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 2, XRFDC_INTERNAL_PLL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For ADC 2\r\n");
         return XRFDC_FAILURE;
     }
-    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 3, XRFDC_EXTERNAL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, 3, XRFDC_INTERNAL_PLL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
         xil_printf("ERROR: Could not configure PLL For ADC 3\r\n");
         return XRFDC_FAILURE;
@@ -458,7 +475,7 @@ int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sampli
 
     /* Initialize ADC MTS Settings */
     XRFdc_MultiConverter_Init(&ADC_Sync_Config, 0, 0);
-    ADC_Sync_Config.Tiles = 0x5; /* Sync ADC tiles 0, 2 */
+    ADC_Sync_Config.Tiles = 0xF; /* Sync ADC tiles 0, 1, 2, 3 */
 
     status_adc = XRFdc_MultiConverter_Sync(RFdcInstPtr, XRFDC_ADC_TILE, &ADC_Sync_Config);
     if (status_adc == XRFDC_MTS_OK) {
