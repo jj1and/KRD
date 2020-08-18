@@ -50,6 +50,7 @@ project_tcl/ZCU111/pl_ddr_mmu_sim_test/pl_ddr_mmu_sim_test
 project_tcl/ZCU111/minimal_module_test/minimal_module_test
 project_tcl/ZCU111/fee_configurator_sim_test/fee_configurator_sim_test
 project_tcl/ZCU111/rfdc_latency_check/rfdc_latency_check
+project_tcl/ZCU111/minimal_FEE/minimal_FEE
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
@@ -88,3 +89,5 @@ util_code/data/*
 !util_code/data/recv_buff_v2_20200428_01.bin
 !util_code/data/recv_buff_v2_format.txt
 util_code/pl_pc_transport_test.gif
+
+proto_ip_code/dsp_module/l1norm_method
