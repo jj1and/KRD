@@ -1,5 +1,5 @@
-#ifndef __AXIDMA_MANAGER_H_
-#define __AXIDMA_MANAGER_H_
+#ifndef __AXIDMA_S2MM_MANAGER_H_
+#define __AXIDMA_S2MM_MANAGER_H_
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -47,16 +47,12 @@
 
 #ifdef XPAR_INTC_0_DEVICE_ID
 #define RX_INTR_ID XPAR_INTC_0_AXIDMA_0_VEC_ID
-#define TX_INTR_ID XPAR_INTC_0_AXIDMA_0_MM2S_INTROUT_VEC_ID
 #else
 #define RX_INTR_ID XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
-#define TX_INTR_ID XPAR_FABRIC_AXI_DMA_0_MM2S_INTROUT_INTR
 #endif
 
 #define RX_BUFFER_BASE (MEM_BASE_ADDR + 0x00300000)
 #define RX_BUFFER_HIGH (MEM_BASE_ADDR + 0x004FFFFF)
-
-#define TX_BUFFER_BASE (MEM_BASE_ADDR + 0x00100000)
 
 #ifdef XPAR_INTC_0_DEVICE_ID
 #define INTC_DEVICE_ID XPAR_INTC_0_DEVICE_ID
@@ -105,28 +101,22 @@ INTC Intc; /* Instance of the Interrupt Controller */
 /*
  * Flags interrupt handlers use to notify the application context the events.
  */
-volatile int TxDone;
 volatile int RxDone;
 volatile int Error;
 
 TaskHandle_t xDmaTask;
 
 int axidma_setup();
-int generate_signal(u16* tx_buff_ptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable);
-int axidma_send_buff(int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, int print_enable);
 int axidma_recv_buff();
 int InitIntrController(INTC* IntcInstancePtr);
 int StartXIntc(INTC* IntcInstancePtr);
-int SetupTxIntrSystem(INTC* IntcInstancePtr, XAxiDma* AxiDmaPtr, u16 TxIntrId);
 int SetupRxIntrSystem(INTC* IntcInstancePtr, XAxiDma* AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
 
 int incr_wrptr_after_write(u64 size);
 int decr_wrptr_after_read(u64 size);
-// int incr_rdptr_after_read(u64 size);
 int buff_will_be_empty(u64 size);
 int buff_will_be_full(u64 size);
 u64* get_wrptr();
-// u64* get_rdptr();
 
 #endif
