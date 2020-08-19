@@ -511,3 +511,44 @@ int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sampli
 
     return XRFDC_MTS_OK;
 }
+
+int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps) {
+    int status, status_adc, status_dac, i;
+    u32 factor;
+    XRFdc_Config *ConfigPtr;
+    XRFdc *RFdcInstPtr = &RFdcInst;
+
+    struct metal_init_params init_param = METAL_INIT_DEFAULTS;
+
+    xil_printf("Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
+
+    xil_printf("Configuring clock on ZCU111\r\n");
+    LMK04208ClockConfig(I2C_BUS, Lmk04208_config, 1);
+    LMX2594ClockConfig(I2C_BUS, (int)(refClkFreq_MHz * 1E3));
+
+    if (metal_init(&init_param)) {
+        printf("ERROR: Failed to run metal initialization\r\n");
+        return XRFDC_FAILURE;
+    }
+    metal_set_log_level(METAL_LOG_DEBUG);
+    ConfigPtr = XRFdc_LookupConfig(RFdcDeviceId);
+    if (ConfigPtr == NULL) {
+        return XRFDC_FAILURE;
+    }
+
+    status = XRFdc_CfgInitialize(RFdcInstPtr, ConfigPtr);
+    if (status != XRFDC_SUCCESS) {
+        xil_printf("ERROR: RFdc Init Failure\n\r");
+    }
+
+    /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
+    printf("Configuring Clock Frequency and Sampling Rate\r\n");
+    status = XRFdc_DynamicPLLConfig(RFdcInstPtr, Type, Tile_id, XRFDC_INTERNAL_PLL_CLK, refClkFreq_MHz, samplingRate_Msps);
+    if (status != XRFDC_SUCCESS) {
+        xil_printf("ERROR: Could not configure PLL For DAC 0\r\n");
+        return XRFDC_FAILURE;
+    }
+
+    xil_printf("=== RFdc Initialized ===\n");
+    return XRFDC_MTS_OK;
+}

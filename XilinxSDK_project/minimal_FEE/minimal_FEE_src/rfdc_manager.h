@@ -19,8 +19,8 @@
 #define RFDC_DEVICE_ID XPAR_XRFDC_0_DEVICE_ID
 #define RFDC_DEV_NAME XPAR_XRFDC_0_DEV_NAME
 
-#include "xparameters.h"
 #include "xil_printf.h"
+#include "xparameters.h"
 
 typedef struct {
     int XFrequency;
@@ -28,5 +28,6 @@ typedef struct {
 } XClockingLmx;
 
 int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps);
+int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps);
 
 #endif
