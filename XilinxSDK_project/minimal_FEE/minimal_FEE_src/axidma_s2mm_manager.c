@@ -4,6 +4,7 @@
 #include "xil_exception.h"
 
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 
 /*****************************************************************************/
 /*
@@ -278,11 +279,29 @@ int decr_wrptr_after_read(u64 size) {
     return 0;
 }
 
+int incr_rdptr_after_read(u64 size) {
+    if (RxBufferRdPtr > RxBufferWrPtr) {
+        xil_printf("Buffer is empty\r\n");
+        RxBufferRdPtr = RxBufferWrPtr;
+        return -1;
+    } else {
+        RxBufferRdPtr = RxBufferRdPtr + size;
+    }
+    return 0;
+}
+
+void flush_ptr() {
+    RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
+    RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
+    return 0;
+}
+
 int buff_will_be_full(u64 size) { return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH - size); }
 
 int buff_will_be_empty(u64 size) { return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + size); }
 
 u64 *get_wrptr() { return RxBufferWrPtr; }
+u64 *get_rdptr() { return RxBufferRdPtr; }
 
 void shutdown_dma() {
     xil_printf("End dma task...\r\n");

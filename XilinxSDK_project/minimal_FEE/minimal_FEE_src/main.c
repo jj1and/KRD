@@ -7,10 +7,11 @@
 #include <stdio.h>
 
 #include "FreeRTOS.h"
-#include "axidma_manager.h"
+#include "axidma_s2mm_manager.h"
 #include "platform_config.h"
+#include "rfdc_manager.h"
+#include "send2pc.h"
 #include "task.h"
-#include "timers.h"
 #include "xgpio.h"
 #include "xil_printf.h"
 #include "xparameters.h"
@@ -21,9 +22,9 @@
 #define FAIL_CNT_THRESHOLD 5
 
 // GPIO related constant
-#define ACQUI_LEN_GPIO_DEVICE_ID XPAR_ACQUI_LEN_GPIO_DEVICE_ID
-#define MODE_TRIGGER_LEN_GPIO_DEVICE_ID XPAR_MODE_TRIGGER_LEN_GPIO_DEVICE_ID
-#define THRESHOLD_GPIO_DEVICE_ID XPAR_THRESHOLD_GPIO_DEVICE_ID
+#define ACQUI_LEN_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_ACQUI_LEN_GPIO_DEVICE_ID
+#define MODE_TRIGGER_LEN_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_MODE_TRIGGER_LEN_GPIO_DEVICE_ID
+#define THRESHOLD_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_THRESHOLD_GPIO_DEVICE_ID
 
 #define MODE_CH 1
 #define MAX_TRIGGER_LENGTH_CH 2
@@ -52,16 +53,23 @@
 #define NORMAL_ACQUIRE_MODE 0    // 3'b000
 
 #define H_GAIN_BASELINE 0
-#define L_GAIN_BASELINE -2048
+#define L_GAIN_BASELINE 0
 #define L_GAIN_CORRECTION 3
 
 const u8 PRE_ACQUISITION_LENGTH = 1;
 const u8 POST_ACQUISITION_LENGTH = 1;
-const short int RISING_EDGE_THRESHOLD = 1024;
-const short int FALLING_EDGE_THRESHOLD = 512;
+const short int RISING_EDGE_THRESHOLD = 256;
+const short int FALLING_EDGE_THRESHOLD = 0;
 
-TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
-TimerHandle_t xTimer = NULL;
+const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
+
+static struct netif myself_netif;
+TaskHandle_t app_thread;
+app_arg send2pc_setting = {
+    5001,
+    "192.168.1.2",
+};
+
 XGpio Gpio_acqui_len;
 XGpio Gpio_mode_trigger_len;
 XGpio Gpio_threshold;
@@ -72,19 +80,35 @@ int SetMaxTriggerLength(u16 max_trigger_length);
 int SetAcquisitionLength(u8 pre_acquisition_length, u8 post_acquisition_length);
 int SetThreshold(short int rising_threshold, short int falling_threshold);
 
+void network_thread(void *arg);
+
 void prvDmaTask(void *pvParameters);
-int vApplicationDaemonTxTaskStartupHook();
 int vApplicationDaemonRxTaskStartupHook();
-void vTimerCallback(TimerHandle_t pxTimer);
+
+void print_ip(char *msg, ip_addr_t *ip) {
+    xil_printf(msg);
+    xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip), ip4_addr3(ip), ip4_addr4(ip));
+}
+
+void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw) {
+    print_ip("Board IP: ", ip);
+    print_ip("Netmask : ", mask);
+    print_ip("Gateway : ", gw);
+}
 
 int main() {
     int Status;
-    xil_printf("data_trigger test\r\n");
+    xil_printf("minimal FEE Start\r\n");
+    double refClkFreq_MHz = 245.76;
+    double samplingRate_Msps = 1966.08;
+    Status = rfdcSingle_setup(RFDC_DEVICE_ID, RFDC_ADC_TILE, 0, refClkFreq_MHz, samplingRate_Msps);
+    if (Status != XST_SUCCESS) {
+        xil_printf("Failed to setup RF Data Converter\r\n");
+        return XST_FAILURE;
+    }
 
-    XTime_StartTimer();
     Status = axidma_setup();
-    if (Status != XST_SUCCESS)
-        xil_printf("Failed to Setup AXI-DMA\r\n");
+    if (Status != XST_SUCCESS) xil_printf("Failed to Setup AXI-DMA\r\n");
 
     Status = GpioSetUp(&Gpio_acqui_len, ACQUI_LEN_GPIO_DEVICE_ID);
     if (Status != XST_SUCCESS) {
@@ -118,12 +142,50 @@ int main() {
         return XST_FAILURE;
     }
 
-    xTaskCreate(prvDmaTask, (const char *)"AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, &xDmaTask);
+    xTaskCreate(prvDmaTask, (const char *)"AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO + 1, &xDmaTask);
+    sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
     vTaskStartScheduler();
     while (1)
         ;
     // never reached
     return 0;
+}
+
+void network_thread(void *arg) {
+    lwip_init();
+
+    struct netif *netif;
+    /* the mac address of the board. this should be unique per board */
+    unsigned char mac_ethernet_address[] = {0x00, 0x0a, 0x35, 0x00, 0x01, 0x02};
+
+    ip_addr_t ipaddr, netmask, gw;
+    netif = &myself_netif;
+
+    xil_printf("\r\n\r\n");
+    xil_printf("-----Dummy FEE client ------\r\n");
+
+    /* initliaze IP addresses to be used */
+    IP4_ADDR(&ipaddr, 192, 168, 1, 7);
+    IP4_ADDR(&netmask, 255, 255, 255, 0);
+    IP4_ADDR(&gw, 192, 168, 1, 1);
+
+    /* print out IP settings of the board */
+    print_ip_settings(&ipaddr, &netmask, &gw);
+
+    /* Add network interface to the netif_list, and set it as default */
+    if (!xemac_add(netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR)) {
+        xil_printf("Error adding N/W interface\r\n");
+        return;
+    }
+
+    netif_set_default(netif);
+    /* specify that the network if is up */
+    netif_set_up(netif);
+
+    /* start packet receive thread - required for lwIP operation */
+    sys_thread_new("xemacif_input_thread", (void (*)(void *))xemacif_input_thread, netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+    app_thread = sys_thread_new("send2pcd", send2pc_application_thread, arg, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+    vTaskDelete(NULL);
 }
 
 int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId) {
@@ -225,7 +287,7 @@ void printData(u64 *dataptr, u64 frame_size) {
     xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall_time, int post_time, int max_val, int baseline, u16 rise_thre, u16 fall_thre, int print_enable) {
+int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 *rcvd_frame_length) {
     int Status = XST_SUCCESS;
     u8 read_header_id;
     u64 read_header_timestamp;
@@ -239,14 +301,6 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     u32 read_object_id;
     u8 read_footer_id;
 
-    u16 *expected_sample;
-    int expected_charge_sum = 0;
-    int signal_length;
-    int remain;
-    int total_signal_length;
-    int shift;
-    int matched = 0;
-
     Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 3) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
@@ -256,7 +310,6 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     read_charge_sum = (read_raw_charge_sum << 8) >> 8;  // sign extention
     read_fall_thre = (dataptr[1] & 0x0000FFFF);
     read_rise_thre = (dataptr[1] >> 16) & 0x0000FFFF;
-    incr_wrptr_after_write(read_trigger_length + 3);
 
     read_footer_id = (dataptr[read_trigger_length + 3 - 1] >> 56) & 0x000000FF;
     read_object_id = dataptr[read_trigger_length + 3 - 1] & 0xFFFFFFFF;
@@ -265,7 +318,8 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     if (print_enable != 0) {
         printData(dataptr, read_trigger_length + 3);
     }
-    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4, read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
+    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
+               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
 
     if (read_object_id == 0) {
         // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
@@ -313,118 +367,28 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         Status = XST_FAILURE;
     }
 
-    // ---------------------------- matching read samples and send samples ----------------------------
-    signal_length = pre_time + rise_time + high_time + fall_time + post_time;
-    remain = signal_length % 8;
-    total_signal_length = signal_length + remain;
-    expected_sample = (u16 *)malloc(total_signal_length);
-    u64 tmp_expected_data = 0;
-    short int tmp_expected_sample_sum;
-    short int tmp_expected_l_gain_bl_subtracted;
-    if (expected_sample == NULL) {
-        xil_printf("Failed to allocate memory for preparing expected_samples\r\n");
-        return XST_FAILURE;
-    }
-
-    // assign sent data to expected_sample
-    if (generate_signal(expected_sample, pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, 0) == XST_FAILURE) {
-        return XST_FAILURE;
-    }
-
-    //matching expected and read
-    for (int i = 0; i <= ((total_signal_length / 4) - read_trigger_length); i++) {
-        xil_printf("\nShift[%d]\r\n", i);
-        matched = 1;
-        for (int j = 0; j < read_trigger_length; j++) {
-            tmp_expected_data = 0;
-            if ((dataptr[j + 2] & 0xFFFF000000000000) == 0xCC00000000000000) {
-                tmp_expected_data = 0xCC00000000000000;
-
-                tmp_expected_sample_sum = ((short int)expected_sample[(i + j) * 4 + 2] >> 4) + ((short int)expected_sample[(i + j) * 4 + 3] >> 4);
-                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_sample_sum >> 1 & 0x000000000000FFFF) << 32;
-
-                tmp_expected_sample_sum = ((short int)expected_sample[(i + j) * 4 + 1] >> 4) + ((short int)expected_sample[(i + j) * 4 + 0] >> 4);
-                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_sample_sum >> 1 & 0x000000000000FFFF) << 16;
-
-                tmp_expected_l_gain_bl_subtracted = ((short int)expected_sample[(i + j) * 4] >> (L_GAIN_CORRECTION + 4)) - (short int)L_GAIN_BASELINE;
-                tmp_expected_data = tmp_expected_data | (u64)(tmp_expected_l_gain_bl_subtracted & 0x000000000000FFFF);
-                //debug
-                // xil_printf("expected combined data[%d] %016llx\r\n", j, tmp_expected_data);
-            } else {
-                for (int k = 0; k < 4; k++) {
-                    tmp_expected_data = tmp_expected_data | (u64)((short int)expected_sample[(i + j) * 4 + k] >> 4 & 0x000000000000FFFF) << (k * 16);
-                    //debug
-                    // xil_printf("expected sample[%d] %04x\r\n", (i + j) * 4 + k, expected_sample[(i + j) * 4 + k] >> 4);
-                }
-            }
-            // debug
-            xil_printf("Expected[%d] %016llx : Read[%d] %016llx\r\n", j, tmp_expected_data, j, dataptr[j + 2]);
-
-            if (dataptr[j + 2] == tmp_expected_data) {
-                matched = matched * 1;
-            } else {
-                matched = 0;
-                xil_printf("mismatch data found. increment shift\r\n");
-                break;
-            }
-        }
-        if (matched == 1) {
-            // debug
-            xil_printf("expected data matched with read samples\r\n");
-            shift = i * 4;
-            break;
-        }
-    }
-    // if any sequence doesn't match with read data -> Status failed
-    if (matched == 0) {
-        xil_printf("Any sequence in send data doesn't match with read samples\r\n");
-        Status = XST_FAILURE;
-    }
-
-    for (int i = 0; i < read_trigger_length * 4; i++) {
-        expected_charge_sum += (short int)expected_sample[i + shift] >> 4;
-        // debug
-        // if ((i + 1) % 8 == 0) {
-        //     xil_printf("%4x\r\n", (short int)expected_sample[i + shift] >> 4);
-        // } else {
-        //     xil_printf("%04x ", (short int)expected_sample[i + shift] >> 4);
-        // }
-    }
-    if (read_charge_sum != expected_charge_sum) {
-        xil_printf("charge_sim mismatch Data:%d Expected:%d\r\n", read_charge_sum, expected_charge_sum);
-        Status = XST_FAILURE;
-    }
-
-    free(expected_sample);
-    // ---------------------------- ---------------------------- ----------------------------
-
     if (read_footer_id != 0x55) {
         xil_printf("FOOTER_ID mismatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
         Status = XST_FAILURE;
     }
 
+    *rcvd_frame_length = read_trigger_length + 3;
+    incr_wrptr_after_write(read_trigger_length + 3);
     decr_wrptr_after_read(read_trigger_length + 3);
     xil_printf("\n");
     return Status;
 }
 
 void prvDmaTask(void *pvParameters) {
-    int mm2s_dma_state = XST_SUCCESS;
     int s2mm_dma_state = XST_SUCCESS;
-    int test_result = LAST_FRAME;
+    int check_result = LAST_FRAME;
+    dma_task_end_flag = DMA_TASK_READY;
 
-    int pre_time = (PRE_ACQUISITION_LENGTH + 1) * 8;
-    int rise_time = 8;
-    int high_time = 16;
-    int fall_time = 32;
-    int post_time = (POST_ACQUISITION_LENGTH + 1) * 8;
+    int test_send_frame_count = 2048;
+    int send_frame_count = 0;
 
-    int signal_length;
-    int remain;
-
-    int test_max_val = 2050;
-    int max_val = 2040;
-    int baseline = -100;
+    u64 rcvd_frame_len;
+    u64 dump_recv_size = 0;
 
     u64 *dataptr;
     if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
@@ -432,30 +396,14 @@ void prvDmaTask(void *pvParameters) {
     }
 
     vApplicationDaemonRxTaskStartupHook();
-    vApplicationDaemonTxTaskStartupHook();
+    xil_printf("Dmatask start up done\r\n");
+    xil_printf("Waiting Send2PC task start\r\n");
+    vTaskSuspend(NULL);
 
     xil_printf("sequential sending test\r\n");
     while (TRUE) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
-            if (test_result == LAST_FRAME) {
-                mm2s_dma_state = axidma_send_buff(pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, 1);
-                if (mm2s_dma_state != XST_SUCCESS) {
-                    xil_printf("MM2S Dma failed. \r\n");
-                    break;
-                }
-                while (!TxDone && !Error) {
-                    /* code */
-                }
-                if (!Error) {
-                    signal_length = pre_time + rise_time + high_time + fall_time + post_time;
-                    remain = signal_length % 8;
-                    xil_printf("Send frame  Signal length:%4d, Max:%4d, Min:%4d\r\n\n", signal_length + remain, max_val, baseline);
-                } else {
-                    xil_printf("Error interrupt asserted.\r\n");
-                    break;
-                }
-            }
             while (!RxDone && !Error) {
                 /* code */
             }
@@ -472,33 +420,34 @@ void prvDmaTask(void *pvParameters) {
 
         if ((s2mm_dma_state == XST_SUCCESS) || buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
             dataptr = get_wrptr();
-            test_result = checkData(dataptr, pre_time, rise_time, high_time, fall_time, post_time, max_val, baseline, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1);
-            if (test_result == XST_FAILURE) {
+            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1, &rcvd_frame_len);
+            if (check_result == XST_FAILURE) {
                 break;
             }
-            max_val++;
+            //            dump_recv_size += rcvd_frame_len * sizeof(u64);
+            send_frame_count++;
         }
 
-        if (max_val > test_max_val && test_result == LAST_FRAME) {
-            xil_printf("sequential sending test passed!\r\n");
+        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
+            xil_printf("Total recieved frame count reached the target number!\r\n");
+            break;
+        }
+
+        if (dump_recv_size > SEND_BUF_SIZE) {
+            dump_recv_size = 0;
+            xTaskNotifyGive(app_thread);
+            vTaskSuspend(NULL);
+        }
+
+        if (socket_close_flag == SOCKET_CLOSE) {
             break;
         }
     }
 
-    xil_printf("Test exit!\r\n");
+    xil_printf("FEE shutdown.\r\n");
     shutdown_dma();
+    dma_task_end_flag = DMA_TASK_END;
     vTaskDelete(NULL);
-}
-
-int vApplicationDaemonTxTaskStartupHook() {
-    int Status;
-    xil_printf("\nSet up AXIDMA Tx Interrupt system \n");
-    Status = SetupTxIntrSystem(&xInterruptController, &AxiDma, TX_INTR_ID);
-    if (Status != XST_SUCCESS) {
-        xil_printf("Failed intr setup\r\n");
-        return XST_FAILURE;
-    }
-    return XST_SUCCESS;
 }
 
 int vApplicationDaemonRxTaskStartupHook() {

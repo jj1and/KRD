@@ -6,7 +6,6 @@
 
 #include "sleep.h"
 #include "xiicps.h"
-#include "xrfdc.h"
 #include "xrfdc_mts.h"
 #include "xuartps.h"
 
@@ -520,7 +519,7 @@ int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_
 
     struct metal_init_params init_param = METAL_INIT_DEFAULTS;
 
-    xil_printf("Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
+    xil_printf("Start up RF Data Conver @Single mode\r\n");
 
     xil_printf("Configuring clock on ZCU111\r\n");
     LMK04208ClockConfig(I2C_BUS, Lmk04208_config, 1);

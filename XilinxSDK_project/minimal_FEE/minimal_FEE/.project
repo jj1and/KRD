@@ -25,14 +25,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/axidma_manager.c</name>
+			<name>src/axidma_s2mm_manager.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/minimal_FEE_src/axidma_manager.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/minimal_FEE_src/axidma_s2mm_manager.c</locationURI>
 		</link>
 		<link>
-			<name>src/axidma_manager.h</name>
+			<name>src/axidma_s2mm_manager.h</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/minimal_FEE_src/axidma_manager.h</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/minimal_FEE_src/axidma_s2mm_manager.h</locationURI>
 		</link>
 		<link>
 			<name>src/main.c</name>
