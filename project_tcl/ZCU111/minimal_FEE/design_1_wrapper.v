@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Tue Aug 18 18:59:48 2020
+//Date        : Wed Aug 19 19:28:57 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -30,6 +30,8 @@ module design_1_wrapper
     ddr4_sdram_dqs_t,
     ddr4_sdram_odt,
     ddr4_sdram_reset_n,
+    default_sysclk3_100mhz_clk_n,
+    default_sysclk3_100mhz_clk_p,
     diff_clock_rtl_clk_n,
     diff_clock_rtl_clk_p,
     sysref_in_diff_n,
@@ -58,6 +60,8 @@ module design_1_wrapper
   inout [7:0]ddr4_sdram_dqs_t;
   output ddr4_sdram_odt;
   output ddr4_sdram_reset_n;
+  input default_sysclk3_100mhz_clk_n;
+  input default_sysclk3_100mhz_clk_p;
   input diff_clock_rtl_clk_n;
   input diff_clock_rtl_clk_p;
   input sysref_in_diff_n;
@@ -87,6 +91,8 @@ module design_1_wrapper
   wire [7:0]ddr4_sdram_dqs_t;
   wire ddr4_sdram_odt;
   wire ddr4_sdram_reset_n;
+  wire default_sysclk3_100mhz_clk_n;
+  wire default_sysclk3_100mhz_clk_p;
   wire diff_clock_rtl_clk_n;
   wire diff_clock_rtl_clk_p;
   wire sysref_in_diff_n;
@@ -117,6 +123,8 @@ module design_1_wrapper
         .ddr4_sdram_dqs_t(ddr4_sdram_dqs_t),
         .ddr4_sdram_odt(ddr4_sdram_odt),
         .ddr4_sdram_reset_n(ddr4_sdram_reset_n),
+        .default_sysclk3_100mhz_clk_n(default_sysclk3_100mhz_clk_n),
+        .default_sysclk3_100mhz_clk_p(default_sysclk3_100mhz_clk_p),
         .diff_clock_rtl_clk_n(diff_clock_rtl_clk_n),
         .diff_clock_rtl_clk_p(diff_clock_rtl_clk_p),
         .sysref_in_diff_n(sysref_in_diff_n),
