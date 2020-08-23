@@ -56,7 +56,7 @@ void send2pc_application_thread(void *arg) {
                 break;
             } else {
                 do {
-                    actual_frame_len = ((dma_buff_ptr[send_len] >> (24 + 8)) & 0x00000FFF) + 3;
+                    actual_frame_len = ((dma_buff_ptr[send_len] >> (24 + 8)) & 0x00000FFF) + 4;
                     if (incr_rdptr_after_read(actual_frame_len) < 0) {
                         break;
                     };

@@ -301,7 +301,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     u32 read_object_id;
     u8 read_footer_id;
 
-    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 3) * sizeof(u64));
+    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 4) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
@@ -318,8 +318,8 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     if (print_enable != 0) {
         printData(dataptr, read_trigger_length + 3);
     }
-    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
-               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
+//    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
+//               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
 
     if (read_object_id == 0) {
         // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
@@ -334,7 +334,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
         }
 
@@ -344,14 +344,14 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
         // left: mask except trigger state and frame_continue
         // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
         if ((read_trigger_info & 0x70) == 0x50) {
-            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
+//            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
             Status = INTERNAL_BUFFER_FULL;
         } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
         }
     }
@@ -372,10 +372,9 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
         Status = XST_FAILURE;
     }
 
-    *rcvd_frame_length = read_trigger_length + 3;
-    incr_wrptr_after_write(read_trigger_length + 3);
-    decr_wrptr_after_read(read_trigger_length + 3);
-    xil_printf("\n");
+    *rcvd_frame_length = read_trigger_length + 4;
+    incr_wrptr_after_write(read_trigger_length + 4);
+//    xil_printf("\n");
     return Status;
 }
 
@@ -397,8 +396,8 @@ void prvDmaTask(void *pvParameters) {
 
     vApplicationDaemonRxTaskStartupHook();
     xil_printf("Dmatask start up done\r\n");
-    xil_printf("Waiting Send2PC task start\r\n");
-    vTaskSuspend(NULL);
+     xil_printf("Waiting Send2PC task start\r\n");
+     vTaskSuspend(NULL);
 
     xil_printf("sequential sending test\r\n");
     while (TRUE) {
@@ -420,18 +419,18 @@ void prvDmaTask(void *pvParameters) {
 
         if ((s2mm_dma_state == XST_SUCCESS) || buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
             dataptr = get_wrptr();
-            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1, &rcvd_frame_len);
+            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 0, &rcvd_frame_len);
             if (check_result == XST_FAILURE) {
                 break;
             }
-            //            dump_recv_size += rcvd_frame_len * sizeof(u64);
+            dump_recv_size += rcvd_frame_len * sizeof(u64);
             send_frame_count++;
         }
 
-        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
-            xil_printf("Total recieved frame count reached the target number!\r\n");
-            break;
-        }
+//        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
+//            xil_printf("Total recieved frame count reached the target number!\r\n");
+//            break;
+//        }
 
         if (dump_recv_size > SEND_BUF_SIZE) {
             dump_recv_size = 0;
