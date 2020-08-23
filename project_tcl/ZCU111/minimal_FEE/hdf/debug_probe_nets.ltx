@@ -58,26 +58,10 @@
                                 "id": 1,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
-                                "leftIndex": 0,
-                                "rightIndex": 0,
-                                "portIndex": 1,
-                                "nets": [
-                                    {
-                                        "name": "design_1_i/system_ila_0/inst/probe1_1",
-                                        "isBus": false
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "probe2",
-                                "id": 2,
-                                "type": "DATA_TRIGGER",
-                                "direction": "IN",
                                 "isVector": true,
                                 "leftIndex": 0,
                                 "rightIndex": 127,
-                                "portIndex": 2,
+                                "portIndex": 1,
                                 "nets": [
                                     {
                                         "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tdata",
@@ -472,14 +456,14 @@
                                 ]
                             },
                             {
-                                "name": "probe3",
-                                "id": 3,
+                                "name": "probe2",
+                                "id": 2,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
                                 "isVector": true,
                                 "leftIndex": 0,
                                 "rightIndex": 15,
-                                "portIndex": 3,
+                                "portIndex": 2,
                                 "nets": [
                                     {
                                         "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tkeep",
@@ -538,6 +522,22 @@
                                 ]
                             },
                             {
+                                "name": "probe3",
+                                "id": 3,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 3,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tvalid",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
                                 "name": "probe4",
                                 "id": 4,
                                 "type": "DATA_TRIGGER",
@@ -548,7 +548,7 @@
                                 "portIndex": 4,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tvalid",
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tready",
                                         "isBus": false
                                     }
                                 ]
@@ -564,7 +564,7 @@
                                 "portIndex": 5,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tready",
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tlast",
                                         "isBus": false
                                     }
                                 ]
@@ -580,7 +580,7 @@
                                 "portIndex": 6,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_axis_tlast",
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_apc_pc_asserted",
                                         "isBus": false
                                     }
                                 ]
@@ -590,14 +590,22 @@
                                 "id": 7,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 0,
+                                "rightIndex": 1,
                                 "portIndex": 7,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_0_apc_pc_asserted",
-                                        "isBus": false
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_cnt",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_cnt[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_cnt[0]"
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -608,396 +616,42 @@
                                 "direction": "IN",
                                 "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 127,
+                                "rightIndex": 9,
                                 "portIndex": 8,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata",
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr",
                                         "isBus": true,
                                         "subnets": [
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[127]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[9]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[126]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[8]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[125]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[7]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[124]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[6]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[123]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[5]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[122]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[4]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[121]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[3]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[120]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[2]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[119]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[1]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[118]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[117]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[116]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[115]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[114]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[113]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[112]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[111]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[110]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[109]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[108]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[107]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[106]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[105]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[104]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[103]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[102]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[101]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[100]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[99]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[98]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[97]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[96]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[95]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[94]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[93]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[92]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[91]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[90]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[89]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[88]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[87]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[86]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[85]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[84]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[83]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[82]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[81]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[80]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[79]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[78]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[77]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[76]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[75]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[74]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[73]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[72]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[71]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[70]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[69]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[68]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[67]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[66]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[65]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[64]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[63]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[62]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[61]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[60]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[59]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[58]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[57]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[56]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[55]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[54]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[53]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[52]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[51]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[50]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[49]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[48]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[47]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[46]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[45]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[44]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[43]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[42]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[41]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[40]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[39]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[38]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[37]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[36]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[35]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[34]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[33]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[32]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[31]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[30]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[29]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[28]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[27]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[26]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[25]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[24]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[23]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[22]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[21]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[20]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[19]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[18]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[17]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[16]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[15]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[14]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[13]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[12]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[11]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[10]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[9]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[8]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[7]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[6]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[5]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[4]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[3]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[2]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[1]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tdata[0]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_araddr[0]"
                                             }
                                         ]
                                     }
@@ -1010,60 +664,21 @@
                                 "direction": "IN",
                                 "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 15,
+                                "rightIndex": 2,
                                 "portIndex": 9,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep",
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_arprot",
                                         "isBus": true,
                                         "subnets": [
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[15]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_arprot[2]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[14]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_arprot[1]"
                                             },
                                             {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[13]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[12]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[11]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[10]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[9]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[8]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[7]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[6]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[5]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[4]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[3]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[2]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[1]"
-                                            },
-                                            {
-                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tkeep[0]"
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_arprot[0]"
                                             }
                                         ]
                                     }
@@ -1074,14 +689,22 @@
                                 "id": 10,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 0,
+                                "rightIndex": 1,
                                 "portIndex": 10,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tvalid",
-                                        "isBus": false
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_cnt",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_cnt[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_cnt[0]"
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -1090,14 +713,46 @@
                                 "id": 11,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 0,
+                                "rightIndex": 9,
                                 "portIndex": 11,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tready",
-                                        "isBus": false
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[9]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[8]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[7]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[6]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[5]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[4]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awaddr[0]"
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -1106,14 +761,25 @@
                                 "id": 12,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 0,
+                                "rightIndex": 2,
                                 "portIndex": 12,
                                 "nets": [
                                     {
-                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axis_tlast",
-                                        "isBus": false
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awprot",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awprot[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awprot[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_awprot[0]"
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -1122,13 +788,1019 @@
                                 "id": 13,
                                 "type": "DATA_TRIGGER",
                                 "direction": "IN",
-                                "isVector": false,
+                                "isVector": true,
                                 "leftIndex": 0,
-                                "rightIndex": 0,
+                                "rightIndex": 1,
                                 "portIndex": 13,
                                 "nets": [
                                     {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_cnt",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_cnt[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_cnt[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe14",
+                                "id": 14,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 14,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_bresp",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_bresp[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_bresp[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe15",
+                                "id": 15,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 15,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_cnt",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_cnt[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_cnt[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe16",
+                                "id": 16,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 31,
+                                "portIndex": 16,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[31]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[30]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[29]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[28]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[27]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[26]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[25]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[24]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[23]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[22]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[21]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[20]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[19]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[18]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[17]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[16]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[15]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[14]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[13]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[12]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[11]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[10]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[9]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[8]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[7]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[6]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[5]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[4]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rdata[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe17",
+                                "id": 17,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 17,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rresp",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rresp[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_rresp[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe18",
+                                "id": 18,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 31,
+                                "portIndex": 18,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[31]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[30]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[29]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[28]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[27]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[26]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[25]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[24]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[23]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[22]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[21]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[20]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[19]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[18]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[17]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[16]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[15]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[14]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[13]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[12]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[11]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[10]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[9]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[8]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[7]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[6]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[5]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[4]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wdata[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe19",
+                                "id": 19,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 3,
+                                "portIndex": 19,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wstrb",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wstrb[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wstrb[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wstrb[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_wstrb[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe20",
+                                "id": 20,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 20,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_ctrl",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_ctrl[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_aw_ctrl[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe21",
+                                "id": 21,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 21,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_w_ctrl",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_w_ctrl[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_w_ctrl[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe22",
+                                "id": 22,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 22,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_ctrl",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_ctrl[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_b_ctrl[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe23",
+                                "id": 23,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 23,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_ctrl",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_ctrl[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_ar_ctrl[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe24",
+                                "id": 24,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 1,
+                                "portIndex": 24,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_ctrl",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_ctrl[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_1_axi_r_ctrl[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe25",
+                                "id": 25,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 25,
+                                "nets": [
+                                    {
                                         "name": "design_1_i/system_ila_0/inst/net_slot_1_apc_pc_asserted",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe26",
+                                "id": 26,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 127,
+                                "portIndex": 26,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[127]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[126]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[125]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[124]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[123]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[122]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[121]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[120]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[119]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[118]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[117]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[116]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[115]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[114]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[113]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[112]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[111]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[110]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[109]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[108]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[107]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[106]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[105]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[104]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[103]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[102]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[101]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[100]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[99]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[98]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[97]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[96]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[95]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[94]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[93]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[92]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[91]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[90]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[89]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[88]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[87]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[86]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[85]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[84]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[83]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[82]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[81]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[80]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[79]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[78]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[77]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[76]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[75]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[74]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[73]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[72]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[71]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[70]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[69]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[68]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[67]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[66]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[65]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[64]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[63]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[62]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[61]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[60]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[59]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[58]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[57]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[56]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[55]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[54]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[53]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[52]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[51]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[50]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[49]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[48]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[47]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[46]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[45]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[44]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[43]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[42]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[41]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[40]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[39]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[38]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[37]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[36]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[35]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[34]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[33]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[32]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[31]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[30]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[29]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[28]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[27]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[26]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[25]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[24]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[23]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[22]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[21]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[20]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[19]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[18]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[17]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[16]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[15]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[14]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[13]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[12]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[11]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[10]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[9]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[8]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[7]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[6]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[5]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[4]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tdata[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe27",
+                                "id": 27,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": true,
+                                "leftIndex": 0,
+                                "rightIndex": 15,
+                                "portIndex": 27,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep",
+                                        "isBus": true,
+                                        "subnets": [
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[15]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[14]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[13]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[12]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[11]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[10]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[9]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[8]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[7]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[6]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[5]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[4]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[3]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[2]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[1]"
+                                            },
+                                            {
+                                                "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tkeep[0]"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe28",
+                                "id": 28,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 28,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tvalid",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe29",
+                                "id": 29,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 29,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tready",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe30",
+                                "id": 30,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 30,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_axis_tlast",
+                                        "isBus": false
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "probe31",
+                                "id": 31,
+                                "type": "DATA_TRIGGER",
+                                "direction": "IN",
+                                "isVector": false,
+                                "leftIndex": 0,
+                                "rightIndex": 0,
+                                "portIndex": 31,
+                                "nets": [
+                                    {
+                                        "name": "design_1_i/system_ila_0/inst/net_slot_2_apc_pc_asserted",
                                         "isBus": false
                                     }
                                 ]
@@ -1138,13 +1810,13 @@
                             {
                                 "name": "SLOT_0_AXIS",
                                 "vlnv": "xilinx.com:interface:axis:1.0",
-                                "connectedBus": "pl_ddr_mmu_0_M_AXIS",
+                                "connectedBus": "channel_0_M_AXIS",
                                 "port_maps": [
                                     {
                                         "logical_port": "TDATA",
                                         "physical_pin": {
-                                            "id": 2,
-                                            "name": "probe2",
+                                            "id": 1,
+                                            "name": "probe1",
                                             "leftBit": 0,
                                             "width": 128
                                         }
@@ -1152,23 +1824,14 @@
                                     {
                                         "logical_port": "TKEEP",
                                         "physical_pin": {
-                                            "id": 3,
-                                            "name": "probe3",
+                                            "id": 2,
+                                            "name": "probe2",
                                             "leftBit": 0,
                                             "width": 16
                                         }
                                     },
                                     {
                                         "logical_port": "TLAST",
-                                        "physical_pin": {
-                                            "id": 6,
-                                            "name": "probe6",
-                                            "leftBit": 0,
-                                            "width": 1
-                                        }
-                                    },
-                                    {
-                                        "logical_port": "TREADY",
                                         "physical_pin": {
                                             "id": 5,
                                             "name": "probe5",
@@ -1177,10 +1840,19 @@
                                         }
                                     },
                                     {
-                                        "logical_port": "TVALID",
+                                        "logical_port": "TREADY",
                                         "physical_pin": {
                                             "id": 4,
                                             "name": "probe4",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "TVALID",
+                                        "physical_pin": {
+                                            "id": 3,
+                                            "name": "probe3",
                                             "leftBit": 0,
                                             "width": 1
                                         }
@@ -1188,15 +1860,194 @@
                                 ]
                             },
                             {
-                                "name": "SLOT_1_AXIS",
+                                "name": "SLOT_1_AXI",
+                                "vlnv": "xilinx.com:interface:aximm:1.0",
+                                "connectedBus": "ps8_0_axi_periph_M00_AXI",
+                                "protocol": "AXI4LITE",
+                                "port_maps": [
+                                    {
+                                        "logical_port": "ARADDR",
+                                        "physical_pin": {
+                                            "id": 8,
+                                            "name": "probe8",
+                                            "leftBit": 0,
+                                            "width": 10
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "ARPROT",
+                                        "physical_pin": {
+                                            "id": 9,
+                                            "name": "probe9",
+                                            "leftBit": 0,
+                                            "width": 3
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "ARREADY",
+                                        "physical_pin": {
+                                            "id": 23,
+                                            "name": "probe23",
+                                            "leftBit": 1,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "ARVALID",
+                                        "physical_pin": {
+                                            "id": 23,
+                                            "name": "probe23",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "AWADDR",
+                                        "physical_pin": {
+                                            "id": 11,
+                                            "name": "probe11",
+                                            "leftBit": 0,
+                                            "width": 10
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "AWPROT",
+                                        "physical_pin": {
+                                            "id": 12,
+                                            "name": "probe12",
+                                            "leftBit": 0,
+                                            "width": 3
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "AWREADY",
+                                        "physical_pin": {
+                                            "id": 20,
+                                            "name": "probe20",
+                                            "leftBit": 1,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "AWVALID",
+                                        "physical_pin": {
+                                            "id": 20,
+                                            "name": "probe20",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "BREADY",
+                                        "physical_pin": {
+                                            "id": 22,
+                                            "name": "probe22",
+                                            "leftBit": 1,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "BRESP",
+                                        "physical_pin": {
+                                            "id": 14,
+                                            "name": "probe14",
+                                            "leftBit": 0,
+                                            "width": 2
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "BVALID",
+                                        "physical_pin": {
+                                            "id": 22,
+                                            "name": "probe22",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "RDATA",
+                                        "physical_pin": {
+                                            "id": 16,
+                                            "name": "probe16",
+                                            "leftBit": 0,
+                                            "width": 32
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "RREADY",
+                                        "physical_pin": {
+                                            "id": 24,
+                                            "name": "probe24",
+                                            "leftBit": 1,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "RRESP",
+                                        "physical_pin": {
+                                            "id": 17,
+                                            "name": "probe17",
+                                            "leftBit": 0,
+                                            "width": 2
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "RVALID",
+                                        "physical_pin": {
+                                            "id": 24,
+                                            "name": "probe24",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "WDATA",
+                                        "physical_pin": {
+                                            "id": 18,
+                                            "name": "probe18",
+                                            "leftBit": 0,
+                                            "width": 32
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "WREADY",
+                                        "physical_pin": {
+                                            "id": 21,
+                                            "name": "probe21",
+                                            "leftBit": 1,
+                                            "width": 1
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "WSTRB",
+                                        "physical_pin": {
+                                            "id": 19,
+                                            "name": "probe19",
+                                            "leftBit": 0,
+                                            "width": 4
+                                        }
+                                    },
+                                    {
+                                        "logical_port": "WVALID",
+                                        "physical_pin": {
+                                            "id": 21,
+                                            "name": "probe21",
+                                            "leftBit": 0,
+                                            "width": 1
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "SLOT_2_AXIS",
                                 "vlnv": "xilinx.com:interface:axis:1.0",
                                 "connectedBus": "Conn",
                                 "port_maps": [
                                     {
                                         "logical_port": "TDATA",
                                         "physical_pin": {
-                                            "id": 8,
-                                            "name": "probe8",
+                                            "id": 26,
+                                            "name": "probe26",
                                             "leftBit": 0,
                                             "width": 128
                                         }
@@ -1204,8 +2055,8 @@
                                     {
                                         "logical_port": "TKEEP",
                                         "physical_pin": {
-                                            "id": 9,
-                                            "name": "probe9",
+                                            "id": 27,
+                                            "name": "probe27",
                                             "leftBit": 0,
                                             "width": 16
                                         }
@@ -1213,8 +2064,8 @@
                                     {
                                         "logical_port": "TLAST",
                                         "physical_pin": {
-                                            "id": 12,
-                                            "name": "probe12",
+                                            "id": 30,
+                                            "name": "probe30",
                                             "leftBit": 0,
                                             "width": 1
                                         }
@@ -1222,8 +2073,8 @@
                                     {
                                         "logical_port": "TREADY",
                                         "physical_pin": {
-                                            "id": 11,
-                                            "name": "probe11",
+                                            "id": 29,
+                                            "name": "probe29",
                                             "leftBit": 0,
                                             "width": 1
                                         }
@@ -1231,8 +2082,8 @@
                                     {
                                         "logical_port": "TVALID",
                                         "physical_pin": {
-                                            "id": 10,
-                                            "name": "probe10",
+                                            "id": 28,
+                                            "name": "probe28",
                                             "leftBit": 0,
                                             "width": 1
                                         }
@@ -1243,7 +2094,7 @@
                         "native_ports": [
                             {
                                 "name": "probe0",
-                                "connectedBus": "dataframe_generator_0_DATAFRAME_GEN_ERROR",
+                                "connectedBus": "axi_dma_0_s2mm_introut",
                                 "protocol": "PROBE",
                                 "port_maps": [
                                     {
@@ -1251,22 +2102,6 @@
                                         "physical_pin": {
                                             "id": 0,
                                             "name": "probe0",
-                                            "leftBit": 0,
-                                            "width": 1
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "probe1",
-                                "connectedBus": "pl_ddr_mmu_0_DATAMOVER_ERROR",
-                                "protocol": "PROBE",
-                                "port_maps": [
-                                    {
-                                        "logical_port": "probe1",
-                                        "physical_pin": {
-                                            "id": 1,
-                                            "name": "probe1",
                                             "leftBit": 0,
                                             "width": 1
                                         }

@@ -345,7 +345,12 @@ module pl_ddr_mmu # (
     // ------------------------------- M_AXIS/MM2S DATA assigment -------------------------------
     reg m_axis_tvalid;
     reg mm2s_tvalid_delay;
+    reg mm2s_tdata_valid;
     wire mm2s_tvalid_posedge = (MM2S_S_AXIS_TVALID==1'b1)&(mm2s_tvalid_delay==1'b0);
+    wire mm2s_tdata_is_header =  (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID);
+    wire mm2s_tdata_is_footer = (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+    wire m_axis_tdata_is_footer = (m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+
     reg [TDATA_WIDTH/8-1:0] m_axis_tkeep;
     reg [TDATA_WIDTH-1:0] m_axis_tdata;
 
@@ -357,10 +362,10 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
-            if (&{MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, mm2s_tvalid_posedge}) begin
+            if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
                 m_axis_tvalid <= #100 1'b1;
             end else begin
-                if (&{m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, MM2S_S_AXIS_TVALID, M_AXIS_TREADY}) begin
+                if (&{m_axis_tdata_is_footer, mm2s_tdata_valid, M_AXIS_TREADY}) begin
                     m_axis_tvalid <= #100 1'b0;
                 end else begin
                     m_axis_tvalid <= #100 m_axis_tvalid;
@@ -369,14 +374,54 @@ module pl_ddr_mmu # (
         end
     end
 
+    // (* MARK_DEBUG = "TRUE" *) reg [FRAME_LENGTH_WIDTH-1:0] rcvd_frame_len;
+    // (* MARK_DEBUG = "TRUE" *) reg [FRAME_LENGTH_WIDTH:0] frame_len_count;
+    // (* MARK_DEBUG = "TRUE" *) wire frame_acquired = (rcvd_frame_len==frame_len_count);
+    // (* MARK_DEBUG = "TRUE" *) wire frame_len_mismatch = frame_acquired^mm2s_tdata_is_footer;
+
+    // always @(posedge ACLK ) begin
+    //     if (|{ARESET, SET_CONFIG}) begin
+    //         rcvd_frame_len <= #100 max_btt;
+    //     end else begin
+    //         if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
+    //             rcvd_frame_len <= #100 MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH-1]+2;
+    //         end else begin
+    //             rcvd_frame_len <= #100 rcvd_frame_len;
+    //         end
+    //     end
+    // end
+
+    // always @(posedge ACLK ) begin
+    //     if (|{ARESET, SET_CONFIG}) begin
+    //         frame_len_count <= #100 0;
+    //     end else begin
+    //         if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
+    //             frame_len_count <= #100 1;
+    //         end else begin
+    //             if (frame_acquired) begin
+    //                 frame_len_count <= #100 0;
+    //             end else begin
+    //                 if (MM2S_S_AXIS_TVALID&MM2S_S_AXIS_TREADY) begin
+    //                     frame_len_count <= #100 frame_len_count + 1;
+    //                 end else begin
+    //                     frame_len_count <= #100 frame_len_count;
+    //                 end                    
+    //             end
+    //         end
+    //     end
+    // end
+
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tdata <= #100 {TDATA_WIDTH{1'b1}};
+            mm2s_tdata_valid <= #100 1'b0;
         end else begin
-           if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin
+           if (&{m_axis_tvalid, MM2S_S_AXIS_TVALID, !M_AXIS_TREADY}) begin
                m_axis_tdata <= #100 m_axis_tdata;
+               mm2s_tdata_valid <= #100 mm2s_tdata_valid;
            end else begin
                m_axis_tdata <= #100 MM2S_S_AXIS_TDATA;
+               mm2s_tdata_valid <= #100 MM2S_S_AXIS_TVALID;
            end 
         end
     end
@@ -385,13 +430,13 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
         end else begin
-            if (&{M_AXIS_TVALID, !M_AXIS_TREADY}) begin
+            if (&{m_axis_tvalid, mm2s_tdata_valid, !M_AXIS_TREADY}) begin
                 m_axis_tkeep <= #100 m_axis_tkeep;
             end else begin
                 if (!MM2S_S_AXIS_TVALID) begin
                     m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
                 end else begin
-                    if (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID) begin
+                    if (mm2s_tdata_is_footer) begin
                         m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
                     end else begin
                         m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
@@ -403,8 +448,8 @@ module pl_ddr_mmu # (
 
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;
-    assign M_AXIS_TVALID = m_axis_tvalid&mm2s_tvalid_delay;
+    assign M_AXIS_TVALID = &{m_axis_tvalid, mm2s_tdata_valid};
     assign M_AXIS_TKEEP = m_axis_tkeep;
-    assign M_AXIS_TLAST = &{m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID, m_axis_tvalid};
+    assign M_AXIS_TLAST = &{m_axis_tdata_is_footer, m_axis_tvalid, mm2s_tdata_valid};
 
 endmodule
