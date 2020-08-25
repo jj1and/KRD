@@ -25,6 +25,8 @@ vivado_pid*
 *.str
 *.pkl
 *.pkl.zip
+*.pyd
+*.npz
 
 # ignore the vivado project
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
