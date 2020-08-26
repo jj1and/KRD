@@ -43,11 +43,15 @@ if __name__ == "__main__":
     print(pd_dfs)
     times, waves = df_extract.combine_dfs(frame_len_array, waveform_array)
 
+    # xbin_num = np.max(times)-np.min(times)
+    ybin_num = np.max(waves)-np.min(waves)
+
     hist2d_fig, hist2d_ax = plt.subplots()
     hist2d_ax.set_title("Acquired data")
     hist2d_ax.set_xlabel("Time[nsec]")
     hist2d_ax.set_ylabel("ADC")
     hist2d_h, hist2d_xedges, hist2d_yedges, hist2d_im = hist2d_ax.hist2d(
-        times/EFFECTIVE_ADC_CLK_Hz*1E9, waves, bins=[50, 2048], label="Entries;{0:d}".format(len(pd_dfs)), cmin=0.01)
+        times/EFFECTIVE_ADC_CLK_Hz*1E9, waves, bins=[50, ybin_num], label="Entries;{0:d}".format(len(pd_dfs)), cmin=0.01)
     plt.colorbar(hist2d_im, ax=hist2d_ax)
+    hist2d_ax.legend()
     plt.show()

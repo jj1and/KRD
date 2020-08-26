@@ -18,3 +18,34 @@ if __name__ == "__main__":
                             compression=COMPRESSION_TYPE)
     waveform_array = np.load(npz_waveform_name)['arr_0']
     print(pd_dfs)
+
+    fig, ax = plt.subplots()
+    ax.set_title("Acquired data")
+    ax.set_xlabel("Time[nsec]")
+    ax.set_ylabel("ADC")
+
+    t0 = pd_dfs['TIMESTAMP'][0]
+
+    for i in range(5000, 5100):
+        sample_num = pd_dfs['FRAME_LEN'][i]
+        wav = waveform_array[i, 0:sample_num]
+        t = (pd_dfs['TIMESTAMP'][i]-t0)/TIMESTAMP_CLK_Hz + \
+            np.arange(sample_num)/EFFECTIVE_ADC_CLK_Hz
+        ax.plot(t*1E9, wav, color='steelblue',
+                linestyle='-', marker='o', markersize=5)
+
+    xmin, xmax = ax.get_xlim()
+    ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']
+                           [0]], ls='-.', color='firebrick', label='rising_edge')
+    ax.plot([xmin, xmax], [pd_dfs['FALL_THRE'][0], pd_dfs['FALL_THRE']
+                           [0]], ls='-.', color='navy', label='falling_edge')
+    ax.set_xlim(xmin, xmax)
+    ax.legend()
+
+    fig2, ax2 = plt.subplots()
+    ax2.set_title("Hit")
+    ax2.set_xlabel("Time[msec]")
+    ax2.set_ylabel("total hit num")
+    ax2.plot((pd_dfs['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz*1e3, pd_dfs.index)
+
+    plt.show()
