@@ -53,6 +53,7 @@ project_tcl/ZCU111/minimal_module_test/minimal_module_test
 project_tcl/ZCU111/fee_configurator_sim_test/fee_configurator_sim_test
 project_tcl/ZCU111/rfdc_latency_check/rfdc_latency_check
 project_tcl/ZCU111/minimal_FEE/minimal_FEE
+project_tcl/ZCU111/minimal_FEE_2ch/minimal_FEE_2ch
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
