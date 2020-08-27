@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v3_20200823_01.bin"
+BASE_FILE_NAME = "./data/recv_buff_v3_20200827_08.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = BASE_FILE_NAME.replace(
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in range(5000, 5100):
+    for i in np.arange(1000, 1200):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
         t = (pd_dfs['TIMESTAMP'][i]-t0)/TIMESTAMP_CLK_Hz + \

@@ -47,7 +47,7 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
             }
 
             unsigned long long footer_timestamp = bin_data[i + 2 + frame_len] & FOOTER_TIMESTAMP_MASK;
-            timestamp_array[frame_index] = footer_timestamp | header_timestamp;
+            timestamp_array[frame_index] = (footer_timestamp >> 8) | header_timestamp;
             object_id_array[frame_index] = bin_data[i + 2 + frame_len] & OBJECT_ID_MASK;
 
             int total_frame_len = HEADER_LINE_NUM + frame_len + FOOTER_LINE_NUM;

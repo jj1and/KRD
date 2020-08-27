@@ -369,6 +369,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
 
     if (read_footer_id != 0x55) {
         xil_printf("FOOTER_ID mismatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
+        printData(dataptr, read_trigger_length + 3);
         Status = XST_FAILURE;
     }
 
@@ -423,6 +424,8 @@ void prvDmaTask(void *pvParameters) {
             if (check_result == XST_FAILURE) {
                 break;
             }
+//            rcvd_frame_len = ((dataptr[0] >> (24 + 8)) & 0x00000FFF) + 4;
+//            incr_wrptr_after_write(rcvd_frame_len);
             dump_recv_size += rcvd_frame_len * sizeof(u64);
             send_frame_count++;
         }

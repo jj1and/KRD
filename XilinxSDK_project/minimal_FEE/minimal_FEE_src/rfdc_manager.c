@@ -544,7 +544,7 @@ int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_
     printf("Configuring Clock Frequency and Sampling Rate\r\n");
     status = XRFdc_DynamicPLLConfig(RFdcInstPtr, Type, Tile_id, XRFDC_INTERNAL_PLL_CLK, refClkFreq_MHz, samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
-        xil_printf("ERROR: Could not configure PLL For DAC 0\r\n");
+        xil_printf("ERROR: Could not configure PLL For ADC\r\n");
         return XRFDC_FAILURE;
     }
 
