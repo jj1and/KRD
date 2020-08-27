@@ -717,8 +717,8 @@
 		assign MAX_TRIGGER_LENGTH[channel_index*16 +:16] = option_reg[channel_index*4+0][0 +:16];
 
 		// THRESHOLD configration
-		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_RISING_EDGE_THRESHOLD = 0;
-		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_FALLING_EDGE_THRESHOLD = 0;				
+		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_RISING_EDGE_THRESHOLD = 1024;
+		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_FALLING_EDGE_THRESHOLD = 512;				
 		always @(posedge S_AXI_ACLK ) begin
 			if (!S_AXI_ARESETN) begin
 				option_reg[channel_index*4+1][C_S_AXI_DATA_WIDTH-1 : 0] <= #100 {{16-`SAMPLE_WIDTH{1'b0}}, DEFAULT_RISING_EDGE_THRESHOLD, {16-`SAMPLE_WIDTH{1'b0}}, DEFAULT_FALLING_EDGE_THRESHOLD};
