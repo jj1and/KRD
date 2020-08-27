@@ -416,7 +416,7 @@ module pl_ddr_mmu # (
             m_axis_tdata <= #100 {TDATA_WIDTH{1'b1}};
             mm2s_tdata_valid <= #100 1'b0;
         end else begin
-           if (&{m_axis_tvalid, MM2S_S_AXIS_TVALID, !M_AXIS_TREADY}) begin
+           if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
                m_axis_tdata <= #100 m_axis_tdata;
                mm2s_tdata_valid <= #100 mm2s_tdata_valid;
            end else begin
@@ -430,7 +430,7 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
         end else begin
-            if (&{m_axis_tvalid, mm2s_tdata_valid, !M_AXIS_TREADY}) begin
+            if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
                 m_axis_tkeep <= #100 m_axis_tkeep;
             end else begin
                 if (!MM2S_S_AXIS_TVALID) begin
