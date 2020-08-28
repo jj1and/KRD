@@ -59,18 +59,20 @@ module header_footer_gen # (
     reg [`OBJECT_ID_WIDTH-1:0] object_id;
 
     wire signed [`SAMPLE_WIDTH-1:0] h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
-    reg signed [`CHARGE_SUM-2-1:0] h_partial_charge_sum[`SAMPLE_NUM_PER_CLK-1:0];
+    wire signed [`CHARGE_SUM-1:0] sign_extend_h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
+    reg signed [`CHARGE_SUM-1:0] h_partial_charge_sum[`SAMPLE_NUM_PER_CLK-1:0];
     wire signed [`CHARGE_SUM-1:0] charge_sum;
     wire signed [`CHARGE_SUM-1:0] h_charge_sum_step_holder [`SAMPLE_NUM_PER_CLK-2:0];
     genvar i;
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign h_gain_sample[i] = H_GAIN_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+            assign sign_extend_h_gain_sample[i] = {{`CHARGE_SUM-`SAMPLE_WIDTH{h_gain_sample[i][`SAMPLE_WIDTH-1]}}, h_gain_sample[i]};
         end
 
-        assign h_charge_sum_step_holder[0] = h_partial_charge_sum[0][`CHARGE_SUM-3-1:0] + h_partial_charge_sum[1][`CHARGE_SUM-3-1:0];//for less cost starts witch first sum (not array[0])
+        assign h_charge_sum_step_holder[0] = h_partial_charge_sum[0] + h_partial_charge_sum[1];//for less cost starts witch first sum (not array[0])
         for(i=0; i<`SAMPLE_NUM_PER_CLK-2; i=i+1) begin
-            assign h_charge_sum_step_holder[i+1] = h_charge_sum_step_holder[i] + h_partial_charge_sum[i+2][`CHARGE_SUM-3-1:0];
+            assign h_charge_sum_step_holder[i+1] = h_charge_sum_step_holder[i] + h_partial_charge_sum[i+2];
         end
     endgenerate
     assign charge_sum = h_charge_sum_step_holder[`SAMPLE_NUM_PER_CLK-2];  
@@ -162,24 +164,24 @@ module header_footer_gen # (
         if (trigger_halt|(!S_AXIS_TVALID)) begin
             frame_len <= #100 {`FRAME_LENGTH_WIDTH{1'b1}};
             for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
+                h_partial_charge_sum[j] <= #100 {`CHARGE_SUM{1'b1}};
             end
         end else begin
             if (s_axis_tvalid_posedge|split_frame) begin
                 frame_len <= #100 0;
                 for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                    h_partial_charge_sum[j] <= #100 h_gain_sample[j];
+                    h_partial_charge_sum[j] <= #100 sign_extend_h_gain_sample[j];
                 end
             end else begin
                 if (trigger_run_state!=2'b00) begin
                     frame_len <= #100 frame_len + 1;
                     for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                        h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + h_gain_sample[j];
+                        h_partial_charge_sum[j] <= #100 h_partial_charge_sum[j] + sign_extend_h_gain_sample[j];
                     end       
                 end else begin
                     frame_len <= #100 {`FRAME_LENGTH_WIDTH{1'b1}};
                     for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
-                        h_partial_charge_sum[j] <= #100 {`CHARGE_SUM-3{1'b1}};
+                        h_partial_charge_sum[j] <= #100 {`CHARGE_SUM{1'b1}};
                     end  
                 end
             end
