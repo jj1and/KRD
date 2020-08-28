@@ -49,6 +49,7 @@ module pl_ddr_mmu # (
     // S_AXIS interface for MM2S DATA port of AXI Data Mover IP
     input wire [TDATA_WIDTH-1:0] MM2S_S_AXIS_TDATA,
     input wire MM2S_S_AXIS_TVALID,
+    input wire MM2S_S_AXIS_TLAST,
     output wire MM2S_S_AXIS_TREADY,
 
     // M_AXIS interface for AXIS Interconnect
@@ -346,7 +347,8 @@ module pl_ddr_mmu # (
     reg m_axis_tvalid;
     reg mm2s_tvalid_delay;
     reg mm2s_tdata_valid;
-    wire mm2s_tvalid_posedge = (MM2S_S_AXIS_TVALID==1'b1)&(mm2s_tvalid_delay==1'b0);
+    reg new_data;
+    wire mm2s_tvalid_posedge = (mm2s_tvalid_delay==1'b0)&(MM2S_S_AXIS_TVALID==1'b1);
     wire mm2s_tdata_is_header =  (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID);
     wire mm2s_tdata_is_footer = (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
     wire m_axis_tdata_is_footer = (m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
@@ -358,11 +360,27 @@ module pl_ddr_mmu # (
         mm2s_tvalid_delay <= #100 MM2S_S_AXIS_TVALID;
     end
 
+    always @(posedge ACLK) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
+            new_data <= #100 1'b1;
+        end else begin
+            if (&{MM2S_S_AXIS_TLAST, MM2S_S_AXIS_TVALID, MM2S_S_AXIS_TREADY}) begin
+                new_data <= #100 1'b1;
+            end else begin
+                if (m_axis_tvalid) begin
+                    new_data <= #100 1'b0;
+                end else begin
+                    new_data <= #100 new_data;
+                end
+            end
+        end
+    end
+
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
-            if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
+            if (&{mm2s_tdata_is_header, MM2S_S_AXIS_TVALID, new_data}) begin
                 m_axis_tvalid <= #100 1'b1;
             end else begin
                 if (&{m_axis_tdata_is_footer, mm2s_tdata_valid, M_AXIS_TREADY}) begin
