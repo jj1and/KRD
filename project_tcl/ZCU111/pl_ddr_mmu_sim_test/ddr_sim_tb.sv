@@ -39,6 +39,7 @@ module ddr_sim_tb;
     wire [15:0] M_AXIS_0_tkeep;
 
     wire DATAMOVER_ERROR_0;
+
     
     ddr_sim_wrapper DUT (
         .*
@@ -98,7 +99,7 @@ module ddr_sim_tb;
         return result;
     endfunction
 
-    parameter integer SAMPLE_NUM = 30;
+    parameter integer SAMPLE_NUM = 512;
     int sample_frame_length[SAMPLE_NUM];
     dataframe_line_t sample_frame[SAMPLE_NUM];
 
@@ -320,12 +321,13 @@ module ddr_sim_tb;
         CONFIGURING,
         SEQUENCIAL_SENDING_TEST,
         BACKPRESSURE_SENDING_TEST,
-        RANDOM_SENDING_TEST
+        RANDOM_SENDING_TEST,
+        FULL_PRESSURE_SENDING_TEST
     } test_status;  
 
+    int full_count;
     initial begin
         int tmp_random_frame_len;
-    
         test_status = INTITIALIZE;
         /***********************************************************************************************
         * Before agent is newed, user has to run simulation with an empty testbench(disable below two
@@ -372,7 +374,12 @@ module ddr_sim_tb;
             begin
                 while(1) begin
                     @(posedge CLK);
-                    M_AXIS_0_tready <= #100 $urandom_range(0, 1);
+                    
+                    if (test_status==RANDOM_SENDING_TEST) begin
+                        M_AXIS_0_tready <= #100 $urandom_range(0, 1);
+                    end else begin
+                        break;
+                    end
                 end
             end
             begin
@@ -380,8 +387,35 @@ module ddr_sim_tb;
             end
         join_any
         $display("TEST PASSED: random frame length & backpressure sending test passed!");
-        
-        
+
+//        for (int i=0; i<SAMPLE_NUM; i++) begin
+//            sample_frame[i] = generateFrame((i%4+1)*2);
+//            sample_frame_length[i] = (i%4+1)*2;
+//        end
+        test_status = FULL_PRESSURE_SENDING_TEST;
+        full_count = 0;
+        $display("TEST START: random frame length & full-backpressure sending test start");
+        fork
+            begin
+                while(1) begin
+                    @(posedge CLK);
+                    if (full_count>2048) begin
+                        M_AXIS_0_tready <= #100 1;
+                    end else begin
+                        if (DUT.ddr_sim_i.pl_ddr_mmu_0.inst.almost_full|DUT.ddr_sim_i.pl_ddr_mmu_0.inst.full) begin
+                            M_AXIS_0_tready <= #100 0;
+                            full_count++;
+                        end else begin
+                            M_AXIS_0_tready <= #100 0;
+                        end
+                    end
+                end
+            end
+            begin
+                sample_send(sample_frame, SAMPLE_NUM, sample_frame_length);
+            end
+        join_any
+        $display("TEST PASSED: random frame length & full-backpressure sending test passed!");        
         $display("TEST PASSED: All test passed!");
         $finish;
     end

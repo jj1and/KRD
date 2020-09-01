@@ -1,8 +1,8 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Sat Jul 25 22:12:46 2020
-//Host        : Nakamura running 64-bit major release  (build 9200)
+//Date        : Mon Aug 31 16:57:33 2020
+//Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target ddr_sim_wrapper.bd
 //Design      : ddr_sim_wrapper
 //Purpose     : IP block netlist

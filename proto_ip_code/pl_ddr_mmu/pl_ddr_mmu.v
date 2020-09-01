@@ -35,13 +35,23 @@ module pl_ddr_mmu # (
     output wire S2MM_M_AXIS_TLAST,
     input wire S2MM_M_AXIS_TREADY,
 
+    // S_AXIS inferface for S2MM STS port of AXI Data Mover IP
+    input wire [31:0] S2MM_STS_S_AXIS_TDATA,
+    input wire S2MM_STS_S_AXIS_TVALID,
+    output wire S2MM_STS_S_AXIS_TREADY,
+
     // write transaction done signal from AXI Data Mover IP
-    input wire S2MM_WR_XFER_CMPLT,
+    // input wire S2MM_WR_XFER_CMPLT,
 
     // M_AXIS inferface for MM2S CMD port of AXI Data Mover IP
     output wire [ADDRESS_WIDTH+40-1:0] MM2S_CMD_M_AXIS_TDATA,
     output wire MM2S_CMD_M_AXIS_TVALID,
     input wire MM2S_CMD_M_AXIS_TREADY,
+
+    // S_AXIS inferface for MM2S STS port of AXI Data Mover IP
+    // input wire [7:0] MM2S_STS_S_AXIS_TDATA,
+    // input wire MM2S_STS_S_AXIS_TVALID,
+    // output wire MM2S_STS_S_AXIS_TREADY,
 
     // read transaction done signal frmo AXI Data Mover IP
     input wire MM2S_RD_XFER_CMPLT,
@@ -71,7 +81,7 @@ module pl_ddr_mmu # (
     assign DATAMOVER_ERROR = S2MM_ERR|MM2S_ERR;
 
     // ------------------------------- mmu configration -------------------------------
-    localparam integer BTT_WIDTH = $clog2((2**15-1)*16+3*8)+1;
+    localparam integer BTT_WIDTH = 23;
     reg [3:0] rsvd;
     reg drr;
     reg eof;
@@ -106,6 +116,43 @@ module pl_ddr_mmu # (
         end
     end
 
+    // ------------------------------- S2MM STS assigment ------------------------------
+    wire s2mm_sts_eop = S2MM_STS_S_AXIS_TDATA[31]; // IBTT-mode only
+    wire [23:0] s2mm_sts_brcvd = S2MM_STS_S_AXIS_TDATA[30:8]; // IBTT-mode only
+    wire s2mm_sts_okay = S2MM_STS_S_AXIS_TDATA[7];
+    wire s2mm_sts_slverr = S2MM_STS_S_AXIS_TDATA[6];
+    wire s2mm_sts_decerr = S2MM_STS_S_AXIS_TDATA[5];
+    wire s2mm_sts_interr = S2MM_STS_S_AXIS_TDATA[4];
+    wire [3:0] s2mm_sts_tag = S2MM_STS_S_AXIS_TDATA[3:0];
+    wire s2mm_transfer_cmpltD = &{s2mm_sts_okay, !s2mm_sts_slverr, !s2mm_sts_decerr, !s2mm_sts_interr, s2mm_sts_tag==s2mm_tag, S2MM_STS_S_AXIS_TVALID};
+    reg s2mm_transfer_cmplt;
+    assign S2MM_STS_S_AXIS_TREADY = 1'b1;
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG}) begin
+            s2mm_transfer_cmplt <= #100 1'b1;
+        end else begin
+            if (s2mm_transfer_cmpltD) begin
+                s2mm_transfer_cmplt <= #100 1'b1;
+            end else begin
+                if (S2MM_CMD_M_AXIS_TVALID&S2MM_CMD_M_AXIS_TREADY) begin
+                    s2mm_transfer_cmplt <= #100 1'b0;
+                end else begin
+                    s2mm_transfer_cmplt <= #100 s2mm_transfer_cmplt;
+                end
+            end
+        end
+    end
+
+    // ------------------------------- MM2S STS assigment ------------------------------
+    // wire mm2s_sts_okay = MM2S_STS_S_AXIS_TDATA[7];
+    // wire mm2s_sts_slverr = MM2S_STS_S_AXIS_TDATA[6];
+    // wire mm2s_sts_decerr = MM2S_STS_S_AXIS_TDATA[5];
+    // wire mm2s_sts_interr = MM2S_STS_S_AXIS_TDATA[4];
+    // wire [3:0] mm2s_sts_tag = MM2S_STS_S_AXIS_TDATA[3:0];
+    // wire mm2s_transfer_cmplt = &{mm2s_sts_okay, !mm2s_sts_slverr, !mm2s_sts_decerr, !mm2s_sts_interr, mm2s_sts_tag==mm2s_tag, MM2S_STS_S_AXIS_TVALID};
+    // assign MM2S_STS_S_AXIS_TREADY = 1'b1;
+
     // ------------------------------- write/read address control -------------------------------
     reg [LOCAL_ADDRESS_WIDTH:0] src_addr;
     reg [LOCAL_ADDRESS_WIDTH:0] dest_addr;
@@ -122,7 +169,7 @@ module pl_ddr_mmu # (
             dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (S2MM_WR_XFER_CMPLT) begin
+            if (s2mm_transfer_cmpltD) begin
                 if (dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
                     dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~dest_addr[LOCAL_ADDRESS_WIDTH];
@@ -147,7 +194,7 @@ module pl_ddr_mmu # (
             next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
-            if (S2MM_WR_XFER_CMPLT) begin
+            if (s2mm_transfer_cmpltD) begin
                 if (next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
                     next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
                     next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_dest_addr[LOCAL_ADDRESS_WIDTH];
@@ -227,7 +274,7 @@ module pl_ddr_mmu # (
             if (|{S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
                 write_ready <= #100 1'b0;
             end else begin
-                if (S2MM_WR_XFER_CMPLT) begin
+                if (&{s2mm_transfer_cmplt, !almost_full, !full}) begin
                     write_ready <= #100 1'b1;
                 end else begin
                     write_ready <= #100 write_ready;
@@ -237,9 +284,9 @@ module pl_ddr_mmu # (
     end
     
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
-    assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, write_ready, !almost_full, !full};
-    assign S2MM_M_AXIS_TLAST = S_AXIS_TLAST;
-    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, write_ready, !almost_full, !full};
+    assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, write_ready};
+    assign S2MM_M_AXIS_TLAST = &{S_AXIS_TLAST, write_ready};
+    assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, write_ready};
 
     // ------------------------------- S2MM Command assigment -------------------------------
     reg s2mm_cmd_tvaild;
@@ -265,7 +312,7 @@ module pl_ddr_mmu # (
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
             s2mm_tag <= #100 0;
         end else begin
-            if (S2MM_WR_XFER_CMPLT) begin
+            if (s2mm_transfer_cmpltD) begin
                 s2mm_tag <= #100 s2mm_tag+1;
             end else begin
                 s2mm_tag <= #100 s2mm_tag;
@@ -288,7 +335,7 @@ module pl_ddr_mmu # (
     // end
     // assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, src_addr+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, s2mm_btt};
 
-    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, max_btt};
+    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, max_btt};
     assign S2MM_CMD_M_AXIS_TVALID = s2mm_cmd_tvaild;
 
     // ------------------------------- MM2S Command assigment -------------------------------
@@ -340,7 +387,7 @@ module pl_ddr_mmu # (
         end
     end    
 
-    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, mm2s_tag, src_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, max_btt};
+    assign MM2S_CMD_M_AXIS_TDATA = {rsvd, mm2s_tag, src_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, max_btt};
     assign MM2S_CMD_M_AXIS_TVALID = mm2s_cmd_tvalid;
 
     // ------------------------------- M_AXIS/MM2S DATA assigment -------------------------------
@@ -367,7 +414,7 @@ module pl_ddr_mmu # (
             if (&{MM2S_S_AXIS_TLAST, MM2S_S_AXIS_TVALID, MM2S_S_AXIS_TREADY}) begin
                 new_data <= #100 1'b1;
             end else begin
-                if (m_axis_tvalid) begin
+                if (&{mm2s_tdata_is_footer, MM2S_S_AXIS_TVALID, MM2S_S_AXIS_TREADY}) begin
                     new_data <= #100 1'b0;
                 end else begin
                     new_data <= #100 new_data;
@@ -451,18 +498,15 @@ module pl_ddr_mmu # (
             if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
                 m_axis_tkeep <= #100 m_axis_tkeep;
             end else begin
-                if (!MM2S_S_AXIS_TVALID) begin
-                    m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+                if (mm2s_tdata_is_footer&MM2S_S_AXIS_TVALID) begin
+                    m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
                 end else begin
-                    if (mm2s_tdata_is_footer) begin
-                        m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
-                    end else begin
-                        m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
-                    end                    
-                end
+                    m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
+                end                        
             end
         end
     end
+
 
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;
