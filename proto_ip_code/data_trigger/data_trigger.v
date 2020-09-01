@@ -87,6 +87,7 @@ module data_trigger # (
     // ------------------------------- data stream for dataformat generation -------------------------------
     wire signed [`ADC_RESOLUTION_WIDTH:0] rfdc_sample[`SAMPLE_NUM_PER_CLK-1:0];
     wire signed [`ADC_RESOLUTION_WIDTH:0] h_gain_bl_subtracted[`SAMPLE_NUM_PER_CLK-1:0];
+    wire signed [`SAMPLE_WIDTH-1:0] l_gain_sample[`LGAIN_SAMPLE_NUM_PER_CLK-1:0];
     wire signed [`SAMPLE_WIDTH-1:0] l_gain_bl_subtracted[`LGAIN_SAMPLE_NUM_PER_CLK-1:0];
     wire [`RFDC_TDATA_WIDTH-1:0] normal_tdata; 
     wire [`RFDC_TDATA_WIDTH-1:0] combined_tdata;
@@ -105,7 +106,8 @@ module data_trigger # (
                 assign average_of_2samples[i] = sum_of_2samples[i][`SAMPLE_WIDTH:1]; // divided by 2nsec
             end
             for (i=0; i<2; i=i+1) begin
-                assign l_gain_bl_subtracted[i] = L_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] - l_gain_baseline;
+                assign l_gain_sample[i] = L_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
+                assign l_gain_bl_subtracted[i] = l_gain_sample[i] - l_gain_baseline;
                 assign combined_tdata[i*(`RFDC_TDATA_WIDTH/2) +:(`RFDC_TDATA_WIDTH/2)] = {16'hCC00, average_of_2samples[i*2+1], average_of_2samples[i*2],  l_gain_bl_subtracted[i]};
             end
     endgenerate

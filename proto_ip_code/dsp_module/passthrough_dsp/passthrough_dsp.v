@@ -44,7 +44,7 @@ module passthrough_dsp (
     end
 
     wire signed [`ADC_RESOLUTION_WIDTH-1:0] h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
-
+    wire signed [`ADC_RESOLUTION_WIDTH:0]  sign_extend_h_gain_sample[`SAMPLE_NUM_PER_CLK-1:0];
     reg [`RFDC_TDATA_WIDTH-1:0] h_gain_tdata;
     wire signed [`ADC_RESOLUTION_WIDTH:0] h_gain_sample_bl_subtracted[`SAMPLE_NUM_PER_CLK-1:0];
 
@@ -57,7 +57,8 @@ module passthrough_dsp (
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign h_gain_sample[i] = H_S_AXIS_TDATA[i*`SAMPLE_WIDTH+(`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH) +:`ADC_RESOLUTION_WIDTH];
-            assign h_gain_sample_bl_subtracted[i] = { h_gain_sample[i][`ADC_RESOLUTION_WIDTH-1], h_gain_sample[i] } - h_gain_baseline;
+            assign sign_extend_h_gain_sample[i] = { h_gain_sample[i][`ADC_RESOLUTION_WIDTH-1], h_gain_sample[i] };
+            assign h_gain_sample_bl_subtracted[i] = sign_extend_h_gain_sample[i] - h_gain_baseline;
             assign dsp_sample[i] = { {`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){h_gain_sample_bl_subtracted[i][`ADC_RESOLUTION_WIDTH]}}, h_gain_sample_bl_subtracted[i] };
         end
 
