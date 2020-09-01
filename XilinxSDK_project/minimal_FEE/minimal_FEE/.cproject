@@ -28,7 +28,7 @@
 								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.1433954922" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../minimal_FEE_bsp/psu_cortexa53_0/include"/>
 								</option>
-								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1500082405" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -D __BAREMETAL__" valueType="string"/>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1500082405" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value="   -D __BAREMETAL__" valueType="string"/>
 								<inputType id="xilinx.gnu.arm.a53.c.compiler.input.892229748" name="C source files" superClass="xilinx.gnu.arm.a53.c.compiler.input"/>
 							</tool>
 							<tool id="xilinx.gnu.arm.a53.cxx.toolchain.compiler.debug.1519180693" name="ARM v8 g++ compiler" superClass="xilinx.gnu.arm.a53.cxx.toolchain.compiler.debug">
@@ -37,7 +37,7 @@
 								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.158668866" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../minimal_FEE_bsp/psu_cortexa53_0/include"/>
 								</option>
-								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.718996094" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -D __BAREMETAL__" valueType="string"/>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.718996094" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value="   -D __BAREMETAL__" valueType="string"/>
 							</tool>
 							<tool id="xilinx.gnu.arm.a53.toolchain.archiver.966455561" name="ARM v8 archiver" superClass="xilinx.gnu.arm.a53.toolchain.archiver"/>
 							<tool id="xilinx.gnu.arm.a53.c.toolchain.linker.debug.1474909726" name="ARM v8 gcc linker" superClass="xilinx.gnu.arm.a53.c.toolchain.linker.debug">
@@ -46,6 +46,8 @@
 								</option>
 								<option id="xilinx.gnu.linker.inferred.swplatform.flags.188210268" superClass="xilinx.gnu.linker.inferred.swplatform.flags" valueType="libs">
 									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lfreertos,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-llwip4,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lmetal,-lgcc,-lc,--end-group"/>
 								</option>
 								<option id="xilinx.gnu.c.linker.option.lscript.1607743378" superClass="xilinx.gnu.c.linker.option.lscript" value="../src/lscript.ld" valueType="string"/>
 								<inputType id="xilinx.gnu.linker.input.310074325" superClass="xilinx.gnu.linker.input">
@@ -60,6 +62,8 @@
 								</option>
 								<option id="xilinx.gnu.linker.inferred.swplatform.flags.1810337006" superClass="xilinx.gnu.linker.inferred.swplatform.flags" valueType="libs">
 									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lfreertos,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-llwip4,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lmetal,-lgcc,-lc,--end-group"/>
 								</option>
 								<option id="xilinx.gnu.c.linker.option.lscript.421181101" superClass="xilinx.gnu.c.linker.option.lscript" value="../src/lscript.ld" valueType="string"/>
 							</tool>
@@ -97,7 +101,7 @@
 								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.816573908" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../minimal_FEE_bsp/psu_cortexa53_0/include"/>
 								</option>
-								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.713023128" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -D __BAREMETAL__" valueType="string"/>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.713023128" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value="   -D __BAREMETAL__" valueType="string"/>
 								<inputType id="xilinx.gnu.arm.a53.c.compiler.input.1490316559" name="C source files" superClass="xilinx.gnu.arm.a53.c.compiler.input"/>
 							</tool>
 							<tool id="xilinx.gnu.arm.a53.cxx.toolchain.compiler.release.884706187" name="ARM v8 g++ compiler" superClass="xilinx.gnu.arm.a53.cxx.toolchain.compiler.release">
@@ -106,7 +110,7 @@
 								<option id="xilinx.gnu.compiler.inferred.swplatform.includes.359553860" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../minimal_FEE_bsp/psu_cortexa53_0/include"/>
 								</option>
-								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1628731776" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" -D __BAREMETAL__" valueType="string"/>
+								<option id="xilinx.gnu.compiler.inferred.swplatform.flags.1628731776" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value="   -D __BAREMETAL__" valueType="string"/>
 							</tool>
 							<tool id="xilinx.gnu.arm.a53.toolchain.archiver.239590097" name="ARM v8 archiver" superClass="xilinx.gnu.arm.a53.toolchain.archiver"/>
 							<tool id="xilinx.gnu.arm.a53.c.toolchain.linker.release.115041702" name="ARM v8 gcc linker" superClass="xilinx.gnu.arm.a53.c.toolchain.linker.release">
@@ -115,6 +119,8 @@
 								</option>
 								<option id="xilinx.gnu.linker.inferred.swplatform.flags.1703177788" superClass="xilinx.gnu.linker.inferred.swplatform.flags" valueType="libs">
 									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lfreertos,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-llwip4,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lmetal,-lgcc,-lc,--end-group"/>
 								</option>
 								<option id="xilinx.gnu.c.linker.option.lscript.455483595" superClass="xilinx.gnu.c.linker.option.lscript" value="../src/lscript.ld" valueType="string"/>
 								<inputType id="xilinx.gnu.linker.input.8809918" superClass="xilinx.gnu.linker.input">
@@ -129,6 +135,8 @@
 								</option>
 								<option id="xilinx.gnu.linker.inferred.swplatform.flags.217244123" superClass="xilinx.gnu.linker.inferred.swplatform.flags" valueType="libs">
 									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lfreertos,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-llwip4,-lgcc,-lc,--end-group"/>
+									<listOptionValue builtIn="false" value="-Wl,--start-group,-lxil,-lmetal,-lgcc,-lc,--end-group"/>
 								</option>
 								<option id="xilinx.gnu.c.linker.option.lscript.1669605349" superClass="xilinx.gnu.c.linker.option.lscript" value="../src/lscript.ld" valueType="string"/>
 							</tool>
@@ -159,4 +167,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.xilinx.managedbuilder.ui.ARMA53GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

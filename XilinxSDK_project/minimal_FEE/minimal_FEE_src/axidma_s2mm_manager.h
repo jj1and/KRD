@@ -73,15 +73,6 @@
 #define RX_BUFFER_SIZE (RX_BUFFER_HIGH - RX_BUFFER_BASE)
 #define AXIDMA_BUFF_SIZE 16384
 
-/* The interrupt coalescing threshold and delay timer threshold
- * Valid range is 1 to 255
- *
- * We set the coalescing threshold to be the total number of packets.
- * The receive side will only get one completion interrupt for this example.
- */
-#define COALESCING_COUNT NUMBER_OF_PKTS_TO_TRANSFER
-#define DELAY_TIMER_COUNT 100
-
 #ifdef XPAR_INTC_0_DEVICE_ID
 #define INTC XIntc
 #define INTC_HANDLER XIntc_InterruptHandler

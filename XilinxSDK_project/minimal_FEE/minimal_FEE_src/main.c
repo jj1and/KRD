@@ -58,7 +58,7 @@
 
 const u8 PRE_ACQUISITION_LENGTH = 1;
 const u8 POST_ACQUISITION_LENGTH = 1;
-const short int RISING_EDGE_THRESHOLD = 256;
+const short int RISING_EDGE_THRESHOLD = 128;
 const short int FALLING_EDGE_THRESHOLD = 0;
 
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
@@ -101,6 +101,7 @@ int main() {
     xil_printf("minimal FEE Start\r\n");
     double refClkFreq_MHz = 245.76;
     double samplingRate_Msps = 1966.08;
+
     Status = rfdcSingle_setup(RFDC_DEVICE_ID, RFDC_ADC_TILE, 0, refClkFreq_MHz, samplingRate_Msps);
     if (Status != XST_SUCCESS) {
         xil_printf("Failed to setup RF Data Converter\r\n");
@@ -136,11 +137,6 @@ int main() {
     Status = SetMaxTriggerLength(MAX_TRIGGER_LEN);
     Status = SetAcquisitionLength(PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH);
     Status = SetThreshold(RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD);
-
-    Status = SetMode(NORMAL_ACQUIRE_MODE);
-    if (Status != XST_SUCCESS) {
-        return XST_FAILURE;
-    }
 
     xTaskCreate(prvDmaTask, (const char *)"AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO + 1, &xDmaTask);
     sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
@@ -301,7 +297,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     u32 read_object_id;
     u8 read_footer_id;
 
-    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 4) * sizeof(u64));
+    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*2 + 4) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
@@ -313,22 +309,23 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
 
     read_footer_id = (dataptr[read_trigger_length + 3 - 1] >> 56) & 0x000000FF;
     read_object_id = dataptr[read_trigger_length + 3 - 1] & 0xFFFFFFFF;
-    read_footer_timestamp = (dataptr[read_trigger_length + 3 - 1] >> 8) & 0x00000FFFFFF000000;
+    read_footer_timestamp = ((dataptr[read_trigger_length + 3 - 1] & 0x00FFFFFF00000000) >> 8) & 0x00000FFFFFF000000;
 
-    if (print_enable != 0) {
+    if (print_enable > 1) {
         printData(dataptr, read_trigger_length + 3);
     }
-//    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
-//               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
-
+    if (print_enable > 0){
+    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
+               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
+    }
     if (read_object_id == 0) {
         // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
         // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-        if ((read_trigger_info & 0x60) != 0x20) {
-            xil_printf("trigger_info mismatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0x60, 0x20);
-            Status = XST_FAILURE;
+    	if ((read_trigger_info & 0x60) == 0x60) {
+            	xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x60, 0x20, 0x40);
+            	Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
@@ -338,22 +335,13 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
             Status = LAST_FRAME;
         }
 
-    } else {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0111_0000 == 8'b0101_0000
-        // left: mask except trigger state and frame_continue
-        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        if ((read_trigger_info & 0x70) == 0x50) {
-//            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
-            Status = INTERNAL_BUFFER_FULL;
-        } else if ((read_trigger_info & 0x10) == 0x00) {
+    } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
 //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
-        }
     }
 
     if (read_header_id != 0xAA) {
@@ -391,6 +379,7 @@ void prvDmaTask(void *pvParameters) {
     u64 dump_recv_size = 0;
 
     u64 *dataptr;
+    flush_ptr();
     if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
         xil_printf("Failed to setup interrupt controller.\r\n");
     }
@@ -401,6 +390,11 @@ void prvDmaTask(void *pvParameters) {
      vTaskSuspend(NULL);
 
     xil_printf("sequential sending test\r\n");
+    int Status = SetMode(NORMAL_ACQUIRE_MODE);
+    if (Status != XST_SUCCESS) {
+        return;
+    }
+
     while (TRUE) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
