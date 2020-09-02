@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v3_20200901_13.bin"
+BASE_FILE_NAME = "./data/recv_buff_v3_20200902_03.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = BASE_FILE_NAME.replace(
@@ -12,6 +12,8 @@ npz_waveform_name = BASE_FILE_NAME.replace('.bin', '_waveform.npz')
 TIMESTAMP_CLK_Hz = 122.88*1E6
 EFFECTIVE_ADC_CLK_Hz = TIMESTAMP_CLK_Hz*8
 SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
+
+plot_color = {0: 'steelblue', 1: 'firebrick'}
 
 if __name__ == "__main__":
     pd_dfs = pd.read_pickle(pickle_pddfs_name,
@@ -26,12 +28,12 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 38700) & (pd_dfs['OBJECT_ID'] >= 38500)].index):
+    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 100) & (pd_dfs['OBJECT_ID'] >= 0)].index):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
         t = (pd_dfs['TIMESTAMP'][i]-t0)/TIMESTAMP_CLK_Hz + \
             np.arange(sample_num)/EFFECTIVE_ADC_CLK_Hz
-        ax.plot(t*1E9, wav, color='steelblue',
+        ax.plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
                 linestyle='-', marker='o', markersize=5)
 
     xmin, xmax = ax.get_xlim()
