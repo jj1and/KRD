@@ -54,7 +54,7 @@
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = 256;
+const int RISING_EDGE_THRESHOLD = 64;
 const int FALLING_EDGE_THRESHOLD = 0;
 const u32 PRE_ACQUISITION_LENGTH = 1;
 const u32 POST_ACQUISITION_LENGTH = 1;
@@ -114,7 +114,7 @@ int main() {
     if (Status != XST_SUCCESS) xil_printf("Failed to Setup AXI-DMA\r\n");
 
     xTaskCreate(prvDmaTask, (const char *)"AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO + 1, &xDmaTask);
-//    sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+    sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
     vTaskStartScheduler();
     while (1)
         ;
@@ -191,7 +191,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     u32 read_object_id;
     u8 read_footer_id;
 
-    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 4) * sizeof(u64));
+    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*2 + 4) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
@@ -203,47 +203,39 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
 
     read_footer_id = (dataptr[read_trigger_length + 3 - 1] >> 56) & 0x000000FF;
     read_object_id = dataptr[read_trigger_length + 3 - 1] & 0xFFFFFFFF;
-    read_footer_timestamp = (dataptr[read_trigger_length + 3 - 1] >> 8) & 0x00000FFFFFF000000;
+    read_footer_timestamp = ((dataptr[read_trigger_length + 3 - 1] & 0x00FFFFFF00000000) >> 8) & 0x00000FFFFFF000000;
 
-    if (print_enable != 0) {
+    if (print_enable > 1) {
         printData(dataptr, read_trigger_length + 3);
     }
-        xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
-                   read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
-
+    if (print_enable > 0){
+    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
+               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
+    }
     if (read_object_id == 0) {
         // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
         // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-        if ((read_trigger_info & 0x60) != 0x20) {
-            xil_printf("trigger_info mismatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0x60, 0x20);
-            Status = XST_FAILURE;
+    	if ((read_trigger_info & 0x60) == 0x60) {
+            	xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x60, 0x20, 0x40);
+            	Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-            //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
         }
 
-    } else {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0111_0000 == 8'b0101_0000
-        // left: mask except trigger state and frame_continue
-        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        if ((read_trigger_info & 0x70) == 0x50) {
-            //            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
-            Status = INTERNAL_BUFFER_FULL;
-        } else if ((read_trigger_info & 0x10) == 0x00) {
+    } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-            //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
-        }
     }
 
     if (read_header_id != 0xAA) {
@@ -259,36 +251,37 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
 
     if (read_footer_id != 0x55) {
         xil_printf("FOOTER_ID mismatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
+        printData(dataptr, read_trigger_length + 3);
         Status = XST_FAILURE;
     }
 
     *rcvd_frame_length = read_trigger_length + 4;
     incr_wrptr_after_write(read_trigger_length + 4);
-    //    xil_printf("\n");
+//    xil_printf("\n");
     return Status;
 }
 
 void prvDmaTask(void *pvParameters) {
-    int fee_status;
-    int s2mm_dma_state = XST_SUCCESS;
-    int check_result = LAST_FRAME;
-    dma_task_end_flag = DMA_TASK_READY;
+	int fee_status;
+	int s2mm_dma_state = XST_SUCCESS;
+	int check_result = LAST_FRAME;
+	dma_task_end_flag = DMA_TASK_READY;
 
-    int test_send_frame_count = 2048;
-    int send_frame_count = 0;
+	int test_send_frame_count = 2048;
+	int send_frame_count = 0;
 
-    u64 rcvd_frame_len;
-    u64 dump_recv_size = 0;
+	u64 rcvd_frame_len;
+	u64 dump_recv_size = 0;
 
-    u64 *dataptr;
-    if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
-        xil_printf("Failed to setup interrupt controller.\r\n");
-    }
+	u64 *dataptr;
+	if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
+		xil_printf("Failed to setup interrupt controller.\r\n");
+	}
 
     vApplicationDaemonRxTaskStartupHook();
-    // xil_printf("Dmatask start up done\r\n");
-    // xil_printf("Waiting Send2PC task start\r\n");
-    // vTaskSuspend(NULL);
+    xil_printf("Dmatask start up done\r\n");
+	xil_printf("Waiting Send2PC task start\r\n");
+	vTaskSuspend(NULL);
 
     xil_printf("FEE start\r\n");
     fee_status = HardwareTrigger_StartDeviceId(0);
@@ -312,28 +305,30 @@ void prvDmaTask(void *pvParameters) {
 
         if ((s2mm_dma_state == XST_SUCCESS) || buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
             dataptr = get_wrptr();
-            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 1, &rcvd_frame_len);
+            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 0, &rcvd_frame_len);
             if (check_result == XST_FAILURE) {
                 break;
             }
+//            rcvd_frame_len = ((dataptr[0] >> (24 + 8)) & 0x00000FFF) + 4;
+//            incr_wrptr_after_write(rcvd_frame_len);
             dump_recv_size += rcvd_frame_len * sizeof(u64);
             send_frame_count++;
         }
 
-        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
-            xil_printf("Total recieved frame count reached the target number!\r\n");
-            break;
+//        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
+//            xil_printf("Total recieved frame count reached the target number!\r\n");
+//            break;
+//        }
+
+        if (dump_recv_size > SEND_BUF_SIZE) {
+            dump_recv_size = 0;
+            xTaskNotifyGive(app_thread);
+            vTaskSuspend(NULL);
         }
 
-        // if (dump_recv_size > SEND_BUF_SIZE) {
-        //     dump_recv_size = 0;
-        //     xTaskNotifyGive(app_thread);
-        //     vTaskSuspend(NULL);
-        // }
-
-        // if (socket_close_flag == SOCKET_CLOSE) {
-        //     break;
-        // }
+        if (socket_close_flag == SOCKET_CLOSE) {
+            break;
+        }
     }
 
     xil_printf("FEE shutdown.\r\n");

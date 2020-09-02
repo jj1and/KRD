@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Wed Aug 26 15:19:44 2020
+//Date        : Wed Sep  2 13:29:19 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -37,8 +37,6 @@ module design_1_wrapper
     ddr4_sdram_reset_n,
     default_sysclk1_300mhz_clk_n,
     default_sysclk1_300mhz_clk_p,
-    default_sysclk3_100mhz_clk_n,
-    default_sysclk3_100mhz_clk_p,
     sysref_in_diff_n,
     sysref_in_diff_p,
     vin0_01_v_n,
@@ -76,8 +74,6 @@ module design_1_wrapper
   output ddr4_sdram_reset_n;
   input default_sysclk1_300mhz_clk_n;
   input default_sysclk1_300mhz_clk_p;
-  input default_sysclk3_100mhz_clk_n;
-  input default_sysclk3_100mhz_clk_p;
   input sysref_in_diff_n;
   input sysref_in_diff_p;
   input vin0_01_v_n;
@@ -116,8 +112,6 @@ module design_1_wrapper
   wire ddr4_sdram_reset_n;
   wire default_sysclk1_300mhz_clk_n;
   wire default_sysclk1_300mhz_clk_p;
-  wire default_sysclk3_100mhz_clk_n;
-  wire default_sysclk3_100mhz_clk_p;
   wire sysref_in_diff_n;
   wire sysref_in_diff_p;
   wire vin0_01_v_n;
@@ -157,8 +151,6 @@ module design_1_wrapper
         .ddr4_sdram_reset_n(ddr4_sdram_reset_n),
         .default_sysclk1_300mhz_clk_n(default_sysclk1_300mhz_clk_n),
         .default_sysclk1_300mhz_clk_p(default_sysclk1_300mhz_clk_p),
-        .default_sysclk3_100mhz_clk_n(default_sysclk3_100mhz_clk_n),
-        .default_sysclk3_100mhz_clk_p(default_sysclk3_100mhz_clk_p),
         .sysref_in_diff_n(sysref_in_diff_n),
         .sysref_in_diff_p(sysref_in_diff_p),
         .vin0_01_v_n(vin0_01_v_n),

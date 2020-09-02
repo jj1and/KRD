@@ -1,5 +1,4 @@
 create_clock -period 8.138 -name {PL_CLK_in_0_clk_p[0]} [get_ports {PL_CLK_in_0_clk_p[0]}]
-set_clock_groups -name asy_grp1 -asynchronous -group [get_clocks {PL_CLK_in_0_clk_p[0]}] -group [get_clocks clk_out1_design_1_clk_wiz_0_0]
 
 set_property IOSTANDARD LVCMOS18 [get_ports DATAMOVER_ERROR_LED]
 set_property IOSTANDARD LVCMOS18 [get_ports DF_GEN_ERROR_LED]
@@ -7,7 +6,3 @@ set_property IOSTANDARD LVCMOS18 [get_ports EXT_RESET]
 set_property PACKAGE_PIN AF15 [get_ports EXT_RESET]
 set_property PACKAGE_PIN AR16 [get_ports DATAMOVER_ERROR_LED]
 set_property PACKAGE_PIN AP13 [get_ports DF_GEN_ERROR_LED]
-set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
-set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
-connect_debug_port dbg_hub/clk [get_nets clk]
