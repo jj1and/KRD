@@ -55,6 +55,7 @@ project_tcl/ZCU111/rfdc_latency_check/rfdc_latency_check
 project_tcl/ZCU111/minimal_FEE/minimal_FEE
 project_tcl/ZCU111/minimal_FEE_2ch/minimal_FEE_2ch
 project_tcl/ZCU111/minimal_FEE_SG_mode/minimal_FEE_SG_mode
+project_tcl/ZCU111/minimal_FEE_2ch_HS/minimal_FEE_2ch_HS
 
 # --- SDK specific ---
 /XilinxSDK_project_old/

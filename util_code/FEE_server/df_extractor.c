@@ -35,11 +35,23 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
             fall_thre_array[frame_index] = (int)fall_thre;
 
             for (unsigned int j = 0; j < frame_len; j++) {
-                long long sample_3 = (long long)(bin_data[i + 2 + j] & 0xFFFF000000000000) >> 48;
-                long long sample_2 = (long long)((bin_data[i + 2 + j] & 0x0000FFFF00000000) << 16) >> 48;
-                long long sample_1 = (long long)((bin_data[i + 2 + j] & 0x00000000FFFF0000) << 32) >> 48;
-                long long sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                long long sample_3;
+                long long sample_2;
+                long long sample_1;
+                long long sample_0;
 
+                if ((bin_data[i + 2 + j] & 0xFFFF000000000000) == 0xCC00000000000000) {
+                    // assign L-gain value only
+                    sample_3 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                    sample_2 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                    sample_1 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                    sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                } else {
+                    sample_3 = (long long)(bin_data[i + 2 + j] & 0xFFFF000000000000) >> 48;
+                    sample_2 = (long long)((bin_data[i + 2 + j] & 0x0000FFFF00000000) << 16) >> 48;
+                    sample_1 = (long long)((bin_data[i + 2 + j] & 0x00000000FFFF0000) << 32) >> 48;
+                    sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                }
                 waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_0;
                 waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_1;
                 waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_2;
