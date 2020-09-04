@@ -3,9 +3,6 @@
 #include "xdebug.h"
 #include "xil_exception.h"
 
-static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
-static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
-
 /*****************************************************************************/
 /*
 *
@@ -23,31 +20,10 @@ static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 static void RxCallBack(XAxiDma_BdRing *RxRingPtr) {
     int BdCount;
     XAxiDma_Bd *BdPtr;
-    XAxiDma_Bd *BdCurPtr;
-    u32 BdSts;
-    int Index;
 
     /* Get finished BDs from hardware */
     BdCount = XAxiDma_BdRingFromHw(RxRingPtr, XAXIDMA_ALL_BDS, &BdPtr);
-
-    BdCurPtr = BdPtr;
-    for (Index = 0; Index < BdCount; Index++) {
-        /*
-		 * Check the flags set by the hardware for status
-		 * If error happens, processing stops, because the DMA engine
-		 * is halted after this BD.
-		 */
-        BdSts = XAxiDma_BdGetSts(BdCurPtr);
-        if ((BdSts & XAXIDMA_BD_STS_ALL_ERR_MASK) ||
-            (!(BdSts & XAXIDMA_BD_STS_COMPLETE_MASK))) {
-            Error = 1;
-            break;
-        }
-
-        /* Find the next processed BD */
-        BdCurPtr = (XAxiDma_Bd *)XAxiDma_BdRingNext(RxRingPtr, BdCurPtr);
-        RxDone += 1;
-    }
+    RxDone += BdCount;
 }
 
 /*****************************************************************************/
@@ -262,7 +238,6 @@ int SetupRxIntrSystem(INTC *IntcInstancePtr,
 * This function disables the interrupts for DMA engine.
 *
 * @param	IntcInstancePtr is the pointer to the INTC component instance
-* @param	TxIntrId is interrupt ID associated w/ DMA TX channel
 * @param	RxIntrId is interrupt ID associated w/ DMA RX channel
 *
 * @return	None.
@@ -273,14 +248,13 @@ int SetupRxIntrSystem(INTC *IntcInstancePtr,
 static void DisableIntrSystem(INTC *IntcInstancePtr, u16 RxIntrId) {
 #ifdef XPAR_INTC_0_DEVICE_ID
     /* Disconnect the interrupts for the DMA TX and RX channels */
-    XIntc_Disconnect(IntcInstancePtr, TxIntrId);
     XIntc_Disconnect(IntcInstancePtr, RxIntrId);
 #else
     XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
 #endif
 }
 
-static int axidma_setup() {
+int axidma_setup() {
     XAxiDma_Config *DmaConfig;
     XAxiDma_BdRing *RxRingPtr;
     int Status;
@@ -343,13 +317,13 @@ static int axidma_setup() {
     }
 
     BdCurPtr = BdPtr;
-    RxBufferWrPtr = RX_BUFFER_BASE;
+    u64 *RxBufferPtr = RX_BUFFER_BASE;
 
     for (Index = 0; Index < FreeBdCount; Index++) {
-        Status = XAxiDma_BdSetBufAddr(BdCurPtr, RxBufferWrPtr);
+        Status = XAxiDma_BdSetBufAddr(BdCurPtr, RxBufferPtr);
         if (Status != XST_SUCCESS) {
             xil_printf("ERROR: Rx set buffer addr %x on BD %x failed %d\r\n",
-                       (unsigned int)RxBufferWrPtr,
+                       (unsigned int)RxBufferPtr,
                        (UINTPTR)BdCurPtr, Status);
 
             return XST_FAILURE;
@@ -369,9 +343,9 @@ static int axidma_setup() {
 		 */
         XAxiDma_BdSetCtrl(BdCurPtr, 0);
 
-        XAxiDma_BdSetId(BdCurPtr, RxBufferWrPtr);
+        XAxiDma_BdSetId(BdCurPtr, RxBufferPtr);
 
-        RxBufferWrPtr += MAX_PKT_LEN;
+        RxBufferPtr += MAX_PKT_LEN;
         BdCurPtr = (XAxiDma_Bd *)XAxiDma_BdRingNext(RxRingPtr, BdCurPtr);
     }
 
@@ -397,6 +371,9 @@ static int axidma_setup() {
 
     /* Enable all RX interrupts */
     XAxiDma_BdRingIntEnable(RxRingPtr, XAXIDMA_IRQ_ALL_MASK);
+    /* Enable Cyclic DMA mode */
+    XAxiDma_BdRingEnableCyclicDMA(RxRingPtr);
+    XAxiDma_SelectCyclicMode(&AxiDma, XAXIDMA_DEVICE_TO_DMA, 1);
 
     return XST_SUCCESS;
 }
@@ -414,53 +391,34 @@ int axidma_recv_buff() {
     return XST_SUCCESS;
 }
 
-int incr_wrptr_after_write(u64 size) {
-    u64 *expectedPtr;
-    expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN / sizeof(u64) - size;
-    if (RxBufferWrPtr > expectedPtr) {
-        xil_printf("Buffer is full\r\n");
-        return -1;
-    } else {
-        RxBufferWrPtr = RxBufferWrPtr + size;
-    }
-    return 0;
+u64 *get_wrptr() {
+    u64 *wrptr;
+    XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
+    int FreeBDNum = RxRingPtr->FreeCnt;
+    int CurDestBlock = RxDone % FreeBDNum;
+    wrptr = (u64 *)RX_BUFFER_BASE + (u8)(MAX_PKT_LEN * CurDestBlock);
+    return wrptr;
+}
+u64 *get_rdptr() {
+    u64 *rdptr;
+    XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
+    int FreeBDNum = RxRingPtr->FreeCnt;
+    int CurSrcBlock = SendDone % FreeBDNum;
+    rdptr = (u64 *)RX_BUFFER_BASE + (u8)(MAX_PKT_LEN * CurSrcBlock);
+    return rdptr;
 }
 
-int decr_wrptr_after_read(u64 size) {
-    u64 *expectedPtr;
-    expectedPtr = (u64 *)RX_BUFFER_BASE + size;
-    if (RxBufferWrPtr < expectedPtr) {
-        xil_printf("Buffer is empty\r\n");
-        return -1;
-    } else {
-        RxBufferWrPtr = RxBufferWrPtr - size;
-    }
-    return 0;
+int buff_will_be_full() {
+    XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
+    int FreeBDNum = RxRingPtr->FreeCnt;
+    return ((RxDone - SendDone) >= FreeBDNum);
 }
 
-int incr_rdptr_after_read(u64 size) {
-    if (RxBufferRdPtr > RxBufferWrPtr) {
-        xil_printf("Buffer is empty\r\n");
-        RxBufferRdPtr = RxBufferWrPtr;
-        return -1;
-    } else {
-        RxBufferRdPtr = RxBufferRdPtr + size;
-    }
-    return 0;
+int buff_will_be_empty() {
+    XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
+    int FreeBDNum = RxRingPtr->FreeCnt;
+    return ((SendDone - RxDone) >= FreeBDNum);
 }
-
-void flush_ptr() {
-    RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
-    RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
-    return 0;
-}
-
-int buff_will_be_full(u64 size) { return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH - size); }
-
-int buff_will_be_empty(u64 size) { return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE + size); }
-
-u64 *get_wrptr() { return RxBufferWrPtr; }
-u64 *get_rdptr() { return RxBufferRdPtr; }
 
 void shutdown_dma() {
     xil_printf("End dma task...\r\n");

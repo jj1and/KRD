@@ -2,7 +2,7 @@
 #define __SEND2PC_H__
 
 #include "FreeRTOS.h"
-#include "axidma_s2mm_manager.h"
+#include "axidma_s2mm_sg_manager.h"
 #include "lwip/sockets.h"
 #include "lwipopts.h"
 #include "netif/xadapter.h"

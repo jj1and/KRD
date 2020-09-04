@@ -102,6 +102,7 @@ INTC Intc; /* Instance of the Interrupt Controller */
  * Flags interrupt handlers use to notify the application context the events.
  */
 volatile int RxDone;
+volatile int SendDone;
 volatile int Error;
 
 TaskHandle_t xDmaTask;
@@ -113,12 +114,8 @@ int StartXIntc(INTC* IntcInstancePtr);
 int SetupRxIntrSystem(INTC* IntcInstancePtr, XAxiDma* AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
 
-int incr_wrptr_after_write(u64 size);
-int decr_wrptr_after_read(u64 size);
-int incr_rdptr_after_read(u64 size);
-void flush_ptr();
-int buff_will_be_empty(u64 size);
-int buff_will_be_full(u64 size);
+int buff_will_be_empty();
+int buff_will_be_full();
 u64* get_wrptr();
 u64* get_rdptr();
 
