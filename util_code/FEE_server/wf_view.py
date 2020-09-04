@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v3_20200902_03.bin"
+BASE_FILE_NAME = "./data/recv_buff_v3_20200904_27.bin"
 
 COMPRESSION_TYPE = 'zip'
 pickle_pddfs_name = BASE_FILE_NAME.replace(
@@ -16,10 +16,11 @@ SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
 plot_color = {0: 'steelblue', 1: 'firebrick'}
 
 if __name__ == "__main__":
+    print("INFO: open file name: "+BASE_FILE_NAME)
     pd_dfs = pd.read_pickle(pickle_pddfs_name,
                             compression=COMPRESSION_TYPE)
     waveform_array = np.load(npz_waveform_name)['arr_0']
-    print(pd_dfs)
+    # print(pd_dfs)
 
     fig, ax = plt.subplots()
     ax.set_title("Acquired data")
@@ -45,27 +46,109 @@ if __name__ == "__main__":
     ax.legend()
 
     fig2, ax2 = plt.subplots()
-    ax2.set_xscale('symlog')
+    ax2.set_xscale('log', basex=10)
     ax2_r = ax2.twinx()
     ax2.set_title("Hit & Hit-rate")
 
+    obj_id = pd_dfs['OBJECT_ID'].values
+    timestamp = (pd_dfs['TIMESTAMP'].values-t0)/TIMESTAMP_CLK_Hz
+    obj_id_diff = np.append([1], obj_id[1:]-obj_id[0:-1])
+    obj_begin_indices = np.where(obj_id_diff > 0)
+    objs = obj_id[obj_begin_indices]
+    objs_t = timestamp[obj_begin_indices]
+    raw_hit_rate = 1e-6/(objs_t[1:]-objs_t[0:-1])
+
+    # internal buffer full check
+    full_fin_dfs = pd_dfs[pd_dfs['FRAME_INFO'] == 4]
+    full_halt_dfs = pd_dfs[pd_dfs['FRAME_INFO'] == 5]
+    first_full_obj_id = -1
+    skip_frame_num = 0
+
+    charge_check = np.sum(waveform_array, axis=1)-pd_dfs['CHARGE_SUM']
+    wrong_val_indices = np.where(charge_check != 0)
+    if len(wrong_val_indices[0]) != 0:
+        print("ERROR: CHARGE_SUM does't much with sum of waveform")
+        print("_______________________________________________________________________________________________________")
+        print(pd_dfs.iloc[wrong_val_indices[0]])
+        print("_______________________________________________________________________________________________________\n")
+
+    if (len(full_fin_dfs) == 0) | (len(full_halt_dfs) == 0):
+        pass
+    else:
+        if len(full_fin_dfs) == 0:
+            first_full_obj_id = int(full_halt_dfs.iloc[0]['OBJECT_ID'])
+        else:
+            if len(full_halt_dfs) == 0:
+                first_full_obj_id = int(full_fin_dfs.iloc[0]['OBJECT_ID'])
+            else:
+                first_full_obj_id = int(np.min(
+                    [full_halt_dfs.iloc[0]['OBJECT_ID'], full_fin_dfs.iloc[0]['OBJECT_ID']]))
+
+    if len(np.where(obj_id_diff > 1)[0]) > 0:
+        print("INFO: First frame skip occured at OBJECT_ID={0:d}".format(
+            int(pd_dfs.iloc[np.min(np.where(obj_id_diff > 1)[0])]['OBJECT_ID'])))
+        if pd_dfs.iloc[np.min(np.where(obj_id_diff > 1)[0])]['OBJECT_ID'] <= first_full_obj_id:
+            print("INFO: frame is skipped before internal buffer full")
+
+    if first_full_obj_id > 0:
+        first_full_obj = pd_dfs[pd_dfs['OBJECT_ID'] == first_full_obj_id]
+        print("INFO: Internal buffer got full at OBJECT_ID={0:d}".format(
+            first_full_obj_id))
+        print("_______________________________________________________________________________________________________")
+        print(pd_dfs[(pd_dfs['OBJECT_ID'] >= first_full_obj_id)
+                     & (pd_dfs['OBJECT_ID'] < first_full_obj_id+3)])
+        print("_______________________________________________________________________________________________________")
+        full_obj_time = (
+            first_full_obj.iloc[0]['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz
+        print("INFO: Time since first frame: {0:3.4f} msec".format(
+            full_obj_time*1e3))
+        full_acum_waveform_size = np.sum(
+            pd_dfs[pd_dfs['OBJECT_ID'] <= first_full_obj_id]['FRAME_LEN'])*2
+        print("INFO: Waveform data since first frame: {0:d} Byte".format(
+            full_acum_waveform_size))
+        print(
+            "INFO: Header/Footer data since first frame: {0:d} Byte".format(first_full_obj.index[0]*24))
+        print("INFO: Input data rate until full (waveform only): {0:5.2f} MByte/s".format(
+            full_acum_waveform_size/full_obj_time*1e-6))
+
+        skip_frame_num = len(np.where(obj_id_diff > 1)[0])
+        print("INFO: skipped frame num: {0:d}/{1:d}".format(
+            skip_frame_num, int(pd_dfs.iloc[-1]['OBJECT_ID'])))
+        print("INFO: skipped frame rate: {0:3.4f}".format(
+            skip_frame_num/pd_dfs.iloc[-1]['OBJECT_ID']))
+        print("INFO: frame len mean (before full): {0:4.2f} nsec".format(np.sum(
+            pd_dfs[pd_dfs['OBJECT_ID'] <= first_full_obj_id]['FRAME_LEN'])/first_full_obj_id))
+        print("INFO: frame len mean (after full): {0:4.2f} nsec".format(np.sum(
+            pd_dfs[pd_dfs['OBJECT_ID'] > first_full_obj_id]['FRAME_LEN'])/(pd_dfs.iloc[-1]['OBJECT_ID']-first_full_obj_id)))
+    else:
+        print("INFO: Internal buffer hasn't get full")
+    total_rcvd_waveform_size = np.sum(pd_dfs['FRAME_LEN'])*2
+    total_rcvd_time = (pd_dfs.iloc[-1]['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz
+    print("INFO: Input data rate: {0:5.2f} MByte/s".format(
+        total_rcvd_waveform_size/total_rcvd_time*1e-6))
+    print("INFO: frame len mean (all): {0:4.2f} nsec".format(
+        np.sum(pd_dfs['FRAME_LEN'])/(pd_dfs.iloc[-1]['OBJECT_ID']-skip_frame_num)))
+
+    smooth_num = 256
+    smoother = np.ones(smooth_num)/smooth_num
+    smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
+
     ax2.set_xlabel("Time[msec]")
-    ax2.set_ylabel("total hit num")
-    ax2.plot((pd_dfs['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz*1e3,
-             pd_dfs['OBJECT_ID'], label="hit", color='steelblue')
+    ax2.set_ylabel("total hit")
+    ax2.plot(objs_t*1e3, objs, label="hit", color='steelblue', marker='.')
     ax2.set_yscale('log')
 
     ax2_r.set_xlabel("Time[msec]")
     ax2_r.set_ylabel("Hit-rate[MHz]")
-
-    smooth_num = 128
-    smoother = np.ones(smooth_num)/smooth_num
-    smoothed_hit = np.convolve(pd_dfs['OBJECT_ID'], smoother, mode='same')
-    smoothed_t = np.convolve(
-        (pd_dfs['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz, smoother, mode='same')
-    ax2_r.plot((pd_dfs['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz*1e3,
-               np.gradient(smoothed_hit, smoothed_t)*1e-6, label="Hit-rate", color='firebrick')
-
+    # ax2_r.set_yscale('symlog')
+    # ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
+    #            smoothed_hit_rate, label="Hit-rate", color='firebrick')
+    ax2_r.plot(objs_t[1:]*1e3,
+               raw_hit_rate, label="Hit-rate", color='firebrick')
+    ax2_r.set_ylim(0.1, 50)
+    if first_full_obj_id > 0:
+        ax2_r.plot([full_obj_time*1e3, full_obj_time*1e3],
+                   [0.1, 50], label='Internal buffer Full', color='k', ls='-.')
     handler, label = ax2.get_legend_handles_labels()
     r_handler, r_label = ax2_r.get_legend_handles_labels()
     ax2.legend(handler+r_handler, label+r_label)
