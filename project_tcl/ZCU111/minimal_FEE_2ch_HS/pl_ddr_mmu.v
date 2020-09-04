@@ -122,7 +122,7 @@ module pl_ddr_mmu # (
     wire s2mm_sts_decerr = S2MM_STS_S_AXIS_TDATA[5];
     wire s2mm_sts_interr = S2MM_STS_S_AXIS_TDATA[4];
     wire [3:0] s2mm_sts_tag = S2MM_STS_S_AXIS_TDATA[3:0];
-    wire s2mm_transfer_cmpltD = &{s2mm_sts_okay, !s2mm_sts_slverr, !s2mm_sts_decerr, !s2mm_sts_interr, s2mm_sts_tag==s2mm_tag, S2MM_STS_S_AXIS_TVALID};
+    wire s2mm_transfer_cmpltD = &{s2mm_sts_okay, S2MM_STS_S_AXIS_TVALID};
     reg s2mm_transfer_cmplt;
     assign S2MM_STS_S_AXIS_TREADY = 1'b1;
 
@@ -161,7 +161,7 @@ module pl_ddr_mmu # (
     wire mm2s_sts_decerr = MM2S_STS_S_AXIS_TDATA[5];
     wire mm2s_sts_interr = MM2S_STS_S_AXIS_TDATA[4];
     wire [3:0] mm2s_sts_tag = MM2S_STS_S_AXIS_TDATA[3:0];
-    wire mm2s_transfer_cmpltD = &{mm2s_sts_okay, !mm2s_sts_slverr, !mm2s_sts_decerr, !mm2s_sts_interr, mm2s_sts_tag==mm2s_tag, MM2S_STS_S_AXIS_TVALID};
+    wire mm2s_transfer_cmpltD = &{mm2s_sts_okay, mm2s_sts_tag==mm2s_tag, MM2S_STS_S_AXIS_TVALID};
     assign MM2S_STS_S_AXIS_TREADY = 1'b1;
 
     reg mm2s_mover_error;
@@ -182,13 +182,65 @@ module pl_ddr_mmu # (
     // ------------------------------- write/read address control -------------------------------
     reg [LOCAL_ADDRESS_WIDTH:0] src_addr;
     reg [LOCAL_ADDRESS_WIDTH:0] dest_addr;
+    reg [LOCAL_ADDRESS_WIDTH:0] cmd_dest_addr;
     reg [LOCAL_ADDRESS_WIDTH:0] next_src_addr;
     reg [LOCAL_ADDRESS_WIDTH:0] next_dest_addr;
+    reg [LOCAL_ADDRESS_WIDTH:0] next_cmd_dest_addr;
     wire [LOCAL_ADDRESS_WIDTH-1:0] ACTUAL_HIGH_ADDRESS = {LOCAL_ADDRESS_WIDTH{1'b1}} - max_btt; 
     wire empty = (src_addr == dest_addr);
-    wire full = (src_addr[LOCAL_ADDRESS_WIDTH-1:0] == dest_addr[LOCAL_ADDRESS_WIDTH-1:0])&(src_addr[LOCAL_ADDRESS_WIDTH] != dest_addr[LOCAL_ADDRESS_WIDTH]);
+    wire full = (src_addr[LOCAL_ADDRESS_WIDTH-1:0] == cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0])&(src_addr[LOCAL_ADDRESS_WIDTH] != cmd_dest_addr[LOCAL_ADDRESS_WIDTH]);
     wire almost_empty = (next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] == dest_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_src_addr[LOCAL_ADDRESS_WIDTH] == dest_addr[LOCAL_ADDRESS_WIDTH]);
-    wire almost_full = (next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] == src_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_dest_addr[LOCAL_ADDRESS_WIDTH] != src_addr[LOCAL_ADDRESS_WIDTH]);    
+    wire almost_full = (next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] == src_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] != src_addr[LOCAL_ADDRESS_WIDTH]);    
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
+            cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+            cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
+        end else begin
+            if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
+                if (cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~cmd_dest_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    if ({1'b0, cmd_dest_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 cmd_dest_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 cmd_dest_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
+                end
+            end else begin
+                cmd_dest_addr <= #100 cmd_dest_addr;
+            end
+        end
+    end
+
+    always @(posedge ACLK ) begin
+        if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
+            next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
+            next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
+        end else begin
+            if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
+                if (next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+max_btt>ACTUAL_HIGH_ADDRESS) begin
+                    next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
+                    next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 ~next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH];
+                end else begin
+                    if ({1'b0, next_cmd_dest_addr[11:0]}+max_btt*2>4095) begin
+                        // 4k byte alignment
+                        next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 {next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:12], 12'b0} + 4096;
+                        next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH];                           
+                    end else begin
+                        next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] + max_btt;
+                        next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH];                        
+                    end
+                end
+            end else begin
+                next_cmd_dest_addr <= #100 next_cmd_dest_addr;
+            end
+        end
+    end
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
@@ -316,7 +368,7 @@ module pl_ddr_mmu # (
 
     // ------------------------------- S2MM Command assigment -------------------------------
     reg s2mm_cmd_tvaild;
-    reg [3:0] s2mm_tag;
+    reg [3:0] cmd_s2mm_tag;
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
@@ -336,12 +388,12 @@ module pl_ddr_mmu # (
 
     always @(posedge ACLK ) begin
         if (|{ARESET, SET_CONFIG, DATAMOVER_ERROR}) begin
-            s2mm_tag <= #100 0;
+            cmd_s2mm_tag <= #100 0;
         end else begin
-            if (s2mm_transfer_cmpltD) begin
-                s2mm_tag <= #100 s2mm_tag+1;
+            if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
+                cmd_s2mm_tag <= #100 cmd_s2mm_tag+1;
             end else begin
-                s2mm_tag <= #100 s2mm_tag;
+                cmd_s2mm_tag <= #100 cmd_s2mm_tag;
             end
         end
     end
@@ -361,7 +413,7 @@ module pl_ddr_mmu # (
     // end
     // assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, src_addr+BASE_ADDRESS, drr, eof, dsa, burst_type, {23-BTT_WIDTH{1'b0}}, s2mm_btt};
 
-    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, s2mm_tag, dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, max_btt};
+    assign S2MM_CMD_M_AXIS_TDATA = {rsvd, cmd_s2mm_tag, cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS, drr, eof, dsa, burst_type, max_btt};
     assign S2MM_CMD_M_AXIS_TVALID = s2mm_cmd_tvaild;
 
     // ------------------------------- MM2S Command assigment -------------------------------
