@@ -22,6 +22,9 @@ module trigger_core # (
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH,
 
+    input wire signed [`ADC_RESOLUTION_WIDTH-1:0] MODE_SWITCH_UPPER_THRESOLD,
+    input wire signed [`ADC_RESOLUTION_WIDTH-1:0] MODE_SWITCH_LOWER_THRESOLD,
+
     // trigger and gain-mode for ADC selector
     output wire TRIGGER,
     output wire SATURATION_FLAG
@@ -131,7 +134,7 @@ module trigger_core # (
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign h_gain_sample[i] = H_S_AXIS_TDATA[i*`SAMPLE_WIDTH+`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH +:`ADC_RESOLUTION_WIDTH];
-            assign saturation_detect[i] = (h_gain_sample[i] == 2047)|(h_gain_sample[i] == -2048);
+            assign saturation_detect[i] = (h_gain_sample[i] >= MODE_SWITCH_UPPER_THRESOLD)|(h_gain_sample[i] <= MODE_SWITCH_LOWER_THRESOLD);
         end
     endgenerate
 

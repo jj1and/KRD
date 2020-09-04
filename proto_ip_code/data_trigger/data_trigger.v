@@ -36,6 +36,9 @@ module data_trigger # (
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH,
 
+    input wire signed [`SAMPLE_WIDTH-1:0] MODE_SWITCH_UPPER_THRESOLD,
+    input wire signed [`SAMPLE_WIDTH-1:0] MODE_SWITCH_LOWER_THRESOLD,
+
     output wire [`RFDC_TDATA_WIDTH+`TRIGGER_INFO_WIDTH+`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH-1:0] M_AXIS_TDATA,
     output wire M_AXIS_TVALID,
 
@@ -53,6 +56,9 @@ module data_trigger # (
     reg signed [`SAMPLE_WIDTH-1:0] l_gain_baseline;   
     wire [`TRIGGER_CONFIG_WIDTH-1:0] trigger_config = { rising_edge_threshold, falling_edge_threshold };
 
+    reg signed [`ADC_RESOLUTION_WIDTH-1:0] mode_switch_upper_ther;
+    reg signed [`ADC_RESOLUTION_WIDTH-1:0] mode_switch_lower_ther;
+
     always @(posedge ACLK ) begin
         if (ARESET) begin
             acquire_mode <= #100 1'b0;
@@ -61,7 +67,9 @@ module data_trigger # (
             rising_edge_threshold <= #100 1024;
             falling_edge_threshold <= #100 1024;
             h_gain_baseline <= #100 -1024;
-            l_gain_baseline <= #100 128;                          
+            l_gain_baseline <= #100 128;
+            mode_switch_upper_ther <= #100 2047; 
+            mode_switch_lower_ther <= #100 -2048;                                       
         end else begin
             if (SET_CONFIG) begin
                 acquire_mode <= #100 ACQUIRE_MODE;
@@ -70,7 +78,9 @@ module data_trigger # (
                 rising_edge_threshold <= #100 RISING_EDGE_THRSHOLD;
                 falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;
                 h_gain_baseline <= #100 H_GAIN_BASELINE;
-                l_gain_baseline <= #100 L_GAIN_BASELINE;                                                        
+                l_gain_baseline <= #100 L_GAIN_BASELINE;
+                mode_switch_upper_ther <= #100 MODE_SWITCH_UPPER_THRESOLD[0 +:`ADC_RESOLUTION_WIDTH]; 
+                mode_switch_lower_ther <= #100 MODE_SWITCH_LOWER_THRESOLD[0 +:`ADC_RESOLUTION_WIDTH];                                                        
             end else begin
                 acquire_mode <= #100 acquire_mode;
                 pre_acquisition_length <= #100 pre_acquisition_length;
@@ -78,7 +88,9 @@ module data_trigger # (
                 rising_edge_threshold <= #100 rising_edge_threshold;
                 falling_edge_threshold <= #100 falling_edge_threshold;
                 h_gain_baseline <= #100 h_gain_baseline;
-                l_gain_baseline <= #100 l_gain_baseline;                    
+                l_gain_baseline <= #100 l_gain_baseline;
+                mode_switch_upper_ther <= #100 mode_switch_upper_ther; 
+                mode_switch_lower_ther <= #100 mode_switch_lower_ther;                                           
             end
         end
     end
@@ -238,6 +250,8 @@ module data_trigger # (
         .FALLING_EDGE_THRESHOLD(falling_edge_threshold),
         .PRE_ACQUISITION_LENGTH(pre_acquisition_length),
         .POST_ACQUISITION_LENGTH(post_acquisition_length),
+        .MODE_SWITCH_UPPER_THRESOLD(mode_switch_upper_ther),
+        .MODE_SWITCH_LOWER_THRESOLD(mode_switch_lower_ther),
 
         // trigger and gain-mode for ADC selector
         .TRIGGER(EXTEND_TRIGGER),
