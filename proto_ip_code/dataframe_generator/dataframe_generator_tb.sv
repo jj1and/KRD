@@ -402,7 +402,7 @@ module dataframe_generator_tb;
                     end
                     @(posedge ACLK);
                     S_AXIS_TVALID <= #100 1'b0;
-                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                     
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];       
                 end                
             end
             begin
@@ -485,7 +485,7 @@ module dataframe_generator_tb;
                     end
                     @(posedge ACLK);
                     S_AXIS_TVALID <= #100 1'b0;
-                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];  
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                       
                 end                
             end
             begin
@@ -645,9 +645,14 @@ module dataframe_generator_tb;
                             M_AXIS_TREADY <= #100 $urandom_range(0, 1);
                         end                                                                 
                     end
+//                    for (int k=0; k<23; k++) begin
+//                        @(posedge ACLK);
+//                        S_AXIS_TVALID <= #100 1'b0;
+//                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];
+//                    end
                     @(posedge ACLK);
                     S_AXIS_TVALID <= #100 1'b0;
-                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                                      
                 end                
             end
             begin
@@ -663,6 +668,8 @@ module dataframe_generator_tb;
         test_status = INTITIALIZE;
         for (int i=0; i<SAMPLE_FRAME_NUM; i++) begin
             sample_config[i].ch_id = CHANNEL_ID_NUM;
+//            sample_config[i].frame_len = 26*2;
+//            sample_config[i].gain_type = 0;
             sample_config[i].frame_len = (16*(i+1)+1)*2;
             sample_config[i].gain_type = i%2;
             sample_config[i].trigger_type = 4'h0;

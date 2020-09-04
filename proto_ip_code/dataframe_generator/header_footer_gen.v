@@ -36,7 +36,7 @@ module header_footer_gen # (
     wire s_axis_tvalid_posedge = (S_AXIS_TVALID==1'b1)&(s_axis_tvalid_delay==1'b0);
     wire s_axis_tvalid_negedge = (S_AXIS_TVALID==1'b0)&(s_axis_tvalid_delay==1'b1);
 
-    reg [`FRAME_LENGTH_WIDTH-2:0] frame_len;
+    reg [`FRAME_LENGTH_WIDTH-1:0] frame_len;
     wire [`FRAME_LENGTH_WIDTH-1:0] dataframe_len = (frame_len+1)*2;
     reg [15:0] max_trigger_len;
     wire split_frame = (frame_len+1 == max_trigger_len);
