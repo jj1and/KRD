@@ -193,22 +193,22 @@ int axidma_setup() {
     int Status;
     XAxiDma_Config *DmaConfig;
 
-    xil_printf("\n\nSetup AXI-DMA...\r\n");
+    xil_printf("\n\nINFO: Setup AXI-DMA...\r\n");
     DmaConfig = XAxiDma_LookupConfig(DMA_DEV_ID);
     if (!DmaConfig) {
-        xil_printf("No config found for %d\r\n", DMA_DEV_ID);
+        xil_printf("ERROR: No config found for %d\r\n", DMA_DEV_ID);
         return XST_FAILURE;
     }
 
     /* Initialize DMA engine */
     Status = XAxiDma_CfgInitialize(&AxiDma, DmaConfig);
     if (Status != XST_SUCCESS) {
-        xil_printf("Failed initialize config\r\n");
+        xil_printf("ERROR: Failed initialize config\r\n");
         return XST_FAILURE;
     }
 
     if (XAxiDma_HasSg(&AxiDma)) {
-        xil_printf("Device configured as SG mode\r\n");
+        xil_printf("ERROR: Device configured as SG mode\r\n");
         return XST_FAILURE;
     }
 
@@ -222,13 +222,13 @@ int axidma_setup() {
     }
 #endif
 
-    xil_printf("\nInitialize DMA engine\r\n");
+    xil_printf("\nINFO: Initialize DMA engine\r\n");
     /* Disable all interrupts before setup */
     XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
     /* Enable all interrupts */
     XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
 
-    xil_printf("AXI-DMA Setup is done successfully.\r\n");
+    xil_printf("INFO: AXI-DMA Setup is done successfully.\r\n");
     return XST_SUCCESS;
 }
 
@@ -241,14 +241,14 @@ int axidma_recv_buff() {
     if (!buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
         Status = XAxiDma_SimpleTransfer(&AxiDma, (UINTPTR)RxBufferWrPtr, MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
         if (Status == XST_FAILURE) {
-            xil_printf("DMA internal buffer is empty.\r\n");
+            xil_printf("ERROR: DMA internal buffer is empty.\r\n");
             return XST_FAILURE;
         } else if (Status == XST_INVALID_PARAM) {
-            xil_printf("Simple transfer Failed because of parameter setting\r\n");
+            xil_printf("ERROR: Simple transfer Failed because of parameter setting\r\n");
             return XST_FAILURE;
         }
     } else {
-        xil_printf("RX buffer will be full.\r\n");
+        xil_printf("ERROR: RX buffer will be full.\r\n");
         return XST_FAILURE;
     }
 
@@ -259,7 +259,7 @@ int incr_wrptr_after_write(u64 size) {
     u64 *expectedPtr;
     expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN / sizeof(u64) - size;
     if (RxBufferWrPtr > expectedPtr) {
-        xil_printf("Buffer is full\r\n");
+        xil_printf("ERROR: Buffer is full\r\n");
         return -1;
     } else {
         RxBufferWrPtr = RxBufferWrPtr + size;
@@ -271,7 +271,7 @@ int decr_wrptr_after_read(u64 size) {
     u64 *expectedPtr;
     expectedPtr = (u64 *)RX_BUFFER_BASE + size;
     if (RxBufferWrPtr < expectedPtr) {
-        xil_printf("Buffer is empty\r\n");
+        xil_printf("ERROR: Buffer is empty\r\n");
         return -1;
     } else {
         RxBufferWrPtr = RxBufferWrPtr - size;
@@ -281,7 +281,7 @@ int decr_wrptr_after_read(u64 size) {
 
 int incr_rdptr_after_read(u64 size) {
     if (RxBufferRdPtr > RxBufferWrPtr) {
-        xil_printf("Buffer is empty\r\n");
+        xil_printf("ERROR: Buffer is empty\r\n");
         RxBufferRdPtr = RxBufferWrPtr;
         return -1;
     } else {
@@ -304,7 +304,7 @@ u64 *get_wrptr() { return RxBufferWrPtr; }
 u64 *get_rdptr() { return RxBufferRdPtr; }
 
 void shutdown_dma() {
-    xil_printf("End dma task...\r\n");
+    xil_printf("INFO: End dma task...\r\n");
 #ifndef FREE_RTOS
     DisableIntrSystem(&Intc, RX_INTR_ID);
 #else
