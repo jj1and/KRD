@@ -18,7 +18,7 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
 
     while (frame_index < frame_num) {
         if ((int)(bin_data[i] >> 56) == HEADER_ID) {
-            ch_id_array[frame_index] = (unsigned int)((bin_data[i] & CH_ID_MASK) >> 48);
+            ch_id_array[frame_index] = (unsigned int)((bin_data[i] & CH_ID_MASK) >> 44);
 
             unsigned int frame_len = (unsigned int)((bin_data[i] & FRAME_LENGTH_MASK) >> 32);
             frame_len_array[frame_index] = frame_len;
