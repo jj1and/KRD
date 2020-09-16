@@ -5,7 +5,7 @@ import numpy as np
 cimport numpy as cnp
 
 cdef:
-    DEF MAX_TRIGGER_LENGTH = 16
+    DEF MAX_TRIGGER_LENGTH = 32
     DEF SAMPLE_NUM_PER_LINE = 4
     DEF MAX_SAMPLE_NUM = MAX_TRIGGER_LENGTH * 2 * SAMPLE_NUM_PER_LINE
 

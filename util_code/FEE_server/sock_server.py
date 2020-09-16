@@ -9,7 +9,7 @@ IP_ADDR = '192.168.1.2'
 PACKET_HEADER_SIZE = 8
 
 save_date = time.strftime("%Y%m%d", time.localtime())
-SAVE_FILE_BASE_NAME = "./data/recv_buff_v3_"
+SAVE_FILE_BASE_NAME = "./data/recv_buff_v4_"
 SAVE_FILE_EXTENTION = ".bin"
 # SAVE_FIG_EXTENTION = ".pkl"
 

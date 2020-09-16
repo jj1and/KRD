@@ -63,7 +63,7 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
             object_id_array[frame_index] = bin_data[i + 2 + frame_len] & OBJECT_ID_MASK;
 
             int total_frame_len = HEADER_LINE_NUM + frame_len + FOOTER_LINE_NUM;
-            i += total_frame_len + total_frame_len % (BUS_WIDTH / FRAME_WIDTH);
+            i += total_frame_len + (total_frame_len % (BUS_WIDTH / FRAME_WIDTH));
             if (i >= bin_data_depth) {
                 // index over run
                 break;
