@@ -352,15 +352,15 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
                    read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
     }
     if (read_object_id == 0) {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b1100_0000 == 8'b0010_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-        if ((read_trigger_info & 0x60) == 0x60) {
-            xil_printf("INFO: trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x60, 0x20, 0x40);
+        if ((read_trigger_info & 0xC0) == 0xC0) {
+            xil_printf("INFO: trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0xC0, 0x40, 0x80);
             Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
@@ -369,7 +369,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
         }
 
     } else if ((read_trigger_info & 0x10) == 0x00) {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
         // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
         // left: mask except frame_continure
         // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full

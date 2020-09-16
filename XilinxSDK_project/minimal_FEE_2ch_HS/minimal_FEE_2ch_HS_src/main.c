@@ -13,6 +13,7 @@
 #include "rfdc_manager.h"
 #include "send2pc.h"
 #include "task.h"
+#include "xgpio.h"
 #include "xil_printf.h"
 #include "xparameters.h"
 
@@ -22,24 +23,12 @@
 #define FAIL_CNT_THRESHOLD 5
 
 // GPIO related constant
-#define ACQUI_LEN_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_ACQUI_LEN_GPIO_DEVICE_ID
-#define MODE_TRIGGER_LEN_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_MODE_TRIGGER_LEN_GPIO_DEVICE_ID
-#define THRESHOLD_GPIO_DEVICE_ID XPAR_FEE_CONTROLER_THRESHOLD_GPIO_DEVICE_ID
+#define GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID XPAR_AXI_GPIO_0_DEVICE_ID
 
-#define MODE_CH 1
-#define MAX_TRIGGER_LENGTH_CH 2
-#define MODE_BITWIDTH 3
-#define MAX_TRIGGER_LENGTH_BITWIDTH 16
-
-#define PRE_ACQUISITON_LEN_CH 1
-#define POST_ACQUISITON_LEN_CH 2
-#define PRE_ACQUISITON_LEN_BITWIDTH 2
-#define POST_ACQUISITON_LEN_BITWIDTH 2
-
-#define RISING_THRESHOLD_CH 1
-#define FALLING_THRESHOLD_CH 2
-#define RISING_THRESHOLD_BITWIDTH 16
-#define FALLING_THRESHOLD_BITWIDTH 16
+#define MODE_SWITCH_UPPER_THRE_CH 1
+#define MODE_SWITCH_LOWER_THRE_CH 2
+#define MODE_SWITCH_UPPER_THRE 2047
+#define MODE_SWITCH_LOWER_THRE -2048
 
 #define INTERNAL_ADC_BUFF_SIZE 2048 * 16
 #define INTERNAL_HF_BUFF_DEPTH 256
@@ -54,8 +43,8 @@
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = 128;
-const int FALLING_EDGE_THRESHOLD = 10;
+const int RISING_EDGE_THRESHOLD = 32;
+const int FALLING_EDGE_THRESHOLD = 0;
 const u32 PRE_ACQUISITION_LENGTH = 1;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
@@ -67,6 +56,11 @@ Trigger_Config fee = {
 	ch_config_array};
 
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
+
+XGpio Gpio_mode_switch_thre;
+
+int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId);
+int SetSwitchThreshold(short int upper_threshold, short int lower_threshold);
 
 static struct netif myself_netif;
 TaskHandle_t app_thread;
@@ -108,6 +102,14 @@ int main() {
         xil_printf("Failed to setup RF Data Converter\r\n");
         return XST_FAILURE;
     }
+
+    Status = GpioSetUp(&Gpio_mode_switch_thre, GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID);
+    if (Status != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to initialize gain switch setting GPIO\r\n");
+        return XST_FAILURE;
+    }
+    Status = SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
+
     Status = HardwareTrigger_SetupDeviceId(0, fee);
 
     Status = axidma_setup();
@@ -120,6 +122,35 @@ int main() {
         ;
     // never reached
     return 0;
+}
+
+int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId) {
+    int Status;
+    Status = XGpio_Initialize(GpioInstPtr, DeviceId);
+    if (Status != XST_SUCCESS) {
+        return XST_FAILURE;
+    }
+    XGpio_SetDataDirection(GpioInstPtr, 1, 0x0);
+    XGpio_SetDataDirection(GpioInstPtr, 2, 0x0);
+    return XST_SUCCESS;
+}
+
+int SetSwitchThreshold(short int upper_threshold, short int lower_threshold) {
+    if ((upper_threshold > 2047) | (lower_threshold < -2048)) {
+        xil_printf("ERROR: Invalid gain switch upper threshold: %d\r\n", upper_threshold);
+        return XST_INVALID_PARAM;
+    } else {
+        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_UPPER_THRE_CH, upper_threshold);
+        xil_printf("INFO: Set gain switch upper threshold: %d\r\n", upper_threshold);
+    }
+    if ((lower_threshold > upper_threshold) | (lower_threshold < -2048)) {
+        xil_printf("ERROR: Invalid gain switch lower threshold: %d\r\n", lower_threshold);
+        return XST_INVALID_PARAM;
+    } else {
+        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_LOWER_THRE_CH, lower_threshold);
+        xil_printf("INFO: Set gain switch lower threshold: %d\r\n", lower_threshold);
+    }
+    return XST_SUCCESS;
 }
 
 void network_thread(void *arg) {
@@ -217,8 +248,8 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
         // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-    	if ((read_trigger_info & 0x60) == 0x60) {
-            	xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x60, 0x20, 0x40);
+    	if ((read_trigger_info & 0xC0) == 0xC0) {
+            	xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x40, 0x40, 0xC0);
             	Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
             // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
@@ -236,6 +267,15 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
 //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
+    }
+
+    if ((read_trigger_info & 0xC0) == 0x80) {
+                // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+                // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
+                // left: mask except frame_continure
+                // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+    //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+                Status = INTERNAL_BUFFER_FULL;
     }
 
     if (read_header_id != 0xAA) {
@@ -320,11 +360,14 @@ void prvDmaTask(void *pvParameters) {
 //            break;
 //        }
 
-        if (dump_recv_size > SEND_BUF_SIZE) {
+        if ((dump_recv_size > SEND_BUF_SIZE)) {
             dump_recv_size = 0;
             xTaskNotifyGive(app_thread);
             vTaskSuspend(NULL);
         }
+//        else if (check_result==INTERNAL_BUFFER_FULL) {
+//        	break;
+//        }
 
         if (socket_close_flag == SOCKET_CLOSE) {
             break;

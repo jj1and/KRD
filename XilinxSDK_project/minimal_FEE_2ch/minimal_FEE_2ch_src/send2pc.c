@@ -48,7 +48,6 @@ void send2pc_application_thread(void *arg) {
     while (1) {
         if (!buff_will_be_empty(SEND_BUF_SIZE / sizeof(u64))) {
             /* handle request */
-            dma_buff_ptr = get_rdptr();
             send_len = 0;
 
             if (!ulTaskNotifyTake(pdTRUE, argptr->xTicksToWait)) {
@@ -56,28 +55,37 @@ void send2pc_application_thread(void *arg) {
                 break;
             } else {
                 do {
-                    actual_frame_len = ((dma_buff_ptr[send_len] >> (24 + 8)) & 0x00000FFF) + 4;
-                    if (incr_rdptr_after_read(actual_frame_len) < 0) {
+                	dma_buff_ptr = get_rdptr();
+                    actual_frame_len = ((dma_buff_ptr[0] >> (24 + 8)) & 0x00000FFF) + 3;
+                    if ((send_wrote = lwip_send(sock, dma_buff_ptr, actual_frame_len * sizeof(u64), 0)) < 0) {
+                        xil_printf("%s: Failed to send data. written = %d\r\n", __FUNCTION__, send_wrote);
+                        xil_printf("Closing socket %d\r\n", sock);
+                        break;
+                    }
+                    if (incr_rdptr_after_read(actual_frame_len+1) < 0) {
                         break;
                     };
                     send_len += actual_frame_len;
                 } while (get_rdptr() < get_wrptr());
             }
-
-            if ((send_wrote = lwip_send(sock, dma_buff_ptr, send_len * sizeof(u64), 0)) < 0) {
-                xil_printf("%s: Failed to send data. written = %d\r\n", __FUNCTION__, send_wrote);
-                xil_printf("Closing socket %d\r\n", sock);
+            if (send_wrote<0) {
                 UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
                 vTaskPrioritySet(NULL, uxDmaPriority + 1);
-                break;
+            	break;
             } else if (total_send_size + send_len * sizeof(u64) > TOTAL_SEND_SIZE) {
-                total_send_size += send_len * sizeof(u64);
-                xil_printf("Send %d Bytes to server\r\n", total_send_size);
-                UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
-                vTaskPrioritySet(NULL, uxDmaPriority + 1);
-                vTaskResume(xDmaTask);
+				total_send_size += send_len * sizeof(u64);
+				xil_printf("Send %d Bytes to server\r\n", total_send_size);
+				UBaseType_t uxDmaPriority = uxTaskPriorityGet(xDmaTask);
+				vTaskPrioritySet(NULL, uxDmaPriority + 1);
+				vTaskResume(xDmaTask);
+				break;
+			}
+
+            if (dma_task_end_flag == DMA_TASK_END) {
+                xil_printf("dma is end\r\n");
                 break;
             }
+
             total_send_size += send_len * sizeof(u64);
             flush_ptr();
             vTaskResume(xDmaTask);
