@@ -126,8 +126,8 @@ module data_trigger # (
 
 
     // ------------------------------- Trigger & ADC data, timstamp delay ------------------------------- 
-    wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+3)-1:0] TRIGGER_CORE_DELAY_FOR_DATA = 3;
-    wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+2)-1:0] TRIGGER_CORE_DELAY_FOR_RST_CONFIG = 2;
+    wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+3):0] TRIGGER_CORE_DELAY_FOR_DATA = 3;
+    wire [$clog2(MAX_PRE_ACQUISITION_LENGTH+3):0] TRIGGER_CORE_DELAY_FOR_RST_CONFIG = 2;
 
     wire EXTEND_TRIGGER;
     wire delayed_saturated_flag;
@@ -151,7 +151,7 @@ module data_trigger # (
 
     variable_shiftreg_delay # (
         .DATA_WIDTH(2),
-        .MAX_DELAY_LENGTH(MAX_PRE_ACQUISITION_LENGTH+2)
+        .MAX_DELAY_LENGTH(MAX_PRE_ACQUISITION_LENGTH+3)
     ) extend_areset_set_config_inst (
         .CLK(ACLK),
         .DIN({ARESET, SET_CONFIG}),

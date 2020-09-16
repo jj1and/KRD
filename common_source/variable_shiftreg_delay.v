@@ -5,7 +5,7 @@ module variable_shiftreg_delay # (
 )(
     input wire CLK,
     input wire [DATA_WIDTH-1:0] DIN,
-    input wire [$clog2(MAX_DELAY_LENGTH)-1:0] DELAY,
+    input wire [$clog2(MAX_DELAY_LENGTH):0] DELAY,
     output wire [DATA_WIDTH-1:0] DOUT
 );
 

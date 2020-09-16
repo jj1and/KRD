@@ -74,8 +74,8 @@ module trigger_core # (
     reg trigger_delay;
     wire trigger_posedge = (trigger == 1'b1)&(trigger_delay == 1'b0);
     wire trigger_negedge = (trigger == 1'b0)&(trigger_delay == 1'b1);
-    reg [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH)-1:0] extend_count;
-    wire [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH)-1:0] EXTEND_COUNT_INIT_VAL = {$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH){1'b1}};
+    reg [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH):0] extend_count;
+    wire [$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH):0] EXTEND_COUNT_INIT_VAL = {$clog2(MAX_POST_ACQUISITION_LENGTH+MAX_PRE_ACQUISITION_LENGTH)+1{1'b1}};
     wire extend_trigger = (extend_count <= PRE_ACQUISITION_LENGTH+POST_ACQUISITION_LENGTH);
 
     always @(posedge ACLK ) begin

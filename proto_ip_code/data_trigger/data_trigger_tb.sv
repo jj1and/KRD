@@ -40,6 +40,9 @@
     reg signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE = 256;
     reg [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH = 1;
     reg [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH = 1;
+
+    wire signed [`SAMPLE_WIDTH-1:0] MODE_SWITCH_UPPER_THRESOLD = 2047;
+    wire signed [`SAMPLE_WIDTH-1:0] MODE_SWITCH_LOWER_THRESOLD = -2048;    
     
     wire [`RFDC_TDATA_WIDTH-1:0] h_gain_default = {`SAMPLE_NUM_PER_CLK{{{`SAMPLE_WIDTH-`ADC_RESOLUTION_WIDTH-1{H_GAIN_BASELINE[`ADC_RESOLUTION_WIDTH]}}, H_GAIN_BASELINE}}};
     wire [`LGAIN_TDATA_WIDTH-1:0] l_gain_default = {`LGAIN_SAMPLE_NUM_PER_CLK{L_GAIN_BASELINE}};   
@@ -420,6 +423,7 @@
 
         @(posedge ACLK);
         S_AXIS_TVALID <= #100 1'b1;
+        S_AXIS_TDATA <= #100 h_gain_default;   
         STOP <= #100 1'b0;        
         
         fork
@@ -568,7 +572,7 @@
         end        
 
         reset_all;
-        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 2, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
         
         test_status = FIXED_NORMAL_SIGNAL_INPUT_NORMAL_OUTPUT;
