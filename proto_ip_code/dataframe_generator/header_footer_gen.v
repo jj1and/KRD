@@ -53,8 +53,9 @@ module header_footer_gen # (
 
     reg [1:0] trigger_run_state;
     wire [1:0] trigger_state = (adc_fifo_gets_full|hf_fifo_gets_full) ? 2'b10 : trigger_run_state;
+    reg frame_begin;
     wire frame_continue = (|{split_frame, adc_fifo_gets_full, hf_fifo_gets_full})&S_AXIS_TVALID;
-    wire [`FRAME_INFO_WIDTH-1:0] frame_info = {1'b0, trigger_state, frame_continue};
+    wire [`FRAME_INFO_WIDTH-1:0] frame_info = {trigger_state, frame_begin, frame_continue};
 
     reg [`OBJECT_ID_WIDTH-1:0] object_id;
 
@@ -120,6 +121,22 @@ module header_footer_gen # (
                 trigger_run_state <= #100 trigger_run_state;
             end
         end
+    end
+
+    always @(posedge ACLK ) begin
+        if (trigger_halt) begin
+            frame_begin <= #100 1'b0;
+        end else begin
+            if (s_axis_tvalid_posedge) begin
+                frame_begin <= #100 1'b1;
+            end else begin
+                if (split_frame) begin
+                    frame_begin <= #100 1'b0;
+                end else begin
+                    frame_begin <= #100 frame_begin; 
+                end
+            end
+        end        
     end
 
     always @(posedge ACLK ) begin

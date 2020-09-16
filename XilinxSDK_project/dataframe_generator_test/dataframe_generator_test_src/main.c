@@ -134,18 +134,24 @@ int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_
 		frame_len = *send_frame_len;
 		expected_header_timestamp = (timestamp_at_beginning & 0x00000000000FFFFFF);
 		expected_footer_timestamp = (timestamp_at_beginning & 0x00000FFFFFF000000);
-		expected_trigger_info = 0x0F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame	
+		expected_trigger_info = 0x20 | trigger_info; // {TRIGGER_STATE[1:0], FRAME_BEGIN[0],  FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_BEGIN is 1 if it's the first frame, FRAME_CONTINUE is 1 if it's divided frame
 	} else {
 		if ((*send_frame_len-*read_frame_len)>(MAX_TRIGGER_LEN*2+3)){
 			frame_len = (MAX_TRIGGER_LEN*2+3);
 			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000000000FFFFFF;
 			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x1F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0001_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
+
+			// {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0001_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_BEGIN is 1 if it's the first frame, FRAME_CONTINUE is 1 if it's divided frame
+			if (*read_frame_len==0){
+				expected_trigger_info = 0x30 | trigger_info;
+			} else {
+				expected_trigger_info = 0x10 | trigger_info;
+			}
 		} else {
 			frame_len = (*send_frame_len-*read_frame_len);
 			expected_header_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000000000FFFFFF;
 			expected_footer_timestamp = (timestamp_at_beginning+*read_frame_len_exclude_HF/2) & 0x00000FFFFFF000000;
-			expected_trigger_info = 0x0F & trigger_info; // {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_CONTINUE is 1 if it's divided frame
+			expected_trigger_info = 0x00 | trigger_info; // {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = 8'b0000_1111 & trigger_info, TRIGGER_STATE is 01 if object_id==0, FRAME_BEGIN is 1 if it's the first frame, FRAME_CONTINUE is 1 if it's divided frame
 		}
 	}
 	*read_frame_len = *read_frame_len+read_frame_length+3;
@@ -171,21 +177,21 @@ int checkData(u64 *dataptr, int *send_frame_len, int *read_frame_len, int *read_
 	}
 
 	if (object_id==0) {
-		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'0010_0000 *trigger state must be 2'b01 at first frame (expected_trigger_info= 8'b000X_1111 & trigger_info)
-		expected_trigger_info = (expected_trigger_info | 0x20);
+		// {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'0100_0000 *trigger state must be 2'b01 at first frame (expected_trigger_info= 8'b000X_1111 & trigger_info)
+		expected_trigger_info = (expected_trigger_info | 0x40);
 		if (read_trigger_info!=expected_trigger_info) {
 			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", read_trigger_info, expected_trigger_info);
 			Status = XST_FAILURE;
 		}
 	} else {
-		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'0101_0000 *trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-		if (read_trigger_info == (expected_trigger_info | 0x50)) {
+		// {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = expected_trigger_info | 8'1000_0000 *trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+		if (read_trigger_info == (expected_trigger_info | 0x80)) {
 			xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
 			Status = INTERNAL_BUFFER_FULL;
 		}
 
-		// {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = read_trigger_info & 8'0001_1111 *mask trigger_state because it is unknown
-		if ((read_trigger_info & 0x1F)!= expected_trigger_info) {
+		// {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]} = read_trigger_info & 8'0011_1111 *mask trigger_state because it is unknown
+		if ((read_trigger_info & 0x3F)!= expected_trigger_info) {
 			xil_printf("trigger_info missmatch Data: %2x Expected: %2x\r\n", (read_trigger_info & 0x1F), expected_trigger_info);
 			Status = XST_FAILURE;
 		}
@@ -232,7 +238,7 @@ void prvDmaTask( void *pvParameters ) {
 	int read_frame_len = 0;
 	int read_frame_len_exclude_HF = 0;
 	u64 timestamp_at_beginning = 255;
-	u8 trigger_info = 0x10;
+	u8 trigger_info = 0x00;
 	u16 baseline = 0;
 	u16 threthold = 15;
 	int object_id = -1;	
@@ -374,7 +380,7 @@ void prvDmaTask( void *pvParameters ) {
 	}
 
 	data_length = 1;
-	trigger_info = 0x1F;
+	trigger_info = 0x0F;
 	read_frame_len = 0;
 	send_frame_len = 0;
 	read_frame_len_exclude_HF = 0;

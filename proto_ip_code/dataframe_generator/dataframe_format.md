@@ -3,8 +3,10 @@ Single hit DataFrame for XCZU28DR ( ADC resolution = 12bit {SingedData[15:4], Ze
 
 ![dataframe_format](./dataframe_format.png)
 
-* FRAME_INFO [3:0] = {1'b0, TRIGGER_STATE[1:0],  FRAME_CONTINUE[0:0]}
+* FRAME_INFO [3:0] = {TRIGGER_STATE[1:0], FRAME_BEGIN[0:0], FRAME_CONTINUE[0:0]}
     * TRIGGER_STATE: 2'b11->Running, 2'b10->Run stop, 2'b01-> Run start
+    * FRAME_BEGIN: 1->first frame , 0->not 1st frame
+      * all of single frame's FRAME_BEGIN bit is 1
     * FRAME_CONTINUE: 0->single frame , 1->next frame exists
     * GAIN_TYPE is removed
 
@@ -42,4 +44,4 @@ and in little-endian (**32bit word unit**)
 b'\x1f\x00\x10\xaa\x45\x23\x01\x10'
 ```
     
-Last Update: 2020/07/22
+Last Update: 2020/09/16

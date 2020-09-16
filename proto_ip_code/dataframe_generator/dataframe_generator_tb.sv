@@ -108,7 +108,7 @@ module dataframe_generator_tb;
         forever #(ACLK_PERIOD/2)   ACLK = ~ ACLK;   
     end
 
-    parameter integer SAMPLE_FRAME_NUM = 10;
+    parameter integer SAMPLE_FRAME_NUM = 512;
     frame_config_pack sample_config[SAMPLE_FRAME_NUM];
     DataFrame sample_frame[SAMPLE_FRAME_NUM];
     datastream_line_t sample_tdata_set[SAMPLE_FRAME_NUM];
@@ -236,8 +236,8 @@ module dataframe_generator_tb;
                         test_failed = 1;
                     end
                     //frame_info check
-                    $cast(trigger_state, frame_info[2:1]);
-                    if (frame_info[2:1]==STOP) begin
+                    $cast(trigger_state, frame_info[3:2]);
+                    if (frame_info[3:2]==STOP) begin
                         $display("TEST INFO: ADC_FIFO or HF_FIFO is full");
                         frame_lost_by_fifo_full = 1;
                         frame_acquired = 1;
@@ -645,11 +645,11 @@ module dataframe_generator_tb;
                             M_AXIS_TREADY <= #100 $urandom_range(0, 1);
                         end                                                                 
                     end
-//                    for (int k=0; k<23; k++) begin
-//                        @(posedge ACLK);
-//                        S_AXIS_TVALID <= #100 1'b0;
-//                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];
-//                    end
+                    for (int k=0; k<9; k++) begin
+                        @(posedge ACLK);
+                        S_AXIS_TVALID <= #100 1'b0;
+                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];
+                    end
                     @(posedge ACLK);
                     S_AXIS_TVALID <= #100 1'b0;
                     S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                                      
@@ -668,10 +668,10 @@ module dataframe_generator_tb;
         test_status = INTITIALIZE;
         for (int i=0; i<SAMPLE_FRAME_NUM; i++) begin
             sample_config[i].ch_id = CHANNEL_ID_NUM;
-//            sample_config[i].frame_len = 26*2;
-//            sample_config[i].gain_type = 0;
-            sample_config[i].frame_len = (16*(i+1)+1)*2;
-            sample_config[i].gain_type = i%2;
+            sample_config[i].frame_len = 27*2;
+            sample_config[i].gain_type = 0;
+//            sample_config[i].frame_len = (16*(i+1)+1)*2;
+//            sample_config[i].gain_type = i%2;
             sample_config[i].trigger_type = 4'h0;
             sample_config[i].baseline = 0;
             sample_config[i].threshold = 10;
@@ -715,11 +715,11 @@ module dataframe_generator_tb;
         
         $display("TEST INFO: FIXED FRAME LENGTH TEST");
         write_in_wo_nobackpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(128);
-        write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(4);
-        write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(16);
+//        config_module(128);
+//        write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+//        config_module(4);
+//        write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+//        config_module(16);
         write_in_with_rand_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
 
         reset_all;

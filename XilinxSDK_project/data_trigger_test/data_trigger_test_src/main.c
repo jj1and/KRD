@@ -268,15 +268,15 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
     xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4, read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
 
     if (read_object_id == 0) {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b1100_0000 == 8'b0100_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-        if ((read_trigger_info & 0x60) != 0x20) {
-            xil_printf("trigger_info mismatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0x60, 0x20);
+        if ((read_trigger_info & 0xC0) != 0x40) {
+            xil_printf("trigger_info mismatch Data: %2x Expected: %2x\r\n", read_trigger_info & 0xC0, 0x40);
             Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
@@ -285,20 +285,28 @@ int checkData(u64 *dataptr, int pre_time, int rise_time, int high_time, int fall
         }
 
     } else {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0111_0000 == 8'b0101_0000
-        // left: mask except trigger state and frame_continue
-        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        if ((read_trigger_info & 0x70) == 0x50) {
-            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
-            Status = INTERNAL_BUFFER_FULL;
-        } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        if ((read_trigger_info & 0x20) == 0x20) {
+            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+            // read_trigger_info & 8'b0010_0000 == 8'b0010_0000
+            // left: mask except frame_begin
+            // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+            xil_printf("trigger_info indicates this is the first frame\r\n", read_trigger_info);
+        }
+        if ((read_trigger_info & 0x10) == 0x00) {
+            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
             xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
+        }
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b1101_0000 == 8'b0101_0000
+        // left: mask except trigger state and frame_continue
+        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+        if ((read_trigger_info & 0xD0) == 0x90) {
+            xil_printf("trigger_info indicates dataframe_generator internal buffer is full: %2x\r\n", read_trigger_info);
+            Status = INTERNAL_BUFFER_FULL;
         }
     }
 
