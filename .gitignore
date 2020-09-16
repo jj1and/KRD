@@ -18,13 +18,15 @@ VSC_solution/
 *.upgrade_log
 *.dmp
 vivado_pid*
-*~
+~*
 
 *.vcd
 *.out
 *.str
 *.pkl
 *.pkl.zip
+*.pyd
+*.npz
 
 # ignore the vivado project
 project_tcl/ZCU111/MinimumTrigger/MinimumTrigger/
@@ -45,6 +47,15 @@ project_tcl/ZCU111/MMT_SGDMA_test/MMT_SGDMA_test/
 project_tcl/ZCU111/MMT_SimpleDMA_test/MMT_SimpleDMA_test/
 
 project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
+project_tcl/ZCU111/data_trigger_test/data_trigger_test
+project_tcl/ZCU111/pl_ddr_mmu_sim_test/pl_ddr_mmu_sim_test
+project_tcl/ZCU111/minimal_module_test/minimal_module_test
+project_tcl/ZCU111/fee_configurator_sim_test/fee_configurator_sim_test
+project_tcl/ZCU111/rfdc_latency_check/rfdc_latency_check
+project_tcl/ZCU111/minimal_FEE/minimal_FEE
+project_tcl/ZCU111/minimal_FEE_2ch/minimal_FEE_2ch
+project_tcl/ZCU111/minimal_FEE_SG_mode/minimal_FEE_SG_mode
+project_tcl/ZCU111/minimal_FEE_2ch_HS/minimal_FEE_2ch_HS
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
@@ -78,8 +89,15 @@ project_tcl/ZCU111/dataframe_generator_test/dataframe_generator_test
 !/XilinxSDK_project/*/**/Makefile
 
 
+# exceptions
 algorithm_dev/AfterMuon_FreqSpec.py
-util_code/data/*
-!util_code/data/recv_buff_v2_20200428_01.bin
-!util_code/data/recv_buff_v2_format.txt
+util_code/*/data/*
+util_code/*/dummy_data/*
+!util_code/MMTrigger/data/recv_buff_v2_20200428_01.bin
+!util_code/MMTrigger/data/recv_buff_v2_format.txt
 util_code/pl_pc_transport_test.gif
+!util_code/FEE_server/data/recv_buff_v4_20200910_15.bin
+
+proto_ip_code/dsp_module/l1norm_method
+/XilinxSDK_project/minimal_FEE/bug_terminal_log
+!/XilinxSDK_project/minimal_FEE_2ch/minimal_FEE_2ch_src/fee_configrator_driver

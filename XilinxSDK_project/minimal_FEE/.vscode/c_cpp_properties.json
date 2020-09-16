@@ -1,0 +1,24 @@
+{
+    "configurations": [{
+        "name": "Win32",
+        "includePath": [
+            "${workspaceFolder}/**",
+            "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/aarch64-none-elf/include/**",
+            "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/aarch64-none-elf/libc/usr/include/**",
+            "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/lib/gcc/aarch64-none-elf/8.2.0/include/**",
+            "C:/Xilinx/SDK/2019.1/gnu/aarch64/nt/aarch64-none/lib/gcc/aarch64-none-elf/8.2.0/include-fixed/**",
+            "minimal_FEE_bsp/psu_cortexa53_0/**"
+        ],
+        "defines": [
+            "_DEBUG",
+            "UNICODE",
+            "_UNICODE"
+        ],
+        "windowsSdkVersion": "10.0.18362.0",
+        "compilerPath": "C:\\Xilinx\\SDK\\2019.1\\gnu\\aarch64\\nt\\aarch64-none\\bin\\aarch64-none-elf-gcc.exe",
+        "cStandard": "c11",
+        "cppStandard": "c++17",
+        "intelliSenseMode": "gcc-arm64"
+    }],
+    "version": 4
+}

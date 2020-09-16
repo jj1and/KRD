@@ -24,15 +24,7 @@ module dataframe_generator_tb;
     wire [`TRIGGER_INFO_WIDTH-1:0] s_axis_trigger_info = S_AXIS_TDATA[`TIMESTAMP_WIDTH+`TRIGGER_CONFIG_WIDTH +:`TRIGGER_INFO_WIDTH];
     wire [`TIMESTAMP_WIDTH-1:0] s_axis_timestamp =  S_AXIS_TDATA[`TRIGGER_CONFIG_WIDTH +:`TIMESTAMP_WIDTH];
     wire [`TRIGGER_CONFIG_WIDTH-1:0] s_axis_trigger_config = S_AXIS_TDATA[0 +:`TRIGGER_CONFIG_WIDTH];
-
-    wire s_axis_gain_type_wire = s_axis_trigger_info[4];
-    reg s_axis_gain_type_reg;
-    wire s_axis_gain_type_change = (s_axis_gain_type_wire!=s_axis_gain_type_reg);
-    always @(posedge ACLK ) begin
-        s_axis_gain_type_reg <= #100 s_axis_gain_type_wire;
-    end
-
-    wire S_AXIS_TREADY;
+    wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA = s_axis_rfdc_tdata;
 
     reg M_AXIS_TREADY;
     wire M_AXIS_TVALID;
@@ -58,22 +50,10 @@ module dataframe_generator_tb;
     wire [`HEADER_TIMESTAMP_WIDTH-1:0] header_timestamp = m_axis_tdata_dframe[0][0 +:`HEADER_TIMESTAMP_WIDTH];
     wire [`CHARGE_SUM-1:0] charge_sum = m_axis_tdata_dframe[1][`TRIGGER_CONFIG_WIDTH +:`CHARGE_SUM];
     wire [`TRIGGER_CONFIG_WIDTH-1:0] trigger_config = m_axis_tdata_dframe[1][0 +:`TRIGGER_CONFIG_WIDTH];
-    wire [`FOOTER_TIMESTAMP_WIDTH-1:0] footer_timestamp = m_axis_tdata_dframe[0][`FOOTER_ID_WIDTH+`OBJECT_ID_WIDTH +:`FOOTER_TIMESTAMP_WIDTH];
-    wire [`OBJECT_ID_WIDTH-1:0] object_id = m_axis_tdata_dframe[0][`FOOTER_ID_WIDTH +:`OBJECT_ID_WIDTH];
+    wire [`FOOTER_TIMESTAMP_WIDTH-1:0] footer_timestamp = m_axis_tdata_dframe[0][`OBJECT_ID_WIDTH +:`FOOTER_TIMESTAMP_WIDTH];
+    wire [`OBJECT_ID_WIDTH-1:0] object_id = m_axis_tdata_dframe[0][0 +:`OBJECT_ID_WIDTH];
     wire [`TIMESTAMP_WIDTH-1:0] timestamp = {footer_timestamp, header_timestamp};    
     wire DATAFRAME_GEN_ERROR;
-
-    wire m_axis_gain_type_wire = frame_info[0];
-    reg m_axis_gain_type_reg;
-    wire m_axis_gain_type_change = (m_axis_gain_type_wire!=m_axis_gain_type_reg);
-    reg m_axis_gain_type_change_delay;
-    wire m_axis_gain_type_reg_posedge = (m_axis_gain_type_change_delay==1'b0)&(m_axis_gain_type_change==1'b1);
-    always @(posedge ACLK ) begin
-        if ((m_axis_tdata_dframe[0][`DATAFRAME_WIDTH-1 -:`HEADER_ID_WIDTH]==HEADER_ID)&M_AXIS_TVALID)
-            m_axis_gain_type_reg <= #100 m_axis_gain_type_wire;
-            m_axis_gain_type_change_delay <= #100 m_axis_gain_type_change;
-    end
-
 
     dataframe_generator # (
         .CHANNEL_ID(CHANNEL_ID_NUM),
@@ -128,7 +108,7 @@ module dataframe_generator_tb;
         forever #(ACLK_PERIOD/2)   ACLK = ~ ACLK;   
     end
 
-    parameter integer SAMPLE_FRAME_NUM = 10;
+    parameter integer SAMPLE_FRAME_NUM = 512;
     frame_config_pack sample_config[SAMPLE_FRAME_NUM];
     DataFrame sample_frame[SAMPLE_FRAME_NUM];
     datastream_line_t sample_tdata_set[SAMPLE_FRAME_NUM];
@@ -140,7 +120,6 @@ module dataframe_generator_tb;
 
     typedef struct {
         DataFrame frame;
-        int continuous;
         int divide_frame_len[$];
         bit [`TIMESTAMP_WIDTH-1:0] divide_frame_timestamp[$];        
     } frame_status;
@@ -177,18 +156,13 @@ module dataframe_generator_tb;
                 $finish;
             end
 
-            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge|(s_axis_gain_type_change&S_AXIS_TVALID)) begin
+            if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge) begin
                 current_input_frame_status.frame = dframe[dframe_index];
                 current_input_frame_status.divide_frame_len.delete();
                 current_input_frame_status.divide_frame_timestamp.delete();
                 current_max_frame_len = DUT.header_footer_gen_inst.max_trigger_len*2;
                 remain_frame_len = current_input_frame_status.frame.frame_len%current_max_frame_len;
                 divide_frame_num = (current_input_frame_status.frame.frame_len-remain_frame_len)/current_max_frame_len;                
-                if (!DUT.header_footer_gen_inst.s_axis_tvalid_posedge) begin
-                    current_input_frame_status.continuous = 1;
-                end else begin
-                    current_input_frame_status.continuous = 0;
-                end
                                          
                 if (remain_frame_len==0) begin
                     for (int i=0; i<divide_frame_num; i++) begin
@@ -204,10 +178,7 @@ module dataframe_generator_tb;
                     current_input_frame_status.divide_frame_timestamp.push_back(current_input_frame_status.frame.timestamp+divide_frame_num*DUT.header_footer_gen_inst.max_trigger_len);                                          
                 end                            
                             
-
-                if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge) begin
-                    current_object_id++;
-                end
+                current_object_id++;
                 if (&{!DUT.ADC_FIFO_FULL, !DUT.HF_FIFO_FULL}) begin
                     status_list.push_back(current_input_frame_status);
                     if (DUT.header_footer_gen_inst.s_axis_tvalid_posedge) begin
@@ -272,29 +243,18 @@ module dataframe_generator_tb;
                         frame_acquired = 1;
                     end else begin
                         if (current_output_frame_status.divide_frame_timestamp.size()!=0) begin
-                            if (frame_info[1]!=1'b1) begin
+                            if (frame_info[0]!=1'b1) begin
                                 $display("TEST FAILED: 'frame_continue' flag doesn't indicate correct infomation; correct:%b output:%b", 1'b1, frame_info[1]);
                                 test_failed = 1;
                             end                            
-                        end else if (status_list[0].continuous==1) begin // next frame is continued from current frame
-                            if (frame_info[1]!=1'b1) begin
-                                $display("TEST FAILED: 'frame_continue' flag doesn't indicate correct infomation; correct:%b output:%b", 1'b1, frame_info[1]);
-                                test_failed = 1;
-                            end else begin
-                                frame_acquired = 1;
-                            end                              
                         end else begin
-                            if (frame_info[1]!=1'b0) begin
+                            if (frame_info[0]!=1'b0) begin
                                 $display("TEST FAILED: 'frame_continue' flag doesn't indicate correct infomation; correct:%b output:%b", 1'b0, frame_info[1]);
                                 test_failed = 1;
                             end else begin
                                 frame_acquired = 1;
                             end                            
                         end
-                    end
-                    if (current_output_frame_status.frame.gain_type!=frame_info[0]) begin
-                        $display("TEST FAILED: gain_type doesn't match; input:%b output:%b", current_output_frame_status.frame.gain_type, frame_info[0]);
-                        test_failed = 1;
                     end
                     // trigger_type check
                     if (current_output_frame_status.frame.trigger_type!=trigger_type) begin
@@ -340,7 +300,7 @@ module dataframe_generator_tb;
                         end               
                     end
                     
-                end else if (&{m_axis_tdata_dframe[0][0 +:`FOOTER_ID_WIDTH]==FOOTER_ID, M_AXIS_TLAST}) begin // FOOTER check                    
+                end else if (&{m_axis_tdata_dframe[0][`DATAFRAME_WIDTH-1 -:`FOOTER_ID_WIDTH]==FOOTER_ID, M_AXIS_TLAST}) begin // FOOTER check                    
                     //  footer_timestamp check
                     if (current_output_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH]!=footer_timestamp) begin
                         $display("TEST FAILED: footer timestamp doesn't match; input:%d output:%d", current_output_timestamp[`HEADER_TIMESTAMP_WIDTH +:`FOOTER_TIMESTAMP_WIDTH], footer_timestamp);
@@ -382,8 +342,7 @@ module dataframe_generator_tb;
         automatic int SUDDEN_RESET_START[2];
         automatic int SUDDEN_RESET_END[2];        
         automatic int SUDDEN_CONFIG_START[2];
-        automatic int SUDDEN_CONFIG_END[2];
-        automatic int GAIN_CHANGE_TIMING;      
+        automatic int SUDDEN_CONFIG_END[2];    
         if (rst_cfg_timing==RANDOM_RESET_CONFIG_TIMING) begin
             SUDDEN_RESET_START[0] = $urandom_range(0, dframe_num-1);
             SUDDEN_RESET_START[1] = $urandom_range(0, dframe[SUDDEN_RESET_START[0]].raw_stream_len-1);
@@ -412,14 +371,7 @@ module dataframe_generator_tb;
             SUDDEN_CONFIG_START[1] = dframe[SUDDEN_CONFIG_START[0]].raw_stream_len/2;
             SUDDEN_CONFIG_END[0] = dframe_num/2+1;
             SUDDEN_CONFIG_END[1] = 0;          
-        end
-        for (int i=1; i<dframe_num-1; i++ ) begin
-            if (dframe[i-1].gain_type != dframe[i].gain_type) begin
-                GAIN_CHANGE_TIMING = i;
-            end else begin
-                GAIN_CHANGE_TIMING = 1;
-            end
-        end      
+        end 
 
         test_status = WRITE_IN_WO_BACKPRESSURE;
         $display("TEST START: write in data with no-backpressure");
@@ -448,13 +400,9 @@ module dataframe_generator_tb;
                             SET_CONFIG <= #100 1'b0;
                         end                                     
                     end
-                    if (i==GAIN_CHANGE_TIMING) begin
-                        S_AXIS_TVALID <= #100 1'b1; 
-                    end else begin
-                        @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0;
-                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1]; 
-                    end                   
+                    @(posedge ACLK);
+                    S_AXIS_TVALID <= #100 1'b0;
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];       
                 end                
             end
             begin
@@ -469,8 +417,7 @@ module dataframe_generator_tb;
         automatic int SUDDEN_RESET_START[2];
         automatic int SUDDEN_RESET_END[2];        
         automatic int SUDDEN_CONFIG_START[2];
-        automatic int SUDDEN_CONFIG_END[2];
-        automatic int GAIN_CHANGE_TIMING;      
+        automatic int SUDDEN_CONFIG_END[2];   
         if (rst_cfg_timing==RANDOM_RESET_CONFIG_TIMING) begin
             SUDDEN_RESET_START[0] = $urandom_range(0, dframe_num-1);
             SUDDEN_RESET_START[1] = $urandom_range(0, dframe[SUDDEN_RESET_START[0]].raw_stream_len-1);
@@ -500,13 +447,7 @@ module dataframe_generator_tb;
             SUDDEN_CONFIG_END[0] = dframe_num/2+1;
             SUDDEN_CONFIG_END[1] = 0;          
         end
-        for (int i=1; i<dframe_num-1; i++ ) begin
-            if (dframe[i-1].gain_type != dframe[i].gain_type) begin
-                GAIN_CHANGE_TIMING = i;
-            end else begin
-                GAIN_CHANGE_TIMING = 1;
-            end
-        end        
+
 
         test_status = WRITE_IN_WITH_ADC_FIFO_BACKPRESSURE;
         $display("TEST START: write in data with backpressure");
@@ -542,13 +483,9 @@ module dataframe_generator_tb;
                             SET_CONFIG <= #100 1'b0;
                         end                                                             
                     end
-                    if (i==GAIN_CHANGE_TIMING) begin
-                        S_AXIS_TVALID <= #100 1'b1; 
-                    end else begin
-                         @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0;
-                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];  
-                    end                
+                    @(posedge ACLK);
+                    S_AXIS_TVALID <= #100 1'b0;
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                       
                 end                
             end
             begin
@@ -563,8 +500,7 @@ module dataframe_generator_tb;
         automatic int SUDDEN_RESET_START[2];
         automatic int SUDDEN_RESET_END[2];        
         automatic int SUDDEN_CONFIG_START[2];
-        automatic int SUDDEN_CONFIG_END[2];
-        automatic int GAIN_CHANGE_TIMING;      
+        automatic int SUDDEN_CONFIG_END[2];     
         if (rst_cfg_timing==RANDOM_RESET_CONFIG_TIMING) begin
             SUDDEN_RESET_START[0] = $urandom_range(0, dframe_num-1);
             SUDDEN_RESET_START[1] = $urandom_range(0, dframe[SUDDEN_RESET_START[0]].raw_stream_len-1);
@@ -593,13 +529,6 @@ module dataframe_generator_tb;
             SUDDEN_CONFIG_START[1] = dframe[SUDDEN_CONFIG_START[0]].raw_stream_len/2;
             SUDDEN_CONFIG_END[0] = dframe_num/2+1;
             SUDDEN_CONFIG_END[1] = 0;          
-        end
-        for (int i=1; i<dframe_num-1; i++ ) begin
-            if (dframe[i-1].gain_type != dframe[i].gain_type) begin
-                GAIN_CHANGE_TIMING = i;
-            end else begin
-                GAIN_CHANGE_TIMING = 1;
-            end
         end
 
         test_status = WRITE_IN_WITH_HF_FIFO_BACKPRESSURE;
@@ -636,13 +565,9 @@ module dataframe_generator_tb;
                            SET_CONFIG <= #100 1'b0;
                        end                                                                 
                     end
-                    if (i==GAIN_CHANGE_TIMING) begin
-                        S_AXIS_TVALID <= #100 1'b1; 
-                    end else begin
-                         @(posedge ACLK);
-                        S_AXIS_TVALID <= #100 1'b0;
-                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];  
-                    end                      
+                    @(posedge ACLK);
+                    S_AXIS_TVALID <= #100 1'b0;
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                    
                 end                
             end
             begin
@@ -657,7 +582,6 @@ module dataframe_generator_tb;
         automatic int SUDDEN_RESET_END[2];        
         automatic int SUDDEN_CONFIG_START[2];
         automatic int SUDDEN_CONFIG_END[2];
-        automatic int GAIN_CHANGE_TIMING;      
         if (rst_cfg_timing==RANDOM_RESET_CONFIG_TIMING) begin
             SUDDEN_RESET_START[0] = $urandom_range(0, dframe_num-1);
             SUDDEN_RESET_START[1] = $urandom_range(0, dframe[SUDDEN_RESET_START[0]].raw_stream_len-1);
@@ -687,14 +611,7 @@ module dataframe_generator_tb;
             SUDDEN_CONFIG_END[0] = dframe_num/2+1;
             SUDDEN_CONFIG_END[1] = 0;          
         end
-        for (int i=1; i<dframe_num-1; i++ ) begin
-            if (dframe[i-1].gain_type != dframe[i].gain_type) begin
-                GAIN_CHANGE_TIMING = i;
-            end else begin
-                GAIN_CHANGE_TIMING = 1;
-            end
-        end
-
+        
         test_status = WRITE_IN_WITH_RANDOM_BACKPRESSURE;
         $display("TEST START: write in data with random backpressure");
         @(posedge ACLK);
@@ -728,13 +645,14 @@ module dataframe_generator_tb;
                             M_AXIS_TREADY <= #100 $urandom_range(0, 1);
                         end                                                                 
                     end
-                    if (i==GAIN_CHANGE_TIMING) begin
-                        S_AXIS_TVALID <= #100 1'b1; 
-                    end else begin
-                         @(posedge ACLK);
+                    for (int k=0; k<9; k++) begin
+                        @(posedge ACLK);
                         S_AXIS_TVALID <= #100 1'b0;
-                        S_AXIS_TDATA <= #100 $urandom;  
-                    end                     
+                        S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];
+                    end
+                    @(posedge ACLK);
+                    S_AXIS_TVALID <= #100 1'b0;
+                    S_AXIS_TDATA <= #100 ~s_axis_tdata_set[i][dframe[i].raw_stream_len-1];                                      
                 end                
             end
             begin
@@ -750,8 +668,10 @@ module dataframe_generator_tb;
         test_status = INTITIALIZE;
         for (int i=0; i<SAMPLE_FRAME_NUM; i++) begin
             sample_config[i].ch_id = CHANNEL_ID_NUM;
-            sample_config[i].frame_len = (16*(i+1)+1)*2;
-            sample_config[i].gain_type = i%2;
+            sample_config[i].frame_len = 27*2;
+            sample_config[i].gain_type = 0;
+//            sample_config[i].frame_len = (16*(i+1)+1)*2;
+//            sample_config[i].gain_type = i%2;
             sample_config[i].trigger_type = 4'h0;
             sample_config[i].baseline = 0;
             sample_config[i].threshold = 10;
@@ -761,7 +681,7 @@ module dataframe_generator_tb;
             sample_frame[i].sampleFilling();            
         end
         for (int i=0; i<SAMPLE_FRAME_NUM; i++) begin
-            sample_tdata_set[i] = sample_frame[i].getDataStream();
+            sample_tdata_set[i] = sample_frame[i].getDataStream(5);
         end             
 
 
@@ -787,7 +707,7 @@ module dataframe_generator_tb;
             rand_sample_frame[i].sampleFilling();            
         end
         for (int i=0; i<RAND_SAMPLE_FRAME_NUM; i++) begin
-            rand_sample_tdata_set[i] = rand_sample_frame[i].getDataStream();
+            rand_sample_tdata_set[i] = rand_sample_frame[i].getDataStream($urandom_range(0, 9));
         end        
 
         reset_all;
@@ -795,11 +715,11 @@ module dataframe_generator_tb;
         
         $display("TEST INFO: FIXED FRAME LENGTH TEST");
         write_in_wo_nobackpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(128);
-        write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(4);
-        write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
-        config_module(16);
+//        config_module(128);
+//        write_in_with_adc_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+//        config_module(4);
+//        write_in_with_hf_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
+//        config_module(16);
         write_in_with_rand_backpressure(sample_frame, sample_tdata_set, SAMPLE_FRAME_NUM, FIXED_RESET_CONFIG_TIMING);
 
         reset_all;

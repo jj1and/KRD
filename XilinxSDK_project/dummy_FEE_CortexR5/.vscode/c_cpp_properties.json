@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch32/nt/gcc-arm-none-eabi/arm-none-eabi/include/**",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch32/nt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/8.2.0/include/**",
+                "C:/Xilinx/SDK/2019.1/gnu/aarch32/nt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/8.2.0/include-fixed/**",
+                "dummy_FEE_R5_bsp/psu_cortexr5_0/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:\\Xilinx\\SDK\\2019.1\\gnu\\aarch32\\nt\\gcc-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}

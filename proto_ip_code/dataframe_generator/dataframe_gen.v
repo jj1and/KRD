@@ -141,7 +141,7 @@ module dataframe_gen (
                     adc_cnt <= #100 adc_cnt+1;
                 end
             end else begin
-                if (&{adc_rd_done, HF_FIFO_EMPTY, tlast, M_AXIS_TREADY}) begin
+                if (&{adc_rd_done, HF_FIFO_EMPTY, pre_tlast, M_AXIS_TREADY}) begin
                     adc_cnt <= #100 INIT_FRAME_LEN;
                 end else begin
                     adc_cnt <= #100 adc_cnt;
