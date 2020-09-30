@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import df_extract
 
 
-FILE_NAME = "./data/recv_buff_v4_20200915_01.bin"
+FILE_NAME = "./data/recv_buff_v4_20200918_19.bin"
 # FILE_NAME = "./dummy_data/sample01.bin"
 COMPRESSION_TYPE = 'zip'
 

@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Tue Sep 15 10:44:32 2020
+//Date        : Wed Sep 30 11:15:56 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -21,6 +21,8 @@ module design_1_wrapper
     adc0_clk_clk_p,
     adc1_clk_clk_n,
     adc1_clk_clk_p,
+    dac1_clk_clk_n,
+    dac1_clk_clk_p,
     ddr4_sdram_act_n,
     ddr4_sdram_adr,
     ddr4_sdram_ba,
@@ -46,7 +48,11 @@ module design_1_wrapper
     vin1_01_v_n,
     vin1_01_v_p,
     vin1_23_v_n,
-    vin1_23_v_p);
+    vin1_23_v_p,
+    vout12_v_n,
+    vout12_v_p,
+    vout13_v_n,
+    vout13_v_p);
   output DATAMOVER_ERROR_LED;
   output DF_GEN_ERROR_LED;
   input EXT_RESET;
@@ -58,6 +64,8 @@ module design_1_wrapper
   input adc0_clk_clk_p;
   input adc1_clk_clk_n;
   input adc1_clk_clk_p;
+  input dac1_clk_clk_n;
+  input dac1_clk_clk_p;
   output ddr4_sdram_act_n;
   output [16:0]ddr4_sdram_adr;
   output [1:0]ddr4_sdram_ba;
@@ -84,6 +92,10 @@ module design_1_wrapper
   input vin1_01_v_p;
   input vin1_23_v_n;
   input vin1_23_v_p;
+  output vout12_v_n;
+  output vout12_v_p;
+  output vout13_v_n;
+  output vout13_v_p;
 
   wire DATAMOVER_ERROR_LED;
   wire DF_GEN_ERROR_LED;
@@ -96,6 +108,8 @@ module design_1_wrapper
   wire adc0_clk_clk_p;
   wire adc1_clk_clk_n;
   wire adc1_clk_clk_p;
+  wire dac1_clk_clk_n;
+  wire dac1_clk_clk_p;
   wire ddr4_sdram_act_n;
   wire [16:0]ddr4_sdram_adr;
   wire [1:0]ddr4_sdram_ba;
@@ -122,6 +136,10 @@ module design_1_wrapper
   wire vin1_01_v_p;
   wire vin1_23_v_n;
   wire vin1_23_v_p;
+  wire vout12_v_n;
+  wire vout12_v_p;
+  wire vout13_v_n;
+  wire vout13_v_p;
 
   design_1 design_1_i
        (.DATAMOVER_ERROR_LED(DATAMOVER_ERROR_LED),
@@ -135,6 +153,8 @@ module design_1_wrapper
         .adc0_clk_clk_p(adc0_clk_clk_p),
         .adc1_clk_clk_n(adc1_clk_clk_n),
         .adc1_clk_clk_p(adc1_clk_clk_p),
+        .dac1_clk_clk_n(dac1_clk_clk_n),
+        .dac1_clk_clk_p(dac1_clk_clk_p),
         .ddr4_sdram_act_n(ddr4_sdram_act_n),
         .ddr4_sdram_adr(ddr4_sdram_adr),
         .ddr4_sdram_ba(ddr4_sdram_ba),
@@ -160,5 +180,9 @@ module design_1_wrapper
         .vin1_01_v_n(vin1_01_v_n),
         .vin1_01_v_p(vin1_01_v_p),
         .vin1_23_v_n(vin1_23_v_n),
-        .vin1_23_v_p(vin1_23_v_p));
+        .vin1_23_v_p(vin1_23_v_p),
+        .vout12_v_n(vout12_v_n),
+        .vout12_v_p(vout12_v_p),
+        .vout13_v_n(vout13_v_n),
+        .vout13_v_p(vout13_v_p));
 endmodule

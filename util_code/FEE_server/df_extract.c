@@ -1913,7 +1913,7 @@ static PyObject *__pyx_int_4;
 static PyObject *__pyx_int_9;
 static PyObject *__pyx_int_10;
 static PyObject *__pyx_int_100;
-static PyObject *__pyx_int_256;
+static PyObject *__pyx_int_2032;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
@@ -2476,7 +2476,7 @@ static PyObject *__pyx_pf_10df_extract_extract_df(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_long((__pyx_v_cframe_num * 0x100)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_long((__pyx_v_cframe_num * 0x7F0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -2528,9 +2528,9 @@ static PyObject *__pyx_pf_10df_extract_extract_df(CYTHON_UNUSED PyObject *__pyx_
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
   PyList_SET_ITEM(__pyx_t_4, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_256);
-  __Pyx_GIVEREF(__pyx_int_256);
-  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_int_256);
+  __Pyx_INCREF(__pyx_int_2032);
+  __Pyx_GIVEREF(__pyx_int_2032);
+  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_int_2032);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
@@ -6362,7 +6362,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_9 = PyInt_FromLong(9); if (unlikely(!__pyx_int_9)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_100 = PyInt_FromLong(100); if (unlikely(!__pyx_int_100)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_256 = PyInt_FromLong(256); if (unlikely(!__pyx_int_256)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_2032 = PyInt_FromLong(2032); if (unlikely(!__pyx_int_2032)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;

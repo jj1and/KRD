@@ -24,6 +24,7 @@ static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
  ******************************************************************************/
 static void RxIntrHandler(void *Callback) {
     XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     u32 S2MM_Status;
     u32 IrqStatus;
     int TimeOut;
@@ -70,6 +71,8 @@ static void RxIntrHandler(void *Callback) {
     // 	vTaskNotifyGiveFromISR(xRxDmaTask, &xHigherPriorityTaskWoken_byNotify);
     // 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
     // }
+    vTaskNotifyGiveFromISR(xDmaTask, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     return;
 }
 

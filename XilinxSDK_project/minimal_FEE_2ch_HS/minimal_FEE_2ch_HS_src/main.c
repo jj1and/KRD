@@ -43,18 +43,19 @@
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = 32;
-const int FALLING_EDGE_THRESHOLD = 0;
-const u32 PRE_ACQUISITION_LENGTH = 1;
+const int RISING_EDGE_THRESHOLD = -32;
+const int FALLING_EDGE_THRESHOLD = -400;
+const u32 PRE_ACQUISITION_LENGTH = 2;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
-const Channel_Config channel_0 = { 0, ACQUIRE_MODE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE };
+const Channel_Config channel_0 = {0, ACQUIRE_MODE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
 Channel_Config ch_config_array[1] = {channel_0};
 
 Trigger_Config fee = {
     1,
-	ch_config_array};
+    ch_config_array};
 
+const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
 
 XGpio Gpio_mode_switch_thre;
@@ -69,12 +70,11 @@ app_arg send2pc_setting = {
     "192.168.1.2",
     x10seconds};
 
-
 int RFDC_ADC_TILES = {0};
 
 AvailableAdcTiles AdcTile = {
     1,
-	&RFDC_ADC_TILES};
+    &RFDC_ADC_TILES};
 
 void network_thread(void *arg);
 
@@ -222,7 +222,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     u32 read_object_id;
     u8 read_footer_id;
 
-    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN*2 + 4) * sizeof(u64));
+    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 4) * sizeof(u64));
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
@@ -239,43 +239,43 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     if (print_enable > 1) {
         printData(dataptr, read_trigger_length + 3);
     }
-    if (print_enable > 0){
-    xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
-               read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
+    if (print_enable > 0) {
+        xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
+                   read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
     }
     if (read_object_id == 0) {
-        // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0110_0000 == 8'b0010_0000
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b1100_0000 == 8'b1100_0000
         // left: mask except trigger state
         // right: trigger state must be 2'b01 at first frame
-    	if ((read_trigger_info & 0xC0) == 0xC0) {
-            	xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x40, 0x40, 0xC0);
-            	Status = XST_FAILURE;
+        if ((read_trigger_info & 0xC0) == 0xC0) {
+            xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x40, 0x40, 0xC0);
+            Status = XST_FAILURE;
         } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
             // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
             // left: mask except frame_continure
             // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+            //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
             Status = LAST_FRAME;
         }
 
     } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-            // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
-            // left: mask except frame_continure
-            // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-//            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
-            Status = LAST_FRAME;
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
+        // left: mask except frame_continure
+        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+        //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
+        Status = LAST_FRAME;
     }
 
     if ((read_trigger_info & 0xC0) == 0x80) {
-                // read_trigger_info = {1'b0, TRIGGER_STATE[1:0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-                // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
-                // left: mask except frame_continure
-                // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-    //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
-                Status = INTERNAL_BUFFER_FULL;
+        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
+        // read_trigger_info & 8'b1100_0000 == 8'b1000_0000
+        // left: mask except frame_continure
+        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
+    	printData(dataptr, read_trigger_length + 3);
+        Status = INTERNAL_BUFFER_FULL;
     }
 
     if (read_header_id != 0xAA) {
@@ -297,31 +297,32 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
 
     *rcvd_frame_length = read_trigger_length + 4;
     incr_wrptr_after_write(read_trigger_length + 4);
-//    xil_printf("\n");
+    //    xil_printf("\n");
     return Status;
 }
 
 void prvDmaTask(void *pvParameters) {
-	int fee_status;
-	int s2mm_dma_state = XST_SUCCESS;
-	int check_result = LAST_FRAME;
-	dma_task_end_flag = DMA_TASK_READY;
+    int fee_status;
+    int s2mm_dma_state = XST_SUCCESS;
+    int check_result = LAST_FRAME;
+    int timeout_flag = 0;
+    dma_task_end_flag = DMA_TASK_READY;
 
-	int test_send_frame_count = 2048;
-	int send_frame_count = 0;
+    int test_send_frame_count = 2048;
+    int send_frame_count = 0;
 
-	u64 rcvd_frame_len;
-	u64 dump_recv_size = 0;
+    u64 rcvd_frame_len;
+    u64 dump_recv_size = 0;
 
-	u64 *dataptr;
-	if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
-		xil_printf("Failed to setup interrupt controller.\r\n");
-	}
+    u64 *dataptr;
+    if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
+        xil_printf("Failed to setup interrupt controller.\r\n");
+    }
 
     vApplicationDaemonRxTaskStartupHook();
     xil_printf("Dmatask start up done\r\n");
-	xil_printf("Waiting Send2PC task start\r\n");
-	vTaskSuspend(NULL);
+    xil_printf("Waiting Send2PC task start\r\n");
+    vTaskSuspend(NULL);
 
     xil_printf("FEE start\r\n");
     fee_status = HardwareTrigger_StartDeviceId(0);
@@ -329,11 +330,14 @@ void prvDmaTask(void *pvParameters) {
     while (fee_status == XST_SUCCESS) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
-            while (!RxDone && !Error) {
-                /* code */
-            }
-            if (Error) {
-                xil_printf("Error interrupt asserted.\r\n");
+            if (ulTaskNotifyTake(pdTRUE, 2*x1seconds)) {
+                if (Error) {
+                    xil_printf("Error interrupt asserted.\r\n");
+                    break;
+                }
+            } else {
+                xil_printf("DMA execution is timeout.\r\n");
+                timeout_flag = 1;
                 break;
             }
         } else if (buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
@@ -349,35 +353,38 @@ void prvDmaTask(void *pvParameters) {
             if (check_result == XST_FAILURE) {
                 break;
             }
-//            rcvd_frame_len = ((dataptr[0] >> (24 + 8)) & 0x00000FFF) + 4;
-//            incr_wrptr_after_write(rcvd_frame_len);
+            //            rcvd_frame_len = ((dataptr[0] >> (24 + 8)) & 0x00000FFF) + 4;
+            //            incr_wrptr_after_write(rcvd_frame_len);
             dump_recv_size += rcvd_frame_len * sizeof(u64);
             send_frame_count++;
         }
 
-//        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
-//            xil_printf("Total recieved frame count reached the target number!\r\n");
-//            break;
-//        }
+        //        if (send_frame_count > test_send_frame_count && check_result == LAST_FRAME) {
+        //            xil_printf("Total recieved frame count reached the target number!\r\n");
+        //            break;
+        //        }
 
         if ((dump_recv_size > SEND_BUF_SIZE)) {
             dump_recv_size = 0;
             xTaskNotifyGive(app_thread);
             vTaskSuspend(NULL);
         }
-//        else if (check_result==INTERNAL_BUFFER_FULL) {
-//        	break;
-//        }
 
-        if (socket_close_flag == SOCKET_CLOSE) {
+        if ((socket_close_flag == SOCKET_CLOSE)||(timeout_flag ==1)) {
             break;
         }
     }
 
-    xil_printf("FEE shutdown.\r\n");
-    fee_status = HardwareTrigger_StopDeviceId(0);
     shutdown_dma();
     dma_task_end_flag = DMA_TASK_END;
+    if (timeout_flag==1) {
+    	dump_recv_size = 0;
+        xTaskNotifyGive(app_thread);
+        vTaskSuspend(NULL);
+    }
+
+    xil_printf("FEE shutdown.\r\n");
+    fee_status = HardwareTrigger_StopDeviceId(0);
     vTaskDelete(NULL);
 }
 

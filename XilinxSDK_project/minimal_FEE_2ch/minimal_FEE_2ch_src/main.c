@@ -43,8 +43,8 @@
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = 32;
-const int FALLING_EDGE_THRESHOLD = 0;
+const int RISING_EDGE_THRESHOLD = -32;
+const int FALLING_EDGE_THRESHOLD = -64;
 const u32 PRE_ACQUISITION_LENGTH = 1;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
@@ -364,10 +364,9 @@ void prvDmaTask(void *pvParameters) {
             dump_recv_size = 0;
             xTaskNotifyGive(app_thread);
             vTaskSuspend(NULL);
+        } else if (check_result==INTERNAL_BUFFER_FULL) {
+        	break;
         }
-//        else if (check_result==INTERNAL_BUFFER_FULL) {
-//        	break;
-//        }
 
         if (socket_close_flag == SOCKET_CLOSE) {
             break;
