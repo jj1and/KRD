@@ -34,6 +34,6 @@ int GetFrameNum(unsigned long long *bin_data, int bin_data_depth);
 
 void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array,
                   unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array,
-                  int *waveform_array);
+                  int *waveform_array, int *h_gain_only_waveform_array);
 
 #endif  // __DF_EXTRACTOR__

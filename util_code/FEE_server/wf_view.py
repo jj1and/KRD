@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20200918_19.bin"
+BASE_FILE_NAME = "./data/recv_buff_v4_20201008_07.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -14,13 +14,14 @@ TIMESTAMP_CLK_Hz = 122.88*1E6
 EFFECTIVE_ADC_CLK_Hz = TIMESTAMP_CLK_Hz*8
 SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
 
-plot_color = {0: 'steelblue', 1: 'firebrick'}
+plot_color = {0: 'steelblue', 1: 'firebrick', 2: 'darkgreen'}
 
 if __name__ == "__main__":
     print("INFO: open file name: "+BASE_FILE_NAME)
     pd_dfs = pd.read_pickle(pickle_pddfs_name,
                             compression=COMPRESSION_TYPE)
     waveform_array = np.load(npz_waveform_name)['arr_0']
+    hgain_only_waveform_array = np.load(npz_waveform_name)['arr_1']
     # print(pd_dfs)
 
     fig, ax = plt.subplots()
@@ -30,15 +31,19 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 100) & (pd_dfs['OBJECT_ID'] >= 0)].index):
+    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 1000) & (pd_dfs['OBJECT_ID'] >= 0)].index[0:100]):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
+        hgain_wav = hgain_only_waveform_array[i, 0:sample_num]
+
         t = (pd_dfs['TIMESTAMP'][i]-t0)/TIMESTAMP_CLK_Hz + \
             np.arange(sample_num)/EFFECTIVE_ADC_CLK_Hz
-        # if (pd_dfs['CH_ID'][i] == 0):
+        # if (pd_dfs['CH_ID'][i] == 2):
         #     ax.plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
-        #             linestyle='-', marker='o', markersize=5)
-        ax.plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
+        #             linestyle='-', marker='s', markersize=5)
+        # ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
+        #         linestyle='--', marker='o', markersize=5)
+        ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
                 linestyle='-', marker='o', markersize=5)
 
     xmin, xmax = ax.get_xlim()
@@ -141,11 +146,11 @@ if __name__ == "__main__":
     ax2_r.set_ylabel("Hit-rate[MHz]")
 
     smooth_num = 256
-    if pd_dfs.iloc[-1]['OBJECT_ID'] > smooth_num:
-        smoother = np.ones(smooth_num)/smooth_num
-        smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
-        ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
-                   smoothed_hit_rate, label="Hit-rate", color='firebrick')
+    # if len(pd_dfs) > smooth_num:
+    #     smoother = np.ones(smooth_num)/smooth_num
+    #     smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
+    #     ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
+    #                smoothed_hit_rate, label="Hit-rate", color='firebrick')
     # ax2_r.plot(objs_t[1:]*1e3,
     #            raw_hit_rate, label="Hit-rate", color='firebrick')
     ax2_r.set_ylim(0.1, 25)

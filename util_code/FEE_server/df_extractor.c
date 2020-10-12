@@ -12,7 +12,7 @@ int GetFrameNum(unsigned long long *bin_data, int bin_data_depth) {
 
 void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array,
                   unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array,
-                  int *waveform_array) {
+                  int *waveform_array, int *h_gain_only_waveform_array) {
     int frame_index = 0;
     int i = 0;
 
@@ -40,22 +40,34 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
                 long long sample_1;
                 long long sample_0;
 
+                sample_3 = (long long)(bin_data[i + 2 + j] & 0xFFFF000000000000) >> 48;
+                sample_2 = (long long)((bin_data[i + 2 + j] & 0x0000FFFF00000000) << 16) >> 48;
+                sample_1 = (long long)((bin_data[i + 2 + j] & 0x00000000FFFF0000) << 32) >> 48;
+                sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+
                 if ((bin_data[i + 2 + j] & 0xFFFF000000000000) == 0xCC00000000000000) {
                     // assign L-gain value only
-                    sample_3 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
-                    sample_2 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
-                    sample_1 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
-                    sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_0;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_0;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_0;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 3] = (int)sample_0;
+
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_1;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_1;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_2;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 3] = (int)sample_2;
+
                 } else {
-                    sample_3 = (long long)(bin_data[i + 2 + j] & 0xFFFF000000000000) >> 48;
-                    sample_2 = (long long)((bin_data[i + 2 + j] & 0x0000FFFF00000000) << 16) >> 48;
-                    sample_1 = (long long)((bin_data[i + 2 + j] & 0x00000000FFFF0000) << 32) >> 48;
-                    sample_0 = (long long)((bin_data[i + 2 + j] & 0x000000000000FFFF) << 48) >> 48;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_0;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_1;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_2;
+                    waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 3] = (int)sample_3;
+
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_0;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_1;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_2;
+                    h_gain_only_waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 3] = (int)sample_3;
                 }
-                waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE] = (int)sample_0;
-                waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 1] = (int)sample_1;
-                waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 2] = (int)sample_2;
-                waveform_array[frame_index * MAX_SAMPLE_NUM + j * SAMPLE_PER_LINE + 3] = (int)sample_3;
             }
 
             unsigned long long footer_timestamp = bin_data[i + 2 + frame_len] & FOOTER_TIMESTAMP_MASK;
