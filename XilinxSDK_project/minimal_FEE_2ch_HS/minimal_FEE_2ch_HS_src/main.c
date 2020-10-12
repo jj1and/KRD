@@ -43,8 +43,8 @@
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = -32;
-const int FALLING_EDGE_THRESHOLD = -400;
+const int RISING_EDGE_THRESHOLD = -1024;
+const int FALLING_EDGE_THRESHOLD = -2000;
 const u32 PRE_ACQUISITION_LENGTH = 2;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
@@ -71,10 +71,15 @@ app_arg send2pc_setting = {
     x10seconds};
 
 int RFDC_ADC_TILES = {0};
+int RFDC_DAC_TILES = {1};
 
 AvailableAdcTiles AdcTile = {
     1,
     &RFDC_ADC_TILES};
+
+AvailableDacTiles DacTile = {
+    1,
+    &RFDC_DAC_TILES};
 
 void network_thread(void *arg);
 
@@ -96,10 +101,18 @@ int main() {
     int Status;
     xil_printf("minimal FEE Start\r\n");
     double refClkFreq_MHz = 245.76;
-    double samplingRate_Msps = 1966.08;
-    Status = rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, samplingRate_Msps, AdcTile);
+    double ADC_samplingRate_Msps = 1966.08;
+    double DAC_samplingRate_Msps = 983.04;
+    Status = rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
     if (Status != XST_SUCCESS) {
-        xil_printf("Failed to setup RF Data Converter\r\n");
+        xil_printf("ERROR: Failed to setup RF Data Converter ADC\r\n");
+        return XST_FAILURE;
+    }
+
+    // Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
+    Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 1, refClkFreq_MHz, DAC_samplingRate_Msps);
+    if (Status != XST_SUCCESS) {
+        xil_printf("Failed to setup RF Data Converter DAC\r\n");
         return XST_FAILURE;
     }
 
@@ -274,7 +287,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
         // read_trigger_info & 8'b1100_0000 == 8'b1000_0000
         // left: mask except frame_continure
         // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-    	printData(dataptr, read_trigger_length + 3);
+        printData(dataptr, read_trigger_length + 3);
         Status = INTERNAL_BUFFER_FULL;
     }
 
@@ -330,7 +343,7 @@ void prvDmaTask(void *pvParameters) {
     while (fee_status == XST_SUCCESS) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
-            if (ulTaskNotifyTake(pdTRUE, 2*x1seconds)) {
+            if (ulTaskNotifyTake(pdTRUE, 2 * x1seconds)) {
                 if (Error) {
                     xil_printf("Error interrupt asserted.\r\n");
                     break;
@@ -370,15 +383,15 @@ void prvDmaTask(void *pvParameters) {
             vTaskSuspend(NULL);
         }
 
-        if ((socket_close_flag == SOCKET_CLOSE)||(timeout_flag ==1)) {
+        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1)) {
             break;
         }
     }
 
     shutdown_dma();
     dma_task_end_flag = DMA_TASK_END;
-    if (timeout_flag==1) {
-    	dump_recv_size = 0;
+    if (timeout_flag == 1) {
+        dump_recv_size = 0;
         xTaskNotifyGive(app_thread);
         vTaskSuspend(NULL);
     }

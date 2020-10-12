@@ -37,12 +37,13 @@ typedef struct AvailableAdcTiles {
 } AvailableAdcTiles;
 
 typedef struct AvailableDacTiles {
-    int NumOfDACTiles;
+    int NumOfDacTiles;
     int *DacTileIndex;
 } AvailableDacTiles;
 
 int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps);
 int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, AvailableAdcTiles AdcTiles);
+int rfdcDAC_MTS_setup(u16 RFdcDeviceId, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps, AvailableDacTiles DacTiles);
 int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps);
 
 #endif
