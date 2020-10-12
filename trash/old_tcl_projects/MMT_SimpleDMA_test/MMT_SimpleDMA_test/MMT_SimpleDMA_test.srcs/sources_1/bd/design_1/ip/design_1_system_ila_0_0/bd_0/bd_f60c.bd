@@ -1,0 +1,54 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x0",
+      "design_src": "SBD",
+      "device": "xczu28dr-ffvg1517-2-e",
+      "name": "bd_f60c",
+      "scoped": "true",
+      "synth_flow_mode": "None",
+      "tool_version": "2019.1"
+    },
+    "design_tree": {},
+    "interface_ports": {
+      "SLOT_0_EASYHS": {
+        "mode": "Monitor",
+        "vlnv": "www.awa.tohoku.ac.jp:jj1and:easyhs_rtl:1.1"
+      },
+      "SLOT_1_EASYHS": {
+        "mode": "Monitor",
+        "vlnv": "www.awa.tohoku.ac.jp:jj1and:easyhs_rtl:1.1"
+      },
+      "SLOT_2_EASYHS": {
+        "mode": "Monitor",
+        "vlnv": "www.awa.tohoku.ac.jp:jj1and:easyhs_rtl:1.1"
+      },
+      "SLOT_3_AXIS": {
+        "mode": "Monitor",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0"
+      },
+      "SLOT_4_AXI": {
+        "mode": "Monitor",
+        "vlnv": "xilinx.com:interface:aximm_rtl:1.0"
+      }
+    },
+    "ports": {
+      "clk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_BUSIF": {
+            "value": "SLOT_3_AXIS:SLOT_4_AXI"
+          },
+          "ASSOCIATED_RESET": {
+            "value": "resetn"
+          }
+        }
+      },
+      "resetn": {
+        "type": "rst",
+        "direction": "I"
+      }
+    }
+  }
+}

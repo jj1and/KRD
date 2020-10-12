@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>www.awa.tohoku.ac.jp</spirit:vendor>
+  <spirit:library>customized_ip</spirit:library>
+  <spirit:name>design_1_TwoChMixer_0_0</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>CH0_S_EASYHS</spirit:name>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>READY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH0_oREADY</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH0_DIN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>VALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH0_iVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>RESET</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RESET</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.RESET.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_HIGH</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>INSERT_VIP</spirit:name>
+          <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="BUSIFPARAM_VALUE.RESET.INSERT_VIP">0</spirit:value>
+          <spirit:vendorExtensions>
+            <xilinx:parameterInfo>
+              <xilinx:parameterUsage>simulation.rtl</xilinx:parameterUsage>
+            </xilinx:parameterInfo>
+          </spirit:vendorExtensions>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_RESET">RESET:RESET</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_BUSIF">M_EASYHS:CH0_S_EASYHS:CH1_S_EASYHS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>FREQ_HZ</spirit:name>
+          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.CLK.FREQ_HZ">100000000</spirit:value>
+          <spirit:vendorExtensions>
+            <xilinx:parameterInfo>
+              <xilinx:parameterUsage>none</xilinx:parameterUsage>
+            </xilinx:parameterInfo>
+          </spirit:vendorExtensions>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>PHASE</spirit:name>
+          <spirit:value spirit:format="float" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.CLK.PHASE">0.000</spirit:value>
+          <spirit:vendorExtensions>
+            <xilinx:parameterInfo>
+              <xilinx:parameterUsage>none</xilinx:parameterUsage>
+            </xilinx:parameterInfo>
+          </spirit:vendorExtensions>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>CLK_DOMAIN</spirit:name>
+          <spirit:value spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.CLK.CLK_DOMAIN"/>
+          <spirit:vendorExtensions>
+            <xilinx:parameterInfo>
+              <xilinx:parameterUsage>none</xilinx:parameterUsage>
+            </xilinx:parameterInfo>
+          </spirit:vendorExtensions>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>INSERT_VIP</spirit:name>
+          <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="BUSIFPARAM_VALUE.CLK.INSERT_VIP">0</spirit:value>
+          <spirit:vendorExtensions>
+            <xilinx:parameterInfo>
+              <xilinx:parameterUsage>simulation.rtl</xilinx:parameterUsage>
+            </xilinx:parameterInfo>
+          </spirit:vendorExtensions>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH1_S_EASYHS</spirit:name>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>READY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH1_oREADY</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH1_DIN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>VALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CH1_iVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_EASYHS</spirit:name>
+      <spirit:busType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="www.awa.tohoku.ac.jp" spirit:library="jj1and" spirit:name="easyhs_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>READY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>iREADY</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>DOUT</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>VALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>oVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>CLK</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>RESET</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH0_DIN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.DATA_WIDTH&apos;)) - 1)">63</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH0_iVALID</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH0_oREADY</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH1_DIN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.DATA_WIDTH&apos;)) - 1)">63</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH1_iVALID</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CH1_oREADY</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DOUT</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.DATA_WIDTH&apos;)) - 1)">63</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>oVALID</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>iREADY</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>dummy_view</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>DATA_WIDTH</spirit:name>
+        <spirit:displayName>Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DATA_WIDTH">64</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:description>TwoChMixer_v1_2</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>DATA_WIDTH</spirit:name>
+      <spirit:displayName>Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DATA_WIDTH">64</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.DATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">design_1_TwoChMixer_0_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:displayName>TwoChMixer_v1_2</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7004d0ed_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a64ebdc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@361e0258_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74e72de9_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@757f9ba1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b79b8f6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ee5bbb7_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@97baada_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b38a094_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d872a20_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@704e3fd7_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c8e8010_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@766e3e4c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f68cf4f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f377779_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4186e43c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2117d2bd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24e82b85_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b38becd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15d0914a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41b4150e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59b4f03_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@114bd2dd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40a4c499_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5eec9dbf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@99f3183_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77037e25_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6077d025_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76a9108e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b1a5c5e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22056caa_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f12ffda_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@448a4833_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10ba3784_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48f3ed27_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ec62fcc_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10e33477_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@cceda76_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@469e636e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b964096_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@db42936_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5fa9dff0_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36c90f70_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34de15ad_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@186d4e69_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@964fd6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23ed08d2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45fbc6e1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39bea200_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38e34d3f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e7af6e5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b2780f5_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dabc0d3_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3dcb3f7d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a2bd3c1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2682d6b0_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2aeebe27_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30aa53bb_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54fa373e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a64918b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26bbaef3_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16a88b5c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bbff51d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f8845fe_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5472adc0_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50a358f2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79ae322_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f38b9bd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@344bce48_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33ffd0a3_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c8b24f4_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20b7c395_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@137e7c6c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dfff626_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53211147_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e673ee2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@714a8d45_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d09544_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65dafc6f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@215c3416_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71d0d081_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60c1fb93_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@332221cd_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@779c080d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f17ad04_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44bfc2d2_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@257fe410_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33a17733_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4015bf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13107260_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20b0b0ab_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ca4ce83_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53c14b60_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51fdfdd6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4789173b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1206055a_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@244a1f00_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39c553b6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15b59233_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a77b00_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cf2c81e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c15099c_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53fe0e1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34f3a339_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@367c6796_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f6db156_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27ad9693_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@559c9692_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46a5847d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@674d05cf_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40cf4567_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1590d16d_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f708d58_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73dc4ff6_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@515e6be8_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5792feb_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d542280_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b8ed065_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d831dba_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f059bef_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@537f87ca_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7886e913_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d9bd2c1_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44d84c90_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ff3d72f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19f1ba83_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51812381_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a9f9519_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29b4ae2b_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bcb8504_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dec048f_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6fa40967_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38bfb802_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34411f63_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14fb6fab_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c1e198e_ARCHIVE_LOCATION">c:/Users/MoGURA/KRD/ip_repo/TwoChMixer</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="4c5c853e"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d767bd54"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="19ea927c"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8534c40b"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="897ed2b8"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
