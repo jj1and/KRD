@@ -38,17 +38,23 @@
 
 #define COMBINED_ACQUIRE_MODE 0x1
 #define NORMAL_ACQUIRE_MODE 0x0
+#define DSP_NORMAL_ACQUIRE_MODE 0x2
+#define DSP_COMBINED_ACQUIRE_MODE 0x3
+
+#define HARDWARE_TRIGGER 0x0
+#define EXTERNAL_TRIGGER 0x1
 
 #define H_GAIN_BASELINE 0
 #define L_GAIN_BASELINE 0
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const int RISING_EDGE_THRESHOLD = 128;
-const int FALLING_EDGE_THRESHOLD = 0;
+const u32 TRIGGER_TYPE = HARDWARE_TRIGGER;
+const int RISING_EDGE_THRESHOLD = -1024;
+const int FALLING_EDGE_THRESHOLD = -2048;
 const u32 PRE_ACQUISITION_LENGTH = 2;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
-const Channel_Config channel_0 = {0, ACQUIRE_MODE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_0 = {0, ACQUIRE_MODE, TRIGGER_TYPE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
 Channel_Config ch_config_array[1] = {channel_0};
 
 Trigger_Config fee = {
@@ -70,7 +76,7 @@ app_arg send2pc_setting = {
     "192.168.1.2",
     x10seconds};
 
-const int RFDC_ADC_TILES[4] = {0,1,2,3};
+const int RFDC_ADC_TILES[4] = {0, 1, 2, 3};
 const int RFDC_DAC_TILES[1] = {0};
 
 AvailableAdcTiles AdcTile = {
@@ -109,7 +115,7 @@ int main() {
         return XST_FAILURE;
     }
 
-//    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
+    //    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
     Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 0, refClkFreq_MHz, DAC_samplingRate_Msps);
     if (Status != XST_SUCCESS) {
         xil_printf("ERROR: Failed to setup RF Data Converter DAC\r\n");
@@ -343,7 +349,7 @@ void prvDmaTask(void *pvParameters) {
     while (fee_status == XST_SUCCESS) {
         s2mm_dma_state = axidma_recv_buff();
         if (s2mm_dma_state == XST_SUCCESS) {
-            if (ulTaskNotifyTake(pdTRUE, 2 * x1seconds)) {
+            if (ulTaskNotifyTake(pdTRUE, 10 * x1seconds)) {
                 if (Error) {
                     xil_printf("ERROR: Error interrupt asserted.\r\n");
                     break;

@@ -31,7 +31,7 @@ int HardwareTrigger_SetupDeviceId(u16 FEEdeviceId, Trigger_Config TriggerConfig)
 
     for (size_t i = 0; i < TriggerConfig.ChannelNum; i++) {
         ChannelConfig = TriggerConfig.ChanelConfigs[i];
-        ControlAddr = (((ChannelConfig.AcquireMode << 16) & 0x00010000) | (ChannelConfig.MaxTriggerLength & 0x0000FFFF)) | STOP_STATE;
+        ControlAddr = ((((ChannelConfig.AcquireMode << 20) & 0x00300000) | ((ChannelConfig.TriggerType << 16) & 0x000F0000)) | (ChannelConfig.MaxTriggerLength & 0x0000FFFF)) | STOP_STATE;
         ThresholdAddr = ((ChannelConfig.RisingEdgeThreshold << 16) & 0xFFFF0000) | (ChannelConfig.FallingEdgeThreshold & 0x0000FFFF);
         AcquisitionAddr = ((ChannelConfig.PreAcquisitionLength << 16) & 0xFFFF0000) | (ChannelConfig.PostAcquisitionLength & 0x0000FFFF);
         BaselineAddr = ((ChannelConfig.HgainBaseline << 16) & 0xFFFF0000) | (ChannelConfig.LgainBaseline & 0x0000FFFF);

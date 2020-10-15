@@ -32,7 +32,8 @@
 		output wire [CHANNEL_NUM-1:0] STOP,
 		
 		// data_trigger configration ports
-		output wire [CHANNEL_NUM-1:0] ACQUIRE_MODE,
+		output wire [CHANNEL_NUM*2-1:0] ACQUIRE_MODE,
+		output wire [CHANNEL_NUM*4-1:0] TRIGGER_TYPE,
 		output wire signed [CHANNEL_NUM*`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD,
 		output wire signed [CHANNEL_NUM*`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD,
 		
@@ -664,7 +665,7 @@
 
 	reg [C_S_AXI_DATA_WIDTH-1:0] option_reg[CHANNEL_NUM*4-1:0];
 	/* register map for "CHANNEL_ID" Ch
-		option_reg[CHANNEL_ID*4+0] = {8'b0, 5'b0, SET_CONFIG, STOP, ACQUIRE_MODE, MAX_TRIGGER_LENGTH}
+		option_reg[CHANNEL_ID*4+0] = {8'b0, SET_CONFIG, STOP, ACQUIRE_MODE[1:0], TRIGGER_TYPE[3:0], MAX_TRIGGER_LENGTH}
 		option_reg[CHANNEL_ID*4+1] = {RISING_EDGE_THRESHOLD, FALLIG_EDGE_THRESHOLD}
 		option_reg[CHANNEL_ID*4+2] = {{16-$clog2(MAX_PRE_ACQUISITION_LENGTH){1'b0}}, PRE_ACQUISITION_LENGTH, {16-$clog2(MAX_POST_ACQUISITION_LENGTH){1'b0}}, POST_ACQUISITION_LENGTH}
 		option_reg[CHANNEL_ID*4+3] = {3'b0, H_GAIN_BASELINE, L_GAIN_BASELINE}
@@ -688,18 +689,19 @@
 
 		always @(posedge S_AXI_ACLK ) begin
 			if (!S_AXI_ARESETN) begin
-				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 {5'b0, 1'b0, 1'b1, 1'b0}; // SET_CONFIG=0, STOP=1, ACQUIRE_MODE=0
+				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 {1'b0, 1'b1, 2'b00, 4'b0000}; // SET_CONFIG=0, STOP=1, ACQUIRE_MODE=2'b00, TRIGGER_TYPE=4'b0000
 			end else begin
 				if (&{reg_wen, S_AXI_WSTRB[2], mem_address==(channel_index*4+0)}) begin
-					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 {5'b0, S_AXI_WDATA[C_S_AXI_DATA_WIDTH-8-5-1 -: 3]};
+					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 S_AXI_WDATA[C_S_AXI_DATA_WIDTH-8-1 -: 8];
 				end else begin
 					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8];
 				end
 			end
 		end
-		assign SET_CONFIG[channel_index] = option_reg[channel_index*4+0][16+2];
-		assign STOP[channel_index] = option_reg[channel_index*4+0][16+1];
-		assign ACQUIRE_MODE[channel_index] = option_reg[channel_index*4+0][16+0];
+		assign SET_CONFIG[channel_index] = option_reg[channel_index*4+0][16+7];
+		assign STOP[channel_index] = option_reg[channel_index*4+0][16+6];
+		assign ACQUIRE_MODE[channel_index*2 +:2] = option_reg[channel_index*4+0][16+5:16+4];
+		assign TRIGGER_TYPE[channel_index*4 +:4] = option_reg[channel_index*4+0][16+3:16];
 
 		// MAX_TRIGGER_LENGTH configuration
 		wire [15:0] DEFAULT_MAX_TRIGGER_LENGTH = 16;

@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Fri Oct  9 17:26:55 2020
+//Date        : Tue Oct 13 19:52:02 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -12,6 +12,9 @@
 module design_1_wrapper
    (DATAMOVER_ERROR_LED,
     DF_GEN_ERROR_LED,
+    EXTERNAL_TRIGGER_0,
+    EXTERNAL_TRIGGER_1,
+    EXTERNAL_TRIGGER_2,
     EXT_RESET,
     PL_CLK_in_0_clk_n,
     PL_CLK_in_0_clk_p,
@@ -67,6 +70,9 @@ module design_1_wrapper
     vout03_v_p);
   output DATAMOVER_ERROR_LED;
   output DF_GEN_ERROR_LED;
+  input EXTERNAL_TRIGGER_0;
+  input EXTERNAL_TRIGGER_1;
+  input EXTERNAL_TRIGGER_2;
   input EXT_RESET;
   input [0:0]PL_CLK_in_0_clk_n;
   input [0:0]PL_CLK_in_0_clk_p;
@@ -123,6 +129,9 @@ module design_1_wrapper
 
   wire DATAMOVER_ERROR_LED;
   wire DF_GEN_ERROR_LED;
+  wire EXTERNAL_TRIGGER_0;
+  wire EXTERNAL_TRIGGER_1;
+  wire EXTERNAL_TRIGGER_2;
   wire EXT_RESET;
   wire [0:0]PL_CLK_in_0_clk_n;
   wire [0:0]PL_CLK_in_0_clk_p;
@@ -180,6 +189,9 @@ module design_1_wrapper
   design_1 design_1_i
        (.DATAMOVER_ERROR_LED(DATAMOVER_ERROR_LED),
         .DF_GEN_ERROR_LED(DF_GEN_ERROR_LED),
+        .EXTERNAL_TRIGGER_0(EXTERNAL_TRIGGER_0),
+        .EXTERNAL_TRIGGER_1(EXTERNAL_TRIGGER_1),
+        .EXTERNAL_TRIGGER_2(EXTERNAL_TRIGGER_2),
         .EXT_RESET(EXT_RESET),
         .PL_CLK_in_0_clk_n(PL_CLK_in_0_clk_n),
         .PL_CLK_in_0_clk_p(PL_CLK_in_0_clk_p),

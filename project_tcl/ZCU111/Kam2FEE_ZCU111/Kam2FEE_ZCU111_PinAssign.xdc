@@ -12,7 +12,15 @@ set_property IOSTANDARD LVDS [get_ports {PL_CLK_in_0_clk_n[0]}]
 set_property IOSTANDARD LVDS [get_ports {PL_SYSREF_CLK_in_0_clk_p[0]}]
 set_property IOSTANDARD LVDS [get_ports {PL_SYSREF_CLK_in_0_clk_n[0]}]
 
+
+set_property IOSTANDARD LVCMOS18 [get_ports DATAMOVER_ERROR_LED]
+set_property IOSTANDARD LVCMOS18 [get_ports DF_GEN_ERROR_LED]
+set_property IOSTANDARD LVCMOS18 [get_ports EXT_RESET]
+set_property PACKAGE_PIN AF15 [get_ports EXT_RESET]
+set_property PACKAGE_PIN AR16 [get_ports DATAMOVER_ERROR_LED]
+set_property PACKAGE_PIN AP13 [get_ports DF_GEN_ERROR_LED]
+
 ####################################################################################
-# Constraints from file : 'minimal_FEE_2ch_timing.xdc'
+# Constraints from file : 'Kam2FEE_ZCU111)timing.xdc'
 ####################################################################################
 

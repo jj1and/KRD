@@ -7,6 +7,7 @@
 typedef struct Channel_Config {
     int channel;
     u32 AcquireMode;
+    u32 TriggerType;
     u32 MaxTriggerLength;
     int RisingEdgeThreshold;
     int FallingEdgeThreshold;

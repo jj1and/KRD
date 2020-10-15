@@ -20,10 +20,10 @@ int FEEConfig_SetConfigDefault(u16 DeviceId) {
         return XST_FAILURE;
     } else {
         for (int i = 0; i < CHANNEL_NUM; i++) {
-            CfgPtr->ControlAddr[i] = DEFAULT_CONTROL_ADDR;
-            CfgPtr->ThresholdAddr[i] = DEFAULT_THRESHOLD_ADDR;
-            CfgPtr->AcquisitionAddr[i] = DEFAULT_ACQUISITION_ADDR;
-            CfgPtr->BaselineAddr[i] = DEFAULT_BASELINE_ADDR;
+            CfgPtr->ControlAddr[i] = DEFAULT_CONTROL_CONFIG;
+            CfgPtr->ThresholdAddr[i] = DEFAULT_THRESHOLD_CONFIG;
+            CfgPtr->AcquisitionAddr[i] = DEFAULT_ACQUISITION_CONFIG;
+            CfgPtr->BaselineAddr[i] = DEFAULT_BASELINE_CONFIG;
         }
     }
     return XST_SUCCESS;
@@ -46,10 +46,10 @@ int FEEConfig_SetConfigDefaultBaseAddr(UINTPTR Baseaddr) {
         return XST_FAILURE;
     } else {
         for (int i = 0; i < CHANNEL_NUM; i++) {
-            CfgPtr->ControlAddr[i] = DEFAULT_CONTROL_ADDR;
-            CfgPtr->ThresholdAddr[i] = DEFAULT_THRESHOLD_ADDR;
-            CfgPtr->AcquisitionAddr[i] = DEFAULT_ACQUISITION_ADDR;
-            CfgPtr->BaselineAddr[i] = DEFAULT_BASELINE_ADDR;
+            CfgPtr->ControlAddr[i] = DEFAULT_CONTROL_CONFIG;
+            CfgPtr->ThresholdAddr[i] = DEFAULT_THRESHOLD_CONFIG;
+            CfgPtr->AcquisitionAddr[i] = DEFAULT_ACQUISITION_CONFIG;
+            CfgPtr->BaselineAddr[i] = DEFAULT_BASELINE_CONFIG;
         }
     }
     return XST_SUCCESS;
@@ -125,12 +125,12 @@ FEE_Config *FEEConfig_SetConfigBaseAddr(UINTPTR Baseaddr, u32 channel, u32 Contr
 
 int FEEConfig_ApplyCfg(FEE_Config *CfgPtr) {
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i]&0x0001FFFF)|CONFIG_STOP_STATE);
+        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & 0x003FFFFF) | CONFIG_STOP_STATE);
     }
 
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
         if (FEEConfig_IsConfigState(CfgPtr, i)) {
-            FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i]&0x0001FFFF)|CONFIG_STOP_STATE);
+            FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & 0x003FFFFF) | CONFIG_STOP_STATE);
             FEEConfig_WriteReg(CfgPtr->BaseAddress, THRESHOLD_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->ThresholdAddr[i]);
             FEEConfig_WriteReg(CfgPtr->BaseAddress, ACQUISITION_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->AcquisitionAddr[i]);
             FEEConfig_WriteReg(CfgPtr->BaseAddress, BASELINE_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->BaselineAddr[i]);
@@ -141,7 +141,7 @@ int FEEConfig_ApplyCfg(FEE_Config *CfgPtr) {
     }
 
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i]&0x0001FFFF)|STOP_STATE);
+        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & 0x003FFFFF) | STOP_STATE);
     }
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
         if (!FEEConfig_IsStopState(CfgPtr, i)) {
@@ -154,7 +154,7 @@ int FEEConfig_ApplyCfg(FEE_Config *CfgPtr) {
 
 int FEEConfig_Start(FEE_Config *CfgPtr) {
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i]&0x0001FFFF)|RUN_STATE);
+        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & 0x003FFFFF) | RUN_STATE);
     }
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
         if (!FEEConfig_IsRunState(CfgPtr, i)) {
@@ -167,7 +167,7 @@ int FEEConfig_Start(FEE_Config *CfgPtr) {
 
 int FEEConfig_Stop(FEE_Config *CfgPtr) {
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i]&0x0001FFFF)|STOP_STATE);
+        FEEConfig_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & 0x003FFFFF) | STOP_STATE);
     }
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
         if (!FEEConfig_IsStopState(CfgPtr, i)) {
