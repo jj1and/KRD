@@ -57,6 +57,9 @@ project_tcl/ZCU111/minimal_FEE_2ch/minimal_FEE_2ch
 project_tcl/ZCU111/minimal_FEE_SG_mode/minimal_FEE_SG_mode
 project_tcl/ZCU111/minimal_FEE_2ch_HS/minimal_FEE_2ch_HS
 project_tcl/ZCU111/Kam2FEE_ZCU111/Kam2FEE_ZCU111
+project_tcl/ZCU111/async_df_gen_test/async_df_gen_test
+
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
@@ -85,6 +88,7 @@ project_tcl/ZCU111/Kam2FEE_ZCU111/Kam2FEE_ZCU111
 # only keep .cproject, .project, .sdkproject, .system.mss and Makefile
 # i.e. the psu_cortexa53_0 lib files are regenerated automatically
 !/XilinxSDK_project/*/**/*src
+/XilinxSDK_project/*/**/*sample*/
 !/XilinxSDK_project/*/**/.*project
 !/XilinxSDK_project/*/**/.system.mss
 !/XilinxSDK_project/*/**/Makefile
@@ -101,6 +105,7 @@ util_code/*/dummy_data/*
 !util_code/MMTrigger/data/recv_buff_v2_format.txt
 util_code/pl_pc_transport_test.gif
 !util_code/FEE_server/data/recv_buff_v4_20200910_15.bin
+proto_ip_code/**/*_proj/
 
 proto_ip_code/dsp_module/l1norm_method
 /XilinxSDK_project/minimal_FEE/bug_terminal_log
