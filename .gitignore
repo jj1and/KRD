@@ -96,6 +96,7 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 # --- ip repository ---
 ip_repos/SysGen_outputs/*/*
 !ip_repos/SysGen_outputs/**/ip
+ip_repos/TED_ip
 
 # exceptions
 algorithm_dev/AfterMuon_FreqSpec.py
