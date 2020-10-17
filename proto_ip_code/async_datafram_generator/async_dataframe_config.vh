@@ -1,0 +1,37 @@
+`ifndef __ASYNC_DATAFRAME_CONFIG_VH__
+`define __ASYNC_DATAFRAME_CONFIG_VH__
+
+// Trigger parameters
+`define ADC_RESOLUTION_WIDTH 12
+`define SAMPLE_WIDTH 16
+`define SAMPLE_NUM_PER_CLK 8
+`define RFDC_TDATA_WIDTH `SAMPLE_WIDTH*`SAMPLE_NUM_PER_CLK
+`define TRIGGER_INFO_WIDTH 8 // {{3'h0}, GAIN_TYPE [0:0], TRIGGER_TYPE[3:0]}
+
+// Data frame paramerters
+// `HEADER_LINE must be larger than 2; `FOOTER_LINE must be larger than 1
+`define HEADER_LINE 2
+`define FOOTER_LINE 1
+
+`define DATAFRAME_WIDTH 64
+`define HEADER_ID_WIDTH 8
+`define CH_ID_WIDTH 12
+`define FRAME_LENGTH_WIDTH 12
+`define FRAME_INFO_WIDTH 4
+`define TRIGGER_TYPE_WIDTH 4
+`define HEADER_TIMESTAMP_WIDTH 24
+
+`define CHARGE_SUM 24
+`define TRIGGER_CONFIG_WIDTH 32 
+
+`define FOOTER_TIMESTAMP_WIDTH 24
+`define FOOTER_ID_WIDTH 8
+
+`define HEADER_ID 8'hAA
+`define FOOTER_ID 8'h55
+
+// common parameters
+`define TIMESTAMP_WIDTH `HEADER_TIMESTAMP_WIDTH+`FOOTER_TIMESTAMP_WIDTH
+`define OBJECT_ID_WIDTH 32
+
+`endif 
