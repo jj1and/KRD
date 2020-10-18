@@ -18,7 +18,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>16</spirit:defaultValue>
       </spirit:wire>
@@ -35,7 +35,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>4</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -52,7 +52,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>128</spirit:defaultValue>
       </spirit:wire>
@@ -69,7 +69,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -86,7 +86,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>13</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -103,7 +103,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -115,8 +115,9 @@
         <spirit:qualifier>
           <spirit:isData>true</spirit:isData>
         </spirit:qualifier>
+        <spirit:onMaster/>
         <spirit:onSlave>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
@@ -128,8 +129,9 @@
         <spirit:qualifier>
           <spirit:isData>true</spirit:isData>
         </spirit:qualifier>
+        <spirit:onMaster/>
         <spirit:onSlave>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
@@ -146,7 +148,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>2</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -163,7 +165,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -180,7 +182,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>1</spirit:width>
-          <spirit:direction>in</spirit:direction>
+          <spirit:direction>inout</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
