@@ -80,16 +80,14 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 /XilinxSDK_project/**/Release/
 /XilinxSDK_project/**/RemoteSystemsTempFiles/
 /XilinxSDK_project/**/Packages/
-/XilinxSDK_project/**/*sample/
 
 /XilinxSDK_project/*/*/*/
+!/XilinxSDK_project/*/**/*src/
 !/XilinxSDK_project/*/**/.vscode
 !/XilinxSDK_project/*/**/*_hw_platform_*
 
 # only keep .cproject, .project, .sdkproject, .system.mss and Makefile
 # i.e. the psu_cortexa53_0 lib files are regenerated automatically
-!/XilinxSDK_project/*/**/*src
-/XilinxSDK_project/*/**/*sample*/
 !/XilinxSDK_project/*/**/.*project
 !/XilinxSDK_project/*/**/.system.mss
 !/XilinxSDK_project/*/**/Makefile
@@ -112,3 +110,13 @@ proto_ip_code/**/*_proj/
 proto_ip_code/dsp_module/l1norm_method
 /XilinxSDK_project/minimal_FEE/bug_terminal_log
 !/XilinxSDK_project/minimal_FEE_2ch/minimal_FEE_2ch_src/fee_configrator_driver
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/example_design.xdc
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/peripheral_blocks.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_03.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_8b.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_47.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_af.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_cf.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/usp_rf_data_converter_0_example_design.xdc
+XilinxSDK_project/minimal_FEE/minimal_FEE_src/xrfdc_driver_example/**
+XilinxSDK_project/async_df_gen_test/async_df_gen_test_src/sample_src/**
