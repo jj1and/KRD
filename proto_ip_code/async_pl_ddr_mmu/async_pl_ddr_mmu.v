@@ -78,29 +78,6 @@ module async_pl_ddr_mmu # (
     output wire DATAMOVER_ERROR
 );
 
-    wire dest_set_config;
-    // xpm_cdc_array_single: Single-bit Array Synchronizer
-    // Xilinx Parameterized Macro, version 2019.1
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(4), // DECIMAL; range: 2-10
-        .INIT_SYNC_FF(0), // DECIMAL; 0=disable simulation init values, 1=enable simulation init values
-        .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
-        .SRC_INPUT_REG(1), // DECIMAL; 0=do not register input, 1=register input
-        .WIDTH(1) // DECIMAL; range: 1-1024
-    )
-    xpm_cdc_array_single_inst (
-        .dest_out(dest_set_config), // WIDTH-bit output: src_in synchronized to the destination clock domain. This
-        // output is registered.
-        .dest_clk(ACLK), // 1-bit input: Clock signal for the destination clock domain.
-        .src_clk(CLK), // 1-bit input: optional; required when SRC_INPUT_REG = 1
-        .src_in(SET_CONFIG) // WIDTH-bit input: Input single-bit array to be synchronized to destination clock
-        // domain. It is assumed that each bit of the array is unrelated to the others. This
-        // is reflected in the constraints applied to this macro. To transfer a binary value
-        // losslessly across the two clock domains, use the XPM_CDC_GRAY macro instead.
-    );
-    // End of xpm_cdc_array_single_inst instantiation
-
-
     reg src_send;
     wire src_rcv;
     wire dest_req;
@@ -143,7 +120,7 @@ module async_pl_ddr_mmu # (
 
     always @(posedge CLK ) begin
         if (RESET) begin
-            src_send <= #100 1'b1;
+            src_send <= #100 1'b0;
         end else begin
             if (src_rcv) begin
                 src_send <= #100 1'b0;
@@ -163,6 +140,11 @@ module async_pl_ddr_mmu # (
         end else begin
             dest_max_trigger_length <= #100 dest_max_trigger_length;
         end
+    end
+
+    reg dest_req_delay;
+    always @(posedge ACLK ) begin
+        dest_req_delay <= #100 dest_req;
     end
 
     localparam integer DATAFRAME_WIDTH = TDATA_WIDTH/2;
@@ -187,7 +169,7 @@ module async_pl_ddr_mmu # (
             burst_type <= #100 1'b1;
             max_btt <= #100 16*16+32;
         end else begin
-            if (dest_set_config) begin
+            if (dest_req_delay) begin
                 rsvd <= #100 0;
                 drr <= #100 0;
                 eof <= #100 1'b1;
@@ -231,7 +213,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config}) begin
+        if (|{~ARESETN, dest_req_delay}) begin
             s2mm_transfer_cmplt <= #100 1'b1;
         end else begin
             if (s2mm_transfer_cmpltD) begin
@@ -285,7 +267,7 @@ module async_pl_ddr_mmu # (
     wire almost_full = (next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] == src_addr[LOCAL_ADDRESS_WIDTH-1:0])&(next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] != src_addr[LOCAL_ADDRESS_WIDTH]);    
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -310,7 +292,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_cmd_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -335,7 +317,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -360,7 +342,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             next_dest_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_dest_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -385,7 +367,7 @@ module async_pl_ddr_mmu # (
     end    
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 0;
             src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -410,7 +392,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             next_src_addr[LOCAL_ADDRESS_WIDTH-1:0] <= #100 max_btt;
             next_src_addr[LOCAL_ADDRESS_WIDTH] <= #100 1'b0;
         end else begin
@@ -438,7 +420,7 @@ module async_pl_ddr_mmu # (
     reg write_ready;
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config}) begin
+        if (|{~ARESETN, dest_req_delay}) begin
             write_ready <= #100 1'b1;
         end else begin
             if (|{S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
@@ -463,7 +445,7 @@ module async_pl_ddr_mmu # (
     reg [3:0] cmd_s2mm_tag;
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             s2mm_cmd_tvaild <= #100 1'b0;
         end else begin
             if (&{S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
@@ -479,7 +461,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             cmd_s2mm_tag <= #100 0;
         end else begin
             if (s2mm_cmd_tvaild&S2MM_CMD_M_AXIS_TREADY) begin
@@ -494,7 +476,7 @@ module async_pl_ddr_mmu # (
     // For Non-IBTT Mode
     reg [BTT_WIDTH-1:0] s2mm_btt;
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config}) begin
+        if (|{~ARESETN, dest_req_delay}) begin
             s2mm_btt <= #100 max_btt;
         end else begin
             if (&{S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
@@ -516,7 +498,7 @@ module async_pl_ddr_mmu # (
     reg read_ready;
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config}) begin
+        if (|{~ARESETN, dest_req_delay}) begin
             read_ready <= #100 1'b1;
         end else begin
             if (|{MM2S_CMD_M_AXIS_TVALID&MM2S_CMD_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
@@ -532,7 +514,7 @@ module async_pl_ddr_mmu # (
     end    
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             mm2s_cmd_tvalid <= #100 1'b0;
         end else begin
             if (&{read_ready, !empty, !mm2s_cmd_tvalid}) begin
@@ -548,7 +530,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             mm2s_tag <= #100 0;
         end else begin
             if (mm2s_transfer_cmpltD) begin
@@ -581,7 +563,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             new_data <= #100 1'b1;
         end else begin
             if (&{MM2S_S_AXIS_TLAST, MM2S_S_AXIS_TVALID, MM2S_S_AXIS_TREADY}) begin
@@ -597,7 +579,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             m_axis_tvalid <= #100 1'b0;
         end else begin
             if (&{mm2s_tdata_is_header, MM2S_S_AXIS_TVALID, new_data}) begin
@@ -618,7 +600,7 @@ module async_pl_ddr_mmu # (
     // (* MARK_DEBUG = "TRUE" *) wire frame_len_mismatch = frame_acquired^mm2s_tdata_is_footer;
 
     // always @(posedge ACLK ) begin
-    //     if (|{~ARESETN, dest_set_config}) begin
+    //     if (|{~ARESETN, dest_req_delay}) begin
     //         rcvd_frame_len <= #100 max_btt;
     //     end else begin
     //         if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
@@ -630,7 +612,7 @@ module async_pl_ddr_mmu # (
     // end
 
     // always @(posedge ACLK ) begin
-    //     if (|{~ARESETN, dest_set_config}) begin
+    //     if (|{~ARESETN, dest_req_delay}) begin
     //         frame_len_count <= #100 0;
     //     end else begin
     //         if (&{mm2s_tdata_is_header, mm2s_tvalid_posedge}) begin
@@ -650,7 +632,7 @@ module async_pl_ddr_mmu # (
     // end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             m_axis_tdata <= #100 {TDATA_WIDTH{1'b1}};
             mm2s_tdata_valid <= #100 1'b0;
         end else begin
@@ -665,7 +647,7 @@ module async_pl_ddr_mmu # (
     end
 
     always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_set_config, DATAMOVER_ERROR}) begin
+        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
             m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
         end else begin
             if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
