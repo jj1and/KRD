@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20201008_07.bin"
+BASE_FILE_NAME = "./data/recv_buff_v4_20201022_14.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 1000) & (pd_dfs['OBJECT_ID'] >= 0)].index[0:100]):
+    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 10) & (pd_dfs['OBJECT_ID'] >= 0)].index[0:100]):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
         hgain_wav = hgain_only_waveform_array[i, 0:sample_num]
