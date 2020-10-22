@@ -30,7 +30,7 @@ module async_header_footer_gen # (
     input wire ADC_FIFO_RST_BUSY
 );
 
-    wire trigger_halt = |{ARESET, SET_CONFIG, ADC_FIFO_FULL, ADC_FIFO_RST_BUSY, HF_FIFO_FULL, HF_FIFO_RST_BUSY};
+    wire trigger_halt = |{ARESET, SET_CONFIG, ADC_FIFO_FULL, adc_fifo_gets_full_delay, ADC_FIFO_RST_BUSY, HF_FIFO_FULL, hf_fifo_gets_full_delay, HF_FIFO_RST_BUSY};
 
     reg s_axis_tvalid_delay;
     wire s_axis_tvalid_posedge = (S_AXIS_TVALID==1'b1)&(s_axis_tvalid_delay==1'b0);
@@ -85,14 +85,19 @@ module async_header_footer_gen # (
     wire [(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-1:0] header_footer = {header, footer};
     wire header_footer_valid =  |{trigger_halt, (trigger_run_state==2'b00)} ? 1'b0 :|{s_axis_tvalid_negedge, split_frame, adc_fifo_gets_full};
     wire hf_fifo_gets_full = &{HF_FIFO_ALMOST_FULL==1'b1, header_footer_valid==1'b1};
+    reg hf_fifo_gets_full_delay;
 
     reg adc_fifo_wen;
     wire adc_fifo_gets_full = &{ADC_FIFO_ALMOST_FULL==1'b1, adc_fifo_wen==1'b1};
+    reg adc_fifo_gets_full_delay;
     // wire adc_fifo_full_posedge = (adc_fifo_full_delay==1'b0)&(ADC_FIFO_FULL==1'b1);
     reg [`RFDC_TDATA_WIDTH-1:0] adc_data;
 
     always @(posedge ACLK ) begin
+
         s_axis_tvalid_delay <= #100 S_AXIS_TVALID;
+        adc_fifo_gets_full_delay <= #100 adc_fifo_gets_full;
+        hf_fifo_gets_full_delay <= #100 hf_fifo_gets_full;
     end
 
     always @(posedge ACLK ) begin
@@ -178,7 +183,7 @@ module async_header_footer_gen # (
     // if h_partial_charge_sum>=2**21, h_partial_charge_sum should be clipped to 2**21-1
     integer j;
     always @(posedge ACLK ) begin
-        if (trigger_halt|(!S_AXIS_TVALID)) begin
+        if (|{trigger_halt,!S_AXIS_TVALID}) begin
             frame_len <= #100 {`FRAME_LENGTH_WIDTH{1'b1}};
             for ( j=0 ; j<`SAMPLE_NUM_PER_CLK ; j=j+1) begin
                 h_partial_charge_sum[j] <= #100 {`CHARGE_SUM{1'b1}};

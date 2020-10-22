@@ -127,7 +127,7 @@ module async_dataframe_generator # (
         .FULL_RESET_VALUE(0),      // DECIMAL
         .PROG_EMPTY_THRESH(10),    // DECIMAL
         .PROG_FULL_THRESH(10),     // DECIMAL
-        .RD_DATA_COUNT_WIDTH(1),   // DECIMAL
+        .RD_DATA_COUNT_WIDTH(2),   // DECIMAL
         .READ_DATA_WIDTH(`RFDC_TDATA_WIDTH),      // DECIMAL
         .READ_MODE("std"),         // String
         .RELATED_CLOCKS(0),        // DECIMAL
@@ -135,7 +135,7 @@ module async_dataframe_generator # (
         .USE_ADV_FEATURES("0008"), // String
         .WAKEUP_TIME(0),           // DECIMAL
         .WRITE_DATA_WIDTH(`RFDC_TDATA_WIDTH),     // DECIMAL
-        .WR_DATA_COUNT_WIDTH(1)    // DECIMAL
+        .WR_DATA_COUNT_WIDTH(2)    // DECIMAL
     ) xpm_adc_fifo_async_inst (
         .almost_empty(),   // 1-bit output: Almost Empty : When asserted, this signal indicates that
                                         // only one more read can be performed before the FIFO goes to empty.
@@ -245,7 +245,7 @@ module async_dataframe_generator # (
         .FULL_RESET_VALUE(0),      // DECIMAL
         .PROG_EMPTY_THRESH(10),    // DECIMAL
         .PROG_FULL_THRESH(10),     // DECIMAL
-        .RD_DATA_COUNT_WIDTH(1),   // DECIMAL
+        .RD_DATA_COUNT_WIDTH(2),   // DECIMAL
         .READ_DATA_WIDTH((`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH),      // DECIMAL
         .READ_MODE("std"),         // String
         .RELATED_CLOCKS(0),        // DECIMAL
@@ -253,7 +253,7 @@ module async_dataframe_generator # (
         .USE_ADV_FEATURES("0008"), // String
         .WAKEUP_TIME(0),           // DECIMAL
         .WRITE_DATA_WIDTH((`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH),     // DECIMAL
-        .WR_DATA_COUNT_WIDTH(1)    // DECIMAL
+        .WR_DATA_COUNT_WIDTH(2)    // DECIMAL
     ) xpm_hf_fifo_async_inst (
         .almost_empty(),   // 1-bit output: Almost Empty : When asserted, this signal indicates that
                                         // only one more read can be performed before the FIFO goes to empty.

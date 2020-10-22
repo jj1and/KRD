@@ -60,8 +60,12 @@ module async_dataframe_gen (
 
     wire [`FRAME_LENGTH_WIDTH:0] frame_lenD = {2'b0, HF_FIFO_DOUT[(`HEADER_LINE+`FOOTER_LINE)*`DATAFRAME_WIDTH-`HEADER_ID_WIDTH-`CH_ID_WIDTH-1 -:`FRAME_LENGTH_WIDTH-1]};
     reg [`FRAME_LENGTH_WIDTH:0] frame_len;
+    reg [`FRAME_LENGTH_WIDTH:0] actual_frame_len; // count from 0, so actual_frame_len = frame_lenD+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-1
+    reg [`FRAME_LENGTH_WIDTH:0] adc_frame_len; // count from 0, so adc_frame_len = frame_len-1;
     always @(posedge ACLK) begin
         frame_len <= #100 frame_lenD;
+        actual_frame_len <= #100 frame_lenD+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-1;
+        adc_frame_len <= #100 frame_lenD-1;
     end
 
 
@@ -69,11 +73,11 @@ module async_dataframe_gen (
     
     reg [`FRAME_LENGTH_WIDTH:0] frame_len_cnt;
     wire frame_len_cnt_is_init = (frame_len_cnt==INIT_FRAME_LEN);
-    wire tlast = (frame_len_cnt==(frame_len+ACTUAL_HEADER_LINE+ACTUAL_FOOTER_LINE-1));
+    wire tlast = (frame_len_cnt==actual_frame_len);
 
     reg [`FRAME_LENGTH_WIDTH:0] adc_cnt;
     wire adc_cnt_is_init = (adc_cnt == INIT_FRAME_LEN);
-    wire adc_last = (frame_len == adc_cnt+1);
+    wire adc_last = (adc_frame_len == adc_cnt);
 
     wire frame_exist = !HF_FIFO_EMPTY;
     wire read_done = &{tlast, M_AXIS_TREADY, tvalid};
@@ -113,7 +117,7 @@ module async_dataframe_gen (
             tvalid <= #100 1'b0;
         end else begin
             if (frame_len_cnt==0) begin
-                tvalid <= 1'b1;
+                tvalid <= #100 1'b1;
             end else begin
                 if (read_done) begin
                     tvalid <= #100 1'b0;
@@ -183,7 +187,7 @@ module async_dataframe_gen (
     generate
         if ((`HEADER_LINE==2)&(`FOOTER_LINE==1)) begin
             always @(posedge ACLK ) begin
-                if (|{ARESET, internal_error, frame_len_cnt_is_init}) begin
+                if (|{ARESET, internal_error}) begin
                     tdata <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
                 end else begin
                     if (&{frame_len_cnt==0, adc_cnt_start}) begin
@@ -236,10 +240,41 @@ module async_dataframe_gen (
         end
     end
 
+    // for afording timing contraint
+    // reg tvalid_delay;
+    // reg [`RFDC_TDATA_WIDTH-1:0] tdata_delay;
+    // reg [`RFDC_TDATA_WIDTH/8-1:0] tkeep_delay;
+    // reg tlast_delay;
+    // always @(posedge ACLK ) begin
+    //     if (|{ARESET, internal_error}) begin
+    //         tvalid_delay <= #100 1'b0;
+    //         tlast_delay <= #100 1'b0;
+    //         tdata_delay <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
+    //         tkeep_delay <= #100 {`RFDC_TDATA_WIDTH/8{1'b1}};
+    //     end else begin
+    //         if ((!M_AXIS_TREADY)&tvalid_delay) begin
+    //             tvalid_delay <= #100 tvalid_delay;
+    //             tlast_delay <= #100 tlast_delay;
+    //             tdata_delay <= #100 tdata_delay;
+    //             tkeep_delay <= #100 tkeep_delay;                
+    //         end else begin
+    //             tvalid_delay <= #100 tvalid;
+    //             tlast_delay <= #100 tlast&tvalid;
+    //             tdata_delay <= #100 tdata;
+    //             tkeep_delay <= #100 tkeep;
+    //         end
+    //     end
+    // end
+
+    // assign M_AXIS_TVALID = tvalid_delay;
+    // assign M_AXIS_TLAST = tlast_delay;
+    // assign M_AXIS_TDATA = tdata_delay;
+    // assign M_AXIS_TKEEP = tkeep_delay;
+
     assign M_AXIS_TVALID = tvalid;
     assign M_AXIS_TLAST = tlast&tvalid;
     assign M_AXIS_TDATA = tdata;
-    assign M_AXIS_TKEEP = tkeep;
+    assign M_AXIS_TKEEP = tkeep;    
     assign DATAFRAME_GEN_ERROR = internal_error;
 
 endmodule // 
