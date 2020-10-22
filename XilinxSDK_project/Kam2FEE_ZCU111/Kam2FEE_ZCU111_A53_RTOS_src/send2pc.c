@@ -22,20 +22,20 @@ void send2pc_application_thread(void *arg) {
     server_address.sin_port = htons(argptr->port);
     server_address.sin_addr.s_addr = inet_addr(argptr->server_address);
 
-    xil_printf("Connecting to server...\r\n");
+    xil_printf("INFO: Connecting to server...\r\n");
     connection_status = lwip_connect(sock, (struct sockaddr *)&server_address, sizeof(server_address));
 
     if (connection_status < 0) {
-        xil_printf("Failed to connect sever IP:address:%s, Port:%d\r\n", argptr->server_address, argptr->port);
+        xil_printf("ERROR: Failed to connect sever IP:address:%s, Port:%d\r\n", argptr->server_address, argptr->port);
         lwip_close(sock);
         socket_close_flag = SOCKET_CLOSE;
-        xil_printf("Send2PC thread end\r\n");
+        xil_printf("INFO: Send2PC thread end\r\n");
         vTaskResume(xDmaTask);
         vTaskDelete(NULL);
     } else {
         socket_close_flag = SOCKET_OPEN;
-        xil_printf("Succeeded to connect sever IP:address:%s, Port:%d\r\n", argptr->server_address, argptr->port);
-        xil_printf("Resume dma exction\r\n");
+        xil_printf("INFO: Succeeded to connect sever IP:address:%s, Port:%d\r\n", argptr->server_address, argptr->port);
+        xil_printf("INFO: Resume dma exction\r\n");
         vTaskResume(xDmaTask);
         portYIELD();
     }
@@ -50,7 +50,7 @@ void send2pc_application_thread(void *arg) {
 		send_len = 0;
 
 		if (!ulTaskNotifyTake(pdTRUE, portMAX_DELAY)) {
-			xil_printf("Waiting DmaTask is Timeout\r\n");
+			xil_printf("INFO: Waiting DmaTask is Timeout\r\n");
 			break;
 		} else {
 			do {
@@ -58,7 +58,7 @@ void send2pc_application_thread(void *arg) {
 				actual_frame_len = ((dma_buff_ptr[0] >> (24 + 8)) & 0x00000FFF) + 3;
 				if ((send_wrote = lwip_send(sock, dma_buff_ptr, actual_frame_len * sizeof(u64), 0)) < 0) {
 					xil_printf("%s: Failed to send data. written = %d\r\n", __FUNCTION__, send_wrote);
-					xil_printf("Closing socket %d\r\n", sock);
+					xil_printf("INFO: Closing socket %d\r\n", sock);
 					break;
 				}
 				if (incr_rdptr_after_read(actual_frame_len + 1) < 0) {
@@ -79,7 +79,7 @@ void send2pc_application_thread(void *arg) {
 		}
 
 		if (dma_task_end_flag == DMA_TASK_END) {
-			xil_printf("dma is end\r\n");
+			xil_printf("INFO: dma is end\r\n");
 			break;
 		}
 
@@ -91,7 +91,7 @@ void send2pc_application_thread(void *arg) {
     lwip_close(sock);
     socket_close_flag = SOCKET_CLOSE;
 	total_send_size += send_len * sizeof(u64);
-	xil_printf("Send %d Bytes to server\r\n", total_send_size);
-    xil_printf("Send2PC thread end\r\n");
+	xil_printf("INFO: Send %d Bytes to server\r\n", total_send_size);
+    xil_printf("INFO: Send2PC thread end\r\n");
     vTaskDelete(NULL);
 }

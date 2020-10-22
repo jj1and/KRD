@@ -49,16 +49,18 @@
 
 const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
 const u32 TRIGGER_TYPE = HARDWARE_TRIGGER;
-const int RISING_EDGE_THRESHOLD = -1024;
-const int FALLING_EDGE_THRESHOLD = -2048;
+const int RISING_EDGE_THRESHOLD = 128;
+const int FALLING_EDGE_THRESHOLD = 0;
 const u32 PRE_ACQUISITION_LENGTH = 2;
 const u32 POST_ACQUISITION_LENGTH = 1;
 
-const Channel_Config channel_0 = {0, ACQUIRE_MODE, TRIGGER_TYPE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-Channel_Config ch_config_array[1] = {channel_0};
+const Channel_Config channel_0 = {0, ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_1 = {1, ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_2 = {2, ACQUIRE_MODE, TRIGGER_TYPE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+Channel_Config ch_config_array[3] = {channel_0, channel_1, channel_2};
 
 Trigger_Config fee = {
-    1,
+    3,
     ch_config_array};
 
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
@@ -227,16 +229,17 @@ void printData(u64 *dataptr, u64 frame_size) {
     xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 *rcvd_frame_length) {
+int checkData(u64 *dataptr, Trigger_Config fee_config, int print_enable, u64 *rcvd_frame_length) {
     int Status = XST_SUCCESS;
+    u8 read_channel_id;
     u8 read_header_id;
     u64 read_header_timestamp;
     u8 read_trigger_info;
     u16 read_trigger_length;
     int read_raw_charge_sum;
     int read_charge_sum;
-    u16 read_fall_thre;
-    u16 read_rise_thre;
+    short int read_fall_thre;
+    short int read_rise_thre;
     u64 read_footer_timestamp;
     u32 read_object_id;
     u8 read_footer_id;
@@ -245,6 +248,7 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
     read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
     read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
+    read_channel_id = (dataptr[0] >> (24 + 8 + 12)) & 0x00000FFF;
     read_header_id = (dataptr[0] >> (24 + 8 + 12 + 12)) & 0x000000FF;
     read_raw_charge_sum = (dataptr[1] >> 32) & 0x00FFFFFF;
     read_charge_sum = (read_raw_charge_sum << 8) >> 8;  // sign extention
@@ -300,12 +304,20 @@ int checkData(u64 *dataptr, u16 rise_thre, u16 fall_thre, int print_enable, u64 
     if (read_header_id != 0xAA) {
         xil_printf("HEADER_ID mismatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
         Status = XST_FAILURE;
-    } else if (read_rise_thre != rise_thre) {
-        xil_printf("threshold mismatch Data: %d Expected: %d\r\n", read_rise_thre, rise_thre);
-        Status = XST_FAILURE;
-    } else if (read_fall_thre != fall_thre) {
-        xil_printf("fall_thre mismatch Data: %d Expected: %d\r\n", read_fall_thre, fall_thre);
-        Status = XST_FAILURE;
+    }
+
+    if (read_channel_id >= 16) {
+        xil_printf("CHANNEL_ID invalid: Channel ID must be smaller than 16 Data :%2x\r\n", read_channel_id);
+    } else {
+        if (read_rise_thre != fee_config.ChanelConfigs[read_channel_id].RisingEdgeThreshold) {
+            xil_printf("threshold mismatch Data: %d Expected: %d\r\n", read_rise_thre, fee_config.ChanelConfigs[read_channel_id].RisingEdgeThreshold);
+            Status = XST_FAILURE;
+        }
+
+        if (read_fall_thre != fee_config.ChanelConfigs[read_channel_id].FallingEdgeThreshold) {
+            xil_printf("fall_thre mismatch Data: %d Expected: %d\r\n", read_fall_thre, fee_config.ChanelConfigs[read_channel_id].FallingEdgeThreshold);
+            Status = XST_FAILURE;
+        }
     }
 
     if (read_footer_id != 0x55) {
@@ -368,7 +380,7 @@ void prvDmaTask(void *pvParameters) {
 
         if ((s2mm_dma_state == XST_SUCCESS) || buff_will_be_full(MAX_PKT_LEN / sizeof(u64))) {
             dataptr = get_wrptr();
-            check_result = checkData(dataptr, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, 0, &rcvd_frame_len);
+            check_result = checkData(dataptr, fee, 0, &rcvd_frame_len);
             if (check_result == XST_FAILURE) {
                 break;
             }
@@ -389,18 +401,16 @@ void prvDmaTask(void *pvParameters) {
             vTaskSuspend(NULL);
         }
 
-        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1)) {
+        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1) || (check_result==INTERNAL_BUFFER_FULL)) {
             break;
         }
     }
 
     shutdown_dma();
     dma_task_end_flag = DMA_TASK_END;
-    if (timeout_flag == 1) {
-        dump_recv_size = 0;
-        xTaskNotifyGive(app_thread);
-        vTaskSuspend(NULL);
-    }
+    dump_recv_size = 0;
+    xTaskNotifyGive(app_thread);
+    vTaskSuspend(NULL);
 
     xil_printf("INFO: FEE shutdown.\r\n");
     fee_status = HardwareTrigger_StopDeviceId(0);
