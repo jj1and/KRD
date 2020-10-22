@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>User_Company</spirit:vendor>
-  <spirit:library>SysGen</spirit:library>
+  <spirit:vendor>awa.tohoku.ac.jp</spirit:vendor>
+  <spirit:library>mogura2</spirit:library>
   <spirit:name>simple_dsp_module</spirit:name>
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
@@ -271,6 +271,12 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <spirit:fileSetRef>
           <spirit:localName>xilinx_verilogsynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>2026ce4a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
       </spirit:view>
       <spirit:view>
         <spirit:name>xilinx_verilogbehavioralsimulation</spirit:name>
@@ -281,6 +287,12 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <spirit:fileSetRef>
           <spirit:localName>xilinx_verilogbehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>2026ce4a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
       </spirit:view>
       <spirit:view>
         <spirit:name>xilinx_product_guide</spirit:name>
@@ -289,6 +301,12 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <spirit:fileSetRef>
           <spirit:localName>xilinx_product_guide_view_fileset</spirit:localName>
         </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>392c6453</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
       </spirit:view>
       <spirit:view>
         <spirit:name>xilinx_xpgui</spirit:name>
@@ -297,6 +315,12 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <spirit:fileSetRef>
           <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
         </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f64a5dae</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
       </spirit:view>
       <spirit:view>
         <spirit:name>xilinx_utilityxitfiles</spirit:name>
@@ -305,6 +329,12 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <spirit:fileSetRef>
           <spirit:localName>xilinx_utilityxitfiles_view_fileset</spirit:localName>
         </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>67cf41f3</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
       </spirit:view>
     </spirit:views>
     <spirit:ports>
@@ -779,7 +809,7 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description> This IP was generated from System Generator. All changes must be made in SysGen model.  </spirit:description>
+  <spirit:description>This IP was generated from System Generator. All changes must be made in SysGen model.</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -789,23 +819,116 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
   <spirit:vendorExtensions>
     <xilinx:coreExtensions>
       <xilinx:supportedFamilies>
-        <xilinx:family xilinx:lifeCycle="Beta">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffve1156-2LVI-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-ffvg1517-2LVI-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsve1156-2LVI-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu28dr-fsvg1517-2LVI-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-ffvf1760-2LVI-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-1-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-1-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-1L-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-1LV-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-2-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-2-i}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-2L-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-2LV-e}</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Beta">zynquplus{xczu29dr-fsvf1760-2LVI-i}</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/System_Generator_for_DSP</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>simple_dsp_module</xilinx:displayName>
+      <xilinx:autoFamilySupportLevel>level_0</xilinx:autoFamilySupportLevel>
       <xilinx:definitionSource>sysgen</xilinx:definitionSource>
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>233416873</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-10-12T05:01:22Z</xilinx:coreCreationDateTime>
+      <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>User_Company:SysGen:simple_dsp_module:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2020-10-19T05:17:20Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45ef6524_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58d32f41_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bbdd24f_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41afc34_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6da0085b_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45646699_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e1e262b_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18fc5e5c_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d179906_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf23875_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33396d83_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d7dab92_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18ddbddf_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37c6b76a_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26abb718_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7edc1d0a_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@716a6d98_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16e17a2_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52aae466_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2762e1d7_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57b8cf90_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1daf3834_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3bdb24c7_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@738704a1_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21814259_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72937a96_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35d1ceaf_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@775ed7f8_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f264e34_ARCHIVE_LOCATION">e:/KRD/ip_repos/SysGen_outputs/simple_dsp_module/ip</xilinx:tag>
+      </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="01ea75d8"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d90bc696"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="44950aae"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="7aba9742"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
