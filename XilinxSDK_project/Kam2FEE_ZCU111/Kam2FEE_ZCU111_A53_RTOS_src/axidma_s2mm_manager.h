@@ -68,7 +68,7 @@
  * Buffer and Buffer Descriptor related constant definition
  */
 #define MAX_GENERATBLE_TRIGGER_LEN 254
-#define MAX_TRIGGER_LEN 34
+#define MAX_TRIGGER_LEN 14
 #define MAX_PKT_LEN (MAX_TRIGGER_LEN * 16 + 4 * 8)*8 // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
 #define RX_BUFFER_SIZE (RX_BUFFER_HIGH - RX_BUFFER_BASE)
 #define AXIDMA_BUFF_SIZE 16384
