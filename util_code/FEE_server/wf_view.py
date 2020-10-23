@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20201022_14.bin"
+BASE_FILE_NAME = "./data/recv_buff_v4_20201023_02.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
