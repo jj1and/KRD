@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Sun Oct 18 17:38:43 2020
+//Date        : Mon Oct 19 13:53:01 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target mogura2_fee_wrapper.bd
 //Design      : mogura2_fee_wrapper
@@ -12,11 +12,48 @@
 module mogura2_fee_wrapper
    (C0_SYS_CLK_0_clk_n,
     C0_SYS_CLK_0_clk_p,
-    EXTERNAL_TRIGGER,
+    CDCI6214_EEPROM_SEL_0,
+    CDCI6214_OE_0,
+    CDCI6214_REF_SEL_0,
+    CDCI6214_RESETN_0,
+    CDCI6214_STATUS_0,
+    GPI_0,
+    GPO_0,
+    IIC_CDCI6214_0_scl_io,
+    IIC_CDCI6214_0_sda_io,
+    IIC_SFP1_0_scl_io,
+    IIC_SFP1_0_sda_io,
+    IIC_SFP2_0_scl_io,
+    IIC_SFP2_0_sda_io,
+    LADC_CTRL1_0,
+    LADC_CTRL2_0,
+    LADC_RESET_0,
+    LADC_SEN_0,
+    LEMO,
     PL_SYSREF_clk_n,
     PL_SYSREF_clk_p,
     PL_SYSTEM_CLK_clk_n,
     PL_SYSTEM_CLK_clk_p,
+    SFP1_MOD_ABS_0,
+    SFP1_RS0_0,
+    SFP1_RS1_0,
+    SFP1_RX_LOS_0,
+    SFP1_TX_DISABLE_0,
+    SFP1_TX_FAULT_0,
+    SFP2_MOD_ABS_0,
+    SFP2_RS0_0,
+    SFP2_RS1_0,
+    SFP2_RX_LOS_0,
+    SFP2_TX_DISABLE_0,
+    SFP2_TX_FAULT_0,
+    SPI_BASEDAC_0_io0_io,
+    SPI_BASEDAC_0_io1_io,
+    SPI_BASEDAC_0_sck_io,
+    SPI_BASEDAC_0_ss_io,
+    SPI_LADC_0_io0_io,
+    SPI_LADC_0_io1_io,
+    SPI_LADC_0_sck_io,
+    SPI_LADC_0_ss_io,
     adc0_clk_clk_n,
     adc0_clk_clk_p,
     adc1_clk_clk_n,
@@ -308,11 +345,48 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_3_pin9);
   input C0_SYS_CLK_0_clk_n;
   input C0_SYS_CLK_0_clk_p;
-  input EXTERNAL_TRIGGER;
+  output [0:0]CDCI6214_EEPROM_SEL_0;
+  output [0:0]CDCI6214_OE_0;
+  output [0:0]CDCI6214_REF_SEL_0;
+  output [0:0]CDCI6214_RESETN_0;
+  input CDCI6214_STATUS_0;
+  input [3:0]GPI_0;
+  output [3:0]GPO_0;
+  inout IIC_CDCI6214_0_scl_io;
+  inout IIC_CDCI6214_0_sda_io;
+  inout IIC_SFP1_0_scl_io;
+  inout IIC_SFP1_0_sda_io;
+  inout IIC_SFP2_0_scl_io;
+  inout IIC_SFP2_0_sda_io;
+  output [7:0]LADC_CTRL1_0;
+  output [7:0]LADC_CTRL2_0;
+  output [0:0]LADC_RESET_0;
+  output [7:0]LADC_SEN_0;
+  input [1:0]LEMO;
   input [0:0]PL_SYSREF_clk_n;
   input [0:0]PL_SYSREF_clk_p;
   input [0:0]PL_SYSTEM_CLK_clk_n;
   input [0:0]PL_SYSTEM_CLK_clk_p;
+  input SFP1_MOD_ABS_0;
+  output [0:0]SFP1_RS0_0;
+  output [0:0]SFP1_RS1_0;
+  input SFP1_RX_LOS_0;
+  output [0:0]SFP1_TX_DISABLE_0;
+  input SFP1_TX_FAULT_0;
+  input SFP2_MOD_ABS_0;
+  output [0:0]SFP2_RS0_0;
+  output [0:0]SFP2_RS1_0;
+  input SFP2_RX_LOS_0;
+  output [0:0]SFP2_TX_DISABLE_0;
+  input SFP2_TX_FAULT_0;
+  inout SPI_BASEDAC_0_io0_io;
+  inout SPI_BASEDAC_0_io1_io;
+  inout SPI_BASEDAC_0_sck_io;
+  inout [0:0]SPI_BASEDAC_0_ss_io;
+  inout SPI_LADC_0_io0_io;
+  inout SPI_LADC_0_io1_io;
+  inout SPI_LADC_0_sck_io;
+  inout [0:0]SPI_LADC_0_ss_io;
   input adc0_clk_clk_n;
   input adc0_clk_clk_p;
   input adc1_clk_clk_n;
@@ -605,11 +679,90 @@ module mogura2_fee_wrapper
 
   wire C0_SYS_CLK_0_clk_n;
   wire C0_SYS_CLK_0_clk_p;
-  wire EXTERNAL_TRIGGER;
+  wire [0:0]CDCI6214_EEPROM_SEL_0;
+  wire [0:0]CDCI6214_OE_0;
+  wire [0:0]CDCI6214_REF_SEL_0;
+  wire [0:0]CDCI6214_RESETN_0;
+  wire CDCI6214_STATUS_0;
+  wire [3:0]GPI_0;
+  wire [3:0]GPO_0;
+  wire IIC_CDCI6214_0_scl_i;
+  wire IIC_CDCI6214_0_scl_io;
+  wire IIC_CDCI6214_0_scl_o;
+  wire IIC_CDCI6214_0_scl_t;
+  wire IIC_CDCI6214_0_sda_i;
+  wire IIC_CDCI6214_0_sda_io;
+  wire IIC_CDCI6214_0_sda_o;
+  wire IIC_CDCI6214_0_sda_t;
+  wire IIC_SFP1_0_scl_i;
+  wire IIC_SFP1_0_scl_io;
+  wire IIC_SFP1_0_scl_o;
+  wire IIC_SFP1_0_scl_t;
+  wire IIC_SFP1_0_sda_i;
+  wire IIC_SFP1_0_sda_io;
+  wire IIC_SFP1_0_sda_o;
+  wire IIC_SFP1_0_sda_t;
+  wire IIC_SFP2_0_scl_i;
+  wire IIC_SFP2_0_scl_io;
+  wire IIC_SFP2_0_scl_o;
+  wire IIC_SFP2_0_scl_t;
+  wire IIC_SFP2_0_sda_i;
+  wire IIC_SFP2_0_sda_io;
+  wire IIC_SFP2_0_sda_o;
+  wire IIC_SFP2_0_sda_t;
+  wire [7:0]LADC_CTRL1_0;
+  wire [7:0]LADC_CTRL2_0;
+  wire [0:0]LADC_RESET_0;
+  wire [7:0]LADC_SEN_0;
+  wire [1:0]LEMO;
   wire [0:0]PL_SYSREF_clk_n;
   wire [0:0]PL_SYSREF_clk_p;
   wire [0:0]PL_SYSTEM_CLK_clk_n;
   wire [0:0]PL_SYSTEM_CLK_clk_p;
+  wire SFP1_MOD_ABS_0;
+  wire [0:0]SFP1_RS0_0;
+  wire [0:0]SFP1_RS1_0;
+  wire SFP1_RX_LOS_0;
+  wire [0:0]SFP1_TX_DISABLE_0;
+  wire SFP1_TX_FAULT_0;
+  wire SFP2_MOD_ABS_0;
+  wire [0:0]SFP2_RS0_0;
+  wire [0:0]SFP2_RS1_0;
+  wire SFP2_RX_LOS_0;
+  wire [0:0]SFP2_TX_DISABLE_0;
+  wire SFP2_TX_FAULT_0;
+  wire SPI_BASEDAC_0_io0_i;
+  wire SPI_BASEDAC_0_io0_io;
+  wire SPI_BASEDAC_0_io0_o;
+  wire SPI_BASEDAC_0_io0_t;
+  wire SPI_BASEDAC_0_io1_i;
+  wire SPI_BASEDAC_0_io1_io;
+  wire SPI_BASEDAC_0_io1_o;
+  wire SPI_BASEDAC_0_io1_t;
+  wire SPI_BASEDAC_0_sck_i;
+  wire SPI_BASEDAC_0_sck_io;
+  wire SPI_BASEDAC_0_sck_o;
+  wire SPI_BASEDAC_0_sck_t;
+  wire [0:0]SPI_BASEDAC_0_ss_i_0;
+  wire [0:0]SPI_BASEDAC_0_ss_io_0;
+  wire [0:0]SPI_BASEDAC_0_ss_o_0;
+  wire SPI_BASEDAC_0_ss_t;
+  wire SPI_LADC_0_io0_i;
+  wire SPI_LADC_0_io0_io;
+  wire SPI_LADC_0_io0_o;
+  wire SPI_LADC_0_io0_t;
+  wire SPI_LADC_0_io1_i;
+  wire SPI_LADC_0_io1_io;
+  wire SPI_LADC_0_io1_o;
+  wire SPI_LADC_0_io1_t;
+  wire SPI_LADC_0_sck_i;
+  wire SPI_LADC_0_sck_io;
+  wire SPI_LADC_0_sck_o;
+  wire SPI_LADC_0_sck_t;
+  wire [0:0]SPI_LADC_0_ss_i_0;
+  wire [0:0]SPI_LADC_0_ss_io_0;
+  wire [0:0]SPI_LADC_0_ss_o_0;
+  wire SPI_LADC_0_ss_t;
   wire adc0_clk_clk_n;
   wire adc0_clk_clk_p;
   wire adc1_clk_clk_n;
@@ -900,14 +1053,149 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_3_pin8;
   wire xiphy_rx_pins_3_pin9;
 
+  IOBUF IIC_CDCI6214_0_scl_iobuf
+       (.I(IIC_CDCI6214_0_scl_o),
+        .IO(IIC_CDCI6214_0_scl_io),
+        .O(IIC_CDCI6214_0_scl_i),
+        .T(IIC_CDCI6214_0_scl_t));
+  IOBUF IIC_CDCI6214_0_sda_iobuf
+       (.I(IIC_CDCI6214_0_sda_o),
+        .IO(IIC_CDCI6214_0_sda_io),
+        .O(IIC_CDCI6214_0_sda_i),
+        .T(IIC_CDCI6214_0_sda_t));
+  IOBUF IIC_SFP1_0_scl_iobuf
+       (.I(IIC_SFP1_0_scl_o),
+        .IO(IIC_SFP1_0_scl_io),
+        .O(IIC_SFP1_0_scl_i),
+        .T(IIC_SFP1_0_scl_t));
+  IOBUF IIC_SFP1_0_sda_iobuf
+       (.I(IIC_SFP1_0_sda_o),
+        .IO(IIC_SFP1_0_sda_io),
+        .O(IIC_SFP1_0_sda_i),
+        .T(IIC_SFP1_0_sda_t));
+  IOBUF IIC_SFP2_0_scl_iobuf
+       (.I(IIC_SFP2_0_scl_o),
+        .IO(IIC_SFP2_0_scl_io),
+        .O(IIC_SFP2_0_scl_i),
+        .T(IIC_SFP2_0_scl_t));
+  IOBUF IIC_SFP2_0_sda_iobuf
+       (.I(IIC_SFP2_0_sda_o),
+        .IO(IIC_SFP2_0_sda_io),
+        .O(IIC_SFP2_0_sda_i),
+        .T(IIC_SFP2_0_sda_t));
+  IOBUF SPI_BASEDAC_0_io0_iobuf
+       (.I(SPI_BASEDAC_0_io0_o),
+        .IO(SPI_BASEDAC_0_io0_io),
+        .O(SPI_BASEDAC_0_io0_i),
+        .T(SPI_BASEDAC_0_io0_t));
+  IOBUF SPI_BASEDAC_0_io1_iobuf
+       (.I(SPI_BASEDAC_0_io1_o),
+        .IO(SPI_BASEDAC_0_io1_io),
+        .O(SPI_BASEDAC_0_io1_i),
+        .T(SPI_BASEDAC_0_io1_t));
+  IOBUF SPI_BASEDAC_0_sck_iobuf
+       (.I(SPI_BASEDAC_0_sck_o),
+        .IO(SPI_BASEDAC_0_sck_io),
+        .O(SPI_BASEDAC_0_sck_i),
+        .T(SPI_BASEDAC_0_sck_t));
+  IOBUF SPI_BASEDAC_0_ss_iobuf_0
+       (.I(SPI_BASEDAC_0_ss_o_0),
+        .IO(SPI_BASEDAC_0_ss_io[0]),
+        .O(SPI_BASEDAC_0_ss_i_0),
+        .T(SPI_BASEDAC_0_ss_t));
+  IOBUF SPI_LADC_0_io0_iobuf
+       (.I(SPI_LADC_0_io0_o),
+        .IO(SPI_LADC_0_io0_io),
+        .O(SPI_LADC_0_io0_i),
+        .T(SPI_LADC_0_io0_t));
+  IOBUF SPI_LADC_0_io1_iobuf
+       (.I(SPI_LADC_0_io1_o),
+        .IO(SPI_LADC_0_io1_io),
+        .O(SPI_LADC_0_io1_i),
+        .T(SPI_LADC_0_io1_t));
+  IOBUF SPI_LADC_0_sck_iobuf
+       (.I(SPI_LADC_0_sck_o),
+        .IO(SPI_LADC_0_sck_io),
+        .O(SPI_LADC_0_sck_i),
+        .T(SPI_LADC_0_sck_t));
+  IOBUF SPI_LADC_0_ss_iobuf_0
+       (.I(SPI_LADC_0_ss_o_0),
+        .IO(SPI_LADC_0_ss_io[0]),
+        .O(SPI_LADC_0_ss_i_0),
+        .T(SPI_LADC_0_ss_t));
   mogura2_fee mogura2_fee_i
        (.C0_SYS_CLK_0_clk_n(C0_SYS_CLK_0_clk_n),
         .C0_SYS_CLK_0_clk_p(C0_SYS_CLK_0_clk_p),
-        .EXTERNAL_TRIGGER(EXTERNAL_TRIGGER),
+        .CDCI6214_EEPROM_SEL_0(CDCI6214_EEPROM_SEL_0),
+        .CDCI6214_OE_0(CDCI6214_OE_0),
+        .CDCI6214_REF_SEL_0(CDCI6214_REF_SEL_0),
+        .CDCI6214_RESETN_0(CDCI6214_RESETN_0),
+        .CDCI6214_STATUS_0(CDCI6214_STATUS_0),
+        .GPI_0(GPI_0),
+        .GPO_0(GPO_0),
+        .IIC_CDCI6214_0_scl_i(IIC_CDCI6214_0_scl_i),
+        .IIC_CDCI6214_0_scl_o(IIC_CDCI6214_0_scl_o),
+        .IIC_CDCI6214_0_scl_t(IIC_CDCI6214_0_scl_t),
+        .IIC_CDCI6214_0_sda_i(IIC_CDCI6214_0_sda_i),
+        .IIC_CDCI6214_0_sda_o(IIC_CDCI6214_0_sda_o),
+        .IIC_CDCI6214_0_sda_t(IIC_CDCI6214_0_sda_t),
+        .IIC_SFP1_0_scl_i(IIC_SFP1_0_scl_i),
+        .IIC_SFP1_0_scl_o(IIC_SFP1_0_scl_o),
+        .IIC_SFP1_0_scl_t(IIC_SFP1_0_scl_t),
+        .IIC_SFP1_0_sda_i(IIC_SFP1_0_sda_i),
+        .IIC_SFP1_0_sda_o(IIC_SFP1_0_sda_o),
+        .IIC_SFP1_0_sda_t(IIC_SFP1_0_sda_t),
+        .IIC_SFP2_0_scl_i(IIC_SFP2_0_scl_i),
+        .IIC_SFP2_0_scl_o(IIC_SFP2_0_scl_o),
+        .IIC_SFP2_0_scl_t(IIC_SFP2_0_scl_t),
+        .IIC_SFP2_0_sda_i(IIC_SFP2_0_sda_i),
+        .IIC_SFP2_0_sda_o(IIC_SFP2_0_sda_o),
+        .IIC_SFP2_0_sda_t(IIC_SFP2_0_sda_t),
+        .LADC_CTRL1_0(LADC_CTRL1_0),
+        .LADC_CTRL2_0(LADC_CTRL2_0),
+        .LADC_RESET_0(LADC_RESET_0),
+        .LADC_SEN_0(LADC_SEN_0),
+        .LEMO(LEMO),
         .PL_SYSREF_clk_n(PL_SYSREF_clk_n),
         .PL_SYSREF_clk_p(PL_SYSREF_clk_p),
         .PL_SYSTEM_CLK_clk_n(PL_SYSTEM_CLK_clk_n),
         .PL_SYSTEM_CLK_clk_p(PL_SYSTEM_CLK_clk_p),
+        .SFP1_MOD_ABS_0(SFP1_MOD_ABS_0),
+        .SFP1_RS0_0(SFP1_RS0_0),
+        .SFP1_RS1_0(SFP1_RS1_0),
+        .SFP1_RX_LOS_0(SFP1_RX_LOS_0),
+        .SFP1_TX_DISABLE_0(SFP1_TX_DISABLE_0),
+        .SFP1_TX_FAULT_0(SFP1_TX_FAULT_0),
+        .SFP2_MOD_ABS_0(SFP2_MOD_ABS_0),
+        .SFP2_RS0_0(SFP2_RS0_0),
+        .SFP2_RS1_0(SFP2_RS1_0),
+        .SFP2_RX_LOS_0(SFP2_RX_LOS_0),
+        .SFP2_TX_DISABLE_0(SFP2_TX_DISABLE_0),
+        .SFP2_TX_FAULT_0(SFP2_TX_FAULT_0),
+        .SPI_BASEDAC_0_io0_i(SPI_BASEDAC_0_io0_i),
+        .SPI_BASEDAC_0_io0_o(SPI_BASEDAC_0_io0_o),
+        .SPI_BASEDAC_0_io0_t(SPI_BASEDAC_0_io0_t),
+        .SPI_BASEDAC_0_io1_i(SPI_BASEDAC_0_io1_i),
+        .SPI_BASEDAC_0_io1_o(SPI_BASEDAC_0_io1_o),
+        .SPI_BASEDAC_0_io1_t(SPI_BASEDAC_0_io1_t),
+        .SPI_BASEDAC_0_sck_i(SPI_BASEDAC_0_sck_i),
+        .SPI_BASEDAC_0_sck_o(SPI_BASEDAC_0_sck_o),
+        .SPI_BASEDAC_0_sck_t(SPI_BASEDAC_0_sck_t),
+        .SPI_BASEDAC_0_ss_i(SPI_BASEDAC_0_ss_i_0),
+        .SPI_BASEDAC_0_ss_o(SPI_BASEDAC_0_ss_o_0),
+        .SPI_BASEDAC_0_ss_t(SPI_BASEDAC_0_ss_t),
+        .SPI_LADC_0_io0_i(SPI_LADC_0_io0_i),
+        .SPI_LADC_0_io0_o(SPI_LADC_0_io0_o),
+        .SPI_LADC_0_io0_t(SPI_LADC_0_io0_t),
+        .SPI_LADC_0_io1_i(SPI_LADC_0_io1_i),
+        .SPI_LADC_0_io1_o(SPI_LADC_0_io1_o),
+        .SPI_LADC_0_io1_t(SPI_LADC_0_io1_t),
+        .SPI_LADC_0_sck_i(SPI_LADC_0_sck_i),
+        .SPI_LADC_0_sck_o(SPI_LADC_0_sck_o),
+        .SPI_LADC_0_sck_t(SPI_LADC_0_sck_t),
+        .SPI_LADC_0_ss_i(SPI_LADC_0_ss_i_0),
+        .SPI_LADC_0_ss_o(SPI_LADC_0_ss_o_0),
+        .SPI_LADC_0_ss_t(SPI_LADC_0_ss_t),
         .adc0_clk_clk_n(adc0_clk_clk_n),
         .adc0_clk_clk_p(adc0_clk_clk_p),
         .adc1_clk_clk_n(adc1_clk_clk_n),

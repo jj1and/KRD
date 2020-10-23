@@ -59,7 +59,6 @@ project_tcl/ZCU111/minimal_FEE_2ch_HS/minimal_FEE_2ch_HS
 project_tcl/ZCU111/Kam2FEE_ZCU111/Kam2FEE_ZCU111
 project_tcl/ZCU111/async_df_gen_test/async_df_gen_test
 project_tcl/ZCU111/async_pl_ddr_mmu_sim_test/async_pl_ddr_mmu_sim_test
-
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 
 # --- SDK specific ---
