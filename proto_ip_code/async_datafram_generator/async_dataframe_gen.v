@@ -241,40 +241,40 @@ module async_dataframe_gen (
     end
 
     // for afording timing contraint
-    // reg tvalid_delay;
-    // reg [`RFDC_TDATA_WIDTH-1:0] tdata_delay;
-    // reg [`RFDC_TDATA_WIDTH/8-1:0] tkeep_delay;
-    // reg tlast_delay;
-    // always @(posedge ACLK ) begin
-    //     if (|{ARESET, internal_error}) begin
-    //         tvalid_delay <= #100 1'b0;
-    //         tlast_delay <= #100 1'b0;
-    //         tdata_delay <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
-    //         tkeep_delay <= #100 {`RFDC_TDATA_WIDTH/8{1'b1}};
-    //     end else begin
-    //         if ((!M_AXIS_TREADY)&tvalid_delay) begin
-    //             tvalid_delay <= #100 tvalid_delay;
-    //             tlast_delay <= #100 tlast_delay;
-    //             tdata_delay <= #100 tdata_delay;
-    //             tkeep_delay <= #100 tkeep_delay;                
-    //         end else begin
-    //             tvalid_delay <= #100 tvalid;
-    //             tlast_delay <= #100 tlast&tvalid;
-    //             tdata_delay <= #100 tdata;
-    //             tkeep_delay <= #100 tkeep;
-    //         end
-    //     end
-    // end
+    reg tvalid_delay;
+    reg [`RFDC_TDATA_WIDTH-1:0] tdata_delay;
+    reg [`RFDC_TDATA_WIDTH/8-1:0] tkeep_delay;
+    reg tlast_delay;
+    always @(posedge ACLK ) begin
+        if (|{ARESET, internal_error}) begin
+            tvalid_delay <= #100 1'b0;
+            tlast_delay <= #100 1'b0;
+            tdata_delay <= #100 {`RFDC_TDATA_WIDTH{1'b1}};
+            tkeep_delay <= #100 {`RFDC_TDATA_WIDTH/8{1'b1}};
+        end else begin
+            if (M_AXIS_TREADY) begin
+                tvalid_delay <= #100 tvalid;
+                tlast_delay <= #100 tlast&tvalid;
+                tdata_delay <= #100 tdata;
+                tkeep_delay <= #100 tkeep;                
+            end else begin
+                tvalid_delay <= #100 tvalid_delay;
+                tlast_delay <= #100 tlast_delay;
+                tdata_delay <= #100 tdata_delay;
+                tkeep_delay <= #100 tkeep_delay;
+            end
+        end
+    end
 
-    // assign M_AXIS_TVALID = tvalid_delay;
-    // assign M_AXIS_TLAST = tlast_delay;
-    // assign M_AXIS_TDATA = tdata_delay;
-    // assign M_AXIS_TKEEP = tkeep_delay;
+    assign M_AXIS_TVALID = tvalid_delay;
+    assign M_AXIS_TLAST = tlast_delay;
+    assign M_AXIS_TDATA = tdata_delay;
+    assign M_AXIS_TKEEP = tkeep_delay;
 
-    assign M_AXIS_TVALID = tvalid;
-    assign M_AXIS_TLAST = tlast&tvalid;
-    assign M_AXIS_TDATA = tdata;
-    assign M_AXIS_TKEEP = tkeep;    
+    // assign M_AXIS_TVALID = tvalid;
+    // assign M_AXIS_TLAST = tlast&tvalid;
+    // assign M_AXIS_TDATA = tdata;
+    // assign M_AXIS_TKEEP = tkeep;    
     assign DATAFRAME_GEN_ERROR = internal_error;
 
 endmodule // 
