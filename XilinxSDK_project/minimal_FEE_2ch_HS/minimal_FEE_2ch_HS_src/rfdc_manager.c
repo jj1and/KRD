@@ -12,6 +12,12 @@
 #define MAX_FREQ 1
 #define LMK04208_CONFIG_NUM 2
 
+#define RFDC_NOT_INITIALIZED 0
+#define RFDC_INITIALIZED 1
+
+static char *tile_type_dict = {"ADC", "DAC"};
+
+static int rfdc_initialized = RFDC_NOT_INITIALIZED;
 static XRFdc RFdcInst; /* RFdc driver instance */
 XIicPs Iic;            /* Instance of the IIC Device */
 
@@ -505,19 +511,16 @@ int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sampli
     return XRFDC_MTS_OK;
 }
 
-int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, AvailableAdcTiles AdcTiles) {
-    int status, status_adc, status_dac, i;
-    u32 factor;
+int rfdc_initialize(u16 RFdcDeviceId, double refClkFreq_MHz) {
+    int status;
     XRFdc_Config *ConfigPtr;
     XRFdc *RFdcInstPtr = &RFdcInst;
 
     struct metal_init_params init_param = METAL_INIT_DEFAULTS;
 
-    xil_printf("Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
-
-    xil_printf("Configuring clock on ZCU111\r\n");
+    xil_printf("INFO: Configuring clock on ZCU111\r\n");
     LMK04208ClockConfig(I2C_BUS, Lmk04208_config, 1);
-    LMX2594ClockConfig(I2C_BUS, (int)(ADC_refClkFreq_MHz * 1E3));
+    LMX2594ClockConfig(I2C_BUS, (int)(refClkFreq_MHz * 1E3));
 
     if (metal_init(&init_param)) {
         printf("ERROR: Failed to run metal initialization\r\n");
@@ -534,8 +537,25 @@ int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sa
         xil_printf("ERROR: RFdc Init Failure\n\r");
     }
 
-    /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
+    xil_printf("=== RFdc Initialized ===\n");
+    rfdc_initialized = RFDC_INITIALIZED;
+    return status;
+}
 
+int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, AvailableAdcTiles AdcTiles) {
+    int status, status_adc, i;
+    u32 factor;
+
+    if (rfdc_initialized == RFDC_NOT_INITIALIZED) {
+        xil_printf("INFO: Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
+        status = rfdc_initialize(RFdcDeviceId, ADC_refClkFreq_MHz);
+        if (status != XRFDC_SUCCESS) {
+            return status;
+        }
+    }
+    XRFdc *RFdcInstPtr = &RFdcInst;
+
+    /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
     for (size_t i = 0; i < AdcTiles.NumOfAdcTiles; i++) {
         status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_ADC_TILE, AdcTiles.AdcTileIndex[i], XRFDC_INTERNAL_PLL_CLK, ADC_refClkFreq_MHz, ADC_samplingRate_Msps);
         if (status != XRFDC_SUCCESS) {
@@ -543,8 +563,6 @@ int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sa
             return XRFDC_FAILURE;
         }
     }
-
-    xil_printf("=== RFdc Initialized - Running Multi-tile Sync ===\n");
 
     /* ADC MTS Settings */
     XRFdc_MultiConverter_Sync_Config ADC_Sync_Config;
@@ -564,9 +582,9 @@ int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sa
 
     status_adc = XRFdc_MultiConverter_Sync(RFdcInstPtr, XRFDC_ADC_TILE, &ADC_Sync_Config);
     if (status_adc == XRFDC_MTS_OK) {
-        xil_printf("INFO : ADC Multi-Tile-Sync completed successfully\r\n");
+        xil_printf("INFO: ADC Multi-Tile-Sync completed successfully\r\n");
     } else {
-        xil_printf("ERROR : ADC Multi-Tile-Sync did not complete successfully. Error code is %u \r\n", status_adc);
+        xil_printf("ERROR: ADC Multi-Tile-Sync did not complete successfully. Error code is %u \r\n", status_adc);
         return status_adc;
     }
 
@@ -579,8 +597,8 @@ int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sa
         if ((1 << AdcTiles.AdcTileIndex[i]) & ADC_Sync_Config.Tiles) {
             XRFdc_GetDecimationFactor(RFdcInstPtr, AdcTiles.AdcTileIndex[i], 0, &factor);
             xil_printf(
-                "ADC%d: Latency(T1) =%3d, Adjusted Delay"
-                "Offset(T%d) =%3d\r\n",
+                "INFO: ADC%d: Latency(T1) =%3d, Adjusted Delay"
+                "INFO: Offset(T%d) =%3d\r\n",
                 i, ADC_Sync_Config.Latency[AdcTiles.AdcTileIndex[i]], factor, ADC_Sync_Config.Offset[AdcTiles.AdcTileIndex[i]]);
         }
     }
@@ -588,43 +606,92 @@ int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_sa
     return XRFDC_MTS_OK;
 }
 
-int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps) {
-    int status, status_adc, status_dac, i;
+int rfdcDAC_MTS_setup(u16 RFdcDeviceId, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps, AvailableDacTiles DacTiles) {
+    int status, status_dac, i;
     u32 factor;
-    XRFdc_Config *ConfigPtr;
+
+    if (rfdc_initialized == RFDC_NOT_INITIALIZED) {
+        xil_printf("INFO: Start up RF Data Conver @Multi-Tile-Sync mode\r\n");
+        status = rfdc_initialize(RFdcDeviceId, DAC_refClkFreq_MHz);
+        if (status != XRFDC_SUCCESS) {
+            return status;
+        }
+    }
     XRFdc *RFdcInstPtr = &RFdcInst;
 
-    struct metal_init_params init_param = METAL_INIT_DEFAULTS;
+    /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
 
-    xil_printf("Start up RF Data Conver @Single mode\r\n");
-
-    xil_printf("Configuring clock on ZCU111\r\n");
-    LMK04208ClockConfig(I2C_BUS, Lmk04208_config, 1);
-    LMX2594ClockConfig(I2C_BUS, (int)(refClkFreq_MHz * 1E3));
-
-    if (metal_init(&init_param)) {
-        printf("ERROR: Failed to run metal initialization\r\n");
-        return XRFDC_FAILURE;
-    }
-    metal_set_log_level(METAL_LOG_DEBUG);
-    ConfigPtr = XRFdc_LookupConfig(RFdcDeviceId);
-    if (ConfigPtr == NULL) {
-        return XRFDC_FAILURE;
+    for (size_t i = 0; i < DacTiles.NumOfDacTiles; i++) {
+        status = XRFdc_DynamicPLLConfig(RFdcInstPtr, XRFDC_DAC_TILE, DacTiles.DacTileIndex[i], XRFDC_INTERNAL_PLL_CLK, DAC_refClkFreq_MHz, DAC_samplingRate_Msps);
+        if (status != XRFDC_SUCCESS) {
+            xil_printf("ERROR: Could not configure PLL For DAC %d\r\n", DacTiles.DacTileIndex[i]);
+            return XRFDC_FAILURE;
+        }
     }
 
-    status = XRFdc_CfgInitialize(RFdcInstPtr, ConfigPtr);
-    if (status != XRFDC_SUCCESS) {
-        xil_printf("ERROR: RFdc Init Failure\n\r");
+    /* Run MTS for the DAC */
+    /* DAC MTS Settings */
+    XRFdc_MultiConverter_Sync_Config DAC_Sync_Config;
+
+    /* Run MTS for the ADC & DAC */
+    xil_printf("\n=== Run DAC Sync ===\n");
+
+    /* Initialize DAC MTS Settings */
+    XRFdc_MultiConverter_Init(&DAC_Sync_Config, 0, 0);
+
+    int availableDacMask;
+    DAC_Sync_Config.Tiles = 0;
+    for (size_t i = 0; i < DacTiles.NumOfDacTiles; i++) {
+        availableDacMask = (1 << DacTiles.DacTileIndex[i]);
+        DAC_Sync_Config.Tiles += availableDacMask;
     }
+
+    status_dac = XRFdc_MultiConverter_Sync(RFdcInstPtr, XRFDC_DAC_TILE, &DAC_Sync_Config);
+    if (status_dac == XRFDC_MTS_OK) {
+        xil_printf("INFO: DAC Multi-Tile-Sync completed successfully\r\n");
+    } else {
+        xil_printf("ERROR: DAC Multi-Tile-Sync did not complete successfully. Error code is %u \r\n", status_dac);
+        return status_dac;
+    }
+
+    /*
+     * Report Overall Latency in T1 (Sample Clocks) and
+     * Offsets (in terms of PL words) added to each FIFO
+     */
+    xil_printf("\n\n=== Multi-Tile Sync Report ===\n");
+    for (i = 0; i < DacTiles.NumOfDacTiles; i++) {
+        if ((1 << DacTiles.DacTileIndex[i]) & DAC_Sync_Config.Tiles) {
+            XRFdc_GetDecimationFactor(RFdcInstPtr, DacTiles.DacTileIndex[i], 0, &factor);
+            xil_printf(
+                "INFO: DAC%d: Latency(T1) =%3d, Adjusted Delay"
+                "INFO: Offset(T%d) =%3d\r\n",
+                i, DAC_Sync_Config.Latency[DacTiles.DacTileIndex[i]], factor, DAC_Sync_Config.Offset[DacTiles.DacTileIndex[i]]);
+        }
+    }
+
+    return XRFDC_MTS_OK;
+}
+
+int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps) {
+    int status, i;
+    u32 factor;
+
+    if (rfdc_initialized == RFDC_NOT_INITIALIZED) {
+        xil_printf("INFO: Start up RF Data Conver %s @Single mode\r\n", tile_type_dict[Type]);
+        status = rfdc_initialize(RFdcDeviceId, samplingRate_Msps);
+        if (status != XRFDC_SUCCESS) {
+            return status;
+        }
+    }
+    XRFdc *RFdcInstPtr = &RFdcInst;
 
     /*Setting Frequency & Sample Rate to Appropriate Values for MTS*/
-    printf("Configuring Clock Frequency and Sampling Rate\r\n");
+    printf("INFO: Configuring Clock Frequency and Sampling Rate\r\n");
     status = XRFdc_DynamicPLLConfig(RFdcInstPtr, Type, Tile_id, XRFDC_INTERNAL_PLL_CLK, refClkFreq_MHz, samplingRate_Msps);
     if (status != XRFDC_SUCCESS) {
-        xil_printf("ERROR: Could not configure PLL For DAC 0\r\n");
+        xil_printf("ERROR: Could not configure PLL For %s %d\r\n", tile_type_dict[Type], Tile_id);
         return XRFDC_FAILURE;
     }
 
-    xil_printf("=== RFdc Initialized ===\n");
-    return XRFDC_MTS_OK;
+    return XRFDC_SUCCESS;
 }

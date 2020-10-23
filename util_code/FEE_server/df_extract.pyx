@@ -5,13 +5,13 @@ import numpy as np
 cimport numpy as cnp
 
 cdef:
-    DEF MAX_TRIGGER_LENGTH = 32
+    DEF MAX_TRIGGER_LENGTH = 254
     DEF SAMPLE_NUM_PER_LINE = 4
     DEF MAX_SAMPLE_NUM = MAX_TRIGGER_LENGTH * 2 * SAMPLE_NUM_PER_LINE
 
 cdef extern from "df_extractor.h":
     int GetFrameNum(unsigned long long *bin_data, int bin_data_size)
-    void UnpackBinary(unsigned long long *bin_data, int bin_data_size, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array, unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array, int *waveform_array)
+    void UnpackBinary(unsigned long long *bin_data, int bin_data_size, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array, unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array, int *waveform_array, int *h_gain_only_waveform_array)
 
 
 def extract_df(cnp.ndarray[cnp.uint64_t, ndim=1] bin_data):
@@ -33,13 +33,16 @@ def extract_df(cnp.ndarray[cnp.uint64_t, ndim=1] bin_data):
         cnp.ndarray[int, ndim=1, mode="c"] fall_thre_array = np.zeros(cframe_num, dtype='i4')
         cnp.ndarray[unsigned int, ndim=1, mode="c"] object_id_array = np.zeros(cframe_num, dtype='u4')
         cnp.ndarray[unsigned long long, ndim=1, mode="c"] timestamp_array = np.zeros(cframe_num, dtype='u8')
-        cnp.ndarray[int, ndim=1, mode="c"] waveform_array = np.zeros(cframe_num*MAX_SAMPLE_NUM, dtype='i4')
-        cnp.ndarray[int, ndim=2, mode="c"] reshaped_waveform_array
+        cnp.ndarray[int, ndim=1, mode="c"] waveform_array = np.zeros(cframe_num*MAX_SAMPLE_NUM, dtype='i4') # high gain & low gain
+        cnp.ndarray[int, ndim=2, mode="c"] reshaped_waveform_array 
+        cnp.ndarray[int, ndim=1, mode="c"] h_gain_only_waveform_array = np.zeros(cframe_num*MAX_SAMPLE_NUM, dtype='i4') # high gain & averaged high gain
+        cnp.ndarray[int, ndim=2, mode="c"] reshaped_h_gain_only_waveform_array       
 
-    UnpackBinary(<unsigned long long*> bin_data.data, cbin_data_size, cframe_num, <unsigned int*>ch_id_array.data, <unsigned int*>frame_len_array.data, <unsigned int*>frame_info_array.data, <unsigned int*>trigger_type_array.data, <int*>charge_sum_array.data, <int*>rise_thre_array.data, <int*>fall_thre_array.data, <unsigned int*>object_id_array.data, <unsigned long long*>timestamp_array.data, <int*>waveform_array.data)
+    UnpackBinary(<unsigned long long*> bin_data.data, cbin_data_size, cframe_num, <unsigned int*>ch_id_array.data, <unsigned int*>frame_len_array.data, <unsigned int*>frame_info_array.data, <unsigned int*>trigger_type_array.data, <int*>charge_sum_array.data, <int*>rise_thre_array.data, <int*>fall_thre_array.data, <unsigned int*>object_id_array.data, <unsigned long long*>timestamp_array.data, <int*>waveform_array.data, <int*>h_gain_only_waveform_array.data)
     reshaped_waveform_array = waveform_array.reshape([-1, MAX_SAMPLE_NUM])
+    reshaped_h_gain_only_waveform_array = h_gain_only_waveform_array.reshape([-1, MAX_SAMPLE_NUM])
 
-    return ch_id_array, frame_len_array, frame_info_array, trigger_type_array, charge_sum_array, rise_thre_array, fall_thre_array, object_id_array, timestamp_array, reshaped_waveform_array
+    return ch_id_array, frame_len_array, frame_info_array, trigger_type_array, charge_sum_array, rise_thre_array, fall_thre_array, object_id_array, timestamp_array, reshaped_waveform_array, reshaped_h_gain_only_waveform_array
     
 
 def combine_dfs(cnp.ndarray[cnp.uint32_t, ndim=1] frame_len_array, cnp.ndarray[cnp.int32_t, ndim=2] waveform_array):

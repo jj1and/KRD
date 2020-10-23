@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>awa.tohoku.ac.jp</spirit:vendor>
+  <spirit:library>mogura2</spirit:library>
+  <spirit:name>async_dataframe_generator</spirit:name>
+  <spirit:version>1.1</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_TDATA</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TKEEP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_TKEEP</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_TLAST</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_TVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_TREADY</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>S_AXIS_TDATA</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>S_AXIS_TVALID</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS_RESETN</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_RESETN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_RESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS_RESETN</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>S_AXIS_RESETN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_RESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS_ACLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>M_AXIS_ACLK</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_ACLK.ASSOCIATED_BUSIF">M_AXIS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_ACLK.ASSOCIATED_RESET">M_AXIS_RESETN</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS_ACLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>S_AXIS_ACLK</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_BUSIF">S_AXIS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_RESET">S_AXIS_RESETN</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>TRIGGER_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>SET_CONFIG</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>SET_CONFIG</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>async_dataframe_generator</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>3ba6e20a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>async_dataframe_generator</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>3ba6e20a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>9327d08d</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>S_AXIS_ACLK</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>S_AXIS_RESETN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_ACLK</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_RESETN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>SET_CONFIG</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">16</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>S_AXIS_TDATA</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">215</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>S_AXIS_TVALID</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>H_GAIN_TDATA</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_TREADY</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_TVALID</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_TDATA</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_TKEEP</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>M_AXIS_TLAST</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DATAFRAME_GEN_ERROR</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>CHANNEL_ID</spirit:name>
+        <spirit:displayName>Channel Id</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.CHANNEL_ID">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>ADC_FIFO_DEPTH</spirit:name>
+        <spirit:displayName>Adc Fifo Depth</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.ADC_FIFO_DEPTH">2048</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>HF_FIFO_DEPTH</spirit:name>
+        <spirit:displayName>Hf Fifo Depth</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.HF_FIFO_DEPTH">1024</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_8a95fb4a</spirit:name>
+      <spirit:enumeration>16</spirit:enumeration>
+      <spirit:enumeration>32</spirit:enumeration>
+      <spirit:enumeration>128</spirit:enumeration>
+      <spirit:enumeration>256</spirit:enumeration>
+      <spirit:enumeration>512</spirit:enumeration>
+      <spirit:enumeration>1024</spirit:enumeration>
+      <spirit:enumeration>2048</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_a9625742</spirit:name>
+      <spirit:enumeration>256</spirit:enumeration>
+      <spirit:enumeration>512</spirit:enumeration>
+      <spirit:enumeration>1024</spirit:enumeration>
+      <spirit:enumeration>2048</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_config.vh</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_gen.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_header_footer_gen.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_generator.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_4be7a4d1</spirit:userFileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_config.vh</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_gen.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_header_footer_gen.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/async_dataframe_generator.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/async_dataframe_generator_v1_1.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_9327d08d</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>async_dataframe_generator_v1_1</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>CHANNEL_ID</spirit:name>
+      <spirit:displayName>Channel Id</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.CHANNEL_ID" spirit:minimum="0" spirit:maximum="15" spirit:rangeType="long">0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>ADC_FIFO_DEPTH</spirit:name>
+      <spirit:displayName>Adc Fifo Depth</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.ADC_FIFO_DEPTH" spirit:choiceRef="choice_list_a9625742">2048</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>HF_FIFO_DEPTH</spirit:name>
+      <spirit:displayName>Hf Fifo Depth</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.HF_FIFO_DEPTH" spirit:choiceRef="choice_list_8a95fb4a">1024</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">async_dataframe_generator_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>async_dataframe_generator_v1_1</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
+      <xilinx:coreRevision>4</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>xilinx.com:user:async_dataframe_generator:1.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>awa.tohoku.ac.jp:mogura2:async_dataframe_generator:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2020-10-23T11:02:11Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56b7e192_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6aae95dd_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c2d5b6d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@185ddd60_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b17d733_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@549b5163_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@191577fc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60232460_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16c9828e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59e0b81c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10243785_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cd945b0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20c34396_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8482ec0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@742592bb_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f3a2196_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f569d8a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1421cb5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7adcff21_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66f0d644_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31aa7191_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ad3aafc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b010570_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fbe2daf_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e858fa1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ddf3a6b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f6cf1e6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@82d8800_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@762bed3b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4624fb5f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d1e4b4e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f0a2be6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74c720c8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54110685_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69d640b2_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5100687c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2aeefd0c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@374f3f5d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ddbafd8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@717f102f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a239b7a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f319bb7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76143bc5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@650c244e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7625e234_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e6bac6b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e3e5e21_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ae64bf7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48b99ff0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@546d6ce5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4898c1c8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7da0abc6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@251025f0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6db9ec75_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37cf25a7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3bb5afef_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b64414c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39bccc9a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@641716d5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d4869a8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6fd14435_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72314154_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ba730c5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c447731_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3db341fc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c041b54_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2677c7eb_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a096678_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49a37403_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5dd23558_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56dd9453_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e203fa6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@593ea27e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ed4de7d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22ea904f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3774f4ee_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46ad061f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40b22e5a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65e8b11b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f89415c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4319b2bd_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1cac655c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1497c7f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6748f5e0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e709a39_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58d0c34a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a7147ed_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15853baf_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24e9d3f1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2632371f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30eb6a5f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45c31769_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ecdf385_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d8c4e28_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d503511_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e5c752_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61163a49_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c1a0836_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b016686_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5192bb62_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57f63dcc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27ed9a17_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15661d57_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39b4ff1c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20fc8da8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4006b42d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2979fd2c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42e43d6d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@585c74b4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e012565_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73aaf4ee_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f952edc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13fed3b9_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79fcdaae_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f02bdf3_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f74fb82_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38ad26b5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77d619b5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c99c524_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b6085b2_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c38e758_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28586a1e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@687267b2_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a8cb7c5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@290571a1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27516a08_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ea91343_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b426a7c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@142929f8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ff1173f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="49f410bc"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="fdff25ef"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="924a5cb3"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="79a32461"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="939ea273"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

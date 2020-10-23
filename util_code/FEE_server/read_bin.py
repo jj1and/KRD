@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import df_extract
 
 
-FILE_NAME = "./data/recv_buff_v4_20200915_01.bin"
+FILE_NAME = "./data/recv_buff_v4_20201023_02.bin"
 # FILE_NAME = "./dummy_data/sample01.bin"
 COMPRESSION_TYPE = 'zip'
 
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # '<u1' = 'little_endian(<)  unsigned_int64(u8)'
     bin_data = np.frombuffer(recv_buff, dtype='<u8')
 
-    ch_id_array, frame_len_array, frame_info_array, trigger_type_array, charge_sum_array, rise_thre_array, fall_thre_array, object_id_array, timestamp_array, waveform_array = df_extract.extract_df(
+    ch_id_array, frame_len_array, frame_info_array, trigger_type_array, charge_sum_array, rise_thre_array, fall_thre_array, object_id_array, timestamp_array, waveform_array, hgain_only_waveform_array = df_extract.extract_df(
         bin_data)
 
     df_summary = {
@@ -39,7 +39,8 @@ if __name__ == "__main__":
 
     pd_dfs = pd.DataFrame(df_summary)
     pd_dfs.to_pickle(pickle_pddfs_name, compression=COMPRESSION_TYPE)
-    np.savez_compressed(npz_waveform_name, waveform_array)
+    np.savez_compressed(npz_waveform_name, waveform_array,
+                        hgain_only_waveform_array)
 
     print(pd_dfs)
     times, waves = df_extract.combine_dfs(frame_len_array, waveform_array)
@@ -54,5 +55,4 @@ if __name__ == "__main__":
     hist2d_h, hist2d_xedges, hist2d_yedges, hist2d_im = hist2d_ax.hist2d(
         times/EFFECTIVE_ADC_CLK_Hz*1E9, waves, bins=[50, ybin_num], label="Entries;{0:d}".format(len(pd_dfs)), cmin=0.01)
     plt.colorbar(hist2d_im, ax=hist2d_ax)
-    hist2d_ax.legend()
     plt.show()

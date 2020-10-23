@@ -14,15 +14,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="5850000001fs"></ZoomEndTime>
-      <Cursor1Time time="1190000000fs"></Cursor1Time>
+      <ZoomStartTime time="3536500000fs"></ZoomStartTime>
+      <ZoomEndTime time="3886500001fs"></ZoomEndTime>
+      <Cursor1Time time="3228000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="255"></NameColumnWidth>
-      <ValueColumnWidth column_width="191"></ValueColumnWidth>
+      <NameColumnWidth column_width="441"></NameColumnWidth>
+      <ValueColumnWidth column_width="251"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="20" />
    <wvobject fp_name="/fee_cfg_sim_tb/CLK" type="logic">
       <obj_property name="ElementShortName">CLK</obj_property>
       <obj_property name="ObjectShortName">CLK</obj_property>
@@ -31,64 +31,814 @@
       <obj_property name="ElementShortName">EXT_RESET</obj_property>
       <obj_property name="ObjectShortName">EXT_RESET</obj_property>
    </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/SET_CONFIG_0" type="array">
-      <obj_property name="ElementShortName">SET_CONFIG_0[0:0]</obj_property>
-      <obj_property name="ObjectShortName">SET_CONFIG_0[0:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/STOP_0" type="array">
-      <obj_property name="ElementShortName">STOP_0[0:0]</obj_property>
-      <obj_property name="ObjectShortName">STOP_0[0:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/ACQUIRE_MODE_0" type="array">
-      <obj_property name="ElementShortName">ACQUIRE_MODE_0[0:0]</obj_property>
-      <obj_property name="ObjectShortName">ACQUIRE_MODE_0[0:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/RISING_EDGE_THRESHOLD_0" type="array">
-      <obj_property name="ElementShortName">RISING_EDGE_THRESHOLD_0[15:0]</obj_property>
-      <obj_property name="ObjectShortName">RISING_EDGE_THRESHOLD_0[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/FALLING_EDGE_THRESHOLD_0" type="array">
-      <obj_property name="ElementShortName">FALLING_EDGE_THRESHOLD_0[15:0]</obj_property>
-      <obj_property name="ObjectShortName">FALLING_EDGE_THRESHOLD_0[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/H_GAIN_BASELINE_0" type="array">
-      <obj_property name="ElementShortName">H_GAIN_BASELINE_0[12:0]</obj_property>
-      <obj_property name="ObjectShortName">H_GAIN_BASELINE_0[12:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/L_GAIN_BASELINE_0" type="array">
-      <obj_property name="ElementShortName">L_GAIN_BASELINE_0[15:0]</obj_property>
-      <obj_property name="ObjectShortName">L_GAIN_BASELINE_0[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/MAX_TRIGGER_LENGTH_0" type="array">
-      <obj_property name="ElementShortName">MAX_TRIGGER_LENGTH_0[15:0]</obj_property>
-      <obj_property name="ObjectShortName">MAX_TRIGGER_LENGTH_0[15:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/POST_ACQUISITION_LENGTH_0" type="array">
-      <obj_property name="ElementShortName">POST_ACQUISITION_LENGTH_0[1:0]</obj_property>
-      <obj_property name="ObjectShortName">POST_ACQUISITION_LENGTH_0[1:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/PRE_ACQUISITION_LENGTH_0" type="array">
-      <obj_property name="ElementShortName">PRE_ACQUISITION_LENGTH_0[1:0]</obj_property>
-      <obj_property name="ObjectShortName">PRE_ACQUISITION_LENGTH_0[1:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
    <wvobject fp_name="/fee_cfg_sim_tb/resp" type="array">
       <obj_property name="ElementShortName">resp[1:0]</obj_property>
       <obj_property name="ObjectShortName">resp[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_configrator_0/S_AXI" type="protoinst">
+   <wvobject fp_name="group192" type="group">
+      <obj_property name="label">CH0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH0_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH0_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH0_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group199" type="group">
+      <obj_property name="label">CH1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH1_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH1_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH1_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group200" type="group">
+      <obj_property name="label">CH2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH2_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH2_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH2_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group201" type="group">
+      <obj_property name="label">CH3</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH3_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH3_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH3_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group202" type="group">
+      <obj_property name="label">CH4</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH4_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH4_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH4_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group203" type="group">
+      <obj_property name="label">CH5</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH5_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH5_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH5_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group204" type="group">
+      <obj_property name="label">CH6</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH6_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH6_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH6_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group205" type="group">
+      <obj_property name="label">CH7</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH7_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH7_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH7_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group206" type="group">
+      <obj_property name="label">CH8</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH8_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH8_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH8_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group207" type="group">
+      <obj_property name="label">CH9</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH9_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH9_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH9_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group193" type="group">
+      <obj_property name="label">CH10</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH10_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH10_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH10_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group194" type="group">
+      <obj_property name="label">CH11</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH11_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH11_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH11_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group195" type="group">
+      <obj_property name="label">CH12</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH12_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH12_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH12_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group196" type="group">
+      <obj_property name="label">CH13</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH13_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH13_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH13_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group197" type="group">
+      <obj_property name="label">CH14</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH14_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH14_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH14_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group198" type="group">
+      <obj_property name="label">CH15</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_acquire_mode" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_acquire_mode[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_acquire_mode[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_falling_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_falling_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_h_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_h_gain_baseline[12:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_l_gain_baseline" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_l_gain_baseline[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_max_trigger_length" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_max_trigger_length[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_max_trigger_length[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_post_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_post_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_pre_acquisition_length" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_pre_acquisition_length[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_rising_edge_threshold" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_rising_edge_threshold[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_set_config" type="logic">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_set_config</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_set_config</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_stop" type="logic">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_stop</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_stop</obj_property>
+      </wvobject>
+      <wvobject fp_name="/fee_cfg_sim_tb/CH15_CONTROL_0_trigger_type" type="array">
+         <obj_property name="ElementShortName">CH15_CONTROL_0_trigger_type[3:0]</obj_property>
+         <obj_property name="ObjectShortName">CH15_CONTROL_0_trigger_type[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_config_wrapper_0/S_AXI" type="protoinst">
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_config_wrapper_0/S_AXI.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
       <obj_property name="ElementShortName">S_AXI</obj_property>
       <obj_property name="ObjectShortName">S_AXI</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fee_cfg_sim_tb/mpsoc_sys/fee_cfg_sim_i/fee_configrator_0/inst/option_reg" type="array">
-      <obj_property name="ElementShortName">option_reg[3:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">option_reg[3:0][31:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
 </wave_config>

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20200915_01.bin"
+BASE_FILE_NAME = "./data/recv_buff_v4_20201023_02.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -14,13 +14,14 @@ TIMESTAMP_CLK_Hz = 122.88*1E6
 EFFECTIVE_ADC_CLK_Hz = TIMESTAMP_CLK_Hz*8
 SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
 
-plot_color = {0: 'steelblue', 1: 'firebrick'}
+plot_color = {0: 'steelblue', 1: 'firebrick', 2: 'darkgreen'}
 
 if __name__ == "__main__":
     print("INFO: open file name: "+BASE_FILE_NAME)
     pd_dfs = pd.read_pickle(pickle_pddfs_name,
                             compression=COMPRESSION_TYPE)
     waveform_array = np.load(npz_waveform_name)['arr_0']
+    hgain_only_waveform_array = np.load(npz_waveform_name)['arr_1']
     # print(pd_dfs)
 
     fig, ax = plt.subplots()
@@ -30,16 +31,20 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 700) & (pd_dfs['OBJECT_ID'] >= 500)].index):
+    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 10) & (pd_dfs['OBJECT_ID'] >= 0)].index[0:100]):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
+        hgain_wav = hgain_only_waveform_array[i, 0:sample_num]
+
         t = (pd_dfs['TIMESTAMP'][i]-t0)/TIMESTAMP_CLK_Hz + \
             np.arange(sample_num)/EFFECTIVE_ADC_CLK_Hz
-        # ax.plot(t*1E9, wav,
-        #         linestyle='-', marker='o', markersize=5)
-        if (pd_dfs['CH_ID'][i] == 0):
-            ax.plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
-                    linestyle='-', marker='o', markersize=5)
+        # if (pd_dfs['CH_ID'][i] == 2):
+        #     ax.plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
+        #             linestyle='-', marker='s', markersize=5)
+        # ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
+        #         linestyle='--', marker='o', markersize=5)
+        ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
+                linestyle='-', marker='o', markersize=5)
 
     xmin, xmax = ax.get_xlim()
     ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']
@@ -101,7 +106,7 @@ if __name__ == "__main__":
                      & (pd_dfs['OBJECT_ID'] < first_full_obj_id+3)])
         print("_______________________________________________________________________________________________________")
         full_obj_time = (
-            first_full_obj.iloc[0]['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz
+            first_full_obj.iloc[-1]['TIMESTAMP']-t0)/TIMESTAMP_CLK_Hz
         print("INFO: Time since first frame: {0:3.4f} msec".format(
             full_obj_time*1e3))
         full_acum_waveform_size = np.sum(
@@ -109,17 +114,17 @@ if __name__ == "__main__":
         print("INFO: Waveform data since first frame: {0:d} Byte".format(
             full_acum_waveform_size))
         print(
-            "INFO: Header/Footer data since first frame: {0:d} Byte".format(first_full_obj.index[0]*24))
+            "INFO: Header/Footer data since first frame: {0:d} Byte".format((first_full_obj.index[0]+1)*24))
         print("INFO: Input data rate until full (waveform only): {0:5.2f} MByte/s".format(
             full_acum_waveform_size/full_obj_time*1e-6))
 
         skip_frame_num = len(np.where(obj_id_diff > 1)[0])
         print("INFO: skipped frame num: {0:d}/{1:d}".format(
-            skip_frame_num, int(pd_dfs.iloc[-1]['OBJECT_ID'])))
+            skip_frame_num, int(pd_dfs.iloc[-1]['OBJECT_ID']+1)))
         print("INFO: skipped frame rate: {0:3.4f}".format(
-            skip_frame_num/pd_dfs.iloc[-1]['OBJECT_ID']))
+            skip_frame_num/(pd_dfs.iloc[-1]['OBJECT_ID']+1)))
         print("INFO: frame len mean (before full): {0:4.2f} nsec".format(np.sum(
-            pd_dfs[pd_dfs['OBJECT_ID'] <= first_full_obj_id]['FRAME_LEN'])/first_full_obj_id))
+            pd_dfs[pd_dfs['OBJECT_ID'] <= first_full_obj_id]['FRAME_LEN'])/(first_full_obj_id+1)))
         print("INFO: frame len mean (after full): {0:4.2f} nsec".format(np.sum(
             pd_dfs[pd_dfs['OBJECT_ID'] > first_full_obj_id]['FRAME_LEN'])/(pd_dfs.iloc[-1]['OBJECT_ID']-first_full_obj_id)))
     else:
@@ -129,23 +134,23 @@ if __name__ == "__main__":
     print("INFO: Input data rate: {0:5.2f} MByte/s".format(
         total_rcvd_waveform_size/total_rcvd_time*1e-6))
     print("INFO: frame len mean (all): {0:4.2f} nsec".format(
-        np.sum(pd_dfs['FRAME_LEN'])/(pd_dfs.iloc[-1]['OBJECT_ID']-skip_frame_num)))
-
-    smooth_num = 256
-    smoother = np.ones(smooth_num)/smooth_num
-    smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
+        np.sum(pd_dfs['FRAME_LEN'])/(pd_dfs.iloc[-1]['OBJECT_ID']+1-skip_frame_num)))
 
     ax2.set_xlabel("Time[msec]")
     ax2.set_ylabel("total hit")
-    ax2.plot(objs_t*1e3, objs, label="Total-hit",
+    ax2.plot(objs_t*1e3, objs+1, label="Total-hit",
              color='steelblue', marker='.')
     ax2.set_yscale('log')
 
     ax2_r.set_xlabel("Time[msec]")
     ax2_r.set_ylabel("Hit-rate[MHz]")
-    # ax2_r.set_yscale('symlog')
-    ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
-               smoothed_hit_rate, label="Hit-rate", color='firebrick')
+
+    smooth_num = 256
+    # if len(pd_dfs) > smooth_num:
+    #     smoother = np.ones(smooth_num)/smooth_num
+    #     smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
+    #     ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
+    #                smoothed_hit_rate, label="Hit-rate", color='firebrick')
     # ax2_r.plot(objs_t[1:]*1e3,
     #            raw_hit_rate, label="Hit-rate", color='firebrick')
     ax2_r.set_ylim(0.1, 25)
