@@ -91,6 +91,9 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 !/XilinxSDK_project/*/**/.system.mss
 !/XilinxSDK_project/*/**/Makefile
 
+# --- Simulink project ---
+SysGen_project/**/slprj/**
+
 # --- ip repository ---
 ip_repos/SysGen_outputs/*/*
 !ip_repos/SysGen_outputs/**/ip
@@ -120,6 +123,5 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/usp_rf_data_converter_0_example_design
 XilinxSDK_project/minimal_FEE/minimal_FEE_src/xrfdc_driver_example/**
 XilinxSDK_project/async_df_gen_test/async_df_gen_test_src/sample_src/**
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/repeat.tcl
-SysGen_project/simple_dsp_module/slprj/**
 util_code/FEE_server/build/**
 
