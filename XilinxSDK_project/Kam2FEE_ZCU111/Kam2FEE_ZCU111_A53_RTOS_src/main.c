@@ -47,21 +47,17 @@
 #define H_GAIN_BASELINE 0
 #define L_GAIN_BASELINE 0
 
-const u32 ACQUIRE_MODE = NORMAL_ACQUIRE_MODE;
-const u32 TRIGGER_TYPE = HARDWARE_TRIGGER;
-const int RISING_EDGE_THRESHOLD = 128;
-const int FALLING_EDGE_THRESHOLD = 0;
-const u32 PRE_ACQUISITION_LENGTH = 2;
-const u32 POST_ACQUISITION_LENGTH = 1;
+#define RISING_EDGE_THRESHOLD 128
+#define FALLING_EDGE_THRESHOLD 0
 
-const Channel_Config channel_0 = {0, ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_1 = {1, ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_2 = {2, ACQUIRE_MODE, TRIGGER_TYPE, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-Channel_Config ch_config_array[3] = {channel_0, channel_1, channel_2};
+#define PRE_ACQUISITION_LENGTH 2
+#define POST_ACQUISITION_LENGTH 1
 
-Trigger_Config fee = {
-    3,
-    ch_config_array};
+const Channel_Config channel_0 = {0, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_1 = {1, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_2 = {2, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+Channel_Config ch_config_array[3];
+Trigger_Config fee;
 
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
@@ -73,10 +69,7 @@ int SetSwitchThreshold(short int upper_threshold, short int lower_threshold);
 
 static struct netif myself_netif;
 TaskHandle_t app_thread;
-app_arg send2pc_setting = {
-    5001,
-    "192.168.1.2",
-    x10seconds};
+app_arg send2pc_setting;
 
 const int RFDC_ADC_TILES[4] = {0, 1, 2, 3};
 const int RFDC_DAC_TILES[1] = {0};
@@ -106,6 +99,16 @@ void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw) {
 }
 
 int main() {
+	ch_config_array[0] = channel_0;
+	ch_config_array[1] = channel_1;
+	ch_config_array[2] = channel_2;
+	fee.ChannelNum = 3;
+	fee.ChanelConfigs = ch_config_array;
+
+	send2pc_setting.port = 5001;
+	send2pc_setting.server_address = "192.168.1.2";
+	send2pc_setting.xTicksToWait = x10seconds;
+
     int Status;
     xil_printf("INFO: KamLAND2 RFSoC Based Electronics Prototype Start\r\n");
     double refClkFreq_MHz = 245.76;
