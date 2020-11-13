@@ -1,5 +1,7 @@
 #include "df_extractor.h"
 
+#include <stdio.h>
+
 int GetFrameNum(unsigned long long *bin_data, int bin_data_depth) {
     int frame_num = 0;
     for (int i = 0; i < bin_data_depth; i++) {
@@ -13,11 +15,17 @@ int GetFrameNum(unsigned long long *bin_data, int bin_data_depth) {
 void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array,
                   unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array,
                   int *waveform_array, int *h_gain_only_waveform_array) {
+    printf("INFO: enter \"UnpackBinary\" function\n");
     int frame_index = 0;
     int i = 0;
-
+    int j = 0;
     while (frame_index < frame_num) {
+        // fprintf(stderr, "\rINFO: progress as binary index [%5d / %5d]", i, bin_data_depth);
         if ((int)(bin_data[i] >> 56) == HEADER_ID) {
+            if (frame_index % 1000 == 0)
+                fprintf(stderr, "\rINFO: progress as frame index [%5d / %5d]", frame_index + 1, frame_num);
+            else if (frame_index + 1 == frame_num)
+                fprintf(stderr, "\rINFO: progress as frame index [%5d / %5d]\n", frame_index + 1, frame_num);
             ch_id_array[frame_index] = (unsigned int)((bin_data[i] & CH_ID_MASK) >> 44);
 
             unsigned int frame_len = (unsigned int)((bin_data[i] & FRAME_LENGTH_MASK) >> 32);
@@ -73,15 +81,22 @@ void UnpackBinary(unsigned long long *bin_data, int bin_data_depth, int frame_nu
             unsigned long long footer_timestamp = bin_data[i + 2 + frame_len] & FOOTER_TIMESTAMP_MASK;
             timestamp_array[frame_index] = (footer_timestamp >> 8) | header_timestamp;
             object_id_array[frame_index] = bin_data[i + 2 + frame_len] & OBJECT_ID_MASK;
-
-            int total_frame_len = HEADER_LINE_NUM + frame_len + FOOTER_LINE_NUM;
-            i += total_frame_len + (total_frame_len % (BUS_WIDTH / FRAME_WIDTH));
-            if (i >= bin_data_depth) {
-                // index over run
+            if (frame_len > MAX_TRIGGER_LENGTH * 2) {
+                printf("\nERROR: frame length (%d) is larger than configured value! (%d)", frame_len, MAX_TRIGGER_LENGTH * 2);
                 break;
             }
 
+            int total_frame_len = HEADER_LINE_NUM + frame_len + FOOTER_LINE_NUM;
+            i += total_frame_len + (total_frame_len % (BUS_WIDTH / FRAME_WIDTH));
+
             frame_index++;
         }
+
+        if (i > bin_data_depth) {
+            // index over run
+            printf("\nERROR: index over run!");
+            break;
+        }
     }
+    printf("INFO: exit \"UnpackBinary\" function\n");
 };

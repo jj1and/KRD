@@ -119,3 +119,7 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/lgain_adc_cf.tcl
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/usp_rf_data_converter_0_example_design.xdc
 XilinxSDK_project/minimal_FEE/minimal_FEE_src/xrfdc_driver_example/**
 XilinxSDK_project/async_df_gen_test/async_df_gen_test_src/sample_src/**
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/repeat.tcl
+SysGen_project/simple_dsp_module/slprj/**
+util_code/FEE_server/build/**
+

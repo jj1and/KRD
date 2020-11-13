@@ -5,7 +5,7 @@
 #define SAMPLE_PER_LINE 4
 #define BUS_WIDTH 8  // axi bus width is 128bit = 16byte
 
-#define MAX_TRIGGER_LENGTH 254
+#define MAX_TRIGGER_LENGTH 14
 #define MAX_SAMPLE_NUM MAX_TRIGGER_LENGTH * 2 * SAMPLE_PER_LINE
 
 #define HEADER_ID 0xAA
