@@ -1,7 +1,7 @@
 # Data frame format
 Single hit DataFrame for XCZU28DR ( ADC resolution = 12bit {SingedData[15:4], ZeroPadding[3:0]}; Full scale range = 1V pk-pk  )
 
-![dataframe_format](./dataframe_format.png)
+![dataframe_format](/figs/dataframe_format.png)
 
 * FRAME_INFO [3:0] = {TRIGGER_STATE[1:0], FRAME_BEGIN[0:0], FRAME_CONTINUE[0:0]}
     * TRIGGER_STATE: 2'b11->Running, 2'b10->Run stop, 2'b01-> Run start
