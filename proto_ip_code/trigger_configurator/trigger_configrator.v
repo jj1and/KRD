@@ -1,8 +1,8 @@
 	/* This module is based on Xilinx AXI peripheral IP preset */
 	`timescale 1 ps / 1 ps
-	`include "fee_config.vh"
+	`include "trigger_config.vh"
 
-	module fee_config_wrapper # (
+	module trigger_configrator # (
 		// Users to add parameters here
 		parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
 		parameter integer MAX_POST_ACQUISITION_LENGTH = 2,
@@ -736,7 +736,7 @@
     assign POST_ACQUISITION_LENGTH_15 = POST_ACQUISITION_LENGTH[(15+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
     assign MAX_TRIGGER_LENGTH_15 = MAX_TRIGGER_LENGTH[(15+1)*16-1 -:16];                                                
 
-    fee_configrator #(
+    trigger_configrator_core #(
         .CHANNEL_NUM(16),
         .MAX_PRE_ACQUISITION_LENGTH(MAX_PRE_ACQUISITION_LENGTH),
         .MAX_POST_ACQUISITION_LENGTH(MAX_POST_ACQUISITION_LENGTH),

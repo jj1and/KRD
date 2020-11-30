@@ -1,5 +1,5 @@
-`ifndef __FEE_CONFIG_VH__
-`define __FEE_CONFIG_VH__
+`ifndef __TRIGGER_CONFIG_VH__
+`define __TRIGGER_CONFIG_VH__
 
 // Trigger parameters
 `define ADC_RESOLUTION_WIDTH 12

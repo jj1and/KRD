@@ -1,8 +1,8 @@
 	/* This module is based on Xilinx AXI peripheral IP preset */
 	`timescale 1 ps / 1 ps
-	`include "fee_config.vh"
+	`include "trigger_config.vh"
 
-	module fee_configrator # (
+	module trigger_configrator_core # (
 		// Users to add parameters here
 		parameter integer CHANNEL_NUM = 1,
 		parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
