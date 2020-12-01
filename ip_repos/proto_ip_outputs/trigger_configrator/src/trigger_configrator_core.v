@@ -28,7 +28,7 @@
 		parameter integer C_S_AXI_BUSER_WIDTH	= 0
 	)(
 		// Users to add ports here
-		output wire [CHANNEL_NUM-1:0] SET_CONFIG,
+		output wire SET_CONFIG,
 		output wire [CHANNEL_NUM-1:0] STOP,
 		
 		// data_trigger configration ports
@@ -44,7 +44,7 @@
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)*CHANNEL_NUM-1:0] POST_ACQUISITION_LENGTH,
 		
 		// dataframe_generator & pl__ddr_mmu configration ports
-		output wire [CHANNEL_NUM*16-1:0] MAX_TRIGGER_LENGTH, // maximum value should be 512 (charge_sum will be over-flow with larger value)
+		output wire [15:0] MAX_TRIGGER_LENGTH, // maximum value should be 512 (charge_sum will be over-flow with larger value)
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -225,7 +225,7 @@
 	//ADDR_LSB = 3 for 42 bits (n downto 3)
 
 	localparam integer ADDR_LSB = (C_S_AXI_DATA_WIDTH/32)+ 1;
-	localparam integer OPT_MEM_ADDR_BITS = $clog2(CHANNEL_NUM*4)-1;
+	localparam integer OPT_MEM_ADDR_BITS = $clog2(CHANNEL_NUM*4+1)-1;
 	// localparam integer USER_NUM_MEM = 1;
 	//----------------------------------------------
 	//-- Signals for user logic memory space example
@@ -663,60 +663,69 @@
 
 	// Add user logic here
 
-	reg [C_S_AXI_DATA_WIDTH-1:0] option_reg[CHANNEL_NUM*4-1:0];
+	reg [C_S_AXI_DATA_WIDTH-1:0] option_reg[CHANNEL_NUM*4:0];
 	/* register map for "CHANNEL_ID" Ch
-		option_reg[CHANNEL_ID*4+0] = {8'b0, SET_CONFIG, STOP, ACQUIRE_MODE[1:0], TRIGGER_TYPE[3:0], MAX_TRIGGER_LENGTH}
+		option_reg[CHANNEL_ID*4+0] = {25'b0, STOP, ACQUIRE_MODE[1:0], TRIGGER_TYPE[3:0]}
 		option_reg[CHANNEL_ID*4+1] = {RISING_EDGE_THRESHOLD, FALLIG_EDGE_THRESHOLD}
 		option_reg[CHANNEL_ID*4+2] = {{16-$clog2(MAX_PRE_ACQUISITION_LENGTH){1'b0}}, PRE_ACQUISITION_LENGTH, {16-$clog2(MAX_POST_ACQUISITION_LENGTH){1'b0}}, POST_ACQUISITION_LENGTH}
 		option_reg[CHANNEL_ID*4+3] = {3'b0, H_GAIN_BASELINE, L_GAIN_BASELINE}
+		option_reg[CHANNEL_NUM*4] = {15'b0, SET_CONFIG, MAX_TRIGGER_LENGTH}
 	 */
 
 	wire reg_wen = &{axi_wready, S_AXI_WVALID};
 
-	genvar channel_index;
 
+	// SET_CONFIG & MAX_TRIGGER_LENGTH configuration
+	wire [15:0] DEFAULT_MAX_TRIGGER_LENGTH = 16;
+	always @(posedge S_AXI_ACLK ) begin
+		if (!S_AXI_ARESETN) begin
+			option_reg[CHANNEL_NUM*4][C_S_AXI_DATA_WIDTH-1 -: 15] <= #100 15'b0;
+		end else begin
+			option_reg[CHANNEL_NUM*4][C_S_AXI_DATA_WIDTH-1 -: 15] <= #100 option_reg[CHANNEL_NUM*4][C_S_AXI_DATA_WIDTH-1 -: 15];
+		end
+	end
+
+	always @(posedge S_AXI_ACLK ) begin
+		if (!S_AXI_ARESETN) begin
+			option_reg[CHANNEL_NUM*4+0][0 +:17] <= #100 {1'b0, DEFAULT_MAX_TRIGGER_LENGTH};
+		end else begin
+			if (&{reg_wen, S_AXI_WSTRB[2:0], mem_address==(CHANNEL_NUM*4)}) begin
+				option_reg[CHANNEL_NUM*4][0 +:17]  <= #100 S_AXI_WDATA[0 +:17];
+			end else begin
+				option_reg[CHANNEL_NUM*4][0 +:17]  <= #100 option_reg[CHANNEL_NUM*4][0 +:17];
+			end
+		end
+	end
+	assign MAX_TRIGGER_LENGTH = option_reg[CHANNEL_NUM*4][0 +:16];
+	assign SET_CONFIG = option_reg[CHANNEL_NUM*4][16];
+
+	genvar channel_index;
 	generate
 	for (channel_index=0; channel_index<CHANNEL_NUM; channel_index=channel_index+1) begin
 
 		// RUN MODE configuration
 		always @(posedge S_AXI_ACLK ) begin
 			if (!S_AXI_ARESETN) begin
-				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 8] <= #100 8'b0;
+				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 25] <= #100 25'b0;
 			end else begin
-				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 8] <= #100 option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 8];
+				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 25] <= #100 option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-1 -: 25];
 			end
 		end
 
 		always @(posedge S_AXI_ACLK ) begin
 			if (!S_AXI_ARESETN) begin
-				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 {1'b0, 1'b1, 2'b00, 4'b0000}; // SET_CONFIG=0, STOP=1, ACQUIRE_MODE=2'b00, TRIGGER_TYPE=4'b0000
+				option_reg[channel_index*4+0][0 +: 7] <= #100 {1'b1, 2'b00, 4'b0000}; // SET_CONFIG=0, STOP=1, ACQUIRE_MODE=2'b00, TRIGGER_TYPE=4'b0000
 			end else begin
-				if (&{reg_wen, S_AXI_WSTRB[2], mem_address==(channel_index*4+0)}) begin
-					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 S_AXI_WDATA[C_S_AXI_DATA_WIDTH-8-1 -: 8];
+				if (&{reg_wen, S_AXI_WSTRB[0], mem_address==(channel_index*4+0)}) begin
+					option_reg[channel_index*4+0][0 +: 7] <= #100 S_AXI_WDATA[0 +: 7];
 				end else begin
-					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8] <= #100 option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-8-1 -: 8];
+					option_reg[channel_index*4+0][0 +: 7] <= #100 option_reg[channel_index*4+0][0 +: 7];
 				end
 			end
 		end
-		assign SET_CONFIG[channel_index] = option_reg[channel_index*4+0][16+7];
-		assign STOP[channel_index] = option_reg[channel_index*4+0][16+6];
-		assign ACQUIRE_MODE[channel_index*2 +:2] = option_reg[channel_index*4+0][16+5:16+4];
-		assign TRIGGER_TYPE[channel_index*4 +:4] = option_reg[channel_index*4+0][16+3:16];
-
-		// MAX_TRIGGER_LENGTH configuration
-		wire [15:0] DEFAULT_MAX_TRIGGER_LENGTH = 16;
-		always @(posedge S_AXI_ACLK ) begin
-			if (!S_AXI_ARESETN) begin
-				option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-16-1 -: 16] <= #100 DEFAULT_MAX_TRIGGER_LENGTH;
-			end else begin
-				if (&{reg_wen, S_AXI_WSTRB[1:0], mem_address==(channel_index*4+0)}) begin
-					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-16-1 -: 16] <= #100 S_AXI_WDATA[C_S_AXI_DATA_WIDTH-16-1 -: 16];
-				end else begin
-					option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-16-1 -: 16] <= #100 option_reg[channel_index*4+0][C_S_AXI_DATA_WIDTH-16-1 -: 16];
-				end
-			end
-		end
-		assign MAX_TRIGGER_LENGTH[channel_index*16 +:16] = option_reg[channel_index*4+0][0 +:16];
+		assign STOP[channel_index] = option_reg[channel_index*4+0][6];
+		assign ACQUIRE_MODE[channel_index*2 +:2] = option_reg[channel_index*4+0][5:4];
+		assign TRIGGER_TYPE[channel_index*4 +:4] = option_reg[channel_index*4+0][3:0];
 
 		// THRESHOLD configration
 		wire signed [`SAMPLE_WIDTH-1:0] DEFAULT_RISING_EDGE_THRESHOLD = 1024;

@@ -6,6 +6,8 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "MAX_POST_ACQUISITION_LENGTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "MAX_PRE_ACQUISITION_LENGTH" -parent ${Page_0}
 
+  ipgui::add_param $IPINST -name "C_S_AXI_DATA_WIDTH"
+  ipgui::add_param $IPINST -name "C_S_AXI_ADDR_WIDTH"
 
 }
 

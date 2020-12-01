@@ -173,30 +173,6 @@
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>TRIGGER_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:slave/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:model>
     <spirit:views>
@@ -637,12 +613,12 @@
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
       <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>4</xilinx:coreRevision>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:async_dataframe_generator:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>awa.tohoku.ac.jp:mogura2:async_dataframe_generator:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-10-23T11:02:11Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-01T10:28:52Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@56b7e192_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6aae95dd_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
@@ -774,11 +750,17 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6b426a7c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@142929f8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@ff1173f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33434bd_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cc0e50e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a21bab8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25cbfaec_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9dec1b7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23039117_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/async_dataframe_generator</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="49f410bc"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="5cb5ef62"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="fdff25ef"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="924a5cb3"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="79a32461"/>

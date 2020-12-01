@@ -4,7 +4,6 @@ module control_distributer # (
     parameter integer MAX_PRE_ACQUISITION_LENGTH = 2,
     parameter integer MAX_POST_ACQUISITION_LENGTH = 2
 )(
-    input wire SET_CONFIG,
     input wire STOP,
     input wire [2-1:0] ACQUIRE_MODE,
     input wire [4-1:0] TRIGGER_TYPE,
@@ -14,59 +13,85 @@ module control_distributer # (
     input wire signed [16-1:0] L_GAIN_BASELINE,
     input wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH,
     input wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH,
-    input wire [16-1:0] MAX_TRIGGER_LENGTH,
 
-    output wire SET_CONFIG_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 STOP" *)
     output wire STOP_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 ACQUIRE_MODE" *)
     output wire [2-1:0] ACQUIRE_MODE_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 TRIGGER_TYPE" *)
     output wire [4-1:0] TRIGGER_TYPE_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 RISING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] RISING_EDGE_THRESHOLD_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 FALLING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] FALLING_EDGE_THRESHOLD_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 H_GAIN_BASELINE" *)
     output wire signed [(12+1)-1:0] H_GAIN_BASELINE_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 L_GAIN_BASELINE" *)
     output wire signed [16-1:0] L_GAIN_BASELINE_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 PRE_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_MOD0,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD0 POST_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_MOD0,
-    output wire [16-1:0] MAX_TRIGGER_LENGTH_MOD0,
 
-    output wire SET_CONFIG_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 STOP" *)
     output wire STOP_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 ACQUIRE_MODE" *)
     output wire [2-1:0] ACQUIRE_MODE_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 TRIGGER_TYPE" *)
     output wire [4-1:0] TRIGGER_TYPE_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 RISING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] RISING_EDGE_THRESHOLD_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 FALLING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] FALLING_EDGE_THRESHOLD_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 H_GAIN_BASELINE" *)
     output wire signed [(12+1)-1:0] H_GAIN_BASELINE_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 L_GAIN_BASELINE" *)
     output wire signed [16-1:0] L_GAIN_BASELINE_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 PRE_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_MOD1,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD1 POST_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_MOD1,
-    output wire [16-1:0] MAX_TRIGGER_LENGTH_MOD1,
 
-    output wire SET_CONFIG_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 STOP" *)
     output wire STOP_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 ACQUIRE_MODE" *)
     output wire [2-1:0] ACQUIRE_MODE_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 TRIGGER_TYPE" *)
     output wire [4-1:0] TRIGGER_TYPE_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 RISING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] RISING_EDGE_THRESHOLD_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 FALLING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] FALLING_EDGE_THRESHOLD_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 H_GAIN_BASELINE" *)
     output wire signed [(12+1)-1:0] H_GAIN_BASELINE_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 L_GAIN_BASELINE" *)
     output wire signed [16-1:0] L_GAIN_BASELINE_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 PRE_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_MOD2,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD2 POST_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_MOD2,
-    output wire [16-1:0] MAX_TRIGGER_LENGTH_MOD2,
 
-    output wire SET_CONFIG_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 STOP" *)
     output wire STOP_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 ACQUIRE_MODE" *)
     output wire [2-1:0] ACQUIRE_MODE_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 TRIGGER_TYPE" *)
     output wire [4-1:0] TRIGGER_TYPE_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 RISING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] RISING_EDGE_THRESHOLD_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 FALLING_EDGE_THRESHOLD" *)
     output wire signed [16-1:0] FALLING_EDGE_THRESHOLD_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 H_GAIN_BASELINE" *)
     output wire signed [(12+1)-1:0] H_GAIN_BASELINE_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 L_GAIN_BASELINE" *)
     output wire signed [16-1:0] L_GAIN_BASELINE_MOD3,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 PRE_ACQUISITION_LENGTH" *)
     output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_MOD3,
-    output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_MOD3,
-    output wire [16-1:0] MAX_TRIGGER_LENGTH_MOD3        
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CONTROL_MOD3 POST_ACQUISITION_LENGTH" *)
+    output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_MOD3
 );
     
 
-    assign SET_CONFIG = SET_CONFIG_MOD0;
     assign STOP = STOP_MOD0;
     assign ACQUIRE_MODE = ACQUIRE_MODE_MOD0;
     assign TRIGGER_TYPE = TRIGGER_TYPE_MOD0;
@@ -76,9 +101,7 @@ module control_distributer # (
     assign L_GAIN_BASELINE = L_GAIN_BASELINE_MOD0;
     assign PRE_ACQUISITION_LENGTH = PRE_ACQUISITION_LENGTH_MOD0;
     assign POST_ACQUISITION_LENGTH = POST_ACQUISITION_LENGTH_MOD0;
-    assign MAX_TRIGGER_LENGTH = MAX_TRIGGER_LENGTH_MOD0;
 
-    assign SET_CONFIG = SET_CONFIG_MOD1;
     assign STOP = STOP_MOD1;
     assign ACQUIRE_MODE = ACQUIRE_MODE_MOD1;
     assign TRIGGER_TYPE = TRIGGER_TYPE_MOD1;
@@ -88,9 +111,7 @@ module control_distributer # (
     assign L_GAIN_BASELINE = L_GAIN_BASELINE_MOD1;
     assign PRE_ACQUISITION_LENGTH = PRE_ACQUISITION_LENGTH_MOD1;
     assign POST_ACQUISITION_LENGTH = POST_ACQUISITION_LENGTH_MOD1;
-    assign MAX_TRIGGER_LENGTH = MAX_TRIGGER_LENGTH_MOD1;
 
-    assign SET_CONFIG = SET_CONFIG_MOD2;
     assign STOP = STOP_MOD2;
     assign ACQUIRE_MODE = ACQUIRE_MODE_MOD2;
     assign TRIGGER_TYPE = TRIGGER_TYPE_MOD2;
@@ -100,9 +121,7 @@ module control_distributer # (
     assign L_GAIN_BASELINE = L_GAIN_BASELINE_MOD2;
     assign PRE_ACQUISITION_LENGTH = PRE_ACQUISITION_LENGTH_MOD2;
     assign POST_ACQUISITION_LENGTH = POST_ACQUISITION_LENGTH_MOD2;
-    assign MAX_TRIGGER_LENGTH = MAX_TRIGGER_LENGTH_MOD2;
 
-    assign SET_CONFIG = SET_CONFIG_MOD3;
     assign STOP = STOP_MOD3;
     assign ACQUIRE_MODE = ACQUIRE_MODE_MOD3;
     assign TRIGGER_TYPE = TRIGGER_TYPE_MOD3;
@@ -112,7 +131,6 @@ module control_distributer # (
     assign L_GAIN_BASELINE = L_GAIN_BASELINE_MOD3;
     assign PRE_ACQUISITION_LENGTH = PRE_ACQUISITION_LENGTH_MOD3;
     assign POST_ACQUISITION_LENGTH = POST_ACQUISITION_LENGTH_MOD3;
-    assign MAX_TRIGGER_LENGTH = MAX_TRIGGER_LENGTH_MOD3;
 
 endmodule
 

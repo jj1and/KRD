@@ -61,7 +61,6 @@ project_tcl/ZCU111/async_df_gen_test/async_df_gen_test
 project_tcl/ZCU111/async_pl_ddr_mmu_sim_test/async_pl_ddr_mmu_sim_test
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE_vivado2019_2/MoGURA2_FEE/
-project_tcl/ZCU111/Kam2FEE_ZCU111_test/
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
@@ -128,5 +127,7 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/usp_rf_data_converter_0_example_design
 XilinxSDK_project/minimal_FEE/minimal_FEE_src/xrfdc_driver_example/**
 XilinxSDK_project/async_df_gen_test/async_df_gen_test_src/sample_src/**
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/repeat.tcl
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/script.tcl
 util_code/FEE_server/build/**
-
+project_tcl/ZCU111/Kam2FEE_ZCU111_RR/
+XilinxSDK_project/Kam2FEE_ZCU111_RR

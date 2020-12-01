@@ -6,1542 +6,6 @@
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
-      <spirit:name>CH0_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH1_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH2_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH3_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH4_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_4</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH5_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_5</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH6_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_6</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH7_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_7</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH8_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_8</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH9_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_9</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH10_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_10</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH11_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_11</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH12_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_12</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH13_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_13</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH14_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_14</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>CH15_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
-      <spirit:master/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>TRIGGER_TYPE_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>RISING_EDGE_THRESHOLD_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>FALLING_EDGE_THRESHOLD_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>H_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>H_GAIN_BASELINE_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>L_GAIN_BASELINE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>L_GAIN_BASELINE_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>PRE_ACQUISITION_LENGTH_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>POST_ACQUISITION_LENGTH_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>ACQUIRE_MODE_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>STOP</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>STOP_15</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
-    </spirit:busInterface>
-    <spirit:busInterface>
       <spirit:name>S_AXI</spirit:name>
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm_rtl" spirit:version="1.0"/>
@@ -1951,6 +415,1286 @@
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH0_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_0</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH1_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_1</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH2_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_2</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH3_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_3</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH4_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_4</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH5_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_5</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH6_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_6</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH7_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_7</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH8_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_8</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH9_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_9</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH10_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_10</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH11_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_11</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH12_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_12</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH13_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_13</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH14_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_14</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>CH15_CONTROL</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TRIGGER_TYPE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>TRIGGER_TYPE_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RISING_EDGE_THRESHOLD_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>FALLING_EDGE_THRESHOLD_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>H_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>H_GAIN_BASELINE_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>L_GAIN_BASELINE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>L_GAIN_BASELINE_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>PRE_ACQUISITION_LENGTH_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>POST_ACQUISITION_LENGTH_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ACQUIRE_MODE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ACQUIRE_MODE_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>STOP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>STOP_15</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:memoryMaps>
     <spirit:memoryMap>
@@ -1979,7 +1723,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>060f2f04</spirit:value>
+            <spirit:value>1d45dd03</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1995,7 +1739,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>060f2f04</spirit:value>
+            <spirit:value>1d45dd03</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2009,14 +1753,31 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>25c0fa07</spirit:value>
+            <spirit:value>fa043e3e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
     </spirit:views>
     <spirit:ports>
       <spirit:port>
-        <spirit:name>SET_CONFIG_0</spirit:name>
+        <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>SET_CONFIG</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
@@ -2178,36 +1939,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_0</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_1</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_1</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -2347,36 +2078,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_1</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_2</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -2536,36 +2237,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_2</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_3</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_3</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -2705,36 +2376,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_3</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_4</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -2894,36 +2535,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_4</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_5</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_5</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -3063,36 +2674,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_5</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_6</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -3252,36 +2833,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_6</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_7</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_7</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -3421,36 +2972,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_7</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_8</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -3610,36 +3131,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_8</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_9</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_9</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -3779,36 +3270,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_9</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_10</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -3968,36 +3429,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_10</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_11</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_11</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -4137,36 +3568,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_11</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_12</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -4326,36 +3727,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_12</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_13</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_13</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -4495,36 +3866,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_13</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_14</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -4684,36 +4025,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_14</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_15</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_15</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -4851,23 +4162,6 @@
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_15</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -5749,12 +5043,6 @@
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>src/trigger_config.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/trigger_configrator_core.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
@@ -5762,19 +5050,19 @@
       <spirit:file>
         <spirit:name>src/trigger_configrator.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_0ccce244</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_9354ed70</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/trigger_config.vh</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>src/trigger_config.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/trigger_configrator_core.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
@@ -5783,6 +5071,12 @@
         <spirit:name>src/trigger_configrator.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/trigger_config.vh</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+        <spirit:isIncludeFile>true</spirit:isIncludeFile>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -5790,12 +5084,12 @@
       <spirit:file>
         <spirit:name>xgui/trigger_configrator_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_25c0fa07</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_fa043e3e</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>trigger_configrator_v1_0</spirit:description>
+  <spirit:description>trigger_configrator_v1_1</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>MAX_PRE_ACQUISITION_LENGTH</spirit:name>
@@ -5823,11 +5117,25 @@
       <spirit:name>C_S_AXI_DATA_WIDTH</spirit:name>
       <spirit:displayName>C S Axi Data Width</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI_DATA_WIDTH">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI_DATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI_ADDR_WIDTH</spirit:name>
       <spirit:displayName>C S Axi Addr Width</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI_ADDR_WIDTH">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXI_ADDR_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_S_AXI_AWUSER_WIDTH</spirit:name>
@@ -5892,11 +5200,11 @@
       <xilinx:displayName>trigger_configrator_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:coreRevision>6</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:trigger_configrator:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-11-30T15:50:49Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-01T16:24:59Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@60dfbea5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6228ba3a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
@@ -5914,16 +5222,124 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@65176def_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@54739331_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7895b82f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47d84399_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a2abf70_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c9a160_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@273e8915_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bbabf77_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53559d84_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bc84052_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@eb6b2a1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@753d7f02_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4261110b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a27a2dc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@695b066a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60b82105_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d06ea88_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38949988_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1aa9b69a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f9ad8f4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ffc7777_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3af3c762_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cf8e99_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21776e8b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5aed22f4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c49bf10_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a4f1515_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77b06011_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2cecfb59_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3681e4e0_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c981ed3_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3edf1790_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29e83ee6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@133db0ab_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@342817b9_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@422329ea_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ad08880_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@68e79af4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d5ba93a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f1b08b1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c32641_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2af40758_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aa80e33_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@187d7580_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79fab987_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bc1aa02_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14607350_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@787b52f4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf6ce58_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@95c1666_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18fa4b1d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4764899d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51ce7908_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36642759_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16f4ffd9_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28b8dd03_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f8d3bd7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@156412af_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27175ecf_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3127da11_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55067818_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29fadaf1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56faca27_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7945e336_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c49d1e6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7eadd1ce_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ec32932_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@247a9c28_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b546d58_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d00bb5b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f7717b4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7986f7f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17d4ff47_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71e98fb4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f622b92_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2caaca81_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3664905b_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bb3a569_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7151d493_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e9ec96c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@544a151_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a478afa_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15b76d58_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d4810fc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20009e71_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@732b2605_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f2c76c3_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7eacf2d9_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fecd4ca_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@375de2d1_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3186dd3c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dcfddf6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70b8b24d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@249a8a8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f6019d5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e48f464_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7251daa_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51ce14d7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cb8ec6d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25455c76_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67307cdc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d84f497_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@172244bf_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bd81d3f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6acede31_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ec7adb7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@452f731e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1604d62a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@160db1af_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4efcae15_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e92ad43_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_configrator</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="80b3ddb9"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="d12c4cae"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="ac6646fc"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="fd88df40"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="46cc1314"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3c57a13e"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="651df25b"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="daf5ecd7"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="962f882f"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="c41ca1f0"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

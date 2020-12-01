@@ -77,8 +77,8 @@
     </spirit:busInterface>
     <spirit:busInterface>
       <spirit:name>TRIGGER_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:slave/>
       <spirit:portMaps>
         <spirit:portMap>
@@ -87,14 +87,6 @@
           </spirit:logicalPort>
           <spirit:physicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
         <spirit:portMap>
@@ -428,11 +420,11 @@
       <xilinx:displayName>trigger_selector_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>4</xilinx:coreRevision>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:trigger_selector:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-10-17T10:53:28Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-01T10:20:08Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3f013466_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7b4fd36e_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
@@ -491,11 +483,31 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7877e7d9_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4f45b175_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@d57c60a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@dd9c75c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bcd46ca_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@687cad4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18455bcc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dec7d41_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ed6c12f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ae03845_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6970e68c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34c8a015_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@340374cb_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59a3bff2_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6de0646_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e27111f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5197ae62_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22dc268f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32ed921a_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2569e183_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a2a7464_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32476aea_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12df9baa_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/trigger_selector</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="724c0bf6"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="eacf89f1"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="c6c14693"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="35cd75a4"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="9e3cee60"/>

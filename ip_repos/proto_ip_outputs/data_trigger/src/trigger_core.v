@@ -17,7 +17,7 @@ module trigger_core # (
     input wire [`RFDC_TDATA_WIDTH-1:0] H_S_AXIS_TDATA,
 
     // trigger settings
-    input wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRSHOLD,
+    input wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD,
     input wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD,
     input wire [$clog2(MAX_PRE_ACQUISITION_LENGTH):0] PRE_ACQUISITION_LENGTH,
     input wire [$clog2(MAX_POST_ACQUISITION_LENGTH):0] POST_ACQUISITION_LENGTH,
@@ -46,7 +46,7 @@ module trigger_core # (
     generate
         for (i=0; i<`SAMPLE_NUM_PER_CLK; i=i+1) begin
             assign dsp_sample[i] = S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
-            assign rise_edge_thre_over[i] = dsp_sample[i] > RISING_EDGE_THRSHOLD;
+            assign rise_edge_thre_over[i] = dsp_sample[i] > RISING_EDGE_THRESHOLD;
             assign fall_edge_thre_under[i] = dsp_sample[i] < FALLING_EDGE_THRESHOLD;
         end
 

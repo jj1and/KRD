@@ -29,7 +29,7 @@ module data_trigger # (
     input wire [`TIMESTAMP_WIDTH-1:0] TIMESTAMP,    
 
     // trigger settings
-    input wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRSHOLD,
+    input wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD,
     input wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD,
     input wire signed [`ADC_RESOLUTION_WIDTH:0] H_GAIN_BASELINE,
     input wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE,
@@ -77,7 +77,7 @@ module data_trigger # (
                 acquire_mode <= #100 ACQUIRE_MODE;
                 pre_acquisition_length <= #100 PRE_ACQUISITION_LENGTH;
                 post_acquisition_length <= #100 POST_ACQUISITION_LENGTH;
-                rising_edge_threshold <= #100 RISING_EDGE_THRSHOLD;
+                rising_edge_threshold <= #100 RISING_EDGE_THRESHOLD;
                 falling_edge_threshold <= #100 FALLING_EDGE_THRESHOLD;
                 h_gain_baseline <= #100 H_GAIN_BASELINE;
                 l_gain_baseline <= #100 L_GAIN_BASELINE;
@@ -269,7 +269,7 @@ module data_trigger # (
         .H_S_AXIS_TDATA(H_S_AXIS_TDATA),
 
         // trigger settings
-        .RISING_EDGE_THRSHOLD(rising_edge_threshold),
+        .RISING_EDGE_THRESHOLD(rising_edge_threshold),
         .FALLING_EDGE_THRESHOLD(falling_edge_threshold),
         .PRE_ACQUISITION_LENGTH(pre_acquisition_length),
         .POST_ACQUISITION_LENGTH(post_acquisition_length),

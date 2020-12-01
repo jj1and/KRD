@@ -5,8 +5,10 @@ module trigger_selector (
     input wire ACLK,
     input wire ARESET,
     input wire SET_CONFIG,
-    input wire STOP,
     
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 TRIGGER_CONTROL STOP" *)
+    input wire STOP,
+    (* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 TRIGGER_CONTROL TRIGGER_TYPE" *)
     input wire [`TRIGGER_TYPE_WIDTH-1:0] TRIGGER_TYPE,
     input wire EXTERNAL_TRIGGER,
 

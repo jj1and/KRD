@@ -22,7 +22,7 @@
     reg set_config_2delay;
     reg set_config_3delay;
     reg STOP = 1'b1;
-    reg ACQUIRE_MODE = 1'b0;
+    reg [1:0] ACQUIRE_MODE = 2'b0;
     
     always @(posedge ACLK) begin
         areset_delay <= #100 ARESET;
@@ -78,6 +78,7 @@
 
     // h-gain data for charge_sum. timing is syncronized width M_AXIS_TDATA
     wire [`RFDC_TDATA_WIDTH-1:0] H_GAIN_TDATA;
+    wire H_GAIN_SATURATED_FLAG;
 
     reg SIG_CLK = 1'b1;
     reg HALF_SIG_CLK = 1'b1;
@@ -271,7 +272,7 @@
     endtask
 
     task config_module( 
-        input bit acquire_mode,
+        input bit [1:0] acquire_mode,
         input int rise_edge_thre, 
         input int fall_edge_thre,
         input bit signed [`ADC_RESOLUTION_WIDTH:0] h_baseline,
@@ -342,7 +343,7 @@
                     for (int i=0; i<DUT.pre_acquisition_length; i++) begin
                         acquired_hGainTDATA_queue.push_back({
                             rawHGainTDATA_to_expectedNormalTDATA(h_s_axis_tdata_nDelay[DUT.pre_acquisition_length-i-1], DUT.h_gain_baseline), 
-                            DUT.acquire_mode|saturation_nDelay[DUT.pre_acquisition_length-i-1]} );
+                            DUT.acquire_mode[0]|saturation_nDelay[DUT.pre_acquisition_length-i-1]} );
                         
                         acquired_lGainTDATA_queue.push_back(rawTDATA_to_expectedCombinedTDATA(
                             h_s_axis_tdata_nDelay[DUT.pre_acquisition_length-i-1], DUT.h_gain_baseline,
@@ -350,7 +351,7 @@
                         acquired_signal_info.push_back(signal_info_nDelay[DUT.pre_acquisition_length-i-1]);
                     end
                 end            
-                acquired_hGainTDATA_queue.push_back({rawHGainTDATA_to_expectedNormalTDATA(H_S_AXIS_TDATA, DUT.h_gain_baseline), (|saturation)|DUT.acquire_mode});
+                acquired_hGainTDATA_queue.push_back({rawHGainTDATA_to_expectedNormalTDATA(H_S_AXIS_TDATA, DUT.h_gain_baseline), (|saturation)|DUT.acquire_mode[0]});
                 acquired_lGainTDATA_queue.push_back(rawTDATA_to_expectedCombinedTDATA(H_S_AXIS_TDATA, DUT.h_gain_baseline, L_S_AXIS_TDATA, DUT.l_gain_baseline));
                 acquired_signal_info.push_back({TIMESTAMP, DUT.rising_edge_threshold, DUT.falling_edge_threshold});
             end                        
@@ -572,7 +573,7 @@
         end        
 
         reset_all;
-        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 2, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(0, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
         
         test_status = FIXED_NORMAL_SIGNAL_INPUT_NORMAL_OUTPUT;
@@ -610,7 +611,7 @@
             sample_signal_set[i].sampleFilling(random_h_gain_max_val, random_h_gain_baseline, random_l_gain_max_val, random_l_gain_baseline); // h_gain_height, h_gain_baseline, l_gain_height, l_gain_baseline
         end
 
-        config_module(0, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(2'b00, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
 
         test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT;
@@ -618,7 +619,7 @@
         signal_input(sample_signal_set, SAMPLE_NUM);
         $display("TEST PASSED: random signal with normal mode test passed!");
 
-        config_module(1, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(2'b01, 1024, 512, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Combined acquire mode enable");
 
         test_status = RANDOM_SIGNAL_INPUT_COMBINED_OUTPUT;
@@ -630,7 +631,7 @@
         // WARNING!!! Testbench cannot know trigger start/stop timing after reset/set_config when the configuration is changed before and after reset/set_config
         // So, it's need to set default configuration
         // this test's purpose is chencking the trigger is back to normal mode after reset/set_config
-        config_module(0, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
+        config_module(2'b00, 1024, 1024, H_GAIN_BASELINE, L_GAIN_BASELINE, 1, 1); //acquire_mode rise_thre, fall_thre, h_gain_baseline, l_gain_baseline, pre_acqui_len, post_acqui_len
         $display("TEST INFO: Normal acquire mode enable");
 
         test_status = RANDOM_SIGNAL_INPUT_NORMAL_OUTPUT_SUDDEN_RESET_CONFIG;

@@ -26,374 +26,316 @@
 		parameter integer C_S_AXI_BUSER_WIDTH	= 0
 
 	)(
+
+		output wire [16-1:0] MAX_TRIGGER_LENGTH,
+		output wire SET_CONFIG,
+		
 		// Users to add ports here
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL STOP" *)
 		output wire STOP_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_0,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH0_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_0,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL STOP" *)
+
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL STOP" *)
 		output wire STOP_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH1_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_1,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH1_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_1,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL STOP" *)
 		output wire STOP_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH2_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_2,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH2_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_2,     
-
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL STOP" *)
+  
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL STOP" *)
 		output wire STOP_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH3_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_3,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH3_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_3,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL STOP" *)
 		output wire STOP_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH4_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_4,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH4_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_4,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL STOP" *)
 		output wire STOP_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH5_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_5,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH5_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_5,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL STOP" *)
 		output wire STOP_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH6_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_6,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH6_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_6,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL STOP" *)
 		output wire STOP_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL POST_ACQUISITION_LENGTH" *)
-		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_7,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH7_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_7,                             
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH7_CONTROL POST_ACQUISITION_LENGTH" *)
+		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_7,                         
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL STOP" *)
 		output wire STOP_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH8_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_8,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH8_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_8,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL STOP" *)
 		output wire STOP_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL POST_ACQUISITION_LENGTH" *)
-		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_9,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH9_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_9,      
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH9_CONTROL POST_ACQUISITION_LENGTH" *)
+		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_9,   
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL STOP" *)
 		output wire STOP_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH10_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_10,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH10_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_10,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL STOP" *)
 		output wire STOP_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH11_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_11,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH11_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_11,      
+     
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL STOP" *)
 		output wire STOP_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH12_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_12,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH12_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_12,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL STOP" *)
 		output wire STOP_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL POST_ACQUISITION_LENGTH" *)
-		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_13,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH13_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_13,    
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH13_CONTROL POST_ACQUISITION_LENGTH" *)
+		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_13,    
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL STOP" *)
 		output wire STOP_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH14_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_14,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH14_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_14,
 
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL SET_CONFIG" *)
-		output wire SET_CONFIG_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL STOP" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL STOP" *)
 		output wire STOP_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL ACQUIRE_MODE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL ACQUIRE_MODE" *)
 		output wire [2-1:0] ACQUIRE_MODE_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL TRIGGER_TYPE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL TRIGGER_TYPE" *)
 		output wire [4-1:0] TRIGGER_TYPE_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL RISING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL RISING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL FALLING_EDGE_THRESHOLD" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL FALLING_EDGE_THRESHOLD" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL H_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL H_GAIN_BASELINE" *)
 		output wire signed [(`ADC_RESOLUTION_WIDTH+1)-1:0] H_GAIN_BASELINE_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL L_GAIN_BASELINE" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL L_GAIN_BASELINE" *)
 		output wire signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL PRE_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL PRE_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] PRE_ACQUISITION_LENGTH_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL POST_ACQUISITION_LENGTH" *)
+		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH15_CONTROL POST_ACQUISITION_LENGTH" *)
 		output wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] POST_ACQUISITION_LENGTH_15,
-		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.0 CH15_CONTROL MAX_TRIGGER_LENGTH" *)
-		output wire [16-1:0] MAX_TRIGGER_LENGTH_15,   
         
 
 		// User ports ends
@@ -531,7 +473,6 @@
 		input wire  S_AXI_RREADY
 	);
 
-    wire [16-1:0] SET_CONFIG;
     wire [16-1:0] STOP;
     wire [16*2-1:0] ACQUIRE_MODE;
     wire [16*4-1:0] TRIGGER_TYPE;
@@ -541,10 +482,7 @@
     wire signed [16*`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE;
     wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)*16-1:0] PRE_ACQUISITION_LENGTH;
     wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)*16-1:0] POST_ACQUISITION_LENGTH;
-    wire [16*16-1:0] MAX_TRIGGER_LENGTH;
 
-
-    assign SET_CONFIG_0 = SET_CONFIG[(0+1)*1-1];
     assign STOP_0 = STOP[(0+1)*1-1];
     assign ACQUIRE_MODE_0 = ACQUIRE_MODE[(0+1)*2-1:0];
     assign TRIGGER_TYPE_0 = TRIGGER_TYPE[(0+1)*4-1:0];
@@ -554,9 +492,7 @@
     assign L_GAIN_BASELINE_0 = L_GAIN_BASELINE[(0+1)*`SAMPLE_WIDTH-1:0] ;
     assign PRE_ACQUISITION_LENGTH_0 = PRE_ACQUISITION_LENGTH[(0+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1:0] ;
     assign POST_ACQUISITION_LENGTH_0 = POST_ACQUISITION_LENGTH[(0+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1:0] ;
-    assign MAX_TRIGGER_LENGTH_0 = MAX_TRIGGER_LENGTH[(0+1)*16-1:0];
 
-    assign SET_CONFIG_1 = SET_CONFIG[(1+1)*1-1];
     assign STOP_1 = STOP[(1+1)*1-1];
     assign ACQUIRE_MODE_1 = ACQUIRE_MODE[(1+1)*2-1 -:2];
     assign TRIGGER_TYPE_1 = TRIGGER_TYPE[(1+1)*4-1 -:4];
@@ -566,9 +502,7 @@
     assign L_GAIN_BASELINE_1 = L_GAIN_BASELINE[(1+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_1 = PRE_ACQUISITION_LENGTH[(1+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_1 = POST_ACQUISITION_LENGTH[(1+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_1 = MAX_TRIGGER_LENGTH[(1+1)*16-1 -:16];
 
-    assign SET_CONFIG_2 = SET_CONFIG[(2+1)*1-1];
     assign STOP_2 = STOP[(2+1)*1-1];
     assign ACQUIRE_MODE_2 = ACQUIRE_MODE[(2+1)*2-1 -:2];
     assign TRIGGER_TYPE_2 = TRIGGER_TYPE[(2+1)*4-1 -:4];
@@ -578,9 +512,7 @@
     assign L_GAIN_BASELINE_2 = L_GAIN_BASELINE[(2+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_2 = PRE_ACQUISITION_LENGTH[(2+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_2 = POST_ACQUISITION_LENGTH[(2+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_2 = MAX_TRIGGER_LENGTH[(2+1)*16-1 -:16];
 
-    assign SET_CONFIG_3 = SET_CONFIG[(3+1)*1-1];
     assign STOP_3 = STOP[(3+1)*1-1];
     assign ACQUIRE_MODE_3 = ACQUIRE_MODE[(3+1)*2-1 -:2];
     assign TRIGGER_TYPE_3 = TRIGGER_TYPE[(3+1)*4-1 -:4];
@@ -590,9 +522,7 @@
     assign L_GAIN_BASELINE_3 = L_GAIN_BASELINE[(3+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_3 = PRE_ACQUISITION_LENGTH[(3+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_3 = POST_ACQUISITION_LENGTH[(3+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_3 = MAX_TRIGGER_LENGTH[(3+1)*16-1 -:16];
 
-    assign SET_CONFIG_4 = SET_CONFIG[(4+1)*1-1];
     assign STOP_4 = STOP[(4+1)*1-1];
     assign ACQUIRE_MODE_4 = ACQUIRE_MODE[(4+1)*2-1 -:2];
     assign TRIGGER_TYPE_4 = TRIGGER_TYPE[(4+1)*4-1 -:4];
@@ -602,9 +532,7 @@
     assign L_GAIN_BASELINE_4 = L_GAIN_BASELINE[(4+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_4 = PRE_ACQUISITION_LENGTH[(4+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_4 = POST_ACQUISITION_LENGTH[(4+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_4 = MAX_TRIGGER_LENGTH[(4+1)*16-1 -:16];
 
-    assign SET_CONFIG_5 = SET_CONFIG[(5+1)*1-1];
     assign STOP_5 = STOP[(5+1)*1-1];
     assign ACQUIRE_MODE_5 = ACQUIRE_MODE[(5+1)*2-1 -:2];
     assign TRIGGER_TYPE_5 = TRIGGER_TYPE[(5+1)*4-1 -:4];
@@ -614,9 +542,7 @@
     assign L_GAIN_BASELINE_5 = L_GAIN_BASELINE[(5+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_5 = PRE_ACQUISITION_LENGTH[(5+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_5 = POST_ACQUISITION_LENGTH[(5+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_5 = MAX_TRIGGER_LENGTH[(5+1)*16-1 -:16];
 
-    assign SET_CONFIG_6 = SET_CONFIG[(6+1)*1-1];
     assign STOP_6 = STOP[(6+1)*1-1];
     assign ACQUIRE_MODE_6 = ACQUIRE_MODE[(6+1)*2-1 -:2];
     assign TRIGGER_TYPE_6 = TRIGGER_TYPE[(6+1)*4-1 -:4];
@@ -626,9 +552,7 @@
     assign L_GAIN_BASELINE_6 = L_GAIN_BASELINE[(6+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_6 = PRE_ACQUISITION_LENGTH[(6+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_6 = POST_ACQUISITION_LENGTH[(6+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_6 = MAX_TRIGGER_LENGTH[(6+1)*16-1 -:16];
 
-    assign SET_CONFIG_7 = SET_CONFIG[(7+1)*1-1];
     assign STOP_7 = STOP[(7+1)*1-1];
     assign ACQUIRE_MODE_7 = ACQUIRE_MODE[(7+1)*2-1 -:2];
     assign TRIGGER_TYPE_7 = TRIGGER_TYPE[(7+1)*4-1 -:4];
@@ -638,9 +562,7 @@
     assign L_GAIN_BASELINE_7 = L_GAIN_BASELINE[(7+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_7 = PRE_ACQUISITION_LENGTH[(7+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_7 = POST_ACQUISITION_LENGTH[(7+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_7 = MAX_TRIGGER_LENGTH[(7+1)*16-1 -:16];
 
-    assign SET_CONFIG_8 = SET_CONFIG[(8+1)*1-1];
     assign STOP_8 = STOP[(8+1)*1-1];
     assign ACQUIRE_MODE_8 = ACQUIRE_MODE[(8+1)*2-1 -:2];
     assign TRIGGER_TYPE_8 = TRIGGER_TYPE[(8+1)*4-1 -:4];
@@ -650,9 +572,7 @@
     assign L_GAIN_BASELINE_8 = L_GAIN_BASELINE[(8+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_8 = PRE_ACQUISITION_LENGTH[(8+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_8 = POST_ACQUISITION_LENGTH[(8+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_8 = MAX_TRIGGER_LENGTH[(8+1)*16-1 -:16];
 
-    assign SET_CONFIG_9 = SET_CONFIG[(9+1)*1-1];
     assign STOP_9 = STOP[(9+1)*1-1];
     assign ACQUIRE_MODE_9 = ACQUIRE_MODE[(9+1)*2-1 -:2];
     assign TRIGGER_TYPE_9 = TRIGGER_TYPE[(9+1)*4-1 -:4];
@@ -662,9 +582,7 @@
     assign L_GAIN_BASELINE_9 = L_GAIN_BASELINE[(9+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_9 = PRE_ACQUISITION_LENGTH[(9+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_9 = POST_ACQUISITION_LENGTH[(9+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_9 = MAX_TRIGGER_LENGTH[(9+1)*16-1 -:16];
 
-    assign SET_CONFIG_10 = SET_CONFIG[(10+1)*1-1];
     assign STOP_10 = STOP[(10+1)*1-1];
     assign ACQUIRE_MODE_10 = ACQUIRE_MODE[(10+1)*2-1 -:2];
     assign TRIGGER_TYPE_10 = TRIGGER_TYPE[(10+1)*4-1 -:4];
@@ -674,9 +592,7 @@
     assign L_GAIN_BASELINE_10 = L_GAIN_BASELINE[(10+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_10 = PRE_ACQUISITION_LENGTH[(10+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_10 = POST_ACQUISITION_LENGTH[(10+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_10 = MAX_TRIGGER_LENGTH[(10+1)*16-1 -:16];
-
-    assign SET_CONFIG_11 = SET_CONFIG[(11+1)*1-1];
+ 
     assign STOP_11 = STOP[(11+1)*1-1];
     assign ACQUIRE_MODE_11 = ACQUIRE_MODE[(11+1)*2-1 -:2];
     assign TRIGGER_TYPE_11 = TRIGGER_TYPE[(11+1)*4-1 -:4];
@@ -686,9 +602,7 @@
     assign L_GAIN_BASELINE_11 = L_GAIN_BASELINE[(11+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_11 = PRE_ACQUISITION_LENGTH[(11+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_11 = POST_ACQUISITION_LENGTH[(11+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_11 = MAX_TRIGGER_LENGTH[(11+1)*16-1 -:16];
 
-    assign SET_CONFIG_12 = SET_CONFIG[(12+1)*1-1];
     assign STOP_12 = STOP[(12+1)*1-1];
     assign ACQUIRE_MODE_12 = ACQUIRE_MODE[(12+1)*2-1 -:2];
     assign TRIGGER_TYPE_12 = TRIGGER_TYPE[(12+1)*4-1 -:4];
@@ -698,9 +612,7 @@
     assign L_GAIN_BASELINE_12 = L_GAIN_BASELINE[(12+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_12 = PRE_ACQUISITION_LENGTH[(12+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_12 = POST_ACQUISITION_LENGTH[(12+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_12 = MAX_TRIGGER_LENGTH[(12+1)*16-1 -:16];
 
-    assign SET_CONFIG_13 = SET_CONFIG[(13+1)*1-1];
     assign STOP_13 = STOP[(13+1)*1-1];
     assign ACQUIRE_MODE_13 = ACQUIRE_MODE[(13+1)*2-1 -:2];
     assign TRIGGER_TYPE_13 = TRIGGER_TYPE[(13+1)*4-1 -:4];
@@ -710,9 +622,7 @@
     assign L_GAIN_BASELINE_13 = L_GAIN_BASELINE[(13+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_13 = PRE_ACQUISITION_LENGTH[(13+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_13 = POST_ACQUISITION_LENGTH[(13+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_13 = MAX_TRIGGER_LENGTH[(13+1)*16-1 -:16];
 
-    assign SET_CONFIG_14 = SET_CONFIG[(14+1)*1-1];
     assign STOP_14 = STOP[(14+1)*1-1];
     assign ACQUIRE_MODE_14 = ACQUIRE_MODE[(14+1)*2-1 -:2];
     assign TRIGGER_TYPE_14 = TRIGGER_TYPE[(14+1)*4-1 -:4];
@@ -722,9 +632,7 @@
     assign L_GAIN_BASELINE_14 = L_GAIN_BASELINE[(14+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_14 = PRE_ACQUISITION_LENGTH[(14+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_14 = POST_ACQUISITION_LENGTH[(14+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_14 = MAX_TRIGGER_LENGTH[(14+1)*16-1 -:16];
 
-    assign SET_CONFIG_15 = SET_CONFIG[(15+1)*1-1];
     assign STOP_15 = STOP[(15+1)*1-1];
     assign ACQUIRE_MODE_15 = ACQUIRE_MODE[(15+1)*2-1 -:2];
     assign TRIGGER_TYPE_15 = TRIGGER_TYPE[(15+1)*4-1 -:4];
@@ -734,7 +642,6 @@
     assign L_GAIN_BASELINE_15 = L_GAIN_BASELINE[(15+1)*`SAMPLE_WIDTH-1 -:`SAMPLE_WIDTH] ;
     assign PRE_ACQUISITION_LENGTH_15 = PRE_ACQUISITION_LENGTH[(15+1)*($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_PRE_ACQUISITION_LENGTH)+1] ;
     assign POST_ACQUISITION_LENGTH_15 = POST_ACQUISITION_LENGTH[(15+1)*($clog2(MAX_POST_ACQUISITION_LENGTH)+1)-1 -:$clog2(MAX_POST_ACQUISITION_LENGTH)+1] ;
-    assign MAX_TRIGGER_LENGTH_15 = MAX_TRIGGER_LENGTH[(15+1)*16-1 -:16];                                                
 
     trigger_configrator_core #(
         .CHANNEL_NUM(16),

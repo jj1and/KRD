@@ -7,20 +7,12 @@
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>TRIGGER_CONTROL</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:slave/>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
@@ -81,14 +73,6 @@
           </spirit:logicalPort>
           <spirit:physicalPort>
             <spirit:name>ACQUIRE_MODE</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
         <spirit:portMap>
@@ -102,19 +86,11 @@
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>CONTROL_MODULE0</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:name>CONTROL_MOD0</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:master/>
       <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_MOD0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
@@ -181,14 +157,6 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_MOD0</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
             <spirit:name>STOP</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
@@ -198,19 +166,11 @@
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>CONTROL_MODULE1</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:name>CONTROL_MOD1</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:master/>
       <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_MOD1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
@@ -277,14 +237,6 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_MOD1</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
             <spirit:name>STOP</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
@@ -294,19 +246,11 @@
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>CONTROL_MODULE2</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:name>CONTROL_MOD2</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:master/>
       <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_MOD2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
@@ -373,14 +317,6 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_MOD2</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
             <spirit:name>STOP</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
@@ -390,19 +326,11 @@
       </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>CONTROL_MODULE3</spirit:name>
-      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.0"/>
+      <spirit:name>CONTROL_MOD3</spirit:name>
+      <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
+      <spirit:abstractionType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control_rtl" spirit:version="1.1"/>
       <spirit:master/>
       <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>MAX_TRIGGER_LENGTH_MOD3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
             <spirit:name>TRIGGER_TYPE</spirit:name>
@@ -469,14 +397,6 @@
         </spirit:portMap>
         <spirit:portMap>
           <spirit:logicalPort>
-            <spirit:name>SET_CONFIG</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>SET_CONFIG_MOD3</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
             <spirit:name>STOP</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
@@ -500,7 +420,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e77785d4</spirit:value>
+            <spirit:value>608e9e50</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -516,7 +436,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e77785d4</spirit:value>
+            <spirit:value>608e9e50</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -536,22 +456,6 @@
       </spirit:view>
     </spirit:views>
     <spirit:ports>
-      <spirit:port>
-        <spirit:name>SET_CONFIG</spirit:name>
-        <spirit:wire>
-          <spirit:direction>in</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-          <spirit:driver>
-            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
-          </spirit:driver>
-        </spirit:wire>
-      </spirit:port>
       <spirit:port>
         <spirit:name>STOP</spirit:name>
         <spirit:wire>
@@ -729,39 +633,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH</spirit:name>
-        <spirit:wire>
-          <spirit:direction>in</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-          <spirit:driver>
-            <spirit:defaultValue spirit:format="long">16</spirit:defaultValue>
-          </spirit:driver>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_MOD0</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_MOD0</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -901,36 +772,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_MOD0</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_MOD1</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -1090,36 +931,6 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_MOD1</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_MOD2</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
         <spirit:name>STOP_MOD2</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
@@ -1259,36 +1070,6 @@
             <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:ceil(spirit:log(2,spirit:decode(id(&apos;MODELPARAM_VALUE.MAX_POST_ACQUISITION_LENGTH&apos;)))) + 1) - 1)">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_MOD2</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>SET_CONFIG_MOD3</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
@@ -1447,23 +1228,6 @@
           </spirit:wireTypeDefs>
         </spirit:wire>
       </spirit:port>
-      <spirit:port>
-        <spirit:name>MAX_TRIGGER_LENGTH_MOD3</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:vector>
-            <spirit:left spirit:format="long">15</spirit:left>
-            <spirit:right spirit:format="long">0</spirit:right>
-          </spirit:vector>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
     </spirit:ports>
     <spirit:modelParameters>
       <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
@@ -1484,7 +1248,7 @@
       <spirit:file>
         <spirit:name>src/control_distributer.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_e77785d4</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_608e9e50</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -1556,11 +1320,11 @@
       <xilinx:displayName>control_distributer_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:vendorDisplayName>RCNS</xilinx:vendorDisplayName>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:control_distributer:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-10-17T15:02:49Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-12-01T10:23:57Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3a0e66ac_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@79d8a5b6_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
@@ -1582,13 +1346,29 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@16f16727_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6728cdb7_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@12037f00_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d6f775f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65d15793_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44062ca5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49cdd409_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b3e71eb_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f206206_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f7b5d17_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d7cf92_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15e96abc_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21b0f07d_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@525ba0f8_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bdd0a4f_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14685b9c_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34a7e8f4_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25beeda2_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47d38ff5_ARCHIVE_LOCATION">e:/KRD/ip_repos/proto_ip_outputs/control_distributer</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="184dfd9a"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="85f16830"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="16a2e9ca"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="35da9c33"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="82cdcfe7"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="0d4b5179"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a5e0f658"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="e058dba0"/>
     </xilinx:packagingInfo>

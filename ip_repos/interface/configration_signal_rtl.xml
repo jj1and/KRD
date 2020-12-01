@@ -3,26 +3,9 @@
   <spirit:vendor>awa.tohoku.ac.jp</spirit:vendor>
   <spirit:library>mogura2</spirit:library>
   <spirit:name>trigger_control_rtl</spirit:name>
-  <spirit:version>1.0</spirit:version>
-  <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.0"/>
+  <spirit:version>1.1</spirit:version>
+  <spirit:busType spirit:vendor="awa.tohoku.ac.jp" spirit:library="mogura2" spirit:name="trigger_control" spirit:version="1.1"/>
   <spirit:ports>
-    <spirit:port>
-      <spirit:logicalName>MAX_TRIGGER_LENGTH</spirit:logicalName>
-      <spirit:description>maximum clock length for trigger</spirit:description>
-      <spirit:wire>
-        <spirit:qualifier>
-          <spirit:isData>true</spirit:isData>
-        </spirit:qualifier>
-        <spirit:onMaster>
-          <spirit:width>16</spirit:width>
-        </spirit:onMaster>
-        <spirit:onSlave>
-          <spirit:width>16</spirit:width>
-          <spirit:direction>inout</spirit:direction>
-        </spirit:onSlave>
-        <spirit:defaultValue>16</spirit:defaultValue>
-      </spirit:wire>
-    </spirit:port>
     <spirit:port>
       <spirit:logicalName>TRIGGER_TYPE</spirit:logicalName>
       <spirit:description>type of trigger method</spirit:description>
@@ -35,7 +18,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>4</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -52,7 +35,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>128</spirit:defaultValue>
       </spirit:wire>
@@ -69,7 +52,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -86,7 +69,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>13</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -103,7 +86,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>16</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -117,7 +100,7 @@
         </spirit:qualifier>
         <spirit:onMaster/>
         <spirit:onSlave>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
@@ -131,7 +114,7 @@
         </spirit:qualifier>
         <spirit:onMaster/>
         <spirit:onSlave>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
@@ -148,24 +131,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>2</spirit:width>
-          <spirit:direction>inout</spirit:direction>
-        </spirit:onSlave>
-        <spirit:defaultValue>0</spirit:defaultValue>
-      </spirit:wire>
-    </spirit:port>
-    <spirit:port>
-      <spirit:logicalName>SET_CONFIG</spirit:logicalName>
-      <spirit:description>apply configration</spirit:description>
-      <spirit:wire>
-        <spirit:qualifier>
-          <spirit:isData>true</spirit:isData>
-        </spirit:qualifier>
-        <spirit:onMaster>
-          <spirit:width>1</spirit:width>
-        </spirit:onMaster>
-        <spirit:onSlave>
-          <spirit:width>1</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>0</spirit:defaultValue>
       </spirit:wire>
@@ -182,7 +148,7 @@
         </spirit:onMaster>
         <spirit:onSlave>
           <spirit:width>1</spirit:width>
-          <spirit:direction>inout</spirit:direction>
+          <spirit:direction>in</spirit:direction>
         </spirit:onSlave>
         <spirit:defaultValue>1</spirit:defaultValue>
       </spirit:wire>
