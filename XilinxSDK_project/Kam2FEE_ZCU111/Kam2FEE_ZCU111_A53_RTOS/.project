@@ -35,11 +35,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/axidma_s2mm_manager.h</locationURI>
 		</link>
 		<link>
-			<name>src/fee_configrator_driver</name>
-			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/fee_configrator_driver</locationURI>
-		</link>
-		<link>
 			<name>src/hardware_trigger_manager.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/hardware_trigger_manager.c</locationURI>
@@ -78,6 +73,11 @@
 			<name>src/send2pc.h</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/send2pc.h</locationURI>
+		</link>
+		<link>
+			<name>src/trigger_configrator_driver</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/trigger_configrator_driver</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

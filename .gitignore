@@ -85,6 +85,7 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE_vivado2019_2/MoGURA2_FEE/
 !/XilinxSDK_project/*/**/*src/
 !/XilinxSDK_project/*/**/.vscode
 !/XilinxSDK_project/*/**/*_hw_platform_*
+!/XilinxSDK_project/*/**/*driver
 
 # only keep .cproject, .project, .sdkproject, .system.mss and Makefile
 # i.e. the psu_cortexa53_0 lib files are regenerated automatically

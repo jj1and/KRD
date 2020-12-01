@@ -648,7 +648,7 @@ END
 BEGIN DRIVER
  PARAMETER DRIVER_NAME = generic
  PARAMETER DRIVER_VER = 2.0
- PARAMETER HW_INSTANCE = hardware_trigger_blocks_fee_config_wrapper_0
+ PARAMETER HW_INSTANCE = hardware_trigger_blocks_trigger_configrator_0
 END
 
 

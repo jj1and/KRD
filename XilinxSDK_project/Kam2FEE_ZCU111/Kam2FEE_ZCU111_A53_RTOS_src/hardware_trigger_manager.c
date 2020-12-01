@@ -1,6 +1,6 @@
 #include "hardware_trigger_manager.h"
 
-#include "fee_configrator_driver/fee_configrator.h"
+#include "trigger_configrator_driver/trigger_configrator.h"
 
 #define FEE_DEBUG
 
@@ -14,11 +14,11 @@ u32 reverse_byte(u32 data) {
     return rdata;
 }
 
-int HardwareTrigger_SetupDeviceId(u16 FEEdeviceId, Trigger_Config TriggerConfig) {
-    FEE_Config *CfgPtr = NULL;
+int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config TriggerManagerConfig) {
+    Trigger_Config *CfgPtr = NULL;
     int Status;
 
-    Status = FEEConfig_SetConfigDefault(FEEdeviceId);
+    Status = Trigger_SetConfigDefault(TriggerdeviceId);
     if (Status != XST_SUCCESS) {
         return XST_FAILURE;
     }
@@ -29,9 +29,9 @@ int HardwareTrigger_SetupDeviceId(u16 FEEdeviceId, Trigger_Config TriggerConfig)
     u32 AcquisitionAddr;
     u32 BaselineAddr;
 
-    for (size_t i = 0; i < TriggerConfig.ChannelNum; i++) {
-        ChannelConfig = TriggerConfig.ChanelConfigs[i];
-        ControlAddr = ((((ChannelConfig.AcquireMode << 20) & 0x00300000) | ((ChannelConfig.TriggerType << 16) & 0x000F0000)) | (ChannelConfig.MaxTriggerLength & 0x0000FFFF)) | STOP_STATE;
+    for (size_t i = 0; i < TriggerManagerConfig.ChannelNum; i++) {
+        ChannelConfig = TriggerManagerConfig.ChanelConfigs[i];
+        ControlAddr = ((ChannelConfig.AcquireMode << 4) & ACQUIRE_MODE_MASK) | (ChannelConfig.TriggerType & TRIGGER_TYPE_MASK) | STOP_STATE;
         ThresholdAddr = ((ChannelConfig.RisingEdgeThreshold << 16) & 0xFFFF0000) | (ChannelConfig.FallingEdgeThreshold & 0x0000FFFF);
         AcquisitionAddr = ((ChannelConfig.PreAcquisitionLength << 16) & 0xFFFF0000) | (ChannelConfig.PostAcquisitionLength & 0x0000FFFF);
         BaselineAddr = ((ChannelConfig.HgainBaseline << 16) & 0xFFFF0000) | (ChannelConfig.LgainBaseline & 0x0000FFFF);
@@ -44,24 +44,29 @@ int HardwareTrigger_SetupDeviceId(u16 FEEdeviceId, Trigger_Config TriggerConfig)
         xil_printf("INFO: BaselineReg: 0x%08x\r\n", BaselineAddr);
 #endif
 
-        CfgPtr = FEEConfig_SetConfig(FEEdeviceId, ChannelConfig.channel, ControlAddr, ThresholdAddr, AcquisitionAddr, BaselineAddr);
+        CfgPtr = Trigger_ChannelConfig(TriggerdeviceId, ChannelConfig.channel, ControlAddr, ThresholdAddr, AcquisitionAddr, BaselineAddr);
     }
 
-    return FEEConfig_ApplyCfg(CfgPtr);
+    if (Trigger_MaxLengthConfig(TriggerdeviceId, TriggerManagerConfig.MaxTriggerLength) != XST_SUCCESS) return XST_FAILURE;
+#ifdef FEE_DEBUG
+    xil_printf("INFO: ConfigAddrReg: 0x%08x\r\n", CfgPtr->ConfigAddr);
+#endif
+
+    return Trigger_ApplyCfg(CfgPtr);
 }
 
-int HardwareTrigger_StartDeviceId(u16 FEEdeviceId) {
-    FEE_Config *CfgPtr = NULL;
-    CfgPtr = FEEConfig_LookupConfig(FEEdeviceId);
+int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId) {
+    Trigger_Config *CfgPtr = NULL;
+    CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
-    return FEEConfig_Start(CfgPtr);
+    return Trigger_Start(CfgPtr);
 }
 
-int HardwareTrigger_StopDeviceId(u16 FEEdeviceId) {
-    FEE_Config *CfgPtr = NULL;
-    CfgPtr = FEEConfig_LookupConfig(FEEdeviceId);
+int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId) {
+    Trigger_Config *CfgPtr = NULL;
+    CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
-    return FEEConfig_Stop(CfgPtr);
+    return Trigger_Stop(CfgPtr);
 }

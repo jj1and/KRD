@@ -53,11 +53,11 @@
 #define PRE_ACQUISITION_LENGTH 2
 #define POST_ACQUISITION_LENGTH 1
 
-const Channel_Config channel_0 = {0, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_1 = {1, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, MAX_TRIGGER_LEN, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_2 = {2, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, MAX_TRIGGER_LEN, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_0 = {0, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_1 = {1, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+const Channel_Config channel_2 = {2, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, RISING_EDGE_THRESHOLD, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
 Channel_Config ch_config_array[3];
-Trigger_Config fee;
+TriggerManager_Config fee;
 
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
@@ -99,15 +99,16 @@ void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw) {
 }
 
 int main() {
-	ch_config_array[0] = channel_0;
-	ch_config_array[1] = channel_1;
-	ch_config_array[2] = channel_2;
-	fee.ChannelNum = 3;
-	fee.ChanelConfigs = ch_config_array;
+    ch_config_array[0] = channel_0;
+    ch_config_array[1] = channel_1;
+    ch_config_array[2] = channel_2;
+    fee.ChannelNum = 3;
+    fee.ChanelConfigs = ch_config_array;
+    fee.MaxTriggerLength = MAX_TRIGGER_LEN;
 
-	send2pc_setting.port = 5001;
-	send2pc_setting.server_address = "192.168.1.2";
-	send2pc_setting.xTicksToWait = x10seconds;
+    send2pc_setting.port = 5001;
+    send2pc_setting.server_address = "192.168.1.2";
+    send2pc_setting.xTicksToWait = x10seconds;
 
     int Status;
     xil_printf("INFO: KamLAND2 RFSoC Based Electronics Prototype Start\r\n");
@@ -232,7 +233,7 @@ void printData(u64 *dataptr, u64 frame_size) {
     xil_printf("\r\n");
 }
 
-int checkData(u64 *dataptr, Trigger_Config fee_config, int print_enable, u64 *rcvd_frame_length) {
+int checkData(u64 *dataptr, TriggerManager_Config fee_config, int print_enable, u64 *rcvd_frame_length) {
     int Status = XST_SUCCESS;
     u8 read_channel_id;
     u8 read_header_id;
@@ -404,7 +405,7 @@ void prvDmaTask(void *pvParameters) {
             vTaskSuspend(NULL);
         }
 
-        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1) || (check_result==INTERNAL_BUFFER_FULL)) {
+        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1) || (check_result == INTERNAL_BUFFER_FULL)) {
             break;
         }
     }
