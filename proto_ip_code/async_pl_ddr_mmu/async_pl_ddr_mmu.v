@@ -147,7 +147,12 @@ module async_pl_ddr_mmu # (
         dest_req_delay <= #100 dest_req;
     end
 
-    localparam integer DATAFRAME_WIDTH = TDATA_WIDTH/2;
+    localparam integer RFADC_TDATA_WIDTH = 128;
+    localparam integer DATAFRAME_WIDTH = 64;
+    localparam integer RFADC_W = $clog2(RFADC_TDATA_WIDTH);
+    localparam integer W = $clog2(TDATA_WIDTH);
+    localparam integer BYTE_W = $clog2(TDATA_WIDTH/8);
+    localparam integer RFADC_TDATA_NUM_PER_CLK = TDATA_WIDTH/RFADC_TDATA_WIDTH;
     wire [7:0] HEADER_ID = 8'hAA;
     wire [7:0] FOOTER_ID = 8'h55;
 
@@ -160,6 +165,18 @@ module async_pl_ddr_mmu # (
     reg [5:0] dsa;
     reg burst_type;
     reg [BTT_WIDTH-1:0] max_btt;
+
+    wire [16:0] max_tdata_len = dest_max_trigger_length + 2;
+    wire [16:0] max_send_len;
+    generate
+        if (W>7) begin
+            assign max_send_len = {{W-RFADC_W-1{1'b0}}, max_tdata_len[FRAME_LENGTH_WIDTH:W-RFADC_W]} + |max_tdata_len[W-RFADC_W-1:0];
+        end else begin
+            assign max_send_len = max_tdata_len;
+        end
+    endgenerate
+    wire [BTT_WIDTH-1:0] max_bttD = {{BTT_WIDTH-17-BYTE_W{1'b0}}, max_send_len, {BYTE_W{1'b0}}};
+
     always @(posedge ACLK ) begin
         if (|{~ARESETN, DATAMOVER_ERROR}) begin
             rsvd <= #100 0;
@@ -175,7 +192,7 @@ module async_pl_ddr_mmu # (
                 eof <= #100 1'b1;
                 dsa <= #100 0;      
                 burst_type <= #100 1'b1;
-                max_btt <= #100 (dest_max_trigger_length*16+32);                  
+                max_btt <= #100 max_bttD;                  
             end else begin
                 rsvd <= #100 rsvd;
                 drr <= #100 drr;
@@ -423,7 +440,7 @@ module async_pl_ddr_mmu # (
         if (|{~ARESETN, dest_req_delay}) begin
             write_ready <= #100 1'b1;
         end else begin
-            if (|{S2MM_M_AXIS_TLAST&S2MM_M_AXIS_TREADY, DATAMOVER_ERROR}) begin
+            if (&{S_AXIS_TVALID, S_AXIS_TLAST, write_ready, S2MM_M_AXIS_TREADY}|DATAMOVER_ERROR) begin
                 write_ready <= #100 1'b0;
             end else begin
                 if (&{!almost_full, !full}) begin
@@ -437,7 +454,7 @@ module async_pl_ddr_mmu # (
     
     assign S2MM_M_AXIS_TDATA = S_AXIS_TDATA;
     assign S2MM_M_AXIS_TVALID = &{S_AXIS_TVALID, write_ready};
-    assign S2MM_M_AXIS_TLAST = &{S_AXIS_TLAST, write_ready};
+    assign S2MM_M_AXIS_TLAST = &{S_AXIS_TVALID, S_AXIS_TLAST, write_ready};
     assign S_AXIS_TREADY = &{S2MM_M_AXIS_TREADY, write_ready};
 
     // ------------------------------- S2MM Command assigment -------------------------------
@@ -473,14 +490,26 @@ module async_pl_ddr_mmu # (
     end
 
     wire [ADDRESS_WIDTH-1:0] cmd_s2mm_addr = cmd_dest_addr[LOCAL_ADDRESS_WIDTH-1:0]+BASE_ADDRESS;
+    wire [FRAME_LENGTH_WIDTH:0] send_len;
     // For Non-IBTT Mode
     reg [BTT_WIDTH-1:0] s2mm_btt;
+    wire [FRAME_LENGTH_WIDTH:0] tdata_len = {2'b0, S_AXIS_TDATA[DATAFRAME_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH-1]} + 2;
+    generate
+        if (W>7) begin
+            assign send_len = {{W-RFADC_W-1{1'b0}}, tdata_len[FRAME_LENGTH_WIDTH:W-RFADC_W]} + |tdata_len[W-RFADC_W-1:0];
+        end else begin
+            assign send_len = tdata_len;
+        end
+    endgenerate
+    wire [BTT_WIDTH-1:0] s2mm_bttD = {{BTT_WIDTH-FRAME_LENGTH_WIDTH-1-BYTE_W{1'b0}}, send_len, {BYTE_W{1'b0}}};
+
     always @(posedge ACLK ) begin
         if (|{~ARESETN, dest_req_delay}) begin
             s2mm_btt <= #100 max_btt;
         end else begin
             if (&{S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID, S2MM_M_AXIS_TVALID, S2MM_M_AXIS_TREADY}) begin
-                s2mm_btt <= #100 S_AXIS_TDATA[DATAFRAME_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH]*8+32;
+                // s2mm_btt <= #100 S_AXIS_TDATA[DATAFRAME_WIDTH-HEADER_FOOTER_ID_WIDTH-CHANNEL_ID_WIDTH-1 -:FRAME_LENGTH_WIDTH]*8+32;
+                s2mm_btt <= #100 s2mm_bttD;
             end else begin
                 s2mm_btt <= #100 s2mm_btt;
             end
@@ -552,11 +581,67 @@ module async_pl_ddr_mmu # (
     reg new_data;
     wire mm2s_tvalid_posedge = (mm2s_tvalid_delay==1'b0)&(MM2S_S_AXIS_TVALID==1'b1);
     wire mm2s_tdata_is_header =  (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==HEADER_ID);
-    wire mm2s_tdata_is_footer = (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
-    wire m_axis_tdata_is_footer = (m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+    wire mm2s_tdata_is_footer;
+    wire m_axis_tdata_is_footer;
 
-    reg [TDATA_WIDTH/8-1:0] m_axis_tkeep;
     reg [TDATA_WIDTH-1:0] m_axis_tdata;
+    reg [TDATA_WIDTH/8-1:0] m_axis_tkeep;
+
+    genvar i;
+    integer j;
+    generate
+        if (W>7) begin
+            wire [RFADC_TDATA_NUM_PER_CLK-1:0] mm2s_rfdc_tdata_has_footer;
+            wire [RFADC_TDATA_NUM_PER_CLK-1:0] m_axis_rfdc_tdata_has_footer;  
+            wire [RFADC_TDATA_NUM_PER_CLK-2:0] these_rfdc_tdata_has_no_footer;
+            wire [RFADC_TDATA_NUM_PER_CLK-1:0] mm2s_valid_rfdc_tdata;   
+            for (i=0; i<RFADC_TDATA_NUM_PER_CLK; i=i+1) begin
+                assign mm2s_rfdc_tdata_has_footer[i] = (MM2S_S_AXIS_TDATA[RFADC_TDATA_WIDTH*i+DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+                assign m_axis_rfdc_tdata_has_footer[i] = (m_axis_tdata[RFADC_TDATA_WIDTH*i+DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+            end
+            for (i=0; i<RFADC_TDATA_NUM_PER_CLK-1; i=i+1 ) begin
+                assign these_rfdc_tdata_has_no_footer[i] = ~|mm2s_rfdc_tdata_has_footer[i:0];
+            end
+            assign mm2s_tdata_is_footer = |mm2s_rfdc_tdata_has_footer;
+            assign mm2s_valid_rfdc_tdata = {these_rfdc_tdata_has_no_footer, 1'b1};
+            assign m_axis_tdata_is_footer = |m_axis_rfdc_tdata_has_footer;
+            always @(posedge ACLK ) begin
+                if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
+                    m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+                end else begin
+                    if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
+                        m_axis_tkeep <= #100 m_axis_tkeep;
+                    end else begin
+                        if (mm2s_tdata_is_footer&MM2S_S_AXIS_TVALID) begin
+                            for (j=0; j<RFADC_TDATA_NUM_PER_CLK; j=j+1) begin
+                                m_axis_tkeep[RFADC_TDATA_WIDTH/8*j +:RFADC_TDATA_WIDTH/8] <= #100 {RFADC_TDATA_WIDTH/8{mm2s_valid_rfdc_tdata[j]}};
+                            end
+                        end else begin
+                            m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
+                        end                        
+                    end
+                end
+            end
+        end else begin
+            assign mm2s_tdata_is_footer = (MM2S_S_AXIS_TDATA[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+            assign m_axis_tdata_is_footer = (m_axis_tdata[DATAFRAME_WIDTH-1 -:HEADER_FOOTER_ID_WIDTH]==FOOTER_ID);
+            always @(posedge ACLK ) begin
+                if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
+                    m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
+                end else begin
+                    if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
+                        m_axis_tkeep <= #100 m_axis_tkeep;
+                    end else begin
+                        if (MM2S_S_AXIS_TVALID) begin
+                            m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
+                        end else begin
+                            m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
+                        end                        
+                    end
+                end
+            end
+        end
+    endgenerate
 
     always @(posedge ACLK ) begin
         mm2s_tvalid_delay <= #100 MM2S_S_AXIS_TVALID;
@@ -645,23 +730,6 @@ module async_pl_ddr_mmu # (
            end 
         end
     end
-
-    always @(posedge ACLK ) begin
-        if (|{~ARESETN, dest_req_delay, DATAMOVER_ERROR}) begin
-            m_axis_tkeep <= #100 {TDATA_WIDTH/8{1'b0}};
-        end else begin
-            if (&{m_axis_tvalid, !M_AXIS_TREADY}) begin
-                m_axis_tkeep <= #100 m_axis_tkeep;
-            end else begin
-                if (mm2s_tdata_is_footer&MM2S_S_AXIS_TVALID) begin
-                    m_axis_tkeep <= #100 {{TDATA_WIDTH/16{1'b0}}, {TDATA_WIDTH/16{1'b1}}};
-                end else begin
-                    m_axis_tkeep <= #100  {TDATA_WIDTH/8{1'b1}};
-                end                        
-            end
-        end
-    end
-
 
     assign MM2S_S_AXIS_TREADY = |{M_AXIS_TREADY, !m_axis_tvalid};
     assign M_AXIS_TDATA = m_axis_tdata;

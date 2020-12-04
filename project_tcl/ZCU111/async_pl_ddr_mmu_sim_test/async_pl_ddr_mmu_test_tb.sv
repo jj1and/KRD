@@ -247,7 +247,7 @@ module async_pl_ddr_mmu_test_tb;
                 M_AXIS_TREADY <= #100 1'b1;
             end
         join
-        wait(DUT.sim_design_i.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b1)
+        wait(DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b1)
         sample_frame.delete();
         $display("TEST INFO: write in with no-backpressure end");
     endtask  
@@ -280,7 +280,7 @@ module async_pl_ddr_mmu_test_tb;
                 end
             join_any              
         end
-        while (DUT.sim_design_i.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0) begin
+        while (DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0) begin
             @(posedge CLK_333MHZ);
             M_AXIS_TREADY <= #100 $urandom_range(0, 1);
         end
@@ -309,14 +309,14 @@ module async_pl_ddr_mmu_test_tb;
                     S_AXIS_TVALID <= #100 1'b0;
                 end
                 begin
-                    while (|{i<given_sample_num, DUT.sim_design_i.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0}) begin
+                    while (|{i<given_sample_num, DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0}) begin
                         @(posedge CLK_333MHZ);
                         M_AXIS_TREADY <= #100 $urandom_range(0, 1);
                     end
                 end
             join_any                   
         end
-        while (DUT.sim_design_i.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0) begin
+        while (DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.dataframe_gen_inst.ADC_FIFO_EMPTY==1'b0) begin
             @(posedge CLK_333MHZ);
             M_AXIS_TREADY <= #100 $urandom_range(0, 1);
         end
@@ -369,7 +369,7 @@ module async_pl_ddr_mmu_test_tb;
         sample_config = new[1];
         for (int i=0; i<sample_config.size(); i++) begin
             sample_config[i].ch_id = CHANNEL_ID_NUM;
-            sample_config[i].frame_len = 2048;
+            sample_config[i].frame_len = 28;
             sample_config[i].gain_type = 0;
 //            sample_config[i].frame_len = (16*(i+1)+1)*2;
 //            sample_config[i].gain_type = i%2;
@@ -388,12 +388,12 @@ module async_pl_ddr_mmu_test_tb;
 
         reset_all;
 
-        wait (DUT.sim_design_i.async_dataframe_gene_0.inst.header_footer_gen_inst.ARESET==1'b0)        
-        config_module(6);
+        wait (DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.header_footer_gen_inst.ARESET==1'b0)        
+        config_module(14);
         
         slv_gen_after_valid_osc_readies();
         $display("TEST INFO: --------------- Fixed length data test --------------- ");
-        wait (~|{DUT.sim_design_i.async_dataframe_gene_0.inst.header_footer_gen_inst.ARESET, DUT.sim_design_i.async_dataframe_gene_0.inst.header_footer_gen_inst.HF_FIFO_RST_BUSY, DUT.sim_design_i.async_dataframe_gene_0.inst.header_footer_gen_inst.ADC_FIFO_RST_BUSY})
+        wait (~|{DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.header_footer_gen_inst.ARESET, DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.header_footer_gen_inst.HF_FIFO_RST_BUSY, DUT.sim_design_i.df_gens.async_dataframe_gene_0.inst.header_footer_gen_inst.ADC_FIFO_RST_BUSY})
         write_in_wo_backpressure(sample_config);
         write_in_full_backpressure(sample_config);    
         write_in_random_backpressure(sample_config);
