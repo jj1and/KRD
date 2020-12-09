@@ -6,13 +6,10 @@
 #define __BAREMETAL__
 #endif
 
+#include "platform_config.h"
 #include "xil_printf.h"
 #include "xparameters.h"
 #include "xrfdc.h"
-
-#ifndef XPS_BOARD_ZCU111
-#define XPS_BOARD_ZCU111
-#endif
 
 #define LMK04208_count 26
 #define LMX2594_A_count 113
@@ -41,7 +38,6 @@ typedef struct AvailableDacTiles {
     int *DacTileIndex;
 } AvailableDacTiles;
 
-int rfdcMTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps);
 int rfdcADC_MTS_setup(u16 RFdcDeviceId, double ADC_refClkFreq_MHz, double ADC_samplingRate_Msps, AvailableAdcTiles AdcTiles);
 int rfdcDAC_MTS_setup(u16 RFdcDeviceId, double DAC_refClkFreq_MHz, double DAC_samplingRate_Msps, AvailableDacTiles DacTiles);
 int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps);

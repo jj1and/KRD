@@ -1,7 +1,31 @@
 #include "trigger_configrator.h"
 
+#include "trigger_configrator_hw.h"
 #include "xil_printf.h"
 #include "xstatus.h"
+
+#define Trigger_BaseAddress(CfgPtr) ((CfgPtr)->BaseAddress)
+
+#define Trigger_IsConfigState(CfgPtr) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONFIG_ADDR_OFFSET) & CONFIG_STATE_MASK) == CONFIG_STATE) ? TRUE : FALSE)
+
+#define Trigger_IsStopState(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & CONTROL_STATE_MASK) == STOP_STATE) ? TRUE : FALSE)
+
+#define Trigger_IsRunState(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & CONTROL_STATE_MASK) == RUN_STATE) ? TRUE : FALSE)
+
+#define FEE_IsNomalAcquireMode(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & ACQUIRE_MODE_MASK) == NORMAL_MODE) ? TRUE : FALSE)
+
+#define Trigger_IsCombinedAcquireMode(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & ACQUIRE_MODE_MASK) == COMBINED_MODE) ? TRUE : FALSE)
+
+#define Trigger_MaxTriggerLength(CfgPtr) ((Trigger_ReadReg((CfgPtr)->BaseAddress, CONFIG_ADDR_OFFSET) & MAX_TRIGGER_LENGTH_MASK)
+
+#define Trigger_RisingEdgeThreshold(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, THRESHOLD_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & RISE_THRE_MASK)
+#define Trigger_FallingEdgeThreshold(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, THRESHOLD_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & FALL_THRE_MASK)
+
+#define Trigger_PreAcquisition(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, ACQUISITION_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & PRE_ACQUI_LEN_MASK)
+#define Trigger_PostAcquisition(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, ACQUISITION_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & POST_ACQUI_LEN_MASK)
+
+#define Trigger_HgainBaseline(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, BASELINE_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & H_GAIN_BASELINE_MASK)
+#define Trigger_LgainBaseline(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, BASELINE_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & L_GAIN_BASELINE_MASK)
 
 int Trigger_SetConfigDefault(u16 DeviceId) {
     extern Trigger_Config Trigger_ConfigTable[];

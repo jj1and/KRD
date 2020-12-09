@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20201111_02.bin"
+BASE_FILE_NAME = "./data/recv_buff_v4_20201204_11.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     t0 = pd_dfs['TIMESTAMP'][0]
 
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 10) & (pd_dfs['OBJECT_ID'] >= 0)].index[-100:]):
+    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 10) & (pd_dfs['OBJECT_ID'] >= 0)].index[:]):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
         hgain_wav = hgain_only_waveform_array[i, 0:sample_num]
@@ -145,12 +145,12 @@ if __name__ == "__main__":
     ax2_r.set_xlabel("Time[msec]")
     ax2_r.set_ylabel("Hit-rate[MHz]")
 
-    smooth_num = 256
-    if len(pd_dfs) > smooth_num:
-        smoother = np.ones(smooth_num)/smooth_num
-        smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
-        ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
-                   smoothed_hit_rate, label="Hit-rate", color='firebrick')
+    # smooth_num = 256
+    # if len(pd_dfs) > smooth_num:
+    #     smoother = np.ones(smooth_num)/smooth_num
+    #     smoothed_hit_rate = np.convolve(raw_hit_rate, smoother, mode='valid')
+    #     ax2_r.plot(objs_t[1:-smooth_num+1]*1e3,
+    #                smoothed_hit_rate, label="Hit-rate", color='firebrick')
     # ax2_r.plot(objs_t[1:]*1e3,
     #            raw_hit_rate, label="Hit-rate", color='firebrick')
     ax2_r.set_ylim(0.1, 25)

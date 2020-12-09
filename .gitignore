@@ -60,7 +60,7 @@ project_tcl/ZCU111/Kam2FEE_ZCU111/Kam2FEE_ZCU111
 project_tcl/ZCU111/async_df_gen_test/async_df_gen_test
 project_tcl/ZCU111/async_pl_ddr_mmu_sim_test/async_pl_ddr_mmu_sim_test
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/MoGURA2_FEE/
-project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE_vivado2019_2/MoGURA2_FEE/
+project_tcl/ZCU111/dma_connector_sim_test/dma_connector_sim_test
 
 # --- SDK specific ---
 /XilinxSDK_project_old/
@@ -132,3 +132,8 @@ project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE/script.tcl
 util_code/FEE_server/build/**
 project_tcl/ZCU111/Kam2FEE_ZCU111_RR/
 XilinxSDK_project/Kam2FEE_ZCU111_RR
+project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE_vivado2019_2/
+XilinxSDK_project/MoGURA2_FEE/DDR4_test
+XilinxSDK_project/MoGURA2_FEE/DDR4_test_bsp
+XilinxSDK_project/Kam2FEE_ZCU111/DDR4_test
+XilinxSDK_project/Kam2FEE_ZCU111/DDR4_test_bsp

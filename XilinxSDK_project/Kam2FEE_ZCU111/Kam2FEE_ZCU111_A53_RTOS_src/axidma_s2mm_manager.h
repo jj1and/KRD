@@ -1,18 +1,16 @@
 #ifndef __AXIDMA_S2MM_MANAGER_H_
 #define __AXIDMA_S2MM_MANAGER_H_
 
-#include "FreeRTOS.h"
-#include "task.h"
+#include "platform_config.h"
 #include "xaxidma.h"
 #include "xparameters.h"
 
-#ifdef XPAR_INTC_0_DEVICE_ID
-#include "xintc.h"
-#else
-#include "xscugic.h"
-#endif
+#ifdef FREE_RTOS
+#include "FreeRTOS.h"
+#include "task.h"
+#endif  // FREE_RTOS
 
-#define FREE_RTOS
+#include "intr_manager.h"
 
 /************************** Constant Definitions ****************************/
 
@@ -54,12 +52,6 @@
 #define RX_BUFFER_BASE (MEM_BASE_ADDR + 0x00300000)
 #define RX_BUFFER_HIGH (MEM_BASE_ADDR + 0x004FFFFF)
 
-#ifdef XPAR_INTC_0_DEVICE_ID
-#define INTC_DEVICE_ID XPAR_INTC_0_DEVICE_ID
-#else
-#define INTC_DEVICE_ID XPAR_SCUGIC_SINGLE_DEVICE_ID
-#endif
-
 /* Timeout loop counter for reset
  */
 #define RESET_TIMEOUT_COUNTER 10000
@@ -69,7 +61,7 @@
  */
 #define MAX_GENERATBLE_TRIGGER_LEN 254
 #define MAX_TRIGGER_LEN 14
-#define MAX_PKT_LEN (MAX_TRIGGER_LEN * 16 + 4 * 8)*8 // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
+#define MAX_PKT_LEN (MAX_TRIGGER_LEN * 16 + 4 * 8) * 8  // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
 #define RX_BUFFER_SIZE (RX_BUFFER_HIGH - RX_BUFFER_BASE)
 #define AXIDMA_BUFF_SIZE 16384
 
@@ -82,21 +74,8 @@
 #define COALESCING_COUNT NUMBER_OF_PKTS_TO_TRANSFER
 #define DELAY_TIMER_COUNT 100
 
-#ifdef XPAR_INTC_0_DEVICE_ID
-#define INTC XIntc
-#define INTC_HANDLER XIntc_InterruptHandler
-#else
-#define INTC XScuGic
-#define INTC_HANDLER XScuGic_InterruptHandler
-#endif
-
 // AXI-DMA related variables
 XAxiDma AxiDma;
-#ifdef FREE_RTOS
-extern INTC xInterruptController;
-#else
-INTC Intc; /* Instance of the Interrupt Controller */
-#endif
 
 /*
  * Flags interrupt handlers use to notify the application context the events.
@@ -108,8 +87,6 @@ TaskHandle_t xDmaTask;
 
 int axidma_setup();
 int axidma_recv_buff();
-int InitIntrController(INTC* IntcInstancePtr);
-int StartXIntc(INTC* IntcInstancePtr);
 int SetupRxIntrSystem(INTC* IntcInstancePtr, XAxiDma* AxiDmaPtr, u16 RxIntrId);
 void shutdown_dma();
 

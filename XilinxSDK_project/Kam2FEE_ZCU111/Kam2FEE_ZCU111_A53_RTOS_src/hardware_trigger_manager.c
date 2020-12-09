@@ -1,6 +1,8 @@
 #include "hardware_trigger_manager.h"
 
 #include "trigger_configrator_driver/trigger_configrator.h"
+#include "xil_printf.h"
+#include "xstatus.h"
 
 #define FEE_DEBUG
 
@@ -12,6 +14,32 @@ u32 reverse_byte(u32 data) {
     }
 
     return rdata;
+}
+
+int SetSwitchThreshold(short int upper_threshold, short int lower_threshold) {
+    int Status;
+    Status = XGpio_Initialize(&Gpio_mode_switch_thre, GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID);
+    if (Status != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to initialize gain switch setting GPIO\r\n");
+        return XST_FAILURE;
+    }
+    XGpio_SetDataDirection(&Gpio_mode_switch_thre, 1, 0x0);
+    XGpio_SetDataDirection(&Gpio_mode_switch_thre, 2, 0x0);
+    if ((upper_threshold > 2047) | (lower_threshold < -2048)) {
+        xil_printf("ERROR: Invalid gain switch upper threshold: %d\r\n", upper_threshold);
+        return XST_INVALID_PARAM;
+    } else {
+        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_UPPER_THRE_CH, upper_threshold);
+        xil_printf("INFO: Set gain switch upper threshold: %d\r\n", upper_threshold);
+    }
+    if ((lower_threshold > upper_threshold) | (lower_threshold < -2048)) {
+        xil_printf("ERROR: Invalid gain switch lower threshold: %d\r\n", lower_threshold);
+        return XST_INVALID_PARAM;
+    } else {
+        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_LOWER_THRE_CH, lower_threshold);
+        xil_printf("INFO: Set gain switch lower threshold: %d\r\n", lower_threshold);
+    }
+    return XST_SUCCESS;
 }
 
 int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config TriggerManagerConfig) {

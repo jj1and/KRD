@@ -1,15 +1,39 @@
 #ifndef __TRIGGER_CONFIGRATOR__
 #define __TRIGGER_CONFIGRATOR__
 
-#include "trigger_configrator_hw.h"
+#include "xil_types.h"
+#include "xparameters.h"
 
-/* register map for "CHANNEL_ID" Ch
-        CONTROL_CONFIG : {25'b0, STOP, ACQUIRE_MODE[1:0], TRIGGER_TYPE[3:0]}
-        THRESHOLD_ADDR : {RISING_EDGE_THRESHOLD, FALLIG_EDGE_THRESHOLD}
-        ACQUISITION_ADDR : {{16-$clog2(MAX_PRE_ACQUISITION_LENGTH){1'b0}}, PRE_ACQUISITION_LENGTH, {16-$clog2(MAX_POST_ACQUISITION_LENGTH){1'b0}}, POST_ACQUISITION_LENGTH}
-        BASELINE_ADDR : {3'b0, H_GAIN_BASELINE, L_GAIN_BASELINE}
-        CONFIG_ADDR : {15'b0, SET_CONFIG, MAX_TRIGGER_LENGTH}
- */
+#define TRIGGER_CONFIGRATOR_NUM_INSTANCES 1
+#define TRIGGER_CONFIGRATOR_0_DEVICE_ID 0
+#define XPAR_TRIGGER_CONFIGRATOR_0_BASEADDR XPAR_HARDWARE_TRIGGER_BLOCKS_TRIGGER_CONFIGRATOR_0_BASEADDR
+
+// GPIO related constant
+#define GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID XPAR_AXI_GPIO_0_DEVICE_ID
+#define MODE_SWITCH_UPPER_THRE_CH 1
+#define MODE_SWITCH_LOWER_THRE_CH 2
+
+#define CONTROL_STATE_MASK 0x00000040
+#define RUN_STATE 0x00000000
+#define STOP_STATE 0x00000040
+
+#define ACQUIRE_MODE_MASK 0x00000030
+
+#define TRIGGER_TYPE_MASK 0x0000000F
+
+#define MAX_TRIGGER_LENGTH_MASK 0x0000FFFF
+#define CONFIG_STATE_MASK 0x00010000
+#define CONFIG_STATE 0x00010000
+#define CONFIG_FIXED_STATE 0x00000000
+
+#define RISE_THRE_MASK 0xFFFF0000
+#define FALL_THRE_MASK 0x0000FFFF
+
+#define PRE_ACQUI_LEN_MASK 0xFFFF0000
+#define POST_ACQUI_LEN_MASK 0x0000FFFF
+
+#define H_GAIN_BASELINE_MASK 0xFFFF0000
+#define L_GAIN_BASELINE_MASK 0x0000FFFF
 
 #define DEFAULT_CONTROL_CONFIG 0x00000040
 #define DEFAULT_THRESHOLD_CONFIG 0x01000000
@@ -28,29 +52,6 @@ typedef struct Trigger_Config {
     u32 *BaselineAddr;
     u32 ConfigAddr;
 } Trigger_Config;
-
-#define Trigger_BaseAddress(CfgPtr) ((CfgPtr)->BaseAddress)
-
-#define Trigger_IsConfigState(CfgPtr) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONFIG_ADDR_OFFSET) & CONFIG_STATE_MASK) == CONFIG_STATE) ? TRUE : FALSE)
-
-#define Trigger_IsStopState(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & CONTROL_STATE_MASK) == STOP_STATE) ? TRUE : FALSE)
-
-#define Trigger_IsRunState(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & CONTROL_STATE_MASK) == RUN_STATE) ? TRUE : FALSE)
-
-#define FEE_IsNomalAcquireMode(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & ACQUIRE_MODE_MASK) == NORMAL_MODE) ? TRUE : FALSE)
-
-#define Trigger_IsCombinedAcquireMode(CfgPtr, Channel) (((Trigger_ReadReg((CfgPtr)->BaseAddress, CONTROL_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & ACQUIRE_MODE_MASK) == COMBINED_MODE) ? TRUE : FALSE)
-
-#define Trigger_MaxTriggerLength(CfgPtr) ((Trigger_ReadReg((CfgPtr)->BaseAddress, CONFIG_ADDR_OFFSET) & MAX_TRIGGER_LENGTH_MASK)
-
-#define Trigger_RisingEdgeThreshold(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, THRESHOLD_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & RISE_THRE_MASK)
-#define Trigger_FallingEdgeThreshold(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, THRESHOLD_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & FALL_THRE_MASK)
-
-#define Trigger_PreAcquisition(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, ACQUISITION_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & PRE_ACQUI_LEN_MASK)
-#define Trigger_PostAcquisition(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, ACQUISITION_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & POST_ACQUI_LEN_MASK)
-
-#define Trigger_HgainBaseline(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, BASELINE_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & H_GAIN_BASELINE_MASK)
-#define Trigger_LgainBaseline(CfgPtr, Channel) ((Trigger_ReadReg((CfgPtr)->BaseAddress, BASELINE_ADDR_OFFSET + Channel * CHANNEL_OFFSET) & L_GAIN_BASELINE_MASK)
 
 int Trigger_SetConfigDefault(u16 DeviceId);
 int Trigger_SetConfigDefaultBaseAddr(UINTPTR Baseaddr);

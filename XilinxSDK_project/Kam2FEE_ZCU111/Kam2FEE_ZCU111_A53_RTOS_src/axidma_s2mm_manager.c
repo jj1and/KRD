@@ -71,55 +71,12 @@ static void RxIntrHandler(void *Callback) {
     // 	vTaskNotifyGiveFromISR(xRxDmaTask, &xHigherPriorityTaskWoken_byNotify);
     // 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken_byNotify);
     // }
+
+#ifdef FREE_RTOS
     vTaskNotifyGiveFromISR(xDmaTask, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+#endif
     return;
-}
-
-int InitIntrController(INTC *IntcInstancePtr) {
-    int Status;
-    XScuGic_Config *IntcConfig;
-
-#ifdef XPAR_INTC_0_DEVICE_ID
-
-    /* Initialize the interrupt controller and connect the ISRs */
-    Status = XIntc_Initialize(IntcInstancePtr, INTC_DEVICE_ID);
-    if (Status != XST_SUCCESS) {
-        xil_printf("Failed init intc\r\n");
-        return XST_FAILURE;
-    }
-
-#else
-    /*
-     * Initialize the interrupt controller driver so that it is ready to
-     * use.
-     */
-    IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
-    if (NULL == IntcConfig) {
-        return XST_FAILURE;
-    }
-
-    Status = XScuGic_CfgInitialize(IntcInstancePtr, IntcConfig, IntcConfig->CpuBaseAddress);
-    if (Status != XST_SUCCESS) {
-        return XST_FAILURE;
-    }
-
-#endif
-    return XST_SUCCESS;
-}
-
-int StartXIntc(INTC *IntcInstancePtr) {
-#ifdef XPAR_INTC_0_DEVICE_ID
-    int Status;
-    /* Start the interrupt controller */
-    Status = XIntc_Start(IntcInstancePtr, XIN_REAL_MODE);
-    if (Status != XST_SUCCESS) {
-        xil_printf("Failed to start intc\r\n");
-        return XST_FAILURE;
-    }
-#else
-    return XST_SUCCESS;
-#endif
 }
 
 int SetupRxIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 RxIntrId) {
@@ -168,28 +125,6 @@ int SetupRxIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 RxIntrId) {
 #endif
 
     return XST_SUCCESS;
-}
-
-/*****************************************************************************/
-/**
- *
- * This function disables the interrupts for DMA engine.
- *
- * @param	IntcInstancePtr is the pointer to the INTC component instance
- * @param	IntrId is interrupt ID associated w/ DMA RX channel
- *
- * @return	None.
- *
- * @note		None.
- *
- ******************************************************************************/
-static void DisableIntrSystem(INTC *IntcInstancePtr, u16 IntrId) {
-#ifdef XPAR_INTC_0_DEVICE_ID
-    /* Disconnect the interrupts for the DMA TX and RX channels */
-    XIntc_Disconnect(IntcInstancePtr, IntrId);
-#else
-    XScuGic_Disconnect(IntcInstancePtr, IntrId);
-#endif
 }
 
 int axidma_setup() {
@@ -307,7 +242,7 @@ u64 *get_wrptr() { return RxBufferWrPtr; }
 u64 *get_rdptr() { return RxBufferRdPtr; }
 
 void shutdown_dma() {
-    xil_printf("End dma task...\r\n");
+    xil_printf("INFO: End dma task...\r\n");
 #ifndef FREE_RTOS
     DisableIntrSystem(&Intc, RX_INTR_ID);
 #else

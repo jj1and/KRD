@@ -45,6 +45,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/hardware_trigger_manager.h</locationURI>
 		</link>
 		<link>
+			<name>src/intr_manager.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/intr_manager.c</locationURI>
+		</link>
+		<link>
+			<name>src/intr_manager.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/intr_manager.h</locationURI>
+		</link>
+		<link>
 			<name>src/main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Kam2FEE_ZCU111_A53_RTOS_src/main.c</locationURI>

@@ -9,11 +9,12 @@
 #include "FreeRTOS.h"
 #include "axidma_s2mm_manager.h"
 #include "hardware_trigger_manager.h"
+#include "intr_manager.h"
+//#include "peripheral_manager.h"
 #include "platform_config.h"
 #include "rfdc_manager.h"
 #include "send2pc.h"
 #include "task.h"
-#include "xgpio.h"
 #include "xil_printf.h"
 #include "xparameters.h"
 
@@ -22,27 +23,14 @@
 #define DELAY_1_SECOND 1000UL
 #define FAIL_CNT_THRESHOLD 5
 
-// GPIO related constant
-#define GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID XPAR_AXI_GPIO_0_DEVICE_ID
-
-#define MODE_SWITCH_UPPER_THRE_CH 1
-#define MODE_SWITCH_LOWER_THRE_CH 2
-#define MODE_SWITCH_UPPER_THRE 2047
-#define MODE_SWITCH_LOWER_THRE -2048
-
 #define INTERNAL_ADC_BUFF_SIZE 2048 * 16
 #define INTERNAL_HF_BUFF_DEPTH 256
 #define EXTERNAL_FRAME_BUFF_SIZE 512 * 16
 #define INTERNAL_BUFFER_FULL 3
 #define LAST_FRAME 2
 
-#define COMBINED_ACQUIRE_MODE 0x1
-#define NORMAL_ACQUIRE_MODE 0x0
-#define DSP_NORMAL_ACQUIRE_MODE 0x2
-#define DSP_COMBINED_ACQUIRE_MODE 0x3
-
-#define HARDWARE_TRIGGER 0x0
-#define EXTERNAL_TRIGGER 0x1
+#define MODE_SWITCH_UPPER_THRE 2047
+#define MODE_SWITCH_LOWER_THRE -2048
 
 #define H_GAIN_BASELINE 0
 #define L_GAIN_BASELINE 0
@@ -62,11 +50,6 @@ TriggerManager_Config fee;
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
 
-XGpio Gpio_mode_switch_thre;
-
-int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId);
-int SetSwitchThreshold(short int upper_threshold, short int lower_threshold);
-
 static struct netif myself_netif;
 TaskHandle_t app_thread;
 app_arg send2pc_setting;
@@ -81,6 +64,11 @@ AvailableAdcTiles AdcTile = {
 AvailableDacTiles DacTile = {
     1,
     RFDC_DAC_TILES};
+
+const int RFDC_DEBUG_ADC_TILES[1] = {0};
+AvailableAdcTiles DebugAdcTile = {
+    1,
+    RFDC_DEBUG_ADC_TILES};
 
 void network_thread(void *arg);
 
@@ -111,28 +99,31 @@ int main() {
     send2pc_setting.xTicksToWait = x10seconds;
 
     int Status;
-    xil_printf("INFO: KamLAND2 RFSoC Based Electronics Prototype Start\r\n");
-    double refClkFreq_MHz = 245.76;
-    double ADC_samplingRate_Msps = 1966.08;
-    double DAC_samplingRate_Msps = 983.04;
+    xil_printf("INFO: Kam2FEE ZCU111\r\n");
+    //    Status = setup_peripheral();
+    //    if (Status != XST_SUCCESS) return XST_FAILURE;
+
+    double refClkFreq_MHz = 250.00;
+    double ADC_samplingRate_Msps = 2000.0;
     Status = rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
     if (Status != XST_SUCCESS) {
         xil_printf("ERROR: Failed to setup RF Data Converter ADC\r\n");
         return XST_FAILURE;
     }
+    //    Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_ADC_TILE, 0, refClkFreq_MHz, ADC_samplingRate_Msps);
+    //    if (Status != XST_SUCCESS) {
+    //        xil_printf("ERROR: Failed to setup RF Data Converter ADC in single\r\n");
+    //        return XST_FAILURE;
+    //    }
 
-    //    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
+    double DAC_samplingRate_Msps = 983.04;
+    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
     Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 0, refClkFreq_MHz, DAC_samplingRate_Msps);
     if (Status != XST_SUCCESS) {
         xil_printf("ERROR: Failed to setup RF Data Converter DAC\r\n");
         return XST_FAILURE;
     }
 
-    Status = GpioSetUp(&Gpio_mode_switch_thre, GAIN_SWITCH_CONFIG_GPIO_DEVICE_ID);
-    if (Status != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to initialize gain switch setting GPIO\r\n");
-        return XST_FAILURE;
-    }
     Status = SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
 
     Status = HardwareTrigger_SetupDeviceId(0, fee);
@@ -147,35 +138,6 @@ int main() {
         ;
     // never reached
     return 0;
-}
-
-int GpioSetUp(XGpio *GpioInstPtr, u16 DeviceId) {
-    int Status;
-    Status = XGpio_Initialize(GpioInstPtr, DeviceId);
-    if (Status != XST_SUCCESS) {
-        return XST_FAILURE;
-    }
-    XGpio_SetDataDirection(GpioInstPtr, 1, 0x0);
-    XGpio_SetDataDirection(GpioInstPtr, 2, 0x0);
-    return XST_SUCCESS;
-}
-
-int SetSwitchThreshold(short int upper_threshold, short int lower_threshold) {
-    if ((upper_threshold > 2047) | (lower_threshold < -2048)) {
-        xil_printf("ERROR: Invalid gain switch upper threshold: %d\r\n", upper_threshold);
-        return XST_INVALID_PARAM;
-    } else {
-        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_UPPER_THRE_CH, upper_threshold);
-        xil_printf("INFO: Set gain switch upper threshold: %d\r\n", upper_threshold);
-    }
-    if ((lower_threshold > upper_threshold) | (lower_threshold < -2048)) {
-        xil_printf("ERROR: Invalid gain switch lower threshold: %d\r\n", lower_threshold);
-        return XST_INVALID_PARAM;
-    } else {
-        XGpio_DiscreteWrite(&Gpio_mode_switch_thre, MODE_SWITCH_LOWER_THRE_CH, lower_threshold);
-        xil_printf("INFO: Set gain switch lower threshold: %d\r\n", lower_threshold);
-    }
-    return XST_SUCCESS;
 }
 
 void network_thread(void *arg) {
@@ -355,6 +317,9 @@ void prvDmaTask(void *pvParameters) {
     }
 
     vApplicationDaemonRxTaskStartupHook();
+//    fee_status = BaselineDAC_Config(0x233);
+//    if (fee_status != XST_SUCCESS) return XST_FAILURE;
+    // DisableIntrSystem(&xInterruptController, SPI_BASEDAC_INTR);
     xil_printf("INFO: Dmatask start up done\r\n");
     xil_printf("INFO: Waiting Send2PC task start\r\n");
     vTaskSuspend(NULL);
@@ -423,11 +388,17 @@ void prvDmaTask(void *pvParameters) {
 
 int vApplicationDaemonRxTaskStartupHook() {
     int Status;
-    xil_printf("\nINFO: Set up AXIDMA Rx Interrupt system \n");
+    xil_printf("\nINFO: Set up AXIDMA Rx Interrupt system\n");
     Status = SetupRxIntrSystem(&xInterruptController, &AxiDma, RX_INTR_ID);
     if (Status != XST_SUCCESS) {
-        xil_printf("ERROR: Failed intr setup\r\n");
+        xil_printf("ERROR: Failed to set up AXIDMA Rx Interrupt system\r\n");
         return XST_FAILURE;
     }
+    // xil_printf("\nINFO: Set up AXI Quad SPI Controller Interrupt system\n");
+    // Status = SetupSpiIntrSystem(&xInterruptController, &SpiBaseDac, SPI_BASEDAC_INTR);
+    // if (Status != XST_SUCCESS) {
+    //     xil_printf("ERROR: Failed to set up AXI Quad SPI Controller Interrupt system\r\n");
+    //     return XST_FAILURE;
+    // }
     return XST_SUCCESS;
 }

@@ -1,3 +1,4 @@
+#include "trigger_configrator_hw.h"
 #include "trigger_configrator.h"
 #include "xparameters.h"
 
