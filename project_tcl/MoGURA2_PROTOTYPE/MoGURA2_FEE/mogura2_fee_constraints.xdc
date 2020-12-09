@@ -1,14 +1,14 @@
 ####################################################################################
 # PL clock pins
 ####################################################################################
-set_property PACKAGE_PIN AU10 [get_ports PL_SYSTEM_CLK_clk_p]
-set_property PACKAGE_PIN B22 [get_ports PL_SYSREF_clk_p]
+set_property PACKAGE_PIN AU10 [get_ports {PL_SYSTEM_CLK_clk_p[0]}]
+set_property PACKAGE_PIN B22 [get_ports {PL_SYSREF_clk_p[0]}]
 
 set_property CLOCK_DEDICATED_ROUTE ANY_CMT_COLUMN [get_nets {mogura2_fee_i/mts_clk/pl_system_clk_bufg/U0/BUFG_O[0]}]
 
 
-set_property IOSTANDARD LVDS_25 [get_ports PL_SYSTEM_CLK_clk_p]
-set_property IOSTANDARD DIFF_HSTL_I_12 [get_ports PL_SYSREF_clk_p]
+set_property IOSTANDARD LVDS_25 [get_ports {PL_SYSTEM_CLK_clk_p[0]}]
+set_property IOSTANDARD DIFF_HSTL_I_12 [get_ports {PL_SYSREF_clk_p[0]}]
 create_clock -period 32.000 -name PL_SYSTEM_CLK_clk_p -waveform {0.000 16.000} [get_ports PL_SYSTEM_CLK_clk_p]
 
 ####################################################################################
@@ -19,25 +19,24 @@ create_clock -period 4.000 -name usp_rf_data_converter_0_adc0_clk [get_ports adc
 create_clock -period 4.000 -name usp_rf_data_converter_0_adc1_clk [get_ports adc1_clk_clk_p]
 create_clock -period 4.000 -name usp_rf_data_converter_0_adc2_clk [get_ports adc2_clk_clk_p]
 create_clock -period 4.000 -name usp_rf_data_converter_0_adc3_clk [get_ports adc3_clk_clk_p]
-create_clock -period 4.000 -name usp_rf_data_converter_0_dac0_clk [get_ports dac0_clk_clk_p]
-create_clock -period 4.000 -name usp_rf_data_converter_0_dac1_clk [get_ports dac1_clk_clk_p]
-create_clock -period 4.000 -name usp_rf_data_converter_0_dac2_clk [get_ports dac2_clk_clk_p]
-create_clock -period 4.000 -name usp_rf_data_converter_0_dac3_clk [get_ports dac3_clk_clk_p]
+#create_clock -period 4.000 -name usp_rf_data_converter_0_dac0_clk [get_ports dac0_clk_clk_p]
+#create_clock -period 4.000 -name usp_rf_data_converter_0_dac1_clk [get_ports dac1_clk_clk_p]
+#create_clock -period 4.000 -name usp_rf_data_converter_0_dac2_clk [get_ports dac2_clk_clk_p]
+#create_clock -period 4.000 -name usp_rf_data_converter_0_dac3_clk [get_ports dac3_clk_clk_p]
 
 ####################################################################################
 # SPI pins
 ####################################################################################
 set_property PACKAGE_PIN C14 [get_ports SPI_LADC_0_sck_io]
+set_property PACKAGE_PIN B13 [get_ports SPI_LADC_0_io0_io]
+set_property PACKAGE_PIN B16 [get_ports SPI_LADC_0_io1_io]
+set_property PACKAGE_PIN B15 [get_ports SPI_LADC_0_ss_io]
 set_property PACKAGE_PIN AY11 [get_ports SPI_BASEDAC_0_sck_io]
-
-set_property PACKAGE_PIN C15 [get_ports SPI_LADC_0_io0_io]
-set_property PACKAGE_PIN C16 [get_ports SPI_LADC_0_io1_io]
-set_property PACKAGE_PIN A13 [get_ports {SPI_LADC_0_ss_io[0]}]
 set_property PACKAGE_PIN AY10 [get_ports SPI_BASEDAC_0_io0_io]
 set_property PACKAGE_PIN AW9 [get_ports SPI_BASEDAC_0_io1_io]
 set_property PACKAGE_PIN AY9 [get_ports {SPI_BASEDAC_0_ss_io[0]}]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {SPI_LADC_0_ss_io[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports SPI_LADC_0_ss_io]
 set_property IOSTANDARD LVCMOS33 [get_ports SPI_LADC_0_io0_io]
 set_property IOSTANDARD LVCMOS33 [get_ports SPI_LADC_0_io1_io]
 set_property IOSTANDARD LVCMOS33 [get_ports SPI_LADC_0_sck_io]
@@ -46,16 +45,25 @@ set_property IOSTANDARD LVCMOS33 [get_ports SPI_BASEDAC_0_io0_io]
 set_property IOSTANDARD LVCMOS33 [get_ports SPI_BASEDAC_0_io1_io]
 set_property IOSTANDARD LVCMOS33 [get_ports SPI_BASEDAC_0_sck_io]
 
+set_property DRIVE 4 [get_ports SPI_LADC_0_ss_io]
+set_property DRIVE 4 [get_ports SPI_LADC_0_io0_io]
+set_property DRIVE 4 [get_ports SPI_LADC_0_io1_io]
+set_property DRIVE 4 [get_ports SPI_LADC_0_sck_io]
+set_property DRIVE 4 [get_ports {SPI_BASEDAC_0_ss_io[0]}]
+set_property DRIVE 4 [get_ports SPI_BASEDAC_0_io0_io]
+set_property DRIVE 4 [get_ports SPI_BASEDAC_0_io1_io]
+set_property DRIVE 4 [get_ports SPI_BASEDAC_0_sck_io]
+
 ####################################################################################
 # IIC pins
 ####################################################################################
 
-set_property PACKAGE_PIN M16 [get_ports IIC_CDCI6214_0_scl_io]
-set_property PACKAGE_PIN M17 [get_ports IIC_CDCI6214_0_sda_io]
-set_property PACKAGE_PIN H14 [get_ports IIC_SFP1_0_scl_io]
-set_property PACKAGE_PIN H13 [get_ports IIC_SFP1_0_sda_io]
-set_property PACKAGE_PIN K16 [get_ports IIC_SFP2_0_scl_io]
-set_property PACKAGE_PIN K15 [get_ports IIC_SFP2_0_sda_io]
+set_property PACKAGE_PIN N14 [get_ports IIC_CDCI6214_0_scl_io]
+set_property PACKAGE_PIN M14 [get_ports IIC_CDCI6214_0_sda_io]
+set_property PACKAGE_PIN H13 [get_ports IIC_SFP1_0_scl_io]
+set_property PACKAGE_PIN G13 [get_ports IIC_SFP1_0_sda_io]
+set_property PACKAGE_PIN L15 [get_ports IIC_SFP2_0_scl_io]
+set_property PACKAGE_PIN L14 [get_ports IIC_SFP2_0_sda_io]
 
 set_property IOSTANDARD LVCMOS33 [get_ports IIC_CDCI6214_0_scl_io]
 set_property IOSTANDARD LVCMOS33 [get_ports IIC_CDCI6214_0_sda_io]
@@ -64,35 +72,38 @@ set_property IOSTANDARD LVCMOS33 [get_ports IIC_SFP1_0_sda_io]
 set_property IOSTANDARD LVCMOS33 [get_ports IIC_SFP2_0_sda_io]
 set_property IOSTANDARD LVCMOS33 [get_ports IIC_SFP2_0_scl_io]
 
+set_property DRIVE 4 [get_ports IIC_CDCI6214_0_scl_io]
+set_property DRIVE 4 [get_ports IIC_CDCI6214_0_sda_io]
+
 ####################################################################################
 # Lgain ADC pins
 ####################################################################################
 
-set_property PACKAGE_PIN D9 [get_ports {LADC_CTRL1_0[7]}]
-set_property PACKAGE_PIN C9 [get_ports {LADC_CTRL1_0[6]}]
-set_property PACKAGE_PIN B11 [get_ports {LADC_CTRL1_0[5]}]
-set_property PACKAGE_PIN C11 [get_ports {LADC_CTRL1_0[4]}]
-set_property PACKAGE_PIN B10 [get_ports {LADC_CTRL1_0[3]}]
+set_property PACKAGE_PIN G10 [get_ports {LADC_CTRL1_0[7]}]
+set_property PACKAGE_PIN G12 [get_ports {LADC_CTRL1_0[6]}]
+set_property PACKAGE_PIN F10 [get_ports {LADC_CTRL1_0[5]}]
+set_property PACKAGE_PIN E11 [get_ports {LADC_CTRL1_0[4]}]
+set_property PACKAGE_PIN C11 [get_ports {LADC_CTRL1_0[3]}]
 set_property PACKAGE_PIN C10 [get_ports {LADC_CTRL1_0[2]}]
 set_property PACKAGE_PIN A10 [get_ports {LADC_CTRL1_0[1]}]
-set_property PACKAGE_PIN A9 [get_ports {LADC_CTRL1_0[0]}]
-set_property PACKAGE_PIN K12 [get_ports {LADC_CTRL2_0[7]}]
-set_property PACKAGE_PIN K11 [get_ports {LADC_CTRL2_0[6]}]
-set_property PACKAGE_PIN J12 [get_ports {LADC_CTRL2_0[5]}]
-set_property PACKAGE_PIN J11 [get_ports {LADC_CTRL2_0[4]}]
-set_property PACKAGE_PIN H11 [get_ports {LADC_CTRL2_0[3]}]
-set_property PACKAGE_PIN G10 [get_ports {LADC_CTRL2_0[2]}]
-set_property PACKAGE_PIN H9 [get_ports {LADC_CTRL2_0[1]}]
-set_property PACKAGE_PIN H10 [get_ports {LADC_CTRL2_0[0]}]
-set_property PACKAGE_PIN A12 [get_ports {LADC_RESET_0[0]}]
-set_property PACKAGE_PIN C13 [get_ports {LADC_SEN_0[7]}]
-set_property PACKAGE_PIN B16 [get_ports {LADC_SEN_0[6]}]
-set_property PACKAGE_PIN B15 [get_ports {LADC_SEN_0[5]}]
-set_property PACKAGE_PIN B13 [get_ports {LADC_SEN_0[4]}]
-set_property PACKAGE_PIN B12 [get_ports {LADC_SEN_0[3]}]
-set_property PACKAGE_PIN A15 [get_ports {LADC_SEN_0[2]}]
-set_property PACKAGE_PIN A14 [get_ports {LADC_SEN_0[1]}]
-set_property PACKAGE_PIN D11 [get_ports {LADC_SEN_0[0]}]
+set_property PACKAGE_PIN B11 [get_ports {LADC_CTRL1_0[0]}]
+set_property PACKAGE_PIN H11 [get_ports {LADC_CTRL2_0[7]}]
+set_property PACKAGE_PIN G11 [get_ports {LADC_CTRL2_0[6]}]
+set_property PACKAGE_PIN E9 [get_ports {LADC_CTRL2_0[5]}]
+set_property PACKAGE_PIN E10 [get_ports {LADC_CTRL2_0[4]}]
+set_property PACKAGE_PIN D9 [get_ports {LADC_CTRL2_0[3]}]
+set_property PACKAGE_PIN C9 [get_ports {LADC_CTRL2_0[2]}]
+set_property PACKAGE_PIN A9 [get_ports {LADC_CTRL2_0[1]}]
+set_property PACKAGE_PIN B10 [get_ports {LADC_CTRL2_0[0]}]
+set_property PACKAGE_PIN A12 [get_ports {LADC_OPMODE_0}]
+# set_property PACKAGE_PIN C13 [get_ports {LADC_SEN_0[7]}]
+# set_property PACKAGE_PIN B16 [get_ports {LADC_SEN_0[6]}]
+# set_property PACKAGE_PIN B15 [get_ports {LADC_SEN_0[5]}]
+# set_property PACKAGE_PIN B13 [get_ports {LADC_SEN_0[4]}]
+# set_property PACKAGE_PIN B12 [get_ports {LADC_SEN_0[3]}]
+# set_property PACKAGE_PIN A15 [get_ports {LADC_SEN_0[2]}]
+# set_property PACKAGE_PIN A14 [get_ports {LADC_SEN_0[1]}]
+# set_property PACKAGE_PIN D11 [get_ports {LADC_SEN_0[0]}]
 
 set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL1_0[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL1_0[6]}]
@@ -110,45 +121,75 @@ set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL2_0[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL2_0[2]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL2_0[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LADC_CTRL2_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_RESET_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[7]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[6]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[5]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LADC_OPMODE_0}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[7]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[6]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[5]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[4]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[3]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[2]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[1]}]
+# set_property IOSTANDARD LVCMOS33 [get_ports {LADC_SEN_0[0]}]
+
+set_property PACKAGE_PIN A15 [get_ports {LDAC_SDATA_0[0]}]
+set_property PACKAGE_PIN C15 [get_ports {LDAC_SDATA_0[1]}]
+set_property PACKAGE_PIN A13 [get_ports {LDAC_SDATA_0[2]}]
+set_property PACKAGE_PIN B12 [get_ports {LDAC_SDATA_0[3]}]
+set_property PACKAGE_PIN D12 [get_ports {LDAC_SDATA_0[4]}]
+set_property PACKAGE_PIN E15 [get_ports {LDAC_SDATA_0[5]}]
+set_property PACKAGE_PIN E14 [get_ports {LDAC_SDATA_0[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SDATA_0[6]}]
+
+set_property PACKAGE_PIN C16 [get_ports {LDAC_SEN_0[0]}]
+set_property PACKAGE_PIN A14 [get_ports {LDAC_SEN_0[1]}]
+set_property PACKAGE_PIN D14 [get_ports {LDAC_SEN_0[2]}]
+set_property PACKAGE_PIN C13 [get_ports {LDAC_SEN_0[3]}]
+set_property PACKAGE_PIN D13 [get_ports {LDAC_SEN_0[4]}]
+set_property PACKAGE_PIN D16 [get_ports {LDAC_SEN_0[5]}]
+set_property PACKAGE_PIN E12 [get_ports {LDAC_SEN_0[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LDAC_SEN_0[6]}]
 
 ####################################################################################
 # SFP pins
 ####################################################################################
 
-set_property PACKAGE_PIN L15 [get_ports {SFP2_MOD_ABS_0}]
-set_property PACKAGE_PIN J13 [get_ports {SFP1_MOD_ABS_0}]
-set_property PACKAGE_PIN J16 [get_ports {SFP2_RS0_0[0]}]
-set_property PACKAGE_PIN G15 [get_ports {SFP1_RS0_0[0]}]
-set_property PACKAGE_PIN K14 [get_ports {SFP2_RS1_0[0]}]
-set_property PACKAGE_PIN G16 [get_ports {SFP1_RS1_0[0]}]
-set_property PACKAGE_PIN J14 [get_ports {SFP2_RX_LOS_0}]
-set_property PACKAGE_PIN G13 [get_ports {SFP1_RX_LOS_0}]
-set_property PACKAGE_PIN K17 [get_ports {SFP2_TX_DISABLE_0[0]}]
-set_property PACKAGE_PIN H15 [get_ports {SFP1_TX_DISABLE_0[0]}]
-set_property PACKAGE_PIN L14 [get_ports {SFP2_TX_FAULT_0}]
-set_property PACKAGE_PIN H16 [get_ports {SFP1_TX_FAULT_0}]
+set_property PACKAGE_PIN K16 [get_ports SFP2_MOD_ABS_0]
+set_property PACKAGE_PIN J14 [get_ports SFP1_MOD_ABS_0]
+set_property PACKAGE_PIN J16 [get_ports {SFP2_RS0_0}]
+set_property PACKAGE_PIN J13 [get_ports {SFP1_RS0_0}]
+set_property PACKAGE_PIN H16 [get_ports {SFP2_RS1_0}]
+set_property PACKAGE_PIN H14 [get_ports {SFP1_RS1_0}]
+set_property PACKAGE_PIN K17 [get_ports SFP2_RX_LOS_0]
+set_property PACKAGE_PIN H15 [get_ports SFP1_RX_LOS_0]
+set_property PACKAGE_PIN G16 [get_ports {SFP2_TX_DISABLE_0}]
+set_property PACKAGE_PIN K14 [get_ports {SFP1_TX_DISABLE_0}]
+set_property PACKAGE_PIN G15 [get_ports SFP2_TX_FAULT_0]
+set_property PACKAGE_PIN K15 [get_ports SFP1_TX_FAULT_0]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_MOD_ABS_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_MOD_ABS_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_RS0_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_RS0_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_RS1_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_RS1_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_RX_LOS_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_RX_LOS_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_TX_DISABLE_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_TX_DISABLE_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_TX_FAULT_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_TX_FAULT_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP2_MOD_ABS_0]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP1_MOD_ABS_0]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_RS0_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_RS0_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_RS1_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_RS1_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP2_RX_LOS_0]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP1_RX_LOS_0]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP2_TX_DISABLE_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {SFP1_TX_DISABLE_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP2_TX_FAULT_0]
+set_property IOSTANDARD LVCMOS33 [get_ports SFP1_TX_FAULT_0]
 
 ####################################################################################
 # GP I/O pins
@@ -158,10 +199,10 @@ set_property PACKAGE_PIN F14 [get_ports {GPO_0[3]}]
 set_property PACKAGE_PIN F13 [get_ports {GPO_0[2]}]
 set_property PACKAGE_PIN F12 [get_ports {GPO_0[1]}]
 set_property PACKAGE_PIN E16 [get_ports {GPO_0[0]}]
-set_property PACKAGE_PIN F10 [get_ports {GPI_0[3]}]
-set_property PACKAGE_PIN E9 [get_ports {GPI_0[2]}]
-set_property PACKAGE_PIN E11 [get_ports {GPI_0[1]}]
-set_property PACKAGE_PIN E10 [get_ports {GPI_0[0]}]
+set_property PACKAGE_PIN K11 [get_ports {GPI_0[3]}]
+set_property PACKAGE_PIN J11 [get_ports {GPI_0[2]}]
+set_property PACKAGE_PIN K12 [get_ports {GPI_0[1]}]
+set_property PACKAGE_PIN F9 [get_ports {GPI_0[0]}]
 
 set_property IOSTANDARD LVCMOS33 [get_ports {GPO_0[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {GPO_0[2]}]
@@ -176,28 +217,82 @@ set_property IOSTANDARD LVCMOS33 [get_ports {GPI_0[0]}]
 # CDCI6214 pins
 ####################################################################################
 
-set_property PACKAGE_PIN M14 [get_ports {CDCI6214_REF_SEL_0[0]}]
-set_property PACKAGE_PIN M15 [get_ports {CDCI6214_EEPROM_SEL_0[0]}]
-set_property PACKAGE_PIN N16 [get_ports {CDCI6214_OE_0[0]}]
-set_property PACKAGE_PIN N15 [get_ports {CDCI6214_STATUS_0}]
-set_property PACKAGE_PIN N14 [get_ports {CDCI6214_RESETN_0[0]}]
+set_property PACKAGE_PIN M15 [get_ports {CDCI6214_REF_SEL_0}]
+set_property PACKAGE_PIN M17 [get_ports {CDCI6214_EEPROM_SEL_0}]
+set_property PACKAGE_PIN N16 [get_ports {CDCI6214_OE_0}]
+set_property PACKAGE_PIN M16 [get_ports CDCI6214_STATUS_0]
+set_property PACKAGE_PIN N15 [get_ports {CDCI6214_OPMODE_0}]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_REF_SEL_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_EEPROM_SEL_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_OE_0[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_STATUS_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_RESETN_0[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_REF_SEL_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_EEPROM_SEL_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_OE_0}]
+set_property IOSTANDARD LVCMOS33 [get_ports CDCI6214_STATUS_0]
+set_property IOSTANDARD LVCMOS33 [get_ports {CDCI6214_OPMODE_0}]
 
 
 ####################################################################################
 # LEMO pins
 ####################################################################################
 
-set_property PACKAGE_PIN G11 [get_ports {LEMO[0]}]
-set_property PACKAGE_PIN G12 [get_ports {LEMO[1]}]
+set_property PACKAGE_PIN H9 [get_ports {LEMO[0]}]
+set_property PACKAGE_PIN H10 [get_ports {LEMO[1]}]
 
 set_property IOSTANDARD LVCMOS33 [get_ports {LEMO[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LEMO[0]}]
+
+####################################################################################
+# User IO pins
+####################################################################################
+
+set_property PACKAGE_PIN BA9 [get_ports DDR4_UI_CLK_LED]
+set_property PACKAGE_PIN BB10 [get_ports PS_PL_CLK_LED]
+set_property PACKAGE_PIN BB11 [get_ports PL_USER_CLK_LOCKED_LED]
+set_property PACKAGE_PIN BB9 [get_ports PL_USER_CLK_LED]
+
+set_property IOSTANDARD LVCMOS33 [get_ports DDR4_UI_CLK_LED]
+set_property IOSTANDARD LVCMOS33 [get_ports PS_PL_CLK_LED]
+set_property IOSTANDARD LVCMOS33 [get_ports PL_USER_CLK_LOCKED_LED]
+set_property IOSTANDARD LVCMOS33 [get_ports PL_USER_CLK_LED]
+
+# set_property PACKAGE_PIN AP11 [get_ports {DIPSW[7]}]
+# set_property PACKAGE_PIN AP10 [get_ports {DIPSW[6]}]
+# set_property PACKAGE_PIN AP12 [get_ports {DIPSW[5]}]
+# set_property PACKAGE_PIN AR11 [get_ports {DIPSW[4]}]
+# set_property PACKAGE_PIN AR10 [get_ports {DIPSW[3]}]
+# set_property PACKAGE_PIN AT10 [get_ports {DIPSW[2]}]
+# set_property PACKAGE_PIN AR12 [get_ports {DIPSW[1]}]
+# set_property PACKAGE_PIN AT12 [get_ports {DIPSW[0]}]
+
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[7]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[6]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[5]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[4]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[3]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[2]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[1]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {DIPSW[0]}]
+
+####################################################################################
+# RJ45 pins
+####################################################################################
+
+# set_property PACKAGE_PIN AU11 [get_ports {RJ45_RST[0]}]
+# set_property PACKAGE_PIN AV9 [get_ports {RJ45_RSV[0]}]
+# set_property PACKAGE_PIN AV11 [get_ports {RJ45_TRG[0]}]
+
+####################################################################################
+# System Management Wizard pins
+####################################################################################
+
+set_property PACKAGE_PIN AA19 [get_ports Vp_Vn_0_v_p]
+set_property IOSTANDARD ANALOG [get_ports Vp_Vn_0_v_p]
+
+####################################################################################
+# System reset pins
+####################################################################################
+
+set_property PACKAGE_PIN J23 [get_ports SYS_RST]
+set_property IOSTANDARD LVCMOS12 [get_ports SYS_RST]
 
 ####################################################################################
 # PL DDR4 pins
@@ -205,7 +300,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {LEMO[0]}]
 
 set_property LOC MMCM_X0Y3 [get_cells -hier -filter {NAME =~ */u_ddr4_infrastructure/gen_mmcme*.u_mmcme_adv_inst}]
 
-set_property PACKAGE_PIN J23 [get_ports sys_rst_0]
 set_property PACKAGE_PIN K29 [get_ports ddr4_rtl_0_act_n]
 set_property PACKAGE_PIN M28 [get_ports {ddr4_rtl_0_adr[0]}]
 set_property PACKAGE_PIN L28 [get_ports {ddr4_rtl_0_adr[10]}]
@@ -281,7 +375,6 @@ set_property PACKAGE_PIN F29 [get_ports ddr4_rtl_0_reset_n]
 set_property PACKAGE_PIN H30 [get_ports C0_SYS_CLK_0_clk_p]
 set_property PACKAGE_PIN G30 [get_ports C0_SYS_CLK_0_clk_n]
 
-set_property IOSTANDARD LVCMOS12 [get_ports sys_rst_0]
 set_property IOSTANDARD DIFF_POD12_DCI [get_ports {ddr4_rtl_0_dqs_c[0]}]
 set_property IOSTANDARD DIFF_POD12_DCI [get_ports {ddr4_rtl_0_dqs_c[1]}]
 set_property IOSTANDARD DIFF_POD12_DCI [get_ports {ddr4_rtl_0_dqs_c[2]}]
@@ -551,3 +644,8 @@ set_property IBUF_LOW_PWR FALSE [get_ports {ddr4_rtl_0_dqs_t[3]}]
 set_operating_conditions -heatsink custom
 set_operating_conditions -thetasa 6.0
 set_operating_conditions -airflow 0
+
+set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
+set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
+set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
+connect_debug_port dbg_hub/clk [get_nets clk]
