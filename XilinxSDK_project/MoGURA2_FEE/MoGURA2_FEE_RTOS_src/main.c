@@ -23,12 +23,6 @@
 #define DELAY_1_SECOND 1000UL
 #define FAIL_CNT_THRESHOLD 5
 
-#define INTERNAL_ADC_BUFF_SIZE 2048 * 16
-#define INTERNAL_HF_BUFF_DEPTH 256
-#define EXTERNAL_FRAME_BUFF_SIZE 512 * 16
-#define INTERNAL_BUFFER_FULL 3
-#define LAST_FRAME 2
-
 #define MODE_SWITCH_UPPER_THRE 2047
 #define MODE_SWITCH_LOWER_THRE -2048
 
@@ -40,19 +34,14 @@
 
 #define PRE_ACQUISITION_LENGTH 2
 #define POST_ACQUISITION_LENGTH 1
+#define SEND_BUF_SIZE (TCP_SND_BUF - MAX_PKT_LEN)
 
 const Channel_Config channel_0 = {0, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
 const Channel_Config channel_1 = {1, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
 const Channel_Config channel_2 = {2, NORMAL_ACQUIRE_MODE, HARDWARE_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-Channel_Config ch_config_array[3];
-TriggerManager_Config fee;
 
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
-
-static struct netif myself_netif;
-TaskHandle_t app_thread;
-app_arg send2pc_setting;
 
 const int RFDC_ADC_TILES[4] = {0, 1, 2, 3};
 const int RFDC_DAC_TILES[1] = {0};
@@ -72,21 +61,17 @@ AvailableAdcTiles DebugAdcTile = {
 
 void network_thread(void *arg);
 
+void prvPeripheralSetupTask(void *pvParameters);
+int vAppDaemonPeripheralSetupTaskStartupHook();
+
 void prvDmaTask(void *pvParameters);
-int vApplicationDaemonRxTaskStartupHook();
-
-void print_ip(char *msg, ip_addr_t *ip) {
-    xil_printf(msg);
-    xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip), ip4_addr3(ip), ip4_addr4(ip));
-}
-
-void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw) {
-    print_ip("Board IP: ", ip);
-    print_ip("Netmask : ", mask);
-    print_ip("Gateway : ", gw);
-}
+int vAppDaemonDmaTaskStartupHook();
 
 int main() {
+    LadcConfig.TestPattern1 = DEFAULT_LADC_TPN1;
+    LadcConfig.TestPattern2 = DEFAULT_LADC_TPN2;
+    LadcConfig.OperationMode = LADC_DOUBLETPNMODE;
+
     ch_config_array[0] = channel_0;
     ch_config_array[1] = channel_1;
     ch_config_array[2] = channel_2;
@@ -100,7 +85,7 @@ int main() {
 
     int Status;
     xil_printf("INFO: MoGURA2 Prototype TED Board debug\r\n");
-    Status = setup_peripheral();
+    Status = peripheral_setup();
     if (Status != XST_SUCCESS) return XST_FAILURE;
 
     double refClkFreq_MHz = 250.00;
@@ -131,8 +116,13 @@ int main() {
     Status = axidma_setup();
     if (Status != XST_SUCCESS) xil_printf("ERROR: Failed to Setup AXI-DMA\r\n");
 
+    xTaskCreate(prvPeripheralSetupTask, (const char *)"Peripheral Setup", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO + 2, &xPeripheralSetupTask);
     xTaskCreate(prvDmaTask, (const char *)"AXIDMA transfer", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO + 1, &xDmaTask);
     sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+
+    if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to setup interrupt controller.\r\n");
+    }
     vTaskStartScheduler();
     while (1)
         ;
@@ -175,127 +165,35 @@ void network_thread(void *arg) {
     sys_thread_new("xemacif_input_thread", (void (*)(void *))xemacif_input_thread, netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
     app_thread = sys_thread_new("send2pcd", send2pc_application_thread, arg, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
     vTaskDelete(NULL);
+    return;
 }
 
-void printData(u64 *dataptr, u64 frame_size) {
-    xil_printf("Rcvd : %016llx ", dataptr[0]);
-    xil_printf("%016llx (Header)\n", dataptr[1]);
-    for (int i = 2; i < frame_size - 1; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (((i - 2) * 4 + j) % 8 == 0) {
-                xil_printf("Rcvd : %04x ", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
-            } else if (((i - 2) * 4 + j + 1) % 8 == 0) {
-                xil_printf("%04x\n", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
-            } else {
-                xil_printf("%04x ", (dataptr[i] >> (3 - j) * 16) & 0x000000000000FFFF);
-            }
-        }
-    }
-    xil_printf("Rcvd : %016llx (Footer)\n", dataptr[frame_size - 1]);
-    xil_printf("\r\n");
-}
+void prvPeripheralSetupTask(void *pvParameters) {
+    int Status;
+    vAppDaemonPeripheralSetupTaskStartupHook();
 
-int checkData(u64 *dataptr, TriggerManager_Config fee_config, int print_enable, u64 *rcvd_frame_length) {
-    int Status = XST_SUCCESS;
-    u8 read_channel_id;
-    u8 read_header_id;
-    u64 read_header_timestamp;
-    u8 read_trigger_info;
-    u16 read_trigger_length;
-    int read_raw_charge_sum;
-    int read_charge_sum;
-    short int read_fall_thre;
-    short int read_rise_thre;
-    u64 read_footer_timestamp;
-    u32 read_object_id;
-    u8 read_footer_id;
+    Status = XSpi_SetOptions(&SpiBaseDac, XSP_MASTER_OPTION | XSP_MANUAL_SSELECT_OPTION);
+    if (Status != XST_SUCCESS) return;
+    Status = XSpi_SetSlaveSelect(&SpiBaseDac, 1);
+    if (Status != XST_SUCCESS) return;
+    XSpi_Start(&SpiBaseDac);
 
-    Xil_DCacheFlushRange((UINTPTR)dataptr, (MAX_TRIGGER_LEN * 2 + 4) * sizeof(u64));
-    read_header_timestamp = (dataptr[0] & 0x00FFFFFF);
-    read_trigger_info = (dataptr[0] >> 24) & 0x000000FF;
-    read_trigger_length = (dataptr[0] >> (24 + 8)) & 0x00000FFF;
-    read_channel_id = (dataptr[0] >> (24 + 8 + 12)) & 0x00000FFF;
-    read_header_id = (dataptr[0] >> (24 + 8 + 12 + 12)) & 0x000000FF;
-    read_raw_charge_sum = (dataptr[1] >> 32) & 0x00FFFFFF;
-    read_charge_sum = (read_raw_charge_sum << 8) >> 8;  // sign extention
-    read_fall_thre = (dataptr[1] & 0x0000FFFF);
-    read_rise_thre = (dataptr[1] >> 16) & 0x0000FFFF;
+    Status = XSpi_SetOptions(&SpiLadc, XSP_MASTER_OPTION | XSP_MANUAL_SSELECT_OPTION);
+    if (Status != XST_SUCCESS) return;
+    Status = XSpi_SetSlaveSelect(&SpiLadc, 1);
+    if (Status != XST_SUCCESS) return;
+    XSpi_Start(&SpiLadc);
 
-    read_footer_id = (dataptr[read_trigger_length + 3 - 1] >> 56) & 0x000000FF;
-    read_object_id = dataptr[read_trigger_length + 3 - 1] & 0xFFFFFFFF;
-    read_footer_timestamp = ((dataptr[read_trigger_length + 3 - 1] & 0x00FFFFFF00000000) >> 8) & 0x00000FFFFFF000000;
+    Status = BaselineDAC_ApplyConfig((u16)0x233);
+    if (Status != XST_SUCCESS) return;
 
-    if (print_enable > 1) {
-        printData(dataptr, read_trigger_length + 3);
-    }
-    if (print_enable > 0) {
-        xil_printf("Rcvd frame  signal_length:%4u, timestamp:%5u, trigger_info:%2x, falling_edge_threshold:%4d, rising_edge_threshold:%4d, object_id:%4u\r\n", read_trigger_length * 4,
-                   read_footer_timestamp + read_header_timestamp, read_trigger_info, read_fall_thre, read_rise_thre, read_object_id);
-    }
-    if (read_object_id == 0) {
-        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b1100_0000 == 8'b1100_0000
-        // left: mask except trigger state
-        // right: trigger state must be 2'b01 at first frame
-        if ((read_trigger_info & 0xC0) == 0xC0) {
-            xil_printf("trigger_info invalid Data: %2x Valid: %2x or %2x\r\n", read_trigger_info & 0x40, 0x40, 0xC0);
-            Status = XST_FAILURE;
-        } else if ((read_trigger_info & 0x10) == 0x00) {
-            // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-            // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
-            // left: mask except frame_continure
-            // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-            //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
-            Status = LAST_FRAME;
-        }
+    Status = LADC_ApplyConfig();
+    if (Status != XST_SUCCESS) return;
 
-    } else if ((read_trigger_info & 0x10) == 0x00) {
-        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b0001_0000 == 8'b0000_0000
-        // left: mask except frame_continure
-        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        //            xil_printf("trigger_info indicates this is last frame\r\n", read_trigger_info);
-        Status = LAST_FRAME;
-    }
-
-    if ((read_trigger_info & 0xC0) == 0x80) {
-        // read_trigger_info = {TRIGGER_STATE[1:0], FRAME_BEGIN[0], FRAME_CONTINUE[0], TRIGGER_TYPE[3:0]}
-        // read_trigger_info & 8'b1100_0000 == 8'b1000_0000
-        // left: mask except frame_continure
-        // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        printData(dataptr, read_trigger_length + 3);
-        Status = INTERNAL_BUFFER_FULL;
-    }
-
-    if (read_header_id != 0xAA) {
-        xil_printf("HEADER_ID mismatch Data: %2x Expected: %2x\r\n", read_header_id, 0xAA);
-        Status = XST_FAILURE;
-    }
-
-    if (read_channel_id >= 16) {
-        xil_printf("CHANNEL_ID invalid: Channel ID must be smaller than 16 Data :%2x\r\n", read_channel_id);
-    } else {
-        if (read_rise_thre != fee_config.ChanelConfigs[read_channel_id].RisingEdgeThreshold) {
-            xil_printf("threshold mismatch Data: %d Expected: %d\r\n", read_rise_thre, fee_config.ChanelConfigs[read_channel_id].RisingEdgeThreshold);
-            Status = XST_FAILURE;
-        }
-
-        if (read_fall_thre != fee_config.ChanelConfigs[read_channel_id].FallingEdgeThreshold) {
-            xil_printf("fall_thre mismatch Data: %d Expected: %d\r\n", read_fall_thre, fee_config.ChanelConfigs[read_channel_id].FallingEdgeThreshold);
-            Status = XST_FAILURE;
-        }
-    }
-
-    if (read_footer_id != 0x55) {
-        xil_printf("FOOTER_ID mismatch Data: %2x Expected: %2x\r\n", read_footer_id, 0x55);
-        printData(dataptr, read_trigger_length + 3);
-        Status = XST_FAILURE;
-    }
-
-    *rcvd_frame_length = read_trigger_length + 4;
-    incr_wrptr_after_write(read_trigger_length + 4);
-    //    xil_printf("\n");
-    return Status;
+    DisableIntrSystem(&xInterruptController, SPI_BASEDAC_INTR);
+    DisableIntrSystem(&xInterruptController, SPI_LADC_INTR);
+    vTaskDelete(NULL);
+    return;
 }
 
 void prvDmaTask(void *pvParameters) {
@@ -303,7 +201,6 @@ void prvDmaTask(void *pvParameters) {
     int s2mm_dma_state = XST_SUCCESS;
     int check_result = LAST_FRAME;
     int timeout_flag = 0;
-    dma_task_end_flag = DMA_TASK_READY;
 
     int test_send_frame_count = 2048;
     int send_frame_count = 0;
@@ -312,15 +209,9 @@ void prvDmaTask(void *pvParameters) {
     u64 dump_recv_size = 0;
 
     u64 *dataptr;
-    if (InitIntrController(&xInterruptController) != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to setup interrupt controller.\r\n");
-    }
 
-    vApplicationDaemonRxTaskStartupHook();
-    fee_status = BaselineDAC_Config(0x233);
-    if (fee_status != XST_SUCCESS) return XST_FAILURE;
-    // DisableIntrSystem(&xInterruptController, SPI_BASEDAC_INTR);
-    xil_printf("INFO: Dmatask start up done\r\n");
+    vAppDaemonDmaTaskStartupHook();
+    xil_printf("INFO: Start Dma task\r\n");
     xil_printf("INFO: Waiting Send2PC task start\r\n");
     vTaskSuspend(NULL);
 
@@ -370,13 +261,12 @@ void prvDmaTask(void *pvParameters) {
             vTaskSuspend(NULL);
         }
 
-        if ((socket_close_flag == SOCKET_CLOSE) || (timeout_flag == 1) || (check_result == INTERNAL_BUFFER_FULL)) {
+        if ((getSend2pcTaskStauts() == SOCKET_CLOSE) || (timeout_flag == 1) || (check_result == INTERNAL_BUFFER_FULL)) {
             break;
         }
     }
 
     shutdown_dma();
-    dma_task_end_flag = DMA_TASK_END;
     dump_recv_size = 0;
     xTaskNotifyGive(app_thread);
     vTaskSuspend(NULL);
@@ -384,20 +274,32 @@ void prvDmaTask(void *pvParameters) {
     xil_printf("INFO: FEE shutdown.\r\n");
     fee_status = HardwareTrigger_StopDeviceId(0);
     vTaskDelete(NULL);
+    return;
 }
 
-int vApplicationDaemonRxTaskStartupHook() {
+int vAppDaemonPeripheralSetupTaskStartupHook() {
+    int Status;
+    xil_printf("\nINFO: Set up AXI Quad SPI Controller Interrupt systems\n");
+    Status = SetupSpiIntrSystem(&xInterruptController, &SpiBaseDac, SPI_BASEDAC_INTR);
+    if (Status != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to set up Baseline DAC AXI Quad SPI Controller Interrupt system\r\n");
+        return XST_FAILURE;
+    }
+
+    Status = SetupSpiIntrSystem(&xInterruptController, &SpiLadc, SPI_LADC_INTR);
+    if (Status != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to set up LADC AXI Quad SPI Controller Interrupt system\r\n");
+        return XST_FAILURE;
+    }
+    return XST_SUCCESS;
+}
+
+int vAppDaemonDmaTaskStartupHook() {
     int Status;
     xil_printf("\nINFO: Set up AXIDMA Rx Interrupt system\n");
     Status = SetupRxIntrSystem(&xInterruptController, &AxiDma, RX_INTR_ID);
     if (Status != XST_SUCCESS) {
         xil_printf("ERROR: Failed to set up AXIDMA Rx Interrupt system\r\n");
-        return XST_FAILURE;
-    }
-    xil_printf("\nINFO: Set up AXI Quad SPI Controller Interrupt system\n");
-    Status = SetupSpiIntrSystem(&xInterruptController, &SpiBaseDac, SPI_BASEDAC_INTR);
-    if (Status != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to set up AXI Quad SPI Controller Interrupt system\r\n");
         return XST_FAILURE;
     }
     return XST_SUCCESS;

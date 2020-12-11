@@ -74,7 +74,7 @@ typedef struct Peripheral_Config {
 
 int Peripheral_Cdci6214Reset(u16 DeviceId);
 int Peripheral_LadcReset(u16 DeviceId);
-int Peripheral_LadcSenActive(u16 DeviceId);
+int Peripheral_LadcSenActive(u16 DeviceId, int LadcSel);
 int Peripheral_LadcSenDeactive(u16 DeviceId);
 
 int Peripheral_SetConfigDefault(u16 DeviceId);

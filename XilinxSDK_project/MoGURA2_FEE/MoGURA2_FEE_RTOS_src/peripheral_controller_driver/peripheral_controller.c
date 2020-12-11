@@ -8,7 +8,6 @@
 
 static int Peripheral_SearchDevice(u16 DeviceId) {
     extern Peripheral_Config Peripheral_ConfigTable[];
-    Peripheral_Config *CfgPtr = NULL;
     int device_index = -1;
     for (int i = 0; i < PERIPHERAL_CONTROLLER_NUM_INSTANCES; i++) {
         if (Peripheral_ConfigTable[i].DeviceId == DeviceId) {
@@ -46,7 +45,6 @@ int Peripheral_LadcReset(u16 DeviceId) {
     extern Peripheral_Config Peripheral_ConfigTable[];
     Peripheral_Config *CfgPtr = NULL;
     int Index;
-
     Index = Peripheral_SearchDevice(DeviceId);
     if (Index < 0) {
         xil_printf("ERROR: Peripheral_Configrator device (Device ID:%d) is not found\r\n", DeviceId);
@@ -62,10 +60,11 @@ int Peripheral_LadcReset(u16 DeviceId) {
         Peripheral_WriteReg(CfgPtr->BaseAddress, LADC_RESET_ADDR_OFFSET, LADC_RESET);
         Peripheral_WriteReg(CfgPtr->BaseAddress, LADC_RESET_ADDR_OFFSET, LADC_NORMAL);
     }
+    xil_printf("INFO: reset LADC\r\n");
     return XST_SUCCESS;
 }
 
-int Peripheral_LadcSenActive(u16 DeviceId) {
+int Peripheral_LadcSenActive(u16 DeviceId, int LadcSel) {
     extern Peripheral_Config Peripheral_ConfigTable[];
     Peripheral_Config *CfgPtr = NULL;
     int Index;
@@ -82,7 +81,8 @@ int Peripheral_LadcSenActive(u16 DeviceId) {
         xil_printf("ERROR: Peripheral_Configrator device (Device ID:%d) is NULL\r\n", DeviceId);
         return XST_FAILURE;
     } else {
-        Peripheral_WriteReg(CfgPtr->BaseAddress, LADC_SEN_ADDR_OFFSET, LADC_SEN_HIGH);
+        xil_printf("INFO: select LADC[%d]\r\n", LadcSel);
+        Peripheral_WriteReg(CfgPtr->BaseAddress, LADC_SEN_ADDR_OFFSET, (LADC_SEN_HIGH << LadcSel));
     }
     return XST_SUCCESS;
 }

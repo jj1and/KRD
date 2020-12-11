@@ -14,7 +14,7 @@
 #define RFDC_NOT_INITIALIZED 0
 #define RFDC_INITIALIZED 1
 
-static char *tile_type_dict = {"ADC", "DAC"};
+static char *tile_type_dict[2] = {"ADC", "DAC"};
 
 static int rfdc_initialized = RFDC_NOT_INITIALIZED;
 static XRFdc RFdcInst; /* RFdc driver instance */
@@ -553,8 +553,7 @@ int rfdcDAC_MTS_setup(u16 RFdcDeviceId, double DAC_refClkFreq_MHz, double DAC_sa
 }
 
 int rfdcSingle_setup(u16 RFdcDeviceId, u32 Type, u32 Tile_id, double refClkFreq_MHz, double samplingRate_Msps) {
-    int status, i;
-    u32 factor;
+    int status;
 
     if (rfdc_initialized == RFDC_NOT_INITIALIZED) {
         xil_printf("INFO: Start up RF Data Conver %s @Single mode\r\n", tile_type_dict[Type]);

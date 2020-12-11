@@ -1,8 +1,10 @@
 #include "axidma_s2mm_manager.h"
 
+#include "hardware_trigger_manager.h"
 #include "xdebug.h"
 #include "xil_exception.h"
 
+static int dma_task_end_flag = DMA_TASK_READY;
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 
@@ -231,7 +233,6 @@ int incr_rdptr_after_read(u64 size) {
 void flush_ptr() {
     RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
     RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
-    return 0;
 }
 
 int buff_will_be_full(u64 size) { return (RxBufferWrPtr > (u64 *)RX_BUFFER_HIGH - size); }
@@ -241,6 +242,10 @@ int buff_will_be_empty(u64 size) { return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE
 u64 *get_wrptr() { return RxBufferWrPtr; }
 u64 *get_rdptr() { return RxBufferRdPtr; }
 
+int getDmaTaskStatus() {
+    return dma_task_end_flag;
+}
+
 void shutdown_dma() {
     xil_printf("INFO: End dma task...\r\n");
 #ifndef FREE_RTOS
@@ -248,4 +253,5 @@ void shutdown_dma() {
 #else
     DisableIntrSystem(&xInterruptController, RX_INTR_ID);
 #endif
+    dma_task_end_flag = DMA_TASK_END;
 }

@@ -56,14 +56,7 @@
  */
 #define RESET_TIMEOUT_COUNTER 10000
 
-/*
- * Buffer and Buffer Descriptor related constant definition
- */
-#define MAX_GENERATBLE_TRIGGER_LEN 254
-#define MAX_TRIGGER_LEN 14
-#define MAX_PKT_LEN (MAX_TRIGGER_LEN * 16 + 4 * 8) * 8  // MAX_TRIGGER_LEN[CLK]x 16[Byte] + (2(HEADERS) + 1(FOOTER))x 8[Byte]
 #define RX_BUFFER_SIZE (RX_BUFFER_HIGH - RX_BUFFER_BASE)
-#define AXIDMA_BUFF_SIZE 16384
 
 /* The interrupt coalescing threshold and delay timer threshold
  * Valid range is 1 to 255
@@ -73,6 +66,10 @@
  */
 #define COALESCING_COUNT NUMBER_OF_PKTS_TO_TRANSFER
 #define DELAY_TIMER_COUNT 100
+
+#define DMA_TASK_READY 2
+#define DMA_TASK_RUN 1
+#define DMA_TASK_END 0
 
 // AXI-DMA related variables
 XAxiDma AxiDma;
@@ -98,5 +95,6 @@ int buff_will_be_empty(u64 size);
 int buff_will_be_full(u64 size);
 u64* get_wrptr();
 u64* get_rdptr();
+int getDmaTaskStatus();
 
 #endif
