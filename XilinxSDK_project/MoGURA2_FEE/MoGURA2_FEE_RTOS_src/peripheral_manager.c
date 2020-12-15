@@ -3,8 +3,17 @@
 #include "peripheral_controller_driver/peripheral_controller.h"
 #include "xil_exception.h"
 
+static volatile int SPI_LADC_TransferInProgress;
+static int SPI_LADC_Error;
+
+static volatile int SPI_BASEDAC_TransferInProgress;
+static int SPI_BASEDAC_Error;
+
+static XSpi SpiLadc;
+static XSpi SpiBaseDac;
+
 static u8 SpiBaseDacWrBuffer[BASEDAC_DAC_NUM * 2];
-static u8 SpiBaseDacRdBuffer[BASEDAC_DAC_NUM * 2];
+// static u8 SpiBaseDacRdBuffer[BASEDAC_DAC_NUM * 2];
 
 static u8 SpiLadcWrBuffer[LADC_ADDR_NUM * 2];
 static u8 SpiLadcRdBuffer[LADC_ADDR_NUM * 2];
@@ -25,7 +34,7 @@ static void SpiLadcIntrHandler(void *CallBackRef, u32 StatusEvent, u32 ByteCount
         SPI_LADC_Error++;
     }
 #ifdef FREE_RTOS
-    vTaskNotifyGiveFromISR(xPeripheralSetupTask, &xHigherPriorityTaskWoken);
+    vTaskNotifyGiveFromISR(cmd_thread, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 #endif
     return;
@@ -46,14 +55,23 @@ static void SpiBaseDacIntrHandler(void *CallBackRef, u32 StatusEvent, u32 ByteCo
         SPI_BASEDAC_Error++;
     }
 #ifdef FREE_RTOS
-    vTaskNotifyGiveFromISR(xPeripheralSetupTask, &xHigherPriorityTaskWoken);
+    vTaskNotifyGiveFromISR(cmd_thread, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 #endif
     return;
 }
 
-int SetupSpiIntrSystem(INTC *IntcInstancePtr, XSpi *SpiInstancePtr, u16 SpiIntrId) {
+int SetupSpiIntrSystem(INTC *IntcInstancePtr, u16 SpiIntrId) {
     int Status;
+    XSpi *SpiInstancePtr;
+    if (SpiIntrId == SPI_BASEDAC_INTR) {
+        SpiInstancePtr = &SpiBaseDac;
+    } else if (SpiIntrId == SPI_LADC_INTR) {
+        SpiInstancePtr = &SpiLadc;
+    } else {
+        xil_printf("ERROR: No device matched with Intr ID: %d is found.\r\n", SpiIntrId);
+        return XST_FAILURE;
+    }
 
 #ifdef XPAR_INTC_0_DEVICE_ID
     Status = XIntc_Connect(IntcInstancePtr, SpiIntrId, (XInterruptHandler)XSpi_InterruptHandler, SpiInstancePtr);
@@ -158,8 +176,8 @@ int peripheral_setup() {
         SpiBaseDacWrBuffer[i * 2 + 0] = (u8)((inputword & 0xFF00) >> 8);  //  MSB
         SpiBaseDacWrBuffer[i * 2 + 1] = (u8)(inputword & 0x00FF);         // LSB
 
-        SpiBaseDacRdBuffer[i * 2 + 0] = 0x0000;
-        SpiBaseDacRdBuffer[i * 2 + 1] = 0x0000;
+        // SpiBaseDacRdBuffer[i * 2 + 0] = 0x0000;
+        // SpiBaseDacRdBuffer[i * 2 + 1] = 0x0000;
     }
 
     return XST_SUCCESS;
@@ -167,7 +185,10 @@ int peripheral_setup() {
 
 static void LADC_DataSend(u8 *SpiLadcData, int ladc_sel, int *Status) {
     SPI_LADC_Error = 0;
+    XSpi_Start(&SpiLadc);
+    XSpi_SetSlaveSelect(&SpiLadc, 1);
     XSpi_Transfer(&SpiLadc, &SpiLadcWrBuffer[0], &SpiLadcRdBuffer[0], 2);
+    XSpi_SetSlaveSelect(&SpiLadc, 0);
     if (!ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(2000))) {
         xil_printf("INFO: Set LADC[%d] Addr: %04x Data: %04x (Transaction time out)\r\n", ladc_sel, (u16)SpiLadcWrBuffer[0], (u16)SpiLadcWrBuffer[1], SPI_LADC_Error);
         *Status = XST_FAILURE;
@@ -177,33 +198,37 @@ static void LADC_DataSend(u8 *SpiLadcData, int ladc_sel, int *Status) {
             *Status = XST_FAILURE;
         }
     }
+    XSpi_Stop(&SpiLadc);
     return;
 }
 
-int LADC_ApplyConfig() {
+int LADC_ApplyConfig(Ladc_Config *LadcCfgPtr) {
     int Status = XST_SUCCESS;
+
+    Status = XSpi_SetOptions(&SpiLadc, XSP_MASTER_OPTION | XSP_MANUAL_SSELECT_OPTION);
+    if (Status != XST_SUCCESS) return Status;
 
     for (u16 i = 0; i < LADC_ADC_NUM; i++) {
         Peripheral_LadcSenActive(PERIPHERAL_CONTROLLER_0_DEVICE_ID, i);
 
         SpiLadcWrBuffer[0] = LADC_SPI_CUSTMPTN1MSB_ADDR;
-        SpiLadcWrBuffer[1] = LadcConfig.TestPattern1 >> 8;
+        SpiLadcWrBuffer[1] = LadcCfgPtr->TestPattern1 >> 8;
         LADC_DataSend(&SpiLadcWrBuffer[0], i, &Status);
 
         SpiLadcWrBuffer[0] = LADC_SPI_CUSTMPTN1LSB_ADDR;
-        SpiLadcWrBuffer[1] = LadcConfig.TestPattern1 & 0x00FF;
+        SpiLadcWrBuffer[1] = LadcCfgPtr->TestPattern1 & 0x00FF;
         LADC_DataSend(&SpiLadcWrBuffer[0], i, &Status);
 
         SpiLadcWrBuffer[0] = LADC_SPI_CUSTMPTN2MSB_ADDR;
-        SpiLadcWrBuffer[1] = LadcConfig.TestPattern2 >> 8;
+        SpiLadcWrBuffer[1] = LadcCfgPtr->TestPattern2 >> 8;
         LADC_DataSend(&SpiLadcWrBuffer[0], i, &Status);
 
         SpiLadcWrBuffer[0] = LADC_SPI_CUSTMPTN2LSB_ADDR;
-        SpiLadcWrBuffer[1] = LadcConfig.TestPattern2 & 0x00FF;
+        SpiLadcWrBuffer[1] = LadcCfgPtr->TestPattern2 & 0x00FF;
         LADC_DataSend(&SpiLadcWrBuffer[0], i, &Status);
 
         SpiLadcWrBuffer[0] = LADC_SPI_OUTPUTMODE_ADDR;
-        SpiLadcWrBuffer[1] = LadcConfig.OperationMode;
+        SpiLadcWrBuffer[1] = LadcCfgPtr->OperationMode;
         LADC_DataSend(&SpiLadcWrBuffer[0], i, &Status);
     }
     return Status;
@@ -212,19 +237,27 @@ int LADC_ApplyConfig() {
 int BaselineDAC_ApplyConfig(u16 baseline) {
     int Status = XST_SUCCESS;
 
+    Status = XSpi_SetOptions(&SpiBaseDac, XSP_MASTER_OPTION | XSP_MANUAL_SSELECT_OPTION);
+    if (Status != XST_SUCCESS) return Status;
+
     for (u16 i = 0; i < BASEDAC_DAC_NUM; i++) {
         u16 dac_addr = i + 1;
-        u16 inputword = ((dac_addr << 12) & 0xF000) | ((baseline & 0x0FFF) << 2);
+        u16 inputword = ((dac_addr << 12) & 0xF000) | (((baseline & 0x0FFF) << 2) & 0x0FFC);
+        xil_printf("INFO: Input word %04x\r\n", inputword);
         SpiBaseDacWrBuffer[i * 2 + 0] = (u8)((inputword & 0xFF00) >> 8);  //  MSB
         SpiBaseDacWrBuffer[i * 2 + 1] = (u8)(inputword & 0x00FF);         // LSB
 
-        SpiBaseDacRdBuffer[i * 2 + 0] = 0x0000;
-        SpiBaseDacRdBuffer[i * 2 + 1] = 0x0000;
+        // SpiBaseDacRdBuffer[i * 2 + 0] = 0x0000;
+        // SpiBaseDacRdBuffer[i * 2 + 1] = 0x0000;
     }
 
     for (int i = 0; i < BASEDAC_DAC_NUM; i++) {
+        // for (int j = 0; j < 4; j++) {
         SPI_BASEDAC_Error = 0;
-        XSpi_Transfer(&SpiBaseDac, &SpiBaseDacWrBuffer[i * 2], &SpiBaseDacRdBuffer[i * 2], 2);
+        XSpi_Start(&SpiBaseDac);
+        XSpi_SetSlaveSelect(&SpiBaseDac, 1);
+        XSpi_Transfer(&SpiBaseDac, &SpiBaseDacWrBuffer[i * 2], NULL, 2);
+        XSpi_SetSlaveSelect(&SpiBaseDac, 0);
         if (!ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(2000))) {
             xil_printf("INFO: Set Baseline DAC[%d]: Transaction time out\r\n", i);
             Status = XST_FAILURE;
@@ -235,6 +268,8 @@ int BaselineDAC_ApplyConfig(u16 baseline) {
                 Status = XST_FAILURE;
             }
         }
+        XSpi_Stop(&SpiBaseDac);
+        // }
     }
 
     return Status;

@@ -215,38 +215,61 @@ int Trigger_ApplyCfg(Trigger_Config *CfgPtr) {
     return XST_SUCCESS;
 }
 
-int Trigger_Start(Trigger_Config *CfgPtr) {
-    for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | RUN_STATE);
+int Trigger_Start(Trigger_Config *CfgPtr, u16 ch) {
+    if ((ch < 0) || (ch >= CHANNEL_NUM)) {
+        xil_printf("ERROR: Selected channel is out of range.\r\n");
+        return XST_FAILURE;
     }
+    Trigger_WriteReg(CfgPtr->BaseAddress, CONFIG_ADDR_OFFSET, (CfgPtr->ConfigAddr & MAX_TRIGGER_LENGTH_MASK) | CONFIG_FIXED_STATE);
+    Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + ch * CHANNEL_OFFSET, (CfgPtr->ControlAddr[ch] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | RUN_STATE);
     if (Trigger_IsConfigState(CfgPtr)) {
         xil_printf("ERROR: Currentlly in Config state. Cannot start run\r\n");
         return XST_FAILURE;
     }
-
-    for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        if (!Trigger_IsRunState(CfgPtr, i)) {
-            xil_printf("ERROR: Failed to start Ch[%d]\r\n", i);
-            return XST_FAILURE;
-        }
+    if (!Trigger_IsRunState(CfgPtr, ch)) {
+        xil_printf("ERROR: Failed to start Ch[%d]\r\n", ch);
+        return XST_FAILURE;
     }
+
     return XST_SUCCESS;
 }
 
-int Trigger_Stop(Trigger_Config *CfgPtr) {
-    for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
-    }
-    for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        if (!Trigger_IsStopState(CfgPtr, i)) {
-            xil_printf("ERROR: Failed to stop Ch[%d]\r\n", i);
-            return XST_FAILURE;
+int Trigger_StartAllCh(Trigger_Config *CfgPtr) {
+    int Status;
+    for (u16 i = 0; i < CHANNEL_NUM; i++) {
+        Status = Trigger_Start(CfgPtr, i);
+        if (Status != XST_SUCCESS) {
+            break;
         }
+    }
+    return Status;
+}
+
+int Trigger_Stop(Trigger_Config *CfgPtr, u16 ch) {
+    if ((ch < 0) || (ch >= CHANNEL_NUM)) {
+        xil_printf("ERROR: Selected channel is out of range.\r\n");
+        return XST_FAILURE;
+    }
+    Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + ch * CHANNEL_OFFSET, (CfgPtr->ControlAddr[ch] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
+    if (!Trigger_IsStopState(CfgPtr, ch)) {
+        xil_printf("ERROR: Failed to stop Ch[%d]\r\n", ch);
+        return XST_FAILURE;
     }
     if (Trigger_IsConfigState(CfgPtr)) {
         xil_printf("WARNING: Currentlly in Config state.\r\n");
     }
     return XST_SUCCESS;
+}
+
+int Trigger_StopAllCh(Trigger_Config *CfgPtr) {
+    int Status;
+    for (u16 i = 0; i < CHANNEL_NUM; i++) {
+        Status = Trigger_Stop(CfgPtr, i);
+        if (Status != XST_SUCCESS) {
+            break;
+        }
+    }
+    return Status;
 }
 
 Trigger_Config *Trigger_LookupConfig(u16 DeviceId) {

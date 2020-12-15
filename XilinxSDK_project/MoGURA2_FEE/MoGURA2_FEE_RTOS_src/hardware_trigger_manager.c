@@ -1,11 +1,14 @@
 #include "hardware_trigger_manager.h"
 
 #include "trigger_configrator_driver/trigger_configrator.h"
-#include "xil_printf.h"
 #include "xil_cache.h"
+#include "xil_printf.h"
 #include "xstatus.h"
 
 #define FEE_DEBUG
+
+static XGpio Gpio_mode_switch_thre;
+static int fee_state_flag = FEE_STOPPED;
 
 u32 reverse_byte(u32 data) {
     u32 rdata = 0x00000000;
@@ -164,9 +167,14 @@ int SetSwitchThreshold(short int upper_threshold, short int lower_threshold) {
     return XST_SUCCESS;
 }
 
-int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config TriggerManagerConfig) {
+int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config *TMCfgPtr) {
     Trigger_Config *CfgPtr = NULL;
     int Status;
+
+    if (TMCfgPtr == NULL) {
+        xil_printf("ERROR: got Trigger Manager Config pointer in argument\r\n");
+        return XST_FAILURE;
+    }
 
     Status = Trigger_SetConfigDefault(TriggerdeviceId);
     if (Status != XST_SUCCESS) {
@@ -179,8 +187,8 @@ int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config Tri
     u32 AcquisitionAddr;
     u32 BaselineAddr;
 
-    for (size_t i = 0; i < TriggerManagerConfig.ChannelNum; i++) {
-        ChannelConfig = TriggerManagerConfig.ChanelConfigs[i];
+    for (size_t i = 0; i < TMCfgPtr->ChannelNum; i++) {
+        ChannelConfig = TMCfgPtr->ChanelConfigs[i];
         ControlAddr = ((ChannelConfig.AcquireMode << 4) & ACQUIRE_MODE_MASK) | (ChannelConfig.TriggerType & TRIGGER_TYPE_MASK) | STOP_STATE;
         ThresholdAddr = ((ChannelConfig.RisingEdgeThreshold << 16) & 0xFFFF0000) | (ChannelConfig.FallingEdgeThreshold & 0x0000FFFF);
         AcquisitionAddr = ((ChannelConfig.PreAcquisitionLength << 16) & 0xFFFF0000) | (ChannelConfig.PostAcquisitionLength & 0x0000FFFF);
@@ -195,9 +203,13 @@ int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config Tri
 #endif
 
         CfgPtr = Trigger_ChannelConfig(TriggerdeviceId, ChannelConfig.channel, ControlAddr, ThresholdAddr, AcquisitionAddr, BaselineAddr);
+        if (CfgPtr == NULL) {
+            xil_printf("ERROR: failed to get Trigger Config pointer\r\n");
+            return XST_FAILURE;
+        }
     }
 
-    if (Trigger_MaxLengthConfig(TriggerdeviceId, TriggerManagerConfig.MaxTriggerLength) != XST_SUCCESS) return XST_FAILURE;
+    if (Trigger_MaxLengthConfig(TriggerdeviceId, TMCfgPtr->MaxTriggerLength) != XST_SUCCESS) return XST_FAILURE;
 #ifdef FEE_DEBUG
     xil_printf("INFO: ConfigAddrReg: 0x%08x\r\n", CfgPtr->ConfigAddr);
 #endif
@@ -205,18 +217,43 @@ int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config Tri
     return Trigger_ApplyCfg(CfgPtr);
 }
 
-int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId) {
+int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId, u16 ch) {
     Trigger_Config *CfgPtr = NULL;
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
-    return Trigger_Start(CfgPtr);
+    fee_state_flag = FEE_RUNNING;
+    return Trigger_Start(CfgPtr, ch);
 }
 
-int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId) {
+int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId, u16 ch) {
     Trigger_Config *CfgPtr = NULL;
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
-    return Trigger_Stop(CfgPtr);
+    // when any channel runs, the state is defined as RUNNIG
+    fee_state_flag = FEE_RUNNING;
+    return Trigger_Stop(CfgPtr, ch);
+}
+
+int HardwareTrigger_StartDeviceIdAllCh(u16 TriggerdeviceId) {
+    Trigger_Config *CfgPtr = NULL;
+    CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
+    if (CfgPtr == NULL)
+        return XST_FAILURE;
+    fee_state_flag = FEE_RUNNING;
+    return Trigger_StartAllCh(CfgPtr);
+}
+
+int HardwareTrigger_StopDeviceIdAllCh(u16 TriggerdeviceId) {
+    Trigger_Config *CfgPtr = NULL;
+    CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
+    if (CfgPtr == NULL)
+        return XST_FAILURE;
+    fee_state_flag = FEE_STOPPED;
+    return Trigger_StopAllCh(CfgPtr);
+}
+
+int getFeeState() {
+    return fee_state_flag;
 }

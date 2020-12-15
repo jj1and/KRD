@@ -60,6 +60,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/MoGURA2_FEE_RTOS_src/main.c</locationURI>
 		</link>
 		<link>
+			<name>src/main_g.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/MoGURA2_FEE_RTOS_src/main_g.c</locationURI>
+		</link>
+		<link>
 			<name>src/peripheral_controller_driver</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/MoGURA2_FEE_RTOS_src/peripheral_controller_driver</locationURI>

@@ -628,21 +628,21 @@ BEGIN DRIVER
 END
 
 BEGIN DRIVER
- PARAMETER DRIVER_NAME = rfdc
- PARAMETER DRIVER_VER = 6.0
- PARAMETER HW_INSTANCE = usp_rf_data_converter_0
-END
-
-BEGIN DRIVER
- PARAMETER DRIVER_NAME = generic
- PARAMETER DRIVER_VER = 2.0
- PARAMETER HW_INSTANCE = Hardware_trigger_blocks_trigger_configrator_0
-END
-
-BEGIN DRIVER
  PARAMETER DRIVER_NAME = generic
  PARAMETER DRIVER_VER = 2.0
  PARAMETER HW_INSTANCE = peripheral_ctrl_block_peripheral_controler_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = rfdc
+ PARAMETER DRIVER_VER = 6.0
+ PARAMETER HW_INSTANCE = rfadc_block_usp_rf_data_converter_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = generic
+ PARAMETER DRIVER_VER = 2.0
+ PARAMETER HW_INSTANCE = hardware_trigger_blocks_trigger_configrator_0
 END
 
 

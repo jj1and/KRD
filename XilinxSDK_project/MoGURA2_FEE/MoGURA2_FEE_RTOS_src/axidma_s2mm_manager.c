@@ -4,6 +4,14 @@
 #include "xdebug.h"
 #include "xil_exception.h"
 
+/*
+ * Flags interrupt handlers use to notify the application context the events.
+ */
+static volatile int RxDone;
+static volatile int Error;
+
+// AXI-DMA related variables
+static XAxiDma AxiDma;
 static int dma_task_end_flag = DMA_TASK_READY;
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
@@ -81,11 +89,11 @@ static void RxIntrHandler(void *Callback) {
     return;
 }
 
-int SetupRxIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 RxIntrId) {
+int SetupRxIntrSystem(INTC *IntcInstancePtr, u16 RxIntrId) {
     int Status;
 
 #ifdef XPAR_INTC_0_DEVICE_ID
-    Status = XIntc_Connect(IntcInstancePtr, RxIntrId, (XInterruptHandler)RxIntrHandler, AxiDmaPtr);
+    Status = XIntc_Connect(IntcInstancePtr, RxIntrId, (XInterruptHandler)RxIntrHandler, &AxiDma);
     if (Status != XST_SUCCESS) {
         xil_printf("Failed rx connect intc\r\n");
         return XST_FAILURE;
@@ -95,7 +103,7 @@ int SetupRxIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 RxIntrId) {
 
 #elif defined(FREE_RTOS)
     XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA1, 0x3);
-    Status = XScuGic_Connect(IntcInstancePtr, RxIntrId, (Xil_InterruptHandler)RxIntrHandler, AxiDmaPtr);
+    Status = XScuGic_Connect(IntcInstancePtr, RxIntrId, (Xil_InterruptHandler)RxIntrHandler, &AxiDma);
     if (Status != XST_SUCCESS) {
         return XST_FAILURE;
     }
@@ -109,7 +117,7 @@ int SetupRxIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 RxIntrId) {
      * interrupt for the device occurs, the handler defined above performs
      * the specific interrupt processing for the device.
      */
-    Status = XScuGic_Connect(IntcInstancePtr, RxIntrId, (Xil_InterruptHandler)RxIntrHandler, AxiDmaPtr);
+    Status = XScuGic_Connect(IntcInstancePtr, RxIntrId, (Xil_InterruptHandler)RxIntrHandler, &AxiDma);
     if (Status != XST_SUCCESS) {
         return Status;
     }
@@ -244,6 +252,14 @@ u64 *get_rdptr() { return RxBufferRdPtr; }
 
 int getDmaTaskStatus() {
     return dma_task_end_flag;
+}
+
+int getRxError() {
+    return Error;
+}
+
+int getRxDone() {
+    return RxDone;
 }
 
 void shutdown_dma() {

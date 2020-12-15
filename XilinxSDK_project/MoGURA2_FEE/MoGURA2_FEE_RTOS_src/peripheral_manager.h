@@ -54,16 +54,7 @@ and CUSTOM PATTERN 2[15:2]. */
 #define SPI_BASEDAC_DEVICE_ID XPAR_SPI_1_DEVICE_ID
 #define SPI_BASEDAC_INTR XPAR_FABRIC_SPI_1_VEC_ID
 
-TaskHandle_t xPeripheralSetupTask;
-
-volatile int SPI_LADC_TransferInProgress;
-int SPI_LADC_Error;
-
-volatile int SPI_BASEDAC_TransferInProgress;
-int SPI_BASEDAC_Error;
-
-XSpi SpiLadc;
-XSpi SpiBaseDac;
+extern TaskHandle_t cmd_thread;
 
 #define IIC_CDCI6214_DEVICE_ID XPAR_IIC_0_DEVICE_ID
 #define IIC_CDCI6214_INTR XPAR_FABRIC_IIC_0_VEC_ID
@@ -80,11 +71,9 @@ typedef struct Ladc_Config {
     u8 OperationMode;
 } Ladc_Config;
 
-Ladc_Config LadcConfig;
-
-int SetupSpiIntrSystem(INTC *IntcInstancePtr, XSpi *SpiInstancePtr, u16 SpiIntrId);
+int SetupSpiIntrSystem(INTC *IntcInstancePtr, u16 SpiIntrId);
 int peripheral_setup();
 int BaselineDAC_ApplyConfig(u16 baseline);
-int LADC_ApplyConfig();
+int LADC_ApplyConfig(Ladc_Config *LadcCfgPtr);
 
 #endif  // !__PERIPHERAL_MANAGER__
