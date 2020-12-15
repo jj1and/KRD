@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-BASE_FILE_NAME = "./data/recv_buff_v4_20201204_11.bin"
+# BASE_FILE_NAME = "./data/recv_buff_v4_20201204_11.bin"
+BASE_FILE_NAME = "./data/Mog2fee_v0_20201215_14.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -14,7 +15,11 @@ TIMESTAMP_CLK_Hz = 122.88*1E6
 EFFECTIVE_ADC_CLK_Hz = TIMESTAMP_CLK_Hz*8
 SAMPLE_PER_TIMESTAMP_CLK = int(EFFECTIVE_ADC_CLK_Hz/TIMESTAMP_CLK_Hz)
 
-plot_color = {0: 'steelblue', 1: 'firebrick', 2: 'darkgreen'}
+plot_color = {
+    0: 'steelblue', 1: 'firebrick', 2: 'darkgreen', 3: 'purple',
+    4: 'dodgerblue', 5: 'orangered', 6: 'limegreen', 7: 'mediumvioletred',
+    8: 'navy', 9: 'saddlebrown', 10: 'darkolivegreen', 11: 'crimson',
+    12: 'blue', 13: 'red', 14: 'yellowgreen', 15: 'orchid'}
 
 if __name__ == "__main__":
     print("INFO: open file name: "+BASE_FILE_NAME)
@@ -24,14 +29,20 @@ if __name__ == "__main__":
     hgain_only_waveform_array = np.load(npz_waveform_name)['arr_1']
     # print(pd_dfs)
 
-    fig, ax = plt.subplots()
-    ax.set_title("Acquired data")
-    ax.set_xlabel("Time[nsec]")
-    ax.set_ylabel("ADC")
+    select_pds = pd_dfs[(pd_dfs['OBJECT_ID'] < 10) &
+                        (pd_dfs['OBJECT_ID'] >= 0)]
+
+    acuqired_channels = np.unique(select_pds['CH_ID'])
+    fig, axes = plt.subplots(
+        len(acuqired_channels), 1, sharex=True)
+    axes[0].set_title("Acquired data")
+    axes[-1].set_xlabel("Time[nsec]")
+
+    for ch in acuqired_channels:
+        axes[ch].set_ylabel("Ch{}".format(ch))
 
     t0 = pd_dfs['TIMESTAMP'][0]
-
-    for i in (pd_dfs[(pd_dfs['OBJECT_ID'] < 10) & (pd_dfs['OBJECT_ID'] >= 0)].index[:]):
+    for i in (select_pds.index[:]):
         sample_num = pd_dfs['FRAME_LEN'][i]
         wav = waveform_array[i, 0:sample_num]
         hgain_wav = hgain_only_waveform_array[i, 0:sample_num]
@@ -43,17 +54,17 @@ if __name__ == "__main__":
         #             linestyle='-', marker='s', markersize=5)
         # ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
         #         linestyle='--', marker='o', markersize=5)
-        ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
-                linestyle='-', marker='o', markersize=5)
+        axes[pd_dfs['CH_ID'][i]].plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
+                                      linestyle='-', marker='o', markersize=5)
 
-    xmin, xmax = ax.get_xlim()
-    ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']
-                           [0]], ls='-.', color='firebrick', label='rising_edge')
-    ax.plot([xmin, xmax], [pd_dfs['FALL_THRE'][0], pd_dfs['FALL_THRE']
-                           [0]], ls='-.', color='navy', label='falling_edge')
-    ax.set_xlim(xmin, xmax)
+    # xmin, xmax=ax.get_xlim()
+    # ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']
+    #                        [0]], ls = '-.', color = 'firebrick', label = 'rising_edge')
+    # ax.plot([xmin, xmax], [pd_dfs['FALL_THRE'][0], pd_dfs['FALL_THRE']
+    #                        [0]], ls = '-.', color = 'navy', label = 'falling_edge')
+    # ax.set_xlim(xmin, xmax)
     # ax.set_ylim(-200, 450)
-    ax.legend()
+    # ax.legend()
 
     fig2, ax2 = plt.subplots()
     # ax2.set_xscale('log', basex=10)

@@ -137,3 +137,4 @@ XilinxSDK_project/MoGURA2_FEE/DDR4_test
 XilinxSDK_project/MoGURA2_FEE/DDR4_test_bsp
 XilinxSDK_project/Kam2FEE_ZCU111/lwip_echo_sample
 XilinxSDK_project/Kam2FEE_ZCU111/lwip_echo_sample_bsp
+util_code/FEE_server/sock_controler.py
