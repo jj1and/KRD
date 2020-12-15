@@ -11,7 +11,7 @@ cdef:
 
 cdef extern from "df_extractor.h":
     int GetFrameNum(unsigned long long *bin_data, int bin_data_size)
-    void UnpackBinary(unsigned long long *bin_data, int bin_data_size, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array, unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array, int *waveform_array, int *h_gain_only_waveform_array)
+    int UnpackBinary(unsigned long long *bin_data, int bin_data_size, int frame_num, unsigned int *ch_id_array, unsigned int *frame_len_array, unsigned int *frame_info_array, unsigned int *trigger_type_array, int *charge_sum_array, int *rise_thre_array, int *fall_thre_array, unsigned int *object_id_array, unsigned long long *timestamp_array, int *waveform_array, int *h_gain_only_waveform_array)
 
 
 def extract_df(cnp.ndarray[cnp.uint64_t, ndim=1] bin_data):
@@ -40,8 +40,10 @@ def extract_df(cnp.ndarray[cnp.uint64_t, ndim=1] bin_data):
         cnp.ndarray[int, ndim=2, mode="c"] reshaped_h_gain_only_waveform_array       
 
     print("INFO: {:d} frames were acquired.".format(cframe_num))
-    UnpackBinary(<unsigned long long*> bin_data.data, cbin_data_size, cframe_num, <unsigned int*>ch_id_array.data, <unsigned int*>frame_len_array.data, <unsigned int*>frame_info_array.data, <unsigned int*>trigger_type_array.data, <int*>charge_sum_array.data, <int*>rise_thre_array.data, <int*>fall_thre_array.data, <unsigned int*>object_id_array.data, <unsigned long long*>timestamp_array.data, <int*>waveform_array.data, <int*>h_gain_only_waveform_array.data)
-    
+    status = UnpackBinary(<unsigned long long*> bin_data.data, cbin_data_size, cframe_num, <unsigned int*>ch_id_array.data, <unsigned int*>frame_len_array.data, <unsigned int*>frame_info_array.data, <unsigned int*>trigger_type_array.data, <int*>charge_sum_array.data, <int*>rise_thre_array.data, <int*>fall_thre_array.data, <unsigned int*>object_id_array.data, <unsigned long long*>timestamp_array.data, <int*>waveform_array.data, <int*>h_gain_only_waveform_array.data)
+    if status != 0:
+        return status
+
     print("\rINFO: waveform array reshaping...", end='')
     reshaped_waveform_array = waveform_array.reshape([-1, MAX_SAMPLE_NUM])
     reshaped_h_gain_only_waveform_array = h_gain_only_waveform_array.reshape([-1, MAX_SAMPLE_NUM])
