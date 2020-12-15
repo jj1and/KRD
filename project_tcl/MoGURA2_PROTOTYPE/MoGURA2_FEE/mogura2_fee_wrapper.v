@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2019.1.3 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
-//Date        : Tue Dec  8 15:51:11 2020
+//Tool Version: Vivado v.2019.1.3_AR73068 (win64) Build 2644227 Wed Sep  4 09:45:24 MDT 2019
+//Date        : Tue Dec 15 11:46:20 2020
 //Host        : AKABEKO03 running 64-bit major release  (build 9200)
 //Command     : generate_target mogura2_fee_wrapper.bd
 //Design      : mogura2_fee_wrapper
@@ -10,14 +10,11 @@
 `timescale 1 ps / 1 ps
 
 module mogura2_fee_wrapper
-   (C0_SYS_CLK_0_clk_n,
-    C0_SYS_CLK_0_clk_p,
-    CDCI6214_EEPROM_SEL_0,
+   (CDCI6214_EEPROM_SEL_0,
     CDCI6214_OE_0,
     CDCI6214_OPMODE_0,
     CDCI6214_REF_SEL_0,
     CDCI6214_STATUS_0,
-    DDR4_UI_CLK_LED,
     GPI_0,
     GPO_0,
     IIC_CDCI6214_0_scl_io,
@@ -36,6 +33,7 @@ module mogura2_fee_wrapper
     PL_SYSREF_clk_p,
     PL_SYSTEM_CLK_clk_n,
     PL_SYSTEM_CLK_clk_p,
+    PL_USER_CLK2_LED,
     PL_USER_CLK_LED,
     PL_USER_CLK_LOCKED_LED,
     PS_PL_CLK_LED,
@@ -70,20 +68,6 @@ module mogura2_fee_wrapper
     adc2_clk_clk_p,
     adc3_clk_clk_n,
     adc3_clk_clk_p,
-    ddr4_rtl_0_act_n,
-    ddr4_rtl_0_adr,
-    ddr4_rtl_0_ba,
-    ddr4_rtl_0_bg,
-    ddr4_rtl_0_ck_c,
-    ddr4_rtl_0_ck_t,
-    ddr4_rtl_0_cke,
-    ddr4_rtl_0_cs_n,
-    ddr4_rtl_0_dm_n,
-    ddr4_rtl_0_dq,
-    ddr4_rtl_0_dqs_c,
-    ddr4_rtl_0_dqs_t,
-    ddr4_rtl_0_odt,
-    ddr4_rtl_0_reset_n,
     sysref_in_diff_n,
     sysref_in_diff_p,
     vin00_v_n,
@@ -118,12 +102,8 @@ module mogura2_fee_wrapper
     vin32_v_p,
     vin33_v_n,
     vin33_v_p,
-    xiphy_rx_pins_0_pin0,
-    xiphy_rx_pins_0_pin1,
     xiphy_rx_pins_0_pin10,
     xiphy_rx_pins_0_pin11,
-    xiphy_rx_pins_0_pin13,
-    xiphy_rx_pins_0_pin14,
     xiphy_rx_pins_0_pin15,
     xiphy_rx_pins_0_pin16,
     xiphy_rx_pins_0_pin17,
@@ -142,15 +122,11 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_0_pin3,
     xiphy_rx_pins_0_pin30,
     xiphy_rx_pins_0_pin31,
-    xiphy_rx_pins_0_pin32,
-    xiphy_rx_pins_0_pin33,
     xiphy_rx_pins_0_pin34,
     xiphy_rx_pins_0_pin35,
     xiphy_rx_pins_0_pin36,
     xiphy_rx_pins_0_pin37,
-    xiphy_rx_pins_0_pin39,
     xiphy_rx_pins_0_pin4,
-    xiphy_rx_pins_0_pin40,
     xiphy_rx_pins_0_pin41,
     xiphy_rx_pins_0_pin42,
     xiphy_rx_pins_0_pin43,
@@ -168,12 +144,8 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_0_pin9,
     xiphy_rx_pins_1_pin0,
     xiphy_rx_pins_1_pin1,
-    xiphy_rx_pins_1_pin10,
-    xiphy_rx_pins_1_pin11,
     xiphy_rx_pins_1_pin13,
     xiphy_rx_pins_1_pin14,
-    xiphy_rx_pins_1_pin15,
-    xiphy_rx_pins_1_pin16,
     xiphy_rx_pins_1_pin17,
     xiphy_rx_pins_1_pin18,
     xiphy_rx_pins_1_pin19,
@@ -185,8 +157,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_1_pin24,
     xiphy_rx_pins_1_pin26,
     xiphy_rx_pins_1_pin27,
-    xiphy_rx_pins_1_pin28,
-    xiphy_rx_pins_1_pin29,
     xiphy_rx_pins_1_pin3,
     xiphy_rx_pins_1_pin30,
     xiphy_rx_pins_1_pin31,
@@ -199,8 +169,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_1_pin39,
     xiphy_rx_pins_1_pin4,
     xiphy_rx_pins_1_pin40,
-    xiphy_rx_pins_1_pin41,
-    xiphy_rx_pins_1_pin42,
     xiphy_rx_pins_1_pin43,
     xiphy_rx_pins_1_pin44,
     xiphy_rx_pins_1_pin45,
@@ -220,12 +188,9 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_2_pin11,
     xiphy_rx_pins_2_pin13,
     xiphy_rx_pins_2_pin14,
-    xiphy_rx_pins_2_pin15,
-    xiphy_rx_pins_2_pin16,
     xiphy_rx_pins_2_pin17,
     xiphy_rx_pins_2_pin18,
     xiphy_rx_pins_2_pin19,
-    xiphy_rx_pins_2_pin2,
     xiphy_rx_pins_2_pin20,
     xiphy_rx_pins_2_pin21,
     xiphy_rx_pins_2_pin22,
@@ -233,9 +198,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_2_pin24,
     xiphy_rx_pins_2_pin26,
     xiphy_rx_pins_2_pin27,
-    xiphy_rx_pins_2_pin28,
-    xiphy_rx_pins_2_pin29,
-    xiphy_rx_pins_2_pin3,
     xiphy_rx_pins_2_pin30,
     xiphy_rx_pins_2_pin31,
     xiphy_rx_pins_2_pin32,
@@ -247,8 +209,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_2_pin39,
     xiphy_rx_pins_2_pin4,
     xiphy_rx_pins_2_pin40,
-    xiphy_rx_pins_2_pin41,
-    xiphy_rx_pins_2_pin42,
     xiphy_rx_pins_2_pin43,
     xiphy_rx_pins_2_pin44,
     xiphy_rx_pins_2_pin45,
@@ -268,12 +228,9 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_3_pin11,
     xiphy_rx_pins_3_pin13,
     xiphy_rx_pins_3_pin14,
-    xiphy_rx_pins_3_pin15,
-    xiphy_rx_pins_3_pin16,
     xiphy_rx_pins_3_pin17,
     xiphy_rx_pins_3_pin18,
     xiphy_rx_pins_3_pin19,
-    xiphy_rx_pins_3_pin2,
     xiphy_rx_pins_3_pin20,
     xiphy_rx_pins_3_pin21,
     xiphy_rx_pins_3_pin22,
@@ -281,9 +238,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_3_pin24,
     xiphy_rx_pins_3_pin26,
     xiphy_rx_pins_3_pin27,
-    xiphy_rx_pins_3_pin28,
-    xiphy_rx_pins_3_pin29,
-    xiphy_rx_pins_3_pin3,
     xiphy_rx_pins_3_pin30,
     xiphy_rx_pins_3_pin31,
     xiphy_rx_pins_3_pin32,
@@ -295,8 +249,6 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_3_pin39,
     xiphy_rx_pins_3_pin4,
     xiphy_rx_pins_3_pin40,
-    xiphy_rx_pins_3_pin41,
-    xiphy_rx_pins_3_pin42,
     xiphy_rx_pins_3_pin43,
     xiphy_rx_pins_3_pin44,
     xiphy_rx_pins_3_pin45,
@@ -310,14 +262,11 @@ module mogura2_fee_wrapper
     xiphy_rx_pins_3_pin7,
     xiphy_rx_pins_3_pin8,
     xiphy_rx_pins_3_pin9);
-  input C0_SYS_CLK_0_clk_n;
-  input C0_SYS_CLK_0_clk_p;
   output CDCI6214_EEPROM_SEL_0;
   output CDCI6214_OE_0;
   output CDCI6214_OPMODE_0;
   output CDCI6214_REF_SEL_0;
   input CDCI6214_STATUS_0;
-  output DDR4_UI_CLK_LED;
   input [3:0]GPI_0;
   output [3:0]GPO_0;
   inout IIC_CDCI6214_0_scl_io;
@@ -336,6 +285,7 @@ module mogura2_fee_wrapper
   input [0:0]PL_SYSREF_clk_p;
   input [0:0]PL_SYSTEM_CLK_clk_n;
   input [0:0]PL_SYSTEM_CLK_clk_p;
+  output PL_USER_CLK2_LED;
   output PL_USER_CLK_LED;
   output PL_USER_CLK_LOCKED_LED;
   output PS_PL_CLK_LED;
@@ -370,20 +320,6 @@ module mogura2_fee_wrapper
   input adc2_clk_clk_p;
   input adc3_clk_clk_n;
   input adc3_clk_clk_p;
-  output ddr4_rtl_0_act_n;
-  output [16:0]ddr4_rtl_0_adr;
-  output [1:0]ddr4_rtl_0_ba;
-  output [1:0]ddr4_rtl_0_bg;
-  output [0:0]ddr4_rtl_0_ck_c;
-  output [0:0]ddr4_rtl_0_ck_t;
-  output [0:0]ddr4_rtl_0_cke;
-  output [0:0]ddr4_rtl_0_cs_n;
-  inout [3:0]ddr4_rtl_0_dm_n;
-  inout [31:0]ddr4_rtl_0_dq;
-  inout [3:0]ddr4_rtl_0_dqs_c;
-  inout [3:0]ddr4_rtl_0_dqs_t;
-  output [0:0]ddr4_rtl_0_odt;
-  output ddr4_rtl_0_reset_n;
   input sysref_in_diff_n;
   input sysref_in_diff_p;
   input vin00_v_n;
@@ -418,12 +354,8 @@ module mogura2_fee_wrapper
   input vin32_v_p;
   input vin33_v_n;
   input vin33_v_p;
-  input xiphy_rx_pins_0_pin0;
-  input xiphy_rx_pins_0_pin1;
   input xiphy_rx_pins_0_pin10;
   input xiphy_rx_pins_0_pin11;
-  input xiphy_rx_pins_0_pin13;
-  input xiphy_rx_pins_0_pin14;
   input xiphy_rx_pins_0_pin15;
   input xiphy_rx_pins_0_pin16;
   input xiphy_rx_pins_0_pin17;
@@ -442,15 +374,11 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_0_pin3;
   input xiphy_rx_pins_0_pin30;
   input xiphy_rx_pins_0_pin31;
-  input xiphy_rx_pins_0_pin32;
-  input xiphy_rx_pins_0_pin33;
   input xiphy_rx_pins_0_pin34;
   input xiphy_rx_pins_0_pin35;
   input xiphy_rx_pins_0_pin36;
   input xiphy_rx_pins_0_pin37;
-  input xiphy_rx_pins_0_pin39;
   input xiphy_rx_pins_0_pin4;
-  input xiphy_rx_pins_0_pin40;
   input xiphy_rx_pins_0_pin41;
   input xiphy_rx_pins_0_pin42;
   input xiphy_rx_pins_0_pin43;
@@ -468,12 +396,8 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_0_pin9;
   input xiphy_rx_pins_1_pin0;
   input xiphy_rx_pins_1_pin1;
-  input xiphy_rx_pins_1_pin10;
-  input xiphy_rx_pins_1_pin11;
   input xiphy_rx_pins_1_pin13;
   input xiphy_rx_pins_1_pin14;
-  input xiphy_rx_pins_1_pin15;
-  input xiphy_rx_pins_1_pin16;
   input xiphy_rx_pins_1_pin17;
   input xiphy_rx_pins_1_pin18;
   input xiphy_rx_pins_1_pin19;
@@ -485,8 +409,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_1_pin24;
   input xiphy_rx_pins_1_pin26;
   input xiphy_rx_pins_1_pin27;
-  input xiphy_rx_pins_1_pin28;
-  input xiphy_rx_pins_1_pin29;
   input xiphy_rx_pins_1_pin3;
   input xiphy_rx_pins_1_pin30;
   input xiphy_rx_pins_1_pin31;
@@ -499,8 +421,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_1_pin39;
   input xiphy_rx_pins_1_pin4;
   input xiphy_rx_pins_1_pin40;
-  input xiphy_rx_pins_1_pin41;
-  input xiphy_rx_pins_1_pin42;
   input xiphy_rx_pins_1_pin43;
   input xiphy_rx_pins_1_pin44;
   input xiphy_rx_pins_1_pin45;
@@ -520,12 +440,9 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_2_pin11;
   input xiphy_rx_pins_2_pin13;
   input xiphy_rx_pins_2_pin14;
-  input xiphy_rx_pins_2_pin15;
-  input xiphy_rx_pins_2_pin16;
   input xiphy_rx_pins_2_pin17;
   input xiphy_rx_pins_2_pin18;
   input xiphy_rx_pins_2_pin19;
-  input xiphy_rx_pins_2_pin2;
   input xiphy_rx_pins_2_pin20;
   input xiphy_rx_pins_2_pin21;
   input xiphy_rx_pins_2_pin22;
@@ -533,9 +450,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_2_pin24;
   input xiphy_rx_pins_2_pin26;
   input xiphy_rx_pins_2_pin27;
-  input xiphy_rx_pins_2_pin28;
-  input xiphy_rx_pins_2_pin29;
-  input xiphy_rx_pins_2_pin3;
   input xiphy_rx_pins_2_pin30;
   input xiphy_rx_pins_2_pin31;
   input xiphy_rx_pins_2_pin32;
@@ -547,8 +461,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_2_pin39;
   input xiphy_rx_pins_2_pin4;
   input xiphy_rx_pins_2_pin40;
-  input xiphy_rx_pins_2_pin41;
-  input xiphy_rx_pins_2_pin42;
   input xiphy_rx_pins_2_pin43;
   input xiphy_rx_pins_2_pin44;
   input xiphy_rx_pins_2_pin45;
@@ -568,12 +480,9 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_3_pin11;
   input xiphy_rx_pins_3_pin13;
   input xiphy_rx_pins_3_pin14;
-  input xiphy_rx_pins_3_pin15;
-  input xiphy_rx_pins_3_pin16;
   input xiphy_rx_pins_3_pin17;
   input xiphy_rx_pins_3_pin18;
   input xiphy_rx_pins_3_pin19;
-  input xiphy_rx_pins_3_pin2;
   input xiphy_rx_pins_3_pin20;
   input xiphy_rx_pins_3_pin21;
   input xiphy_rx_pins_3_pin22;
@@ -581,9 +490,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_3_pin24;
   input xiphy_rx_pins_3_pin26;
   input xiphy_rx_pins_3_pin27;
-  input xiphy_rx_pins_3_pin28;
-  input xiphy_rx_pins_3_pin29;
-  input xiphy_rx_pins_3_pin3;
   input xiphy_rx_pins_3_pin30;
   input xiphy_rx_pins_3_pin31;
   input xiphy_rx_pins_3_pin32;
@@ -595,8 +501,6 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_3_pin39;
   input xiphy_rx_pins_3_pin4;
   input xiphy_rx_pins_3_pin40;
-  input xiphy_rx_pins_3_pin41;
-  input xiphy_rx_pins_3_pin42;
   input xiphy_rx_pins_3_pin43;
   input xiphy_rx_pins_3_pin44;
   input xiphy_rx_pins_3_pin45;
@@ -611,14 +515,11 @@ module mogura2_fee_wrapper
   input xiphy_rx_pins_3_pin8;
   input xiphy_rx_pins_3_pin9;
 
-  wire C0_SYS_CLK_0_clk_n;
-  wire C0_SYS_CLK_0_clk_p;
   wire CDCI6214_EEPROM_SEL_0;
   wire CDCI6214_OE_0;
   wire CDCI6214_OPMODE_0;
   wire CDCI6214_REF_SEL_0;
   wire CDCI6214_STATUS_0;
-  wire DDR4_UI_CLK_LED;
   wire [3:0]GPI_0;
   wire [3:0]GPO_0;
   wire IIC_CDCI6214_0_scl_io;
@@ -649,6 +550,7 @@ module mogura2_fee_wrapper
   wire [0:0]PL_SYSREF_clk_p;
   wire [0:0]PL_SYSTEM_CLK_clk_n;
   wire [0:0]PL_SYSTEM_CLK_clk_p;
+  wire PL_USER_CLK2_LED;
   wire PL_USER_CLK_LED;
   wire PL_USER_CLK_LOCKED_LED;
   wire PS_PL_CLK_LED;
@@ -695,20 +597,6 @@ module mogura2_fee_wrapper
   wire adc2_clk_clk_p;
   wire adc3_clk_clk_n;
   wire adc3_clk_clk_p;
-  wire ddr4_rtl_0_act_n;
-  wire [16:0]ddr4_rtl_0_adr;
-  wire [1:0]ddr4_rtl_0_ba;
-  wire [1:0]ddr4_rtl_0_bg;
-  wire [0:0]ddr4_rtl_0_ck_c;
-  wire [0:0]ddr4_rtl_0_ck_t;
-  wire [0:0]ddr4_rtl_0_cke;
-  wire [0:0]ddr4_rtl_0_cs_n;
-  wire [3:0]ddr4_rtl_0_dm_n;
-  wire [31:0]ddr4_rtl_0_dq;
-  wire [3:0]ddr4_rtl_0_dqs_c;
-  wire [3:0]ddr4_rtl_0_dqs_t;
-  wire [0:0]ddr4_rtl_0_odt;
-  wire ddr4_rtl_0_reset_n;
   wire sysref_in_diff_n;
   wire sysref_in_diff_p;
   wire vin00_v_n;
@@ -743,12 +631,8 @@ module mogura2_fee_wrapper
   wire vin32_v_p;
   wire vin33_v_n;
   wire vin33_v_p;
-  wire xiphy_rx_pins_0_pin0;
-  wire xiphy_rx_pins_0_pin1;
   wire xiphy_rx_pins_0_pin10;
   wire xiphy_rx_pins_0_pin11;
-  wire xiphy_rx_pins_0_pin13;
-  wire xiphy_rx_pins_0_pin14;
   wire xiphy_rx_pins_0_pin15;
   wire xiphy_rx_pins_0_pin16;
   wire xiphy_rx_pins_0_pin17;
@@ -767,15 +651,11 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_0_pin3;
   wire xiphy_rx_pins_0_pin30;
   wire xiphy_rx_pins_0_pin31;
-  wire xiphy_rx_pins_0_pin32;
-  wire xiphy_rx_pins_0_pin33;
   wire xiphy_rx_pins_0_pin34;
   wire xiphy_rx_pins_0_pin35;
   wire xiphy_rx_pins_0_pin36;
   wire xiphy_rx_pins_0_pin37;
-  wire xiphy_rx_pins_0_pin39;
   wire xiphy_rx_pins_0_pin4;
-  wire xiphy_rx_pins_0_pin40;
   wire xiphy_rx_pins_0_pin41;
   wire xiphy_rx_pins_0_pin42;
   wire xiphy_rx_pins_0_pin43;
@@ -793,12 +673,8 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_0_pin9;
   wire xiphy_rx_pins_1_pin0;
   wire xiphy_rx_pins_1_pin1;
-  wire xiphy_rx_pins_1_pin10;
-  wire xiphy_rx_pins_1_pin11;
   wire xiphy_rx_pins_1_pin13;
   wire xiphy_rx_pins_1_pin14;
-  wire xiphy_rx_pins_1_pin15;
-  wire xiphy_rx_pins_1_pin16;
   wire xiphy_rx_pins_1_pin17;
   wire xiphy_rx_pins_1_pin18;
   wire xiphy_rx_pins_1_pin19;
@@ -810,8 +686,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_1_pin24;
   wire xiphy_rx_pins_1_pin26;
   wire xiphy_rx_pins_1_pin27;
-  wire xiphy_rx_pins_1_pin28;
-  wire xiphy_rx_pins_1_pin29;
   wire xiphy_rx_pins_1_pin3;
   wire xiphy_rx_pins_1_pin30;
   wire xiphy_rx_pins_1_pin31;
@@ -824,8 +698,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_1_pin39;
   wire xiphy_rx_pins_1_pin4;
   wire xiphy_rx_pins_1_pin40;
-  wire xiphy_rx_pins_1_pin41;
-  wire xiphy_rx_pins_1_pin42;
   wire xiphy_rx_pins_1_pin43;
   wire xiphy_rx_pins_1_pin44;
   wire xiphy_rx_pins_1_pin45;
@@ -845,12 +717,9 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_2_pin11;
   wire xiphy_rx_pins_2_pin13;
   wire xiphy_rx_pins_2_pin14;
-  wire xiphy_rx_pins_2_pin15;
-  wire xiphy_rx_pins_2_pin16;
   wire xiphy_rx_pins_2_pin17;
   wire xiphy_rx_pins_2_pin18;
   wire xiphy_rx_pins_2_pin19;
-  wire xiphy_rx_pins_2_pin2;
   wire xiphy_rx_pins_2_pin20;
   wire xiphy_rx_pins_2_pin21;
   wire xiphy_rx_pins_2_pin22;
@@ -858,9 +727,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_2_pin24;
   wire xiphy_rx_pins_2_pin26;
   wire xiphy_rx_pins_2_pin27;
-  wire xiphy_rx_pins_2_pin28;
-  wire xiphy_rx_pins_2_pin29;
-  wire xiphy_rx_pins_2_pin3;
   wire xiphy_rx_pins_2_pin30;
   wire xiphy_rx_pins_2_pin31;
   wire xiphy_rx_pins_2_pin32;
@@ -872,8 +738,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_2_pin39;
   wire xiphy_rx_pins_2_pin4;
   wire xiphy_rx_pins_2_pin40;
-  wire xiphy_rx_pins_2_pin41;
-  wire xiphy_rx_pins_2_pin42;
   wire xiphy_rx_pins_2_pin43;
   wire xiphy_rx_pins_2_pin44;
   wire xiphy_rx_pins_2_pin45;
@@ -893,12 +757,9 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_3_pin11;
   wire xiphy_rx_pins_3_pin13;
   wire xiphy_rx_pins_3_pin14;
-  wire xiphy_rx_pins_3_pin15;
-  wire xiphy_rx_pins_3_pin16;
   wire xiphy_rx_pins_3_pin17;
   wire xiphy_rx_pins_3_pin18;
   wire xiphy_rx_pins_3_pin19;
-  wire xiphy_rx_pins_3_pin2;
   wire xiphy_rx_pins_3_pin20;
   wire xiphy_rx_pins_3_pin21;
   wire xiphy_rx_pins_3_pin22;
@@ -906,9 +767,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_3_pin24;
   wire xiphy_rx_pins_3_pin26;
   wire xiphy_rx_pins_3_pin27;
-  wire xiphy_rx_pins_3_pin28;
-  wire xiphy_rx_pins_3_pin29;
-  wire xiphy_rx_pins_3_pin3;
   wire xiphy_rx_pins_3_pin30;
   wire xiphy_rx_pins_3_pin31;
   wire xiphy_rx_pins_3_pin32;
@@ -920,8 +778,6 @@ module mogura2_fee_wrapper
   wire xiphy_rx_pins_3_pin39;
   wire xiphy_rx_pins_3_pin4;
   wire xiphy_rx_pins_3_pin40;
-  wire xiphy_rx_pins_3_pin41;
-  wire xiphy_rx_pins_3_pin42;
   wire xiphy_rx_pins_3_pin43;
   wire xiphy_rx_pins_3_pin44;
   wire xiphy_rx_pins_3_pin45;
@@ -977,14 +833,11 @@ module mogura2_fee_wrapper
         .O(SPI_BASEDAC_0_ss_i_0),
         .T(SPI_BASEDAC_0_ss_t));
   mogura2_fee mogura2_fee_i
-       (.C0_SYS_CLK_0_clk_n(C0_SYS_CLK_0_clk_n),
-        .C0_SYS_CLK_0_clk_p(C0_SYS_CLK_0_clk_p),
-        .CDCI6214_EEPROM_SEL_0(CDCI6214_EEPROM_SEL_0),
+       (.CDCI6214_EEPROM_SEL_0(CDCI6214_EEPROM_SEL_0),
         .CDCI6214_OE_0(CDCI6214_OE_0),
         .CDCI6214_OPMODE_0(CDCI6214_OPMODE_0),
         .CDCI6214_REF_SEL_0(CDCI6214_REF_SEL_0),
         .CDCI6214_STATUS_0(CDCI6214_STATUS_0),
-        .DDR4_UI_CLK_LED(DDR4_UI_CLK_LED),
         .GPI_0(GPI_0),
         .GPO_0(GPO_0),
         .IIC_CDCI6214_0_scl_io(IIC_CDCI6214_0_scl_io),
@@ -1011,6 +864,7 @@ module mogura2_fee_wrapper
         .PL_SYSREF_clk_p(PL_SYSREF_clk_p),
         .PL_SYSTEM_CLK_clk_n(PL_SYSTEM_CLK_clk_n),
         .PL_SYSTEM_CLK_clk_p(PL_SYSTEM_CLK_clk_p),
+        .PL_USER_CLK2_LED(PL_USER_CLK2_LED),
         .PL_USER_CLK_LED(PL_USER_CLK_LED),
         .PL_USER_CLK_LOCKED_LED(PL_USER_CLK_LOCKED_LED),
         .PS_PL_CLK_LED(PS_PL_CLK_LED),
@@ -1053,20 +907,6 @@ module mogura2_fee_wrapper
         .adc2_clk_clk_p(adc2_clk_clk_p),
         .adc3_clk_clk_n(adc3_clk_clk_n),
         .adc3_clk_clk_p(adc3_clk_clk_p),
-        .ddr4_rtl_0_act_n(ddr4_rtl_0_act_n),
-        .ddr4_rtl_0_adr(ddr4_rtl_0_adr),
-        .ddr4_rtl_0_ba(ddr4_rtl_0_ba),
-        .ddr4_rtl_0_bg(ddr4_rtl_0_bg),
-        .ddr4_rtl_0_ck_c(ddr4_rtl_0_ck_c),
-        .ddr4_rtl_0_ck_t(ddr4_rtl_0_ck_t),
-        .ddr4_rtl_0_cke(ddr4_rtl_0_cke),
-        .ddr4_rtl_0_cs_n(ddr4_rtl_0_cs_n),
-        .ddr4_rtl_0_dm_n(ddr4_rtl_0_dm_n),
-        .ddr4_rtl_0_dq(ddr4_rtl_0_dq),
-        .ddr4_rtl_0_dqs_c(ddr4_rtl_0_dqs_c),
-        .ddr4_rtl_0_dqs_t(ddr4_rtl_0_dqs_t),
-        .ddr4_rtl_0_odt(ddr4_rtl_0_odt),
-        .ddr4_rtl_0_reset_n(ddr4_rtl_0_reset_n),
         .sysref_in_diff_n(sysref_in_diff_n),
         .sysref_in_diff_p(sysref_in_diff_p),
         .vin00_v_n(vin00_v_n),
@@ -1101,12 +941,8 @@ module mogura2_fee_wrapper
         .vin32_v_p(vin32_v_p),
         .vin33_v_n(vin33_v_n),
         .vin33_v_p(vin33_v_p),
-        .xiphy_rx_pins_0_pin0(xiphy_rx_pins_0_pin0),
-        .xiphy_rx_pins_0_pin1(xiphy_rx_pins_0_pin1),
         .xiphy_rx_pins_0_pin10(xiphy_rx_pins_0_pin10),
         .xiphy_rx_pins_0_pin11(xiphy_rx_pins_0_pin11),
-        .xiphy_rx_pins_0_pin13(xiphy_rx_pins_0_pin13),
-        .xiphy_rx_pins_0_pin14(xiphy_rx_pins_0_pin14),
         .xiphy_rx_pins_0_pin15(xiphy_rx_pins_0_pin15),
         .xiphy_rx_pins_0_pin16(xiphy_rx_pins_0_pin16),
         .xiphy_rx_pins_0_pin17(xiphy_rx_pins_0_pin17),
@@ -1125,15 +961,11 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_0_pin3(xiphy_rx_pins_0_pin3),
         .xiphy_rx_pins_0_pin30(xiphy_rx_pins_0_pin30),
         .xiphy_rx_pins_0_pin31(xiphy_rx_pins_0_pin31),
-        .xiphy_rx_pins_0_pin32(xiphy_rx_pins_0_pin32),
-        .xiphy_rx_pins_0_pin33(xiphy_rx_pins_0_pin33),
         .xiphy_rx_pins_0_pin34(xiphy_rx_pins_0_pin34),
         .xiphy_rx_pins_0_pin35(xiphy_rx_pins_0_pin35),
         .xiphy_rx_pins_0_pin36(xiphy_rx_pins_0_pin36),
         .xiphy_rx_pins_0_pin37(xiphy_rx_pins_0_pin37),
-        .xiphy_rx_pins_0_pin39(xiphy_rx_pins_0_pin39),
         .xiphy_rx_pins_0_pin4(xiphy_rx_pins_0_pin4),
-        .xiphy_rx_pins_0_pin40(xiphy_rx_pins_0_pin40),
         .xiphy_rx_pins_0_pin41(xiphy_rx_pins_0_pin41),
         .xiphy_rx_pins_0_pin42(xiphy_rx_pins_0_pin42),
         .xiphy_rx_pins_0_pin43(xiphy_rx_pins_0_pin43),
@@ -1151,12 +983,8 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_0_pin9(xiphy_rx_pins_0_pin9),
         .xiphy_rx_pins_1_pin0(xiphy_rx_pins_1_pin0),
         .xiphy_rx_pins_1_pin1(xiphy_rx_pins_1_pin1),
-        .xiphy_rx_pins_1_pin10(xiphy_rx_pins_1_pin10),
-        .xiphy_rx_pins_1_pin11(xiphy_rx_pins_1_pin11),
         .xiphy_rx_pins_1_pin13(xiphy_rx_pins_1_pin13),
         .xiphy_rx_pins_1_pin14(xiphy_rx_pins_1_pin14),
-        .xiphy_rx_pins_1_pin15(xiphy_rx_pins_1_pin15),
-        .xiphy_rx_pins_1_pin16(xiphy_rx_pins_1_pin16),
         .xiphy_rx_pins_1_pin17(xiphy_rx_pins_1_pin17),
         .xiphy_rx_pins_1_pin18(xiphy_rx_pins_1_pin18),
         .xiphy_rx_pins_1_pin19(xiphy_rx_pins_1_pin19),
@@ -1168,8 +996,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_1_pin24(xiphy_rx_pins_1_pin24),
         .xiphy_rx_pins_1_pin26(xiphy_rx_pins_1_pin26),
         .xiphy_rx_pins_1_pin27(xiphy_rx_pins_1_pin27),
-        .xiphy_rx_pins_1_pin28(xiphy_rx_pins_1_pin28),
-        .xiphy_rx_pins_1_pin29(xiphy_rx_pins_1_pin29),
         .xiphy_rx_pins_1_pin3(xiphy_rx_pins_1_pin3),
         .xiphy_rx_pins_1_pin30(xiphy_rx_pins_1_pin30),
         .xiphy_rx_pins_1_pin31(xiphy_rx_pins_1_pin31),
@@ -1182,8 +1008,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_1_pin39(xiphy_rx_pins_1_pin39),
         .xiphy_rx_pins_1_pin4(xiphy_rx_pins_1_pin4),
         .xiphy_rx_pins_1_pin40(xiphy_rx_pins_1_pin40),
-        .xiphy_rx_pins_1_pin41(xiphy_rx_pins_1_pin41),
-        .xiphy_rx_pins_1_pin42(xiphy_rx_pins_1_pin42),
         .xiphy_rx_pins_1_pin43(xiphy_rx_pins_1_pin43),
         .xiphy_rx_pins_1_pin44(xiphy_rx_pins_1_pin44),
         .xiphy_rx_pins_1_pin45(xiphy_rx_pins_1_pin45),
@@ -1203,12 +1027,9 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_2_pin11(xiphy_rx_pins_2_pin11),
         .xiphy_rx_pins_2_pin13(xiphy_rx_pins_2_pin13),
         .xiphy_rx_pins_2_pin14(xiphy_rx_pins_2_pin14),
-        .xiphy_rx_pins_2_pin15(xiphy_rx_pins_2_pin15),
-        .xiphy_rx_pins_2_pin16(xiphy_rx_pins_2_pin16),
         .xiphy_rx_pins_2_pin17(xiphy_rx_pins_2_pin17),
         .xiphy_rx_pins_2_pin18(xiphy_rx_pins_2_pin18),
         .xiphy_rx_pins_2_pin19(xiphy_rx_pins_2_pin19),
-        .xiphy_rx_pins_2_pin2(xiphy_rx_pins_2_pin2),
         .xiphy_rx_pins_2_pin20(xiphy_rx_pins_2_pin20),
         .xiphy_rx_pins_2_pin21(xiphy_rx_pins_2_pin21),
         .xiphy_rx_pins_2_pin22(xiphy_rx_pins_2_pin22),
@@ -1216,9 +1037,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_2_pin24(xiphy_rx_pins_2_pin24),
         .xiphy_rx_pins_2_pin26(xiphy_rx_pins_2_pin26),
         .xiphy_rx_pins_2_pin27(xiphy_rx_pins_2_pin27),
-        .xiphy_rx_pins_2_pin28(xiphy_rx_pins_2_pin28),
-        .xiphy_rx_pins_2_pin29(xiphy_rx_pins_2_pin29),
-        .xiphy_rx_pins_2_pin3(xiphy_rx_pins_2_pin3),
         .xiphy_rx_pins_2_pin30(xiphy_rx_pins_2_pin30),
         .xiphy_rx_pins_2_pin31(xiphy_rx_pins_2_pin31),
         .xiphy_rx_pins_2_pin32(xiphy_rx_pins_2_pin32),
@@ -1230,8 +1048,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_2_pin39(xiphy_rx_pins_2_pin39),
         .xiphy_rx_pins_2_pin4(xiphy_rx_pins_2_pin4),
         .xiphy_rx_pins_2_pin40(xiphy_rx_pins_2_pin40),
-        .xiphy_rx_pins_2_pin41(xiphy_rx_pins_2_pin41),
-        .xiphy_rx_pins_2_pin42(xiphy_rx_pins_2_pin42),
         .xiphy_rx_pins_2_pin43(xiphy_rx_pins_2_pin43),
         .xiphy_rx_pins_2_pin44(xiphy_rx_pins_2_pin44),
         .xiphy_rx_pins_2_pin45(xiphy_rx_pins_2_pin45),
@@ -1251,12 +1067,9 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_3_pin11(xiphy_rx_pins_3_pin11),
         .xiphy_rx_pins_3_pin13(xiphy_rx_pins_3_pin13),
         .xiphy_rx_pins_3_pin14(xiphy_rx_pins_3_pin14),
-        .xiphy_rx_pins_3_pin15(xiphy_rx_pins_3_pin15),
-        .xiphy_rx_pins_3_pin16(xiphy_rx_pins_3_pin16),
         .xiphy_rx_pins_3_pin17(xiphy_rx_pins_3_pin17),
         .xiphy_rx_pins_3_pin18(xiphy_rx_pins_3_pin18),
         .xiphy_rx_pins_3_pin19(xiphy_rx_pins_3_pin19),
-        .xiphy_rx_pins_3_pin2(xiphy_rx_pins_3_pin2),
         .xiphy_rx_pins_3_pin20(xiphy_rx_pins_3_pin20),
         .xiphy_rx_pins_3_pin21(xiphy_rx_pins_3_pin21),
         .xiphy_rx_pins_3_pin22(xiphy_rx_pins_3_pin22),
@@ -1264,9 +1077,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_3_pin24(xiphy_rx_pins_3_pin24),
         .xiphy_rx_pins_3_pin26(xiphy_rx_pins_3_pin26),
         .xiphy_rx_pins_3_pin27(xiphy_rx_pins_3_pin27),
-        .xiphy_rx_pins_3_pin28(xiphy_rx_pins_3_pin28),
-        .xiphy_rx_pins_3_pin29(xiphy_rx_pins_3_pin29),
-        .xiphy_rx_pins_3_pin3(xiphy_rx_pins_3_pin3),
         .xiphy_rx_pins_3_pin30(xiphy_rx_pins_3_pin30),
         .xiphy_rx_pins_3_pin31(xiphy_rx_pins_3_pin31),
         .xiphy_rx_pins_3_pin32(xiphy_rx_pins_3_pin32),
@@ -1278,8 +1088,6 @@ module mogura2_fee_wrapper
         .xiphy_rx_pins_3_pin39(xiphy_rx_pins_3_pin39),
         .xiphy_rx_pins_3_pin4(xiphy_rx_pins_3_pin4),
         .xiphy_rx_pins_3_pin40(xiphy_rx_pins_3_pin40),
-        .xiphy_rx_pins_3_pin41(xiphy_rx_pins_3_pin41),
-        .xiphy_rx_pins_3_pin42(xiphy_rx_pins_3_pin42),
         .xiphy_rx_pins_3_pin43(xiphy_rx_pins_3_pin43),
         .xiphy_rx_pins_3_pin44(xiphy_rx_pins_3_pin44),
         .xiphy_rx_pins_3_pin45(xiphy_rx_pins_3_pin45),

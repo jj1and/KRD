@@ -135,5 +135,5 @@ XilinxSDK_project/Kam2FEE_ZCU111_RR
 project_tcl/MoGURA2_PROTOTYPE/MoGURA2_FEE_vivado2019_2/
 XilinxSDK_project/MoGURA2_FEE/DDR4_test
 XilinxSDK_project/MoGURA2_FEE/DDR4_test_bsp
-XilinxSDK_project/Kam2FEE_ZCU111/DDR4_test
-XilinxSDK_project/Kam2FEE_ZCU111/DDR4_test_bsp
+XilinxSDK_project/Kam2FEE_ZCU111/lwip_echo_sample
+XilinxSDK_project/Kam2FEE_ZCU111/lwip_echo_sample_bsp
