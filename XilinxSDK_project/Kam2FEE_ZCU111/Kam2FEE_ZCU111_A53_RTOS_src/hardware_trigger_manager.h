@@ -24,6 +24,9 @@
 #define INTERNAL_BUFFER_FULL 3
 #define LAST_FRAME 2
 
+#define FEE_RUNNING 0
+#define FEE_STOPPED 1
+
 typedef struct Channel_Config {
     int channel;
     u32 AcquireMode;
@@ -42,14 +45,11 @@ typedef struct TriggerManager_Config {
     Channel_Config *ChanelConfigs;
 } TriggerManager_Config;
 
-XGpio Gpio_mode_switch_thre;
-Channel_Config ch_config_array[3];
-TriggerManager_Config fee;
-
 int checkData(u64 *dataptr, TriggerManager_Config fee_config, int print_enable, u64 *rcvd_frame_length);
 int SetSwitchThreshold(short int upper_threshold, short int lower_threshold);
 int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config TriggerManagerConfig);
 int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId);
 int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId);
+int getFeeState();
 
 #endif

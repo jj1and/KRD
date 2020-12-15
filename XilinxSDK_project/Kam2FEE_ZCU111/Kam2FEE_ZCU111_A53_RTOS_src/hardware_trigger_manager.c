@@ -1,11 +1,14 @@
 #include "hardware_trigger_manager.h"
 
 #include "trigger_configrator_driver/trigger_configrator.h"
-#include "xil_printf.h"
 #include "xil_cache.h"
+#include "xil_printf.h"
 #include "xstatus.h"
 
 #define FEE_DEBUG
+
+static XGpio Gpio_mode_switch_thre;
+static int fee_state_flag = FEE_STOPPED;
 
 u32 reverse_byte(u32 data) {
     u32 rdata = 0x00000000;
@@ -210,6 +213,7 @@ int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId) {
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
+    fee_state_flag = FEE_RUNNING;
     return Trigger_Start(CfgPtr);
 }
 
@@ -218,5 +222,10 @@ int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId) {
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
+    fee_state_flag = FEE_STOPPED;
     return Trigger_Stop(CfgPtr);
+}
+
+int getFeeState() {
+    return fee_state_flag;
 }
