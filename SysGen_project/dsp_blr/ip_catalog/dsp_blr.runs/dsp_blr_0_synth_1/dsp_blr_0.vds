@@ -1,0 +1,1419 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Tue Dec 15 13:34:03 2020
+# Process ID: 7352
+# Current directory: C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1
+# Command line: vivado.exe -log dsp_blr_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source dsp_blr_0.tcl
+# Log file: C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dsp_blr_0.vds
+# Journal file: C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source dsp_blr_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip'.
+WARNING: [IP_Flow 19-3656] If you move the project, the path for repository 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip' may become invalid. A better location for the repository would be in a path adjacent to the project. (Current project location is 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1'.)
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+Command: synth_design -top dsp_blr_0 -part xczu29dr-ffvf1760-1-e -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu29dr'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu29dr'
+INFO: [Device 21-403] Loading part xczu29dr-ffvf1760-1-e
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 8348 
+load diablo GTM unisim library
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1455.941 ; gain = 177.910
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/synth/dsp_blr_0.v:57]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:5575]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_default_clock_driver' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:5553]
+INFO: [Synth 8-6157] synthesizing module 'xlclockdriver' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/xlclockdriver_rd.v:22]
+	Parameter log_2_period bound to: 32'sb00000000000000000000000000000001 
+	Parameter period bound to: 32'sb00000000000000000000000000000001 
+	Parameter use_bufg bound to: 0 - type: integer 
+	Parameter pipeline_regs bound to: 32'sb00000000000000000000000000000101 
+	Parameter max_pipeline_regs bound to: 32'sb00000000000000000000000000001000 
+	Parameter num_pipeline_regs bound to: 32'sb00000000000000000000000000000101 
+	Parameter factor bound to: 32'sb00000000000000000000000000000101 
+	Parameter rem_pipeline_regs bound to: 32'sb00000000000000000000000000000001 
+	Parameter trunc_period bound to: 1'b1 
+	Parameter period_floor bound to: 32'sb00000000000000000000000000000010 
+	Parameter power_of_2_counter bound to: 32'sb00000000000000000000000000000001 
+	Parameter cnt_width bound to: 32'sb00000000000000000000000000000001 
+	Parameter clk_for_ce_pulse_minus1 bound to: 1'b0 
+	Parameter clk_for_ce_pulse_minus2 bound to: 1'b0 
+	Parameter clk_for_ce_pulse_minus_regs bound to: 1'b0 
+INFO: [Synth 8-6157] synthesizing module 'synth_reg_w_init' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg_w_init.v:3]
+	Parameter width bound to: 1 - type: integer 
+	Parameter init_index bound to: 0 - type: integer 
+	Parameter init_value bound to: 1'b0 
+	Parameter latency bound to: 1 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'single_reg_w_init' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg_w_init.v:45]
+	Parameter width bound to: 1 - type: integer 
+	Parameter init_index bound to: 0 - type: integer 
+	Parameter init_value bound to: 1'b0 
+	Parameter init_index_val bound to: 1'b0 
+	Parameter result bound to: 1'b0 
+	Parameter init_const bound to: 1'b0 
+INFO: [Synth 8-6157] synthesizing module 'FDRE' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:13664]
+	Parameter INIT bound to: 1'b0 
+	Parameter IS_C_INVERTED bound to: 1'b0 
+	Parameter IS_D_INVERTED bound to: 1'b0 
+	Parameter IS_R_INVERTED bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'FDRE' (1#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:13664]
+INFO: [Synth 8-6155] done synthesizing module 'single_reg_w_init' (2#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg_w_init.v:45]
+INFO: [Synth 8-6155] done synthesizing module 'synth_reg_w_init' (3#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg_w_init.v:3]
+WARNING: [Synth 8-6014] Unused sequential element clk_num_reg was removed.  [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/xlclockdriver_rd.v:79]
+INFO: [Synth 8-6155] done synthesizing module 'xlclockdriver' (4#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/xlclockdriver_rd.v:22]
+WARNING: [Synth 8-7023] instance 'clockdriver' of module 'xlclockdriver' has 7 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:5564]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_default_clock_driver' (5#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:5553]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_struct' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:5345]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_dsp_vector2scalar' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:162]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector2scalar' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sysgen_concat_f7ce000933' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:63]
+INFO: [Synth 8-6155] done synthesizing module 'sysgen_concat_f7ce000933' (6#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:63]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector2scalar' (7#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:7]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_reinterpret2unsigned_x0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:53]
+INFO: [Synth 8-6157] synthesizing module 'sysgen_reinterpret_ca9e5fad1e' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:97]
+INFO: [Synth 8-6155] done synthesizing module 'sysgen_reinterpret_ca9e5fad1e' (8#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:97]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_reinterpret2unsigned_x0' (9#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:53]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_dsp_vector2scalar' (10#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:162]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_dsp_delay' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:231]
+INFO: [Synth 8-6157] synthesizing module 'sysgen_delay_57402732a5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:110]
+	Parameter const_value bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'sysgen_delay_57402732a5' (11#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:110]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_dsp_delay' (12#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:231]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_hgain_vector2scalar' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:495]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector2scalar_x0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:340]
+INFO: [Synth 8-6157] synthesizing module 'sysgen_concat_b7528356df' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:122]
+INFO: [Synth 8-6155] done synthesizing module 'sysgen_concat_b7528356df' (13#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:122]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector2scalar_x0' (14#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:340]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_reinterpret2unsigned' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:386]
+INFO: [Synth 8-6157] synthesizing module 'sysgen_reinterpret_30c4f27b83' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:156]
+INFO: [Synth 8-6155] done synthesizing module 'sysgen_reinterpret_30c4f27b83' (15#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:156]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_reinterpret2unsigned' (16#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:386]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_hgain_vector2scalar' (17#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:495]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_hgain_delay' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:564]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_hgain_delay' (18#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:564]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_scalar2vector' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:673]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 15 - type: integer 
+	Parameter new_lsb bound to: 0 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 31 - type: integer 
+	Parameter new_lsb bound to: 16 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized0' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 47 - type: integer 
+	Parameter new_lsb bound to: 32 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized1' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 63 - type: integer 
+	Parameter new_lsb bound to: 48 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized2' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 79 - type: integer 
+	Parameter new_lsb bound to: 64 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized3' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized4' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 95 - type: integer 
+	Parameter new_lsb bound to: 80 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized4' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 111 - type: integer 
+	Parameter new_lsb bound to: 96 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized5' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xlslice__parameterized6' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+	Parameter new_msb bound to: 127 - type: integer 
+	Parameter new_lsb bound to: 112 - type: integer 
+	Parameter x_width bound to: 128 - type: integer 
+	Parameter y_width bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xlslice__parameterized6' (19#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:170]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_scalar2vector' (20#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:673]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_subsystem' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:4675]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:785]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xladdsub' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+	Parameter core_name0 bound to: dsp_blr_c_addsub_v12_0_i0 - type: string 
+	Parameter a_width bound to: 16 - type: integer 
+	Parameter a_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter a_arith bound to: 2 - type: integer 
+	Parameter c_in_width bound to: 16 - type: integer 
+	Parameter c_in_bin_pt bound to: 4 - type: integer 
+	Parameter c_in_arith bound to: 1 - type: integer 
+	Parameter c_out_width bound to: 16 - type: integer 
+	Parameter c_out_bin_pt bound to: 4 - type: integer 
+	Parameter c_out_arith bound to: 1 - type: integer 
+	Parameter b_width bound to: 19 - type: integer 
+	Parameter b_bin_pt bound to: 32'sb00000000000000000000000000000111 
+	Parameter b_arith bound to: 2 - type: integer 
+	Parameter s_width bound to: 20 - type: integer 
+	Parameter s_bin_pt bound to: 7 - type: integer 
+	Parameter s_arith bound to: 2 - type: integer 
+	Parameter rst_width bound to: 1 - type: integer 
+	Parameter rst_bin_pt bound to: 0 - type: integer 
+	Parameter rst_arith bound to: 1 - type: integer 
+	Parameter en_width bound to: 1 - type: integer 
+	Parameter en_bin_pt bound to: 0 - type: integer 
+	Parameter en_arith bound to: 1 - type: integer 
+	Parameter full_s_width bound to: 20 - type: integer 
+	Parameter full_s_arith bound to: 2 - type: integer 
+	Parameter mode bound to: 1 - type: integer 
+	Parameter extra_registers bound to: 0 - type: integer 
+	Parameter latency bound to: 0 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter c_a_width bound to: 16 - type: integer 
+	Parameter c_b_width bound to: 8 - type: integer 
+	Parameter c_a_type bound to: 1 - type: integer 
+	Parameter c_b_type bound to: 1 - type: integer 
+	Parameter c_has_sclr bound to: 0 - type: integer 
+	Parameter c_has_ce bound to: 0 - type: integer 
+	Parameter c_latency bound to: 0 - type: integer 
+	Parameter c_output_width bound to: 20 - type: integer 
+	Parameter c_enable_rlocs bound to: 1 - type: integer 
+	Parameter c_has_c_in bound to: 0 - type: integer 
+	Parameter c_has_c_out bound to: 0 - type: integer 
+	Parameter full_a_width bound to: 20 - type: integer 
+	Parameter full_b_width bound to: 20 - type: integer 
+	Parameter full_s_bin_pt bound to: 7 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'dsp_blr_c_addsub_v12_0_i0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/synth/dsp_blr_c_addsub_v12_0_i0.vhd:67]
+	Parameter C_VERBOSITY bound to: 0 - type: integer 
+	Parameter C_XDEVICEFAMILY bound to: zynquplus - type: string 
+	Parameter C_IMPLEMENTATION bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 20 - type: integer 
+	Parameter C_B_WIDTH bound to: 20 - type: integer 
+	Parameter C_OUT_WIDTH bound to: 20 - type: integer 
+	Parameter C_CE_OVERRIDES_SCLR bound to: 0 - type: integer 
+	Parameter C_A_TYPE bound to: 0 - type: integer 
+	Parameter C_B_TYPE bound to: 0 - type: integer 
+	Parameter C_LATENCY bound to: 0 - type: integer 
+	Parameter C_ADD_MODE bound to: 1 - type: integer 
+	Parameter C_B_CONSTANT bound to: 0 - type: integer 
+	Parameter C_B_VALUE bound to: 00000000000000000000 - type: string 
+	Parameter C_AINIT_VAL bound to: 0 - type: string 
+	Parameter C_SINIT_VAL bound to: 0 - type: string 
+	Parameter C_CE_OVERRIDES_BYPASS bound to: 1 - type: integer 
+	Parameter C_BYPASS_LOW bound to: 0 - type: integer 
+	Parameter C_SCLR_OVERRIDES_SSET bound to: 1 - type: integer 
+	Parameter C_HAS_C_IN bound to: 0 - type: integer 
+	Parameter C_HAS_C_OUT bound to: 0 - type: integer 
+	Parameter C_BORROW_LOW bound to: 1 - type: integer 
+	Parameter C_HAS_CE bound to: 0 - type: integer 
+	Parameter C_HAS_BYPASS bound to: 0 - type: integer 
+	Parameter C_HAS_SCLR bound to: 0 - type: integer 
+	Parameter C_HAS_SSET bound to: 0 - type: integer 
+	Parameter C_HAS_SINIT bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'c_addsub_v12_0_13' declared at 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/hdl/c_addsub_v12_0_vh_rfs.vhd:7026' bound to instance 'U0' of component 'c_addsub_v12_0_13' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/synth/dsp_blr_c_addsub_v12_0_i0.vhd:130]
+INFO: [Synth 8-256] done synthesizing module 'dsp_blr_c_addsub_v12_0_i0' (26#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/synth/dsp_blr_c_addsub_v12_0_i0.vhd:67]
+INFO: [Synth 8-6157] synthesizing module 'align_input' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+	Parameter old_width bound to: 16 - type: integer 
+	Parameter delta bound to: 32'sb00000000000000000000000000000011 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter abs_delta bound to: 32'sb00000000000000000000000000000011 
+INFO: [Synth 8-6157] synthesizing module 'pad_lsb' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:158]
+	Parameter orig_width bound to: 16 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter pad_pos bound to: 32'sb00000000000000000000000000000010 
+INFO: [Synth 8-6155] done synthesizing module 'pad_lsb' (27#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:158]
+INFO: [Synth 8-6157] synthesizing module 'extend_msb' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_width bound to: 20 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext' (28#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb' (29#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'align_input' (30#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+INFO: [Synth 8-6157] synthesizing module 'align_input__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+	Parameter old_width bound to: 19 - type: integer 
+	Parameter delta bound to: 32'sb11111111111111111111111111111101 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter abs_delta bound to: 32'sb00000000000000000000000000000011 
+INFO: [Synth 8-6155] done synthesizing module 'align_input__parameterized0' (30#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+INFO: [Synth 8-6157] synthesizing module 'convert_type' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+	Parameter old_width bound to: 20 - type: integer 
+	Parameter old_bin_pt bound to: 7 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter new_bin_pt bound to: 7 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter fp_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter fp_bin_pt bound to: 7 - type: integer 
+	Parameter fp_arith bound to: 2 - type: integer 
+	Parameter q_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter q_bin_pt bound to: 7 - type: integer 
+	Parameter q_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'trunc' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter old_bin_pt bound to: 7 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter new_bin_pt bound to: 7 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+	Parameter abs_right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010110 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized0' (30#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized0' (30#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'trunc' (31#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+INFO: [Synth 8-6157] synthesizing module 'wrap_arith' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter old_bin_pt bound to: 7 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter new_bin_pt bound to: 7 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter result_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cast' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter old_bin_pt bound to: 7 - type: integer 
+	Parameter new_width bound to: 20 - type: integer 
+	Parameter new_bin_pt bound to: 7 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast' (32#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'wrap_arith' (33#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 20 - type: integer 
+	Parameter old_bin_pt bound to: 7 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010110 
+	Parameter new_bin_pt bound to: 7 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized0' (33#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'convert_type' (34#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xladdsub' (35#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:886]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:916]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:946]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:976]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1006]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1036]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1066]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1096]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric1' (36#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:785]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1108]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xladdsub__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+	Parameter core_name0 bound to: dsp_blr_c_addsub_v12_0_i1 - type: string 
+	Parameter a_width bound to: 16 - type: integer 
+	Parameter a_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter a_arith bound to: 2 - type: integer 
+	Parameter c_in_width bound to: 16 - type: integer 
+	Parameter c_in_bin_pt bound to: 4 - type: integer 
+	Parameter c_in_arith bound to: 1 - type: integer 
+	Parameter c_out_width bound to: 16 - type: integer 
+	Parameter c_out_bin_pt bound to: 4 - type: integer 
+	Parameter c_out_arith bound to: 1 - type: integer 
+	Parameter b_width bound to: 16 - type: integer 
+	Parameter b_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter b_arith bound to: 2 - type: integer 
+	Parameter s_width bound to: 17 - type: integer 
+	Parameter s_bin_pt bound to: 4 - type: integer 
+	Parameter s_arith bound to: 2 - type: integer 
+	Parameter rst_width bound to: 1 - type: integer 
+	Parameter rst_bin_pt bound to: 0 - type: integer 
+	Parameter rst_arith bound to: 1 - type: integer 
+	Parameter en_width bound to: 1 - type: integer 
+	Parameter en_bin_pt bound to: 0 - type: integer 
+	Parameter en_arith bound to: 1 - type: integer 
+	Parameter full_s_width bound to: 17 - type: integer 
+	Parameter full_s_arith bound to: 2 - type: integer 
+	Parameter mode bound to: 1 - type: integer 
+	Parameter extra_registers bound to: 0 - type: integer 
+	Parameter latency bound to: 0 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter c_a_width bound to: 16 - type: integer 
+	Parameter c_b_width bound to: 8 - type: integer 
+	Parameter c_a_type bound to: 1 - type: integer 
+	Parameter c_b_type bound to: 1 - type: integer 
+	Parameter c_has_sclr bound to: 0 - type: integer 
+	Parameter c_has_ce bound to: 0 - type: integer 
+	Parameter c_latency bound to: 0 - type: integer 
+	Parameter c_output_width bound to: 17 - type: integer 
+	Parameter c_enable_rlocs bound to: 1 - type: integer 
+	Parameter c_has_c_in bound to: 0 - type: integer 
+	Parameter c_has_c_out bound to: 0 - type: integer 
+	Parameter full_a_width bound to: 17 - type: integer 
+	Parameter full_b_width bound to: 17 - type: integer 
+	Parameter full_s_bin_pt bound to: 4 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'dsp_blr_c_addsub_v12_0_i1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i1/synth/dsp_blr_c_addsub_v12_0_i1.vhd:67]
+	Parameter C_VERBOSITY bound to: 0 - type: integer 
+	Parameter C_XDEVICEFAMILY bound to: zynquplus - type: string 
+	Parameter C_IMPLEMENTATION bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 17 - type: integer 
+	Parameter C_B_WIDTH bound to: 17 - type: integer 
+	Parameter C_OUT_WIDTH bound to: 17 - type: integer 
+	Parameter C_CE_OVERRIDES_SCLR bound to: 0 - type: integer 
+	Parameter C_A_TYPE bound to: 0 - type: integer 
+	Parameter C_B_TYPE bound to: 0 - type: integer 
+	Parameter C_LATENCY bound to: 0 - type: integer 
+	Parameter C_ADD_MODE bound to: 0 - type: integer 
+	Parameter C_B_CONSTANT bound to: 0 - type: integer 
+	Parameter C_B_VALUE bound to: 00000000000000000 - type: string 
+	Parameter C_AINIT_VAL bound to: 0 - type: string 
+	Parameter C_SINIT_VAL bound to: 0 - type: string 
+	Parameter C_CE_OVERRIDES_BYPASS bound to: 1 - type: integer 
+	Parameter C_BYPASS_LOW bound to: 0 - type: integer 
+	Parameter C_SCLR_OVERRIDES_SSET bound to: 1 - type: integer 
+	Parameter C_HAS_C_IN bound to: 0 - type: integer 
+	Parameter C_HAS_C_OUT bound to: 0 - type: integer 
+	Parameter C_BORROW_LOW bound to: 1 - type: integer 
+	Parameter C_HAS_CE bound to: 0 - type: integer 
+	Parameter C_HAS_BYPASS bound to: 0 - type: integer 
+	Parameter C_HAS_SCLR bound to: 0 - type: integer 
+	Parameter C_HAS_SSET bound to: 0 - type: integer 
+	Parameter C_HAS_SINIT bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'c_addsub_v12_0_13' declared at 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/hdl/c_addsub_v12_0_vh_rfs.vhd:7026' bound to instance 'U0' of component 'c_addsub_v12_0_13' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i1/synth/dsp_blr_c_addsub_v12_0_i1.vhd:130]
+INFO: [Synth 8-256] done synthesizing module 'dsp_blr_c_addsub_v12_0_i1' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i1/synth/dsp_blr_c_addsub_v12_0_i1.vhd:67]
+INFO: [Synth 8-6157] synthesizing module 'align_input__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+	Parameter old_width bound to: 16 - type: integer 
+	Parameter delta bound to: 32'sb00000000000000000000000000000000 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+	Parameter abs_delta bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 16 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 16 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized1' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized1' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'align_input__parameterized1' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+INFO: [Synth 8-6157] synthesizing module 'convert_type__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+	Parameter old_width bound to: 17 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter fp_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter fp_bin_pt bound to: 4 - type: integer 
+	Parameter fp_arith bound to: 2 - type: integer 
+	Parameter q_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter q_bin_pt bound to: 4 - type: integer 
+	Parameter q_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'trunc__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+	Parameter abs_right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010011 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized2' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized2' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'trunc__parameterized0' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+INFO: [Synth 8-6157] synthesizing module 'wrap_arith__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter result_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 17 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized1' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'wrap_arith__parameterized0' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 17 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010011 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized2' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'convert_type__parameterized0' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xladdsub__parameterized0' (37#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1209]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1239]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1269]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1299]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1329]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1359]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1389]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1419]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric2' (38#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1108]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1431]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1532]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1562]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1592]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1622]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1652]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1682]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1712]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1742]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric3' (39#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1431]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric4' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1754]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xladdsub__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+	Parameter core_name0 bound to: dsp_blr_c_addsub_v12_0_i2 - type: string 
+	Parameter a_width bound to: 17 - type: integer 
+	Parameter a_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter a_arith bound to: 2 - type: integer 
+	Parameter c_in_width bound to: 16 - type: integer 
+	Parameter c_in_bin_pt bound to: 4 - type: integer 
+	Parameter c_in_arith bound to: 1 - type: integer 
+	Parameter c_out_width bound to: 16 - type: integer 
+	Parameter c_out_bin_pt bound to: 4 - type: integer 
+	Parameter c_out_arith bound to: 1 - type: integer 
+	Parameter b_width bound to: 17 - type: integer 
+	Parameter b_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter b_arith bound to: 2 - type: integer 
+	Parameter s_width bound to: 18 - type: integer 
+	Parameter s_bin_pt bound to: 4 - type: integer 
+	Parameter s_arith bound to: 2 - type: integer 
+	Parameter rst_width bound to: 1 - type: integer 
+	Parameter rst_bin_pt bound to: 0 - type: integer 
+	Parameter rst_arith bound to: 1 - type: integer 
+	Parameter en_width bound to: 1 - type: integer 
+	Parameter en_bin_pt bound to: 0 - type: integer 
+	Parameter en_arith bound to: 1 - type: integer 
+	Parameter full_s_width bound to: 18 - type: integer 
+	Parameter full_s_arith bound to: 2 - type: integer 
+	Parameter mode bound to: 1 - type: integer 
+	Parameter extra_registers bound to: 0 - type: integer 
+	Parameter latency bound to: 0 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter c_a_width bound to: 16 - type: integer 
+	Parameter c_b_width bound to: 8 - type: integer 
+	Parameter c_a_type bound to: 1 - type: integer 
+	Parameter c_b_type bound to: 1 - type: integer 
+	Parameter c_has_sclr bound to: 0 - type: integer 
+	Parameter c_has_ce bound to: 0 - type: integer 
+	Parameter c_latency bound to: 0 - type: integer 
+	Parameter c_output_width bound to: 18 - type: integer 
+	Parameter c_enable_rlocs bound to: 1 - type: integer 
+	Parameter c_has_c_in bound to: 0 - type: integer 
+	Parameter c_has_c_out bound to: 0 - type: integer 
+	Parameter full_a_width bound to: 18 - type: integer 
+	Parameter full_b_width bound to: 18 - type: integer 
+	Parameter full_s_bin_pt bound to: 4 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'dsp_blr_c_addsub_v12_0_i2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i2/synth/dsp_blr_c_addsub_v12_0_i2.vhd:67]
+	Parameter C_VERBOSITY bound to: 0 - type: integer 
+	Parameter C_XDEVICEFAMILY bound to: zynquplus - type: string 
+	Parameter C_IMPLEMENTATION bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 18 - type: integer 
+	Parameter C_B_WIDTH bound to: 18 - type: integer 
+	Parameter C_OUT_WIDTH bound to: 18 - type: integer 
+	Parameter C_CE_OVERRIDES_SCLR bound to: 0 - type: integer 
+	Parameter C_A_TYPE bound to: 0 - type: integer 
+	Parameter C_B_TYPE bound to: 0 - type: integer 
+	Parameter C_LATENCY bound to: 0 - type: integer 
+	Parameter C_ADD_MODE bound to: 0 - type: integer 
+	Parameter C_B_CONSTANT bound to: 0 - type: integer 
+	Parameter C_B_VALUE bound to: 000000000000000000 - type: string 
+	Parameter C_AINIT_VAL bound to: 0 - type: string 
+	Parameter C_SINIT_VAL bound to: 0 - type: string 
+	Parameter C_CE_OVERRIDES_BYPASS bound to: 1 - type: integer 
+	Parameter C_BYPASS_LOW bound to: 0 - type: integer 
+	Parameter C_SCLR_OVERRIDES_SSET bound to: 1 - type: integer 
+	Parameter C_HAS_C_IN bound to: 0 - type: integer 
+	Parameter C_HAS_C_OUT bound to: 0 - type: integer 
+	Parameter C_BORROW_LOW bound to: 1 - type: integer 
+	Parameter C_HAS_CE bound to: 0 - type: integer 
+	Parameter C_HAS_BYPASS bound to: 0 - type: integer 
+	Parameter C_HAS_SCLR bound to: 0 - type: integer 
+	Parameter C_HAS_SSET bound to: 0 - type: integer 
+	Parameter C_HAS_SINIT bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'c_addsub_v12_0_13' declared at 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/hdl/c_addsub_v12_0_vh_rfs.vhd:7026' bound to instance 'U0' of component 'c_addsub_v12_0_13' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i2/synth/dsp_blr_c_addsub_v12_0_i2.vhd:130]
+INFO: [Synth 8-256] done synthesizing module 'dsp_blr_c_addsub_v12_0_i2' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i2/synth/dsp_blr_c_addsub_v12_0_i2.vhd:67]
+INFO: [Synth 8-6157] synthesizing module 'align_input__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+	Parameter old_width bound to: 17 - type: integer 
+	Parameter delta bound to: 32'sb00000000000000000000000000000000 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+	Parameter abs_delta bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 17 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 17 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized3' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized3' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'align_input__parameterized2' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+INFO: [Synth 8-6157] synthesizing module 'convert_type__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+	Parameter old_width bound to: 18 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter fp_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter fp_bin_pt bound to: 4 - type: integer 
+	Parameter fp_arith bound to: 2 - type: integer 
+	Parameter q_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter q_bin_pt bound to: 4 - type: integer 
+	Parameter q_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'trunc__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+	Parameter abs_right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized4' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized4' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010100 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized4' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized4' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'trunc__parameterized1' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+INFO: [Synth 8-6157] synthesizing module 'wrap_arith__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter result_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 18 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized3' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'wrap_arith__parameterized1' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized4' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 18 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010100 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized4' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'convert_type__parameterized1' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xladdsub__parameterized1' (40#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1855]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1885]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1915]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1945]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1975]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2005]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2035]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2065]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric4' (41#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:1754]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2077]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2178]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2208]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2238]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2268]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2298]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2328]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2358]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2388]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric5' (42#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2077]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric6' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2400]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2501]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2531]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2561]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2591]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2621]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2651]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2681]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2711]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric6' (43#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2400]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric7' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2723]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2824]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2854]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2884]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2914]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2944]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2974]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3004]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3034]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric7' (44#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:2723]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_addsub_fabric8' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3046]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xladdsub__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+	Parameter core_name0 bound to: dsp_blr_c_addsub_v12_0_i3 - type: string 
+	Parameter a_width bound to: 18 - type: integer 
+	Parameter a_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter a_arith bound to: 2 - type: integer 
+	Parameter c_in_width bound to: 16 - type: integer 
+	Parameter c_in_bin_pt bound to: 4 - type: integer 
+	Parameter c_in_arith bound to: 1 - type: integer 
+	Parameter c_out_width bound to: 16 - type: integer 
+	Parameter c_out_bin_pt bound to: 4 - type: integer 
+	Parameter c_out_arith bound to: 1 - type: integer 
+	Parameter b_width bound to: 18 - type: integer 
+	Parameter b_bin_pt bound to: 32'sb00000000000000000000000000000100 
+	Parameter b_arith bound to: 2 - type: integer 
+	Parameter s_width bound to: 19 - type: integer 
+	Parameter s_bin_pt bound to: 4 - type: integer 
+	Parameter s_arith bound to: 2 - type: integer 
+	Parameter rst_width bound to: 1 - type: integer 
+	Parameter rst_bin_pt bound to: 0 - type: integer 
+	Parameter rst_arith bound to: 1 - type: integer 
+	Parameter en_width bound to: 1 - type: integer 
+	Parameter en_bin_pt bound to: 0 - type: integer 
+	Parameter en_arith bound to: 1 - type: integer 
+	Parameter full_s_width bound to: 19 - type: integer 
+	Parameter full_s_arith bound to: 2 - type: integer 
+	Parameter mode bound to: 1 - type: integer 
+	Parameter extra_registers bound to: 0 - type: integer 
+	Parameter latency bound to: 0 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter c_a_width bound to: 16 - type: integer 
+	Parameter c_b_width bound to: 8 - type: integer 
+	Parameter c_a_type bound to: 1 - type: integer 
+	Parameter c_b_type bound to: 1 - type: integer 
+	Parameter c_has_sclr bound to: 0 - type: integer 
+	Parameter c_has_ce bound to: 0 - type: integer 
+	Parameter c_latency bound to: 0 - type: integer 
+	Parameter c_output_width bound to: 19 - type: integer 
+	Parameter c_enable_rlocs bound to: 1 - type: integer 
+	Parameter c_has_c_in bound to: 0 - type: integer 
+	Parameter c_has_c_out bound to: 0 - type: integer 
+	Parameter full_a_width bound to: 19 - type: integer 
+	Parameter full_b_width bound to: 19 - type: integer 
+	Parameter full_s_bin_pt bound to: 4 - type: integer 
+INFO: [Synth 8-638] synthesizing module 'dsp_blr_c_addsub_v12_0_i3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i3/synth/dsp_blr_c_addsub_v12_0_i3.vhd:67]
+	Parameter C_VERBOSITY bound to: 0 - type: integer 
+	Parameter C_XDEVICEFAMILY bound to: zynquplus - type: string 
+	Parameter C_IMPLEMENTATION bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 19 - type: integer 
+	Parameter C_B_WIDTH bound to: 19 - type: integer 
+	Parameter C_OUT_WIDTH bound to: 19 - type: integer 
+	Parameter C_CE_OVERRIDES_SCLR bound to: 0 - type: integer 
+	Parameter C_A_TYPE bound to: 0 - type: integer 
+	Parameter C_B_TYPE bound to: 0 - type: integer 
+	Parameter C_LATENCY bound to: 0 - type: integer 
+	Parameter C_ADD_MODE bound to: 0 - type: integer 
+	Parameter C_B_CONSTANT bound to: 0 - type: integer 
+	Parameter C_B_VALUE bound to: 0000000000000000000 - type: string 
+	Parameter C_AINIT_VAL bound to: 0 - type: string 
+	Parameter C_SINIT_VAL bound to: 0 - type: string 
+	Parameter C_CE_OVERRIDES_BYPASS bound to: 1 - type: integer 
+	Parameter C_BYPASS_LOW bound to: 0 - type: integer 
+	Parameter C_SCLR_OVERRIDES_SSET bound to: 1 - type: integer 
+	Parameter C_HAS_C_IN bound to: 0 - type: integer 
+	Parameter C_HAS_C_OUT bound to: 0 - type: integer 
+	Parameter C_BORROW_LOW bound to: 1 - type: integer 
+	Parameter C_HAS_CE bound to: 0 - type: integer 
+	Parameter C_HAS_BYPASS bound to: 0 - type: integer 
+	Parameter C_HAS_SCLR bound to: 0 - type: integer 
+	Parameter C_HAS_SSET bound to: 0 - type: integer 
+	Parameter C_HAS_SINIT bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'c_addsub_v12_0_13' declared at 'c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i0/hdl/c_addsub_v12_0_vh_rfs.vhd:7026' bound to instance 'U0' of component 'c_addsub_v12_0_13' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i3/synth/dsp_blr_c_addsub_v12_0_i3.vhd:130]
+INFO: [Synth 8-256] done synthesizing module 'dsp_blr_c_addsub_v12_0_i3' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/dsp_blr_c_addsub_v12_0_i3/synth/dsp_blr_c_addsub_v12_0_i3.vhd:67]
+INFO: [Synth 8-6157] synthesizing module 'align_input__parameterized3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+	Parameter old_width bound to: 18 - type: integer 
+	Parameter delta bound to: 32'sb00000000000000000000000000000000 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+	Parameter abs_delta bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 18 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 18 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized5' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized5' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'align_input__parameterized3' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:260]
+INFO: [Synth 8-6157] synthesizing module 'convert_type__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+	Parameter old_width bound to: 19 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter quantization bound to: 1 - type: integer 
+	Parameter overflow bound to: 1 - type: integer 
+	Parameter fp_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter fp_bin_pt bound to: 4 - type: integer 
+	Parameter fp_arith bound to: 2 - type: integer 
+	Parameter q_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter q_bin_pt bound to: 4 - type: integer 
+	Parameter q_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'trunc__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+	Parameter abs_right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6157] synthesizing module 'extend_msb__parameterized6' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter new_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sign_ext__parameterized6' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010101 
+INFO: [Synth 8-6155] done synthesizing module 'sign_ext__parameterized6' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:211]
+INFO: [Synth 8-6155] done synthesizing module 'extend_msb__parameterized6' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:235]
+INFO: [Synth 8-6155] done synthesizing module 'trunc__parameterized2' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:539]
+INFO: [Synth 8-6157] synthesizing module 'wrap_arith__parameterized2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter old_arith bound to: 2 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter result_arith bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized5' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 19 - type: integer 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized5' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'wrap_arith__parameterized2' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:754]
+INFO: [Synth 8-6157] synthesizing module 'cast__parameterized6' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+	Parameter old_width bound to: 19 - type: integer 
+	Parameter old_bin_pt bound to: 4 - type: integer 
+	Parameter new_width bound to: 32'sb00000000000000000000000000010101 
+	Parameter new_bin_pt bound to: 4 - type: integer 
+	Parameter new_arith bound to: 2 - type: integer 
+	Parameter right_of_dp bound to: 32'sb00000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cast__parameterized6' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'convert_type__parameterized2' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/convert_type.v:775]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xladdsub__parameterized2' (45#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:239]
+WARNING: [Synth 8-7023] instance 'addsub0' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3147]
+WARNING: [Synth 8-7023] instance 'addsub1' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3177]
+WARNING: [Synth 8-7023] instance 'addsub2' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3207]
+WARNING: [Synth 8-7023] instance 'addsub3' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3237]
+WARNING: [Synth 8-7023] instance 'addsub4' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3267]
+WARNING: [Synth 8-7023] instance 'addsub5' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3297]
+WARNING: [Synth 8-7023] instance 'addsub6' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3327]
+WARNING: [Synth 8-7023] instance 'addsub7' of module 'dsp_blr_xladdsub' has 10 connections declared, but only 7 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3357]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_addsub_fabric8' (46#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3046]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_delay' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3369]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xldelay' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 2 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'synth_reg' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 2 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 2 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'srlc33e' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 2 - type: integer 
+	Parameter a bound to: 6'sb000000 
+INFO: [Synth 8-6157] synthesizing module 'SRLC32E' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:78091]
+	Parameter INIT bound to: 32'b00000000000000000000000000000000 
+	Parameter IS_CLK_INVERTED bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'SRLC32E' (47#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:78091]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+INFO: [Synth 8-6157] synthesizing module 'FDE' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:13565]
+	Parameter INIT bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'FDE' (48#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp_diablo.v:13565]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+INFO: [Synth 8-6155] done synthesizing module 'srlc33e' (49#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+INFO: [Synth 8-6155] done synthesizing module 'synth_reg' (50#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xldelay' (51#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_delay' (52#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3369]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_delay1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3540]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xldelay__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 4 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'synth_reg__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 4 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 4 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'srlc33e__parameterized0' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 4 - type: integer 
+	Parameter a bound to: 6'sb000010 
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+INFO: [Synth 8-6155] done synthesizing module 'srlc33e__parameterized0' (52#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+INFO: [Synth 8-6155] done synthesizing module 'synth_reg__parameterized0' (52#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xldelay__parameterized0' (52#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_delay1' (53#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3540]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_delay2' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3711]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_xldelay__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 6 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'synth_reg__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 6 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 6 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'srlc33e__parameterized1' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 6 - type: integer 
+	Parameter a bound to: 6'sb000100 
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+WARNING: [Synth 8-7023] instance 'u1' of module 'SRLC32E' has 6 connections declared, but only 5 given [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:76]
+INFO: [Common 17-14] Message 'Synth 8-7023' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-6155] done synthesizing module 'srlc33e__parameterized1' (53#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+INFO: [Synth 8-6155] done synthesizing module 'synth_reg__parameterized1' (53#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xldelay__parameterized1' (53#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_delay2' (54#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3711]
+INFO: [Synth 8-6157] synthesizing module 'dsp_blr_vector_delay3' [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3882]
+INFO: [Common 17-14] Message 'Synth 8-6157' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 8 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 8 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 8 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 8 - type: integer 
+	Parameter a bound to: 6'sb000110 
+INFO: [Synth 8-6155] done synthesizing module 'srlc33e__parameterized2' (54#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+INFO: [Synth 8-6155] done synthesizing module 'synth_reg__parameterized2' (54#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:94]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_xldelay__parameterized2' (54#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr_entity_declarations.v:186]
+INFO: [Synth 8-6155] done synthesizing module 'dsp_blr_vector_delay3' (55#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/dsp_blr.v:3882]
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 12 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 12 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 12 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 12 - type: integer 
+	Parameter a bound to: 6'sb001010 
+INFO: [Synth 8-6155] done synthesizing module 'srlc33e__parameterized3' (55#1) [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/work/hdl/synth_reg.v:60]
+INFO: [Common 17-14] Message 'Synth 8-6155' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 10 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 10 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 10 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 10 - type: integer 
+	Parameter a bound to: 6'sb001000 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 14 - type: integer 
+	Parameter reg_retiming bound to: 0 - type: integer 
+	Parameter reset bound to: 0 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 14 - type: integer 
+	Parameter complete_num_srlc33es bound to: 0 - type: integer 
+	Parameter remaining_latency bound to: 14 - type: integer 
+	Parameter temp_num_srlc33es bound to: 1 - type: integer 
+	Parameter num_srlc33es bound to: 1 - type: integer 
+	Parameter width bound to: 16 - type: integer 
+	Parameter latency bound to: 14 - type: integer 
+	Parameter a bound to: 6'sb001100 
+	Parameter const_value bound to: 1'b0 
+	Parameter const_value bound to: 1'b0 
+WARNING: [Synth 8-3331] design sysgen_delay_19fd257691 has unconnected port clk
+WARNING: [Synth 8-3331] design sysgen_delay_19fd257691 has unconnected port ce
+WARNING: [Synth 8-3331] design sysgen_delay_19fd257691 has unconnected port clr
+WARNING: [Synth 8-3331] design sysgen_delay_1e8a7a1cc3 has unconnected port clk
+WARNING: [Synth 8-3331] design sysgen_delay_1e8a7a1cc3 has unconnected port ce
+WARNING: [Synth 8-3331] design sysgen_delay_1e8a7a1cc3 has unconnected port clr
+WARNING: [Synth 8-3331] design sysgen_reinterpret_879cf4842d has unconnected port clk
+WARNING: [Synth 8-3331] design sysgen_reinterpret_879cf4842d has unconnected port ce
+WARNING: [Synth 8-3331] design sysgen_reinterpret_879cf4842d has unconnected port clr
+WARNING: [Synth 8-3331] design sysgen_reinterpret_77970159c7 has unconnected port clk
+WARNING: [Synth 8-3331] design sysgen_reinterpret_77970159c7 has unconnected port ce
+WARNING: [Synth 8-3331] design sysgen_reinterpret_77970159c7 has unconnected port clr
+WARNING: [Synth 8-3331] design synth_reg__parameterized5 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized5 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg__parameterized4 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized4 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg__parameterized3 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized3 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg__parameterized2 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized2 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg__parameterized1 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized1 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg__parameterized0 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay__parameterized0 has unconnected port rst
+WARNING: [Synth 8-3331] design synth_reg has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xldelay has unconnected port rst
+WARNING: [Synth 8-3331] design cast__parameterized5 has unconnected port inp[20]
+WARNING: [Synth 8-3331] design cast__parameterized5 has unconnected port inp[19]
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port clk
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port add
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port ce
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port bypass
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port aclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port aset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port ainit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port sclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port sset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized5 has unconnected port sinit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized5 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized5 has unconnected port b_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized5 has unconnected port a_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized5 has unconnected port b_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_viv__parameterized5 has unconnected port C_IN
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port c_in
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port ce
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port clk
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port rst
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized2 has unconnected port en
+WARNING: [Synth 8-3331] design cast__parameterized3 has unconnected port inp[19]
+WARNING: [Synth 8-3331] design cast__parameterized3 has unconnected port inp[18]
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port clk
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port add
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port ce
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port bypass
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port aclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port aset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port ainit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port sclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port sset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized3 has unconnected port sinit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized3 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized3 has unconnected port b_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized3 has unconnected port a_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized3 has unconnected port b_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_viv__parameterized3 has unconnected port C_IN
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port c_in
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port ce
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port clk
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port rst
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized1 has unconnected port en
+WARNING: [Synth 8-3331] design cast__parameterized1 has unconnected port inp[18]
+WARNING: [Synth 8-3331] design cast__parameterized1 has unconnected port inp[17]
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port clk
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port add
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port ce
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port bypass
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port aclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port aset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port ainit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port sclr
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port sset
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy__parameterized1 has unconnected port sinit
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized1 has unconnected port c_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized1 has unconnected port b_in
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized1 has unconnected port a_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy__parameterized1 has unconnected port b_signed
+WARNING: [Synth 8-3331] design c_addsub_v12_0_13_viv__parameterized1 has unconnected port C_IN
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port c_in
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port ce
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port clr
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port clk
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port rst
+WARNING: [Synth 8-3331] design dsp_blr_xladdsub__parameterized0 has unconnected port en
+WARNING: [Synth 8-3331] design cast has unconnected port inp[21]
+WARNING: [Synth 8-3331] design cast has unconnected port inp[20]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 1551.621 ; gain = 273.590
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1551.656 ; gain = 273.625
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1551.656 ; gain = 273.625
+---------------------------------------------------------------------------------
+INFO: [Netlist 29-17] Analyzing 3120 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/constrs/dsp_blr.xdc] for cell 'inst'
+Finished Parsing XDC File [c:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.srcs/sources_1/ip/dsp_blr_0/constrs/dsp_blr.xdc] for cell 'inst'
+Parsing XDC File [C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.032 . Memory (MB): peak = 1696.219 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 896 instances were transformed.
+  FDE => FDRE: 896 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.256 . Memory (MB): peak = 1698.230 ; gain = 2.012
+load diablo GTM unisim library
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1698.230 ; gain = 420.199
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu29dr-ffvf1760-1-e
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1698.230 ; gain = 420.199
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property DONT_TOUCH = true for inst. (constraint file  C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dont_touch.xdc, line 21).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub0/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub1/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub2/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub3/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub4/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub5/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub6/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub7/\comp0.core_instance0 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub0/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub1/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub2/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub3/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub4/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub5/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub6/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub7/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub0/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub1/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub2/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub3/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub4/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub5/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub6/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub7/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub0/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub1/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub2/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub3/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub4/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub5/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub6/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub7/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub0/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub1/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub2/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub3/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub4/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub5/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub6/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub7/\comp1.core_instance1 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub0/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub1/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub2/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub3/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub4/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub5/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub6/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub7/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub0/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub1/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub2/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub3/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub4/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub5/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub6/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub7/\comp2.core_instance2 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub0/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub1/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub2/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub3/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub4/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub5/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub6/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub7/\comp3.core_instance3 . (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 1698.230 ; gain = 420.199
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 1698.230 ; gain = 420.199
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 4272 (col length:192)
+BRAMs: 2160 (col length: RAMB18 192 RAMB36 96)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+WARNING: [Synth 8-3332] Sequential element (dsp_blr_default_clock_driver/clockdriver/clr_reg/has_latency.fd_array[1].reg_comp_1/fd_prim_array[0].rst_comp.fdre_comp) is unused and will be removed from module dsp_blr.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 1698.230 ; gain = 420.199
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:36 ; elapsed = 00:00:39 . Memory (MB): peak = 2047.828 ; gain = 769.797
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:36 ; elapsed = 00:00:39 . Memory (MB): peak = 2049.445 ; gain = 771.414
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 2060.871 ; gain = 782.840
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:39 ; elapsed = 00:00:42 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:39 ; elapsed = 00:00:42 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |LUT2    |  1144|
+|2     |MUXCY   |  1080|
+|3     |SRLC32E |   896|
+|4     |XORCY   |  1144|
+|5     |FDE     |   896|
++------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 33 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:20 ; elapsed = 00:00:36 . Memory (MB): peak = 2078.156 ; gain = 653.551
+Synthesis Optimization Complete : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 2078.156 ; gain = 800.125
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 3120 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 2163.367 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1088 instances were transformed.
+  (CARRY4) => CARRY8: 192 instances
+  FDE => FDRE: 896 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+233 Infos, 203 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:54 ; elapsed = 00:00:58 . Memory (MB): peak = 2163.367 ; gain = 1767.031
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 2163.367 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dsp_blr_0.dcp' has been generated.
+WARNING: [Common 17-576] 'use_project_ipc' is deprecated. This option is deprecated and no longer used.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP dsp_blr_0, cache-ID = cc5c78385d948b2e
+INFO: [Coretcl 2-1174] Renamed 634 cell refs.
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 2172.441 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/1905p/git_repos/KRD/SysGen_project/dsp_blr/ip_catalog/dsp_blr.runs/dsp_blr_0_synth_1/dsp_blr_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file dsp_blr_0_utilization_synth.rpt -pb dsp_blr_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Dec 15 13:35:18 2020...
