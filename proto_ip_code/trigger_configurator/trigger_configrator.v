@@ -29,7 +29,7 @@
 
 		output wire [16-1:0] MAX_TRIGGER_LENGTH,
 		output wire SET_CONFIG,
-		
+		output wire RUNNING,
 		// Users to add ports here
 		(* X_INTERFACE_INFO = "awa.tohoku.ac.jp:mogura2:trigger_control:1.1 CH0_CONTROL STOP" *)
 		output wire STOP_0,
@@ -482,6 +482,8 @@
     wire signed [16*`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE;
     wire [($clog2(MAX_PRE_ACQUISITION_LENGTH)+1)*16-1:0] PRE_ACQUISITION_LENGTH;
     wire [($clog2(MAX_POST_ACQUISITION_LENGTH)+1)*16-1:0] POST_ACQUISITION_LENGTH;
+
+	assign RUNNING = ~&STOP;
 
     assign STOP_0 = STOP[(0+1)*1-1];
     assign ACQUIRE_MODE_0 = ACQUIRE_MODE[(0+1)*2-1:0];
