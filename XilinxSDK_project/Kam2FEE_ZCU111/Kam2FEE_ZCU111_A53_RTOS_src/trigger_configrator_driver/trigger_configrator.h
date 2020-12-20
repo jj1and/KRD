@@ -61,8 +61,10 @@ Trigger_Config *Trigger_ChannelConfig(u16 DeviceId, u32 channel, u32 ControlAddr
 Trigger_Config *Trigger_ChannelConfigBaseAddr(UINTPTR Baseaddr, u32 channel, u32 ControlAddr, u32 ThresholdAddr, u32 AcquisitionAddr, u32 BaselineAddr);
 
 int Trigger_ApplyCfg(Trigger_Config *CfgPtr);
-int Trigger_Start(Trigger_Config *CfgPtr);
-int Trigger_Stop(Trigger_Config *CfgPtr);
+int Trigger_Start(Trigger_Config *CfgPtr, u16 ch);
+int Trigger_Stop(Trigger_Config *CfgPtr, u16 ch);
+int Trigger_StartAllCh(Trigger_Config *CfgPtr);
+int Trigger_StopAllCh(Trigger_Config *CfgPtr);
 
 Trigger_Config *Trigger_LookupConfig(u16 DeviceId);
 Trigger_Config *Trigger_LookupConfigBaseAddr(UINTPTR Baseaddr);

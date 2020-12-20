@@ -203,6 +203,16 @@ int axidma_recv_buff() {
     return XST_SUCCESS;
 }
 
+int axidma_stopDma() {
+    int Status;
+    Status = XAxiDma_Pause(&AxiDma);
+    if (Status == XST_NOT_SGDMA) {
+        xil_printf("ERROR: AXI Dma is not initialized");
+        return XST_FAILURE;
+    }
+    return Status;
+}
+
 int incr_wrptr_after_write(u64 size) {
     u64 *expectedPtr;
     expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN / sizeof(u64) - size;

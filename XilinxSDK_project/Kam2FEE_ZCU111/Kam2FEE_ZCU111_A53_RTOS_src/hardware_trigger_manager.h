@@ -15,6 +15,9 @@
 #define DSP_NORMAL_ACQUIRE_MODE 0x2
 #define DSP_COMBINED_ACQUIRE_MODE 0x3
 
+#define ENABLE 1
+#define DISABLE 0
+
 #define HARDWARE_TRIGGER 0x0
 #define EXTERNAL_TRIGGER 0x1
 
@@ -29,6 +32,7 @@
 
 typedef struct Channel_Config {
     int channel;
+    int enable;
     u32 AcquireMode;
     u32 TriggerType;
     int RisingEdgeThreshold;
@@ -47,9 +51,11 @@ typedef struct TriggerManager_Config {
 
 int checkData(u64 *dataptr, TriggerManager_Config fee_config, int print_enable, u64 *rcvd_frame_length);
 int SetSwitchThreshold(short int upper_threshold, short int lower_threshold);
-int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config TriggerManagerConfig);
-int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId);
-int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId);
+int HardwareTrigger_SetupDeviceId(u16 TriggerdeviceId, TriggerManager_Config *TMCfgPtr);
+int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId, u16 ch);
+int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId, u16 ch);
+int HardwareTrigger_StartDeviceIdAllCh(u16 TriggerdeviceId);
+int HardwareTrigger_StopDeviceIdAllCh(u16 TriggerdeviceId);
 int getFeeState();
 
 #endif

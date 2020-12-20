@@ -76,6 +76,7 @@ extern TaskHandle_t xDmaTask;
 int axidma_setup();
 int axidma_recv_buff();
 int SetupRxIntrSystem(INTC* IntcInstancePtr, u16 RxIntrId);
+int axidma_stopDma();
 void shutdown_dma();
 
 int incr_wrptr_after_write(u64 size);

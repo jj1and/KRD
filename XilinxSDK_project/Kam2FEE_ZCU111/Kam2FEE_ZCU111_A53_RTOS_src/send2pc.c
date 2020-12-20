@@ -1,8 +1,10 @@
 #include "send2pc.h"
 
 #include "axidma_s2mm_manager.h"
-#include "hardware_trigger_manager.h"
+#include "peripheral_manager.h"
 #include "sleep.h"
+#include "stdio.h"
+#include "string.h"
 #include "xil_printf.h"
 
 static int total_data_size = TOTAL_SEND_SIZE;
@@ -31,6 +33,7 @@ void send2pc_application_thread(void *arg) {
     int send_wrote;
     u64 send_len;
     u64 actual_frame_len;
+    total_data_size = TOTAL_SEND_SIZE;
     while (1) {
         if (xSemaphoreTake(xDma2Send2pcSemaphore, portMAX_DELAY)) {
             total_send_size = 0;
@@ -62,7 +65,7 @@ void send2pc_application_thread(void *arg) {
             }
         }
 
-        while (socket_close_flag == SOCKET_OPEN & getFeeState() == FEE_RUNNING) {
+        while ((socket_close_flag == SOCKET_OPEN) & (getFeeState() == FEE_RUNNING)) {
             send_len = 0;
             if (!ulTaskNotifyTake(pdTRUE, portMAX_DELAY)) {
                 xil_printf("INFO: Waiting DmaTask is Timeout\r\n");
@@ -119,83 +122,16 @@ int getSend2pcTaskStauts() {
     return socket_close_flag;
 }
 
-static void flush_buff(char *buff) {
-    for (size_t i = 0; i < RECV_BUF_SIZE; i++) {
-        buff[i] = "";
-    }
+int getTotalSendDatasize() {
+    return total_data_size;
 }
 
-void cmdrecv_application_thread() {
-    struct sockaddr_in myself, remote;
-    int sock, sd, size, n, quit_flag;
-    char recv_buf[RECV_BUF_SIZE];
-    total_data_size = TOTAL_SEND_SIZE;
-    quit_flag = 0;
-    xCmdrcvd2DmaSemaphore = xSemaphoreCreateBinary();
-
-    memset(&myself, 0, sizeof(myself));
-    if ((sock = lwip_socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        xil_printf("ERROR: failed to get cmd socket.\r\n");
-        vTaskSuspendAll();
+void setTotalSendDataSize(int size) {
+    if ((size <= 0) | (size > TOTAL_SEND_SIZE)) {
+        xil_printf("ERROR: size must be larger than 0 & smaller than %d\r\n", TOTAL_SEND_SIZE);
+        total_data_size = TOTAL_SEND_SIZE;
+    } else {
+        total_data_size = size;
+        xil_printf("INFO: set total send data size as %d Byte.\r\n", total_data_size);
     }
-
-    myself.sin_family = AF_INET;
-    myself.sin_port = htons(CMDRECV_PORT);
-    myself.sin_addr.s_addr = INADDR_ANY;
-
-    if (lwip_bind(sock, (struct sockaddr *)&myself, sizeof(myself)) < 0) {
-        xil_printf("ERROR: failed to bind cmd socket.\r\n");
-        vTaskSuspendAll();
-    }
-
-    lwip_listen(sock, 0);
-    size = sizeof(remote);
-
-    while (1) {
-        if ((sd = lwip_accept(sock, (struct sockaddr *)&remote, (socklen_t *)&size)) < 0) {
-            break;
-        } else {
-            while (1) {
-                xil_printf("INFO: waiting new command...\r\n");
-                if ((n = read(sd, recv_buf, RECV_BUF_SIZE)) < 0) {
-                    xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
-                    break;
-                }
-
-                /* break if the recved message = "quit" */
-                if (!strncmp(recv_buf, "quit", 4)) {
-                    quit_flag = 1;
-                    break;
-                } else {
-                    if (!strncmp(recv_buf, "size", 4)) {
-                        xil_printf("INFO: Enter total send data size (unit is Byte)(0 < size < %d).\r\n", TOTAL_SEND_SIZE);
-                        if ((n = read(sd, recv_buf, RECV_BUF_SIZE)) < 0) {
-                            xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
-                            break;
-                        }
-                        total_data_size = atoi(recv_buf);
-                        if ((total_data_size <= 0) | (total_data_size > TOTAL_SEND_SIZE)) {
-                            xil_printf("ERROR: size must be larger than 0 & smaller than %d\r\n", TOTAL_SEND_SIZE);
-                            total_data_size = TOTAL_SEND_SIZE;
-                        } else {
-                            xil_printf("INFO: set total send data size as %d Byte.\r\n", total_data_size);
-                        }
-                    } else if (!strncmp(recv_buf, "start", 5)) {
-                        xil_printf("INFO: start command is rcvd.\r\n");
-                        xSemaphoreGive(xCmdrcvd2DmaSemaphore);
-                        vTaskSuspend(NULL);
-                    } else {
-                        xil_printf("INFO: unknown command\r\n");
-                    }
-                }
-                flush_buff(recv_buf);
-            }
-            if (quit_flag > 0) {
-                break;
-            }
-        }
-    }
-
-    vTaskSuspendAll();
-    return;
 }
