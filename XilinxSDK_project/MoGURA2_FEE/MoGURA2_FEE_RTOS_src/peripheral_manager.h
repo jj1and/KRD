@@ -75,5 +75,6 @@ int SetupSpiIntrSystem(INTC *IntcInstancePtr, u16 SpiIntrId);
 int peripheral_setup();
 int BaselineDAC_ApplyConfig(u16 baseline);
 int LADC_ApplyConfig(Ladc_Config *LadcCfgPtr);
+int GPO_TriggerReset();
 
 #endif  // !__PERIPHERAL_MANAGER__

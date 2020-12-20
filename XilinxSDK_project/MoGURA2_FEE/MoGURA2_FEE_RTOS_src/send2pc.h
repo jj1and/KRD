@@ -16,6 +16,10 @@
 #define SOCKET_CLOSE 0
 #define SOCKET_FAIL -1
 
+#define DMATASK_RUNNING 0
+#define DMATASK_END 1
+#define DMATASK_READY 2
+
 #define CMDRECV_PORT 5002
 
 typedef struct send2pc_arg {
@@ -30,6 +34,7 @@ extern TaskHandle_t cmd_thread;
 extern TaskHandle_t app_thread;
 extern SemaphoreHandle_t xCmdrcvd2DmaSemaphore;
 extern SemaphoreHandle_t xDma2Send2pcSemaphore;
+extern int DmaTaskState;
 
 void print_ip(char *msg, ip_addr_t *ip);
 void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);

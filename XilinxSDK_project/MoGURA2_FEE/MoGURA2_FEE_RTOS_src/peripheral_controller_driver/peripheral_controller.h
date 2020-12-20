@@ -80,15 +80,16 @@ int Peripheral_LadcSenDeactive(u16 DeviceId);
 int Peripheral_SetConfigDefault(u16 DeviceId);
 int Peripheral_SetConfigDefaultBaseAddr(UINTPTR Baseaddr);
 int Peripheral_SetCdci6214Config(u16 DeviceId, u32 Config);
-int Peripheral_SetGpoConfig(u16 DeviceId, u32 Config);
+int Peripheral_SetGPO(u16 DeviceId, u32 Config);
 int Peripheral_SetGpoConfig(u16 DeviceId, u32 Config);
 int Peripheral_SetSfp1Config(u16 DeviceId, u32 Config);
 int Peripheral_SetSfp2Config(u16 DeviceId, u32 Config);
 void Peripheral_PrintCfgPtr(u16 DeviceId);
 int Peripheral_ApplyCfg(u16 DeviceId);
 void Peripheral_PrintAppliedCfg(u16 DeviceId);
+void Peripheral_PrintGPIO(u16 DeviceId);
 int Peripheral_GetCdci6214Status(u16 DeviceId);
-int Peripheral_GetGpiInput(u16 DeviceId);
+int Peripheral_GetGPI(u16 DeviceId);
 int Peripheral_GetSfp1Status(u16 DeviceId);
 int Peripheral_GetSfp2Status(u16 DeviceId);
 

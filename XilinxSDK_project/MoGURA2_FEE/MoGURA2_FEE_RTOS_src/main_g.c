@@ -15,6 +15,8 @@ TaskHandle_t xPeripheralSetupTask;
 SemaphoreHandle_t xCmdrcvd2DmaSemaphore = NULL;
 SemaphoreHandle_t xDma2Send2pcSemaphore = NULL;
 
+int DmaTaskState;
+
 #endif  // FREE_RTOS
 
 TriggerManager_Config fee;

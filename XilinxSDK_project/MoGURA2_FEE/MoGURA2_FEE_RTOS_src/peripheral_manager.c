@@ -1,6 +1,7 @@
 #include "peripheral_manager.h"
 
 #include "peripheral_controller_driver/peripheral_controller.h"
+#include "unistd.h"
 #include "xil_exception.h"
 
 static volatile int SPI_LADC_TransferInProgress;
@@ -273,4 +274,17 @@ int BaselineDAC_ApplyConfig(u16 baseline) {
     }
 
     return Status;
+}
+
+int GPO_TriggerReset() {
+    if (Peripheral_SetGPO(PERIPHERAL_CONTROLLER_0_DEVICE_ID, 0x00000001) != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to reset PL\r\n");
+        return XST_FAILURE;
+    }
+    sleep(1);
+    if (Peripheral_SetGPO(PERIPHERAL_CONTROLLER_0_DEVICE_ID, 0x00000000) != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to release reset PL\r\n");
+        return XST_FAILURE;
+    }
+    return XST_SUCCESS;
 }

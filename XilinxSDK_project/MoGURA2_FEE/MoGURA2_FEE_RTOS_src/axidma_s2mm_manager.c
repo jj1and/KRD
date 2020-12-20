@@ -12,7 +12,6 @@ static volatile int Error;
 
 // AXI-DMA related variables
 static XAxiDma AxiDma;
-static int dma_task_end_flag = DMA_TASK_READY;
 static u64 *RxBufferWrPtr = (u64 *)RX_BUFFER_BASE;
 static u64 *RxBufferRdPtr = (u64 *)RX_BUFFER_BASE;
 
@@ -203,6 +202,16 @@ int axidma_recv_buff() {
     return XST_SUCCESS;
 }
 
+int axidma_stopDma() {
+    int Status;
+    Status = XAxiDma_Pause(&AxiDma);
+    if (Status == XST_NOT_SGDMA) {
+        xil_printf("ERROR: AXI Dma is not initialized");
+        return XST_FAILURE;
+    }
+    return Status;
+}
+
 int incr_wrptr_after_write(u64 size) {
     u64 *expectedPtr;
     expectedPtr = (u64 *)RX_BUFFER_HIGH - MAX_PKT_LEN / sizeof(u64) - size;
@@ -250,10 +259,6 @@ int buff_will_be_empty(u64 size) { return (RxBufferWrPtr < (u64 *)RX_BUFFER_BASE
 u64 *get_wrptr() { return RxBufferWrPtr; }
 u64 *get_rdptr() { return RxBufferRdPtr; }
 
-int getDmaTaskStatus() {
-    return dma_task_end_flag;
-}
-
 int getRxError() {
     return Error;
 }
@@ -269,5 +274,4 @@ void shutdown_dma() {
 #else
     DisableIntrSystem(&xInterruptController, RX_INTR_ID);
 #endif
-    dma_task_end_flag = DMA_TASK_END;
 }

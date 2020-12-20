@@ -106,7 +106,7 @@ int checkData(u64 *dataptr, TriggerManager_Config fee_config, int print_enable, 
         // read_trigger_info & 8'b1100_0000 == 8'b1000_0000
         // left: mask except frame_continure
         // right: trigger state = 2'b10 (halt) and frame continue means frame generator fifo is full
-        printData(dataptr, read_trigger_length + 3);
+        // printData(dataptr, read_trigger_length + 3);
         Status = INTERNAL_BUFFER_FULL;
     }
 
@@ -222,6 +222,7 @@ int HardwareTrigger_StartDeviceId(u16 TriggerdeviceId, u16 ch) {
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
+    // when any channel runs, the state is defined as RUNNIG
     fee_state_flag = FEE_RUNNING;
     return Trigger_Start(CfgPtr, ch);
 }
@@ -231,8 +232,7 @@ int HardwareTrigger_StopDeviceId(u16 TriggerdeviceId, u16 ch) {
     CfgPtr = Trigger_LookupConfig(TriggerdeviceId);
     if (CfgPtr == NULL)
         return XST_FAILURE;
-    // when any channel runs, the state is defined as RUNNIG
-    fee_state_flag = FEE_RUNNING;
+    fee_state_flag = FEE_STOPPED;
     return Trigger_Stop(CfgPtr, ch);
 }
 

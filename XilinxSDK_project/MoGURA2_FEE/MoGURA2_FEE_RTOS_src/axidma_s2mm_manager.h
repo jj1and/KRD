@@ -67,15 +67,12 @@
 #define COALESCING_COUNT NUMBER_OF_PKTS_TO_TRANSFER
 #define DELAY_TIMER_COUNT 100
 
-#define DMA_TASK_READY 2
-#define DMA_TASK_RUN 1
-#define DMA_TASK_END 0
-
 extern TaskHandle_t xDmaTask;
 
 int axidma_setup();
 int axidma_recv_buff();
 int SetupRxIntrSystem(INTC* IntcInstancePtr, u16 RxIntrId);
+int axidma_stopDma();
 void shutdown_dma();
 
 int incr_wrptr_after_write(u64 size);
@@ -86,7 +83,6 @@ int buff_will_be_empty(u64 size);
 int buff_will_be_full(u64 size);
 u64* get_wrptr();
 u64* get_rdptr();
-int getDmaTaskStatus();
 int getRxError();
 int getRxDone();
 

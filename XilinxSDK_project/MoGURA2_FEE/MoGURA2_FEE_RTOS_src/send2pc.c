@@ -65,7 +65,7 @@ void send2pc_application_thread(void *arg) {
             }
         }
 
-        while ((socket_close_flag == SOCKET_OPEN) & (getFeeState() == FEE_RUNNING)) {
+        while ((socket_close_flag == SOCKET_OPEN) & (DmaTaskState == DMATASK_RUNNING)) {
             send_len = 0;
             if (!ulTaskNotifyTake(pdTRUE, portMAX_DELAY)) {
                 xil_printf("INFO: Waiting DmaTask is Timeout\r\n");

@@ -184,7 +184,7 @@ int Peripheral_SetCdci6214Config(u16 DeviceId, u32 Config) {
     return XST_SUCCESS;
 }
 
-int Peripheral_SetGpoConfig(u16 DeviceId, u32 Config) {
+int Peripheral_SetGPO(u16 DeviceId, u32 Config) {
     extern Peripheral_Config Peripheral_ConfigTable[];
     Peripheral_Config *CfgPtr = NULL;
     int Index;
@@ -203,6 +203,8 @@ int Peripheral_SetGpoConfig(u16 DeviceId, u32 Config) {
     } else {
         CfgPtr->GpoAddr = Config & GPIO_MASK;
     }
+    Peripheral_WriteReg(CfgPtr->BaseAddress, GPO_ADDR_OFFSET, CfgPtr->GpoAddr);
+    xil_printf("INFO: Set GPO Reg: 0x%08x\r\n", CfgPtr->GpoAddr);
     return XST_SUCCESS;
 }
 
@@ -286,7 +288,6 @@ void Peripheral_PrintCfgPtr(u16 DeviceId) {
     }
     xil_printf("\nINFO: Print peripheral Peripheral_ConfigTable[%d] settings... \r\n", DeviceId);
     xil_printf("INFO: CDCI6214 GPIO Reg: 0x%08x\r\n", CfgPtr->CDCI6214GpioConfigAddr);
-    xil_printf("INFO: GPO Reg: 0x%08x\r\n", CfgPtr->GpoAddr);
     xil_printf("INFO: LADC CTRL Reg: 0x%08x\r\n", CfgPtr->LadcCtrlAddr);
     xil_printf("INFO: SFP1 GPIO Reg: 0x%08x\r\n", CfgPtr->Sfp1GpioAddr);
     xil_printf("INFO: SFP2 GPIO Reg: 0x%08x\r\n", CfgPtr->Sfp2GpioAddr);
@@ -306,7 +307,6 @@ int Peripheral_ApplyCfg(u16 DeviceId) {
     }
 
     Peripheral_WriteReg(CfgPtr->BaseAddress, CDCI6214_GPIO_ADDR_OFFSET, CfgPtr->CDCI6214GpioConfigAddr);
-    Peripheral_WriteReg(CfgPtr->BaseAddress, GPO_ADDR_OFFSET, CfgPtr->GpoAddr);
     Peripheral_WriteReg(CfgPtr->BaseAddress, LADC_CTRL_ADDR_OFFSET, CfgPtr->LadcCtrlAddr);
     Peripheral_WriteReg(CfgPtr->BaseAddress, SFP1_GPIO_ADDR_OFFSET, CfgPtr->Sfp1GpioAddr);
     Peripheral_WriteReg(CfgPtr->BaseAddress, SFP2_GPIO_ADDR_OFFSET, CfgPtr->Sfp2GpioAddr);
@@ -327,13 +327,27 @@ void Peripheral_PrintAppliedCfg(u16 DeviceId) {
     }
     xil_printf("\nINFO: print peripheral APPLIED config settings of Device ID:%d ... \r\n", DeviceId);
     xil_printf("INFO: CDCI6214 GPIO Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, CDCI6214_GPIO_ADDR_OFFSET));
-    xil_printf("INFO: GPO Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, GPO_ADDR_OFFSET));
-    xil_printf("INFO: GPI Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, GPI_ADDR_OFFSET));
     xil_printf("INFO: LADC CTRL Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, LADC_CTRL_ADDR_OFFSET));
     xil_printf("INFO: LADC RESET Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, LADC_RESET_ADDR_OFFSET));
     xil_printf("INFO: LADC SEN Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, LADC_SEN_ADDR_OFFSET));
     xil_printf("INFO: SFP1 GPIO Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, SFP1_GPIO_ADDR_OFFSET));
     xil_printf("INFO: SFP2 GPIO Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, SFP2_GPIO_ADDR_OFFSET));
+}
+
+void Peripheral_PrintGPIO(u16 DeviceId) {
+    extern Peripheral_Config Peripheral_ConfigTable[];
+    Peripheral_Config *CfgPtr = NULL;
+    int Index;
+
+    Index = Peripheral_SearchDevice(DeviceId);
+    if (Index < 0) {
+        xil_printf("\nERROR: Peripheral_Configrator device (Device ID:%d) is not found\r\n", DeviceId);
+        return XST_FAILURE;
+    } else {
+        CfgPtr = &Peripheral_ConfigTable[Index];
+    }
+    xil_printf("INFO: GPO Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, GPO_ADDR_OFFSET));
+    xil_printf("INFO: GPI Reg: 0x%08x\r\n", Peripheral_ReadReg(CfgPtr->BaseAddress, GPI_ADDR_OFFSET));
 }
 
 int Peripheral_GetCdci6214Status(u16 DeviceId) {
@@ -352,7 +366,7 @@ int Peripheral_GetCdci6214Status(u16 DeviceId) {
     return (CfgPtr->CDCI6214GpioConfigAddr) & CDCI6214_STATUS_MASK;
 }
 
-int Peripheral_GetGpiInput(u16 DeviceId) {
+int Peripheral_GetGPI(u16 DeviceId) {
     extern Peripheral_Config Peripheral_ConfigTable[];
     Peripheral_Config *CfgPtr = NULL;
     int Index;

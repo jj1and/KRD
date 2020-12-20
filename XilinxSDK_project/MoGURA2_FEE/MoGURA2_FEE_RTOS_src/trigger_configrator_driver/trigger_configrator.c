@@ -1,6 +1,7 @@
 #include "trigger_configrator.h"
 
 #include "trigger_configrator_hw.h"
+#include "unistd.h"
 #include "xil_printf.h"
 #include "xstatus.h"
 
@@ -190,13 +191,13 @@ Trigger_Config *Trigger_ChannelConfigBaseAddr(UINTPTR Baseaddr, u32 channel, u32
 
 int Trigger_ApplyCfg(Trigger_Config *CfgPtr) {
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
-        Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (CONTROL_STATE_MASK | ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
+        Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
     }
     Trigger_WriteReg(CfgPtr->BaseAddress, CONFIG_ADDR_OFFSET, (CfgPtr->ConfigAddr & MAX_TRIGGER_LENGTH_MASK) | CONFIG_STATE);
 
     for (size_t i = 0; i < CHANNEL_NUM; i++) {
         if (Trigger_IsConfigState(CfgPtr)) {
-            Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (CONTROL_STATE_MASK | ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
+            Trigger_WriteReg(CfgPtr->BaseAddress, CONTROL_ADDR_OFFSET + i * CHANNEL_OFFSET, (CfgPtr->ControlAddr[i] & (ACQUIRE_MODE_MASK | TRIGGER_TYPE_MASK)) | STOP_STATE);
             Trigger_WriteReg(CfgPtr->BaseAddress, THRESHOLD_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->ThresholdAddr[i]);
             Trigger_WriteReg(CfgPtr->BaseAddress, ACQUISITION_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->AcquisitionAddr[i]);
             Trigger_WriteReg(CfgPtr->BaseAddress, BASELINE_ADDR_OFFSET + i * CHANNEL_OFFSET, CfgPtr->BaselineAddr[i]);
@@ -206,7 +207,7 @@ int Trigger_ApplyCfg(Trigger_Config *CfgPtr) {
             return XST_FAILURE;
         }
     }
-
+    // sleep(1);
     Trigger_WriteReg(CfgPtr->BaseAddress, CONFIG_ADDR_OFFSET, (CfgPtr->ConfigAddr & MAX_TRIGGER_LENGTH_MASK) | CONFIG_FIXED_STATE);
     if (Trigger_IsConfigState(CfgPtr)) {
         xil_printf("ERROR: Failed to save config\r\n");
