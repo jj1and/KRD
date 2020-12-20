@@ -1,9 +1,9 @@
+import sys
 """create dummy socket client"""
 import socket
 """check size of sending data"""
-import sys
 
-IP_ADDRESS = '127.0.0.1' # localhost
+IP_ADDRESS = '127.0.0.1'  # localhost
 PORT = 5001
 
 DATA_FRAME1 = [
@@ -22,11 +22,12 @@ DATA_FRAME2 = [
     '000B000A00090008', '000F000E000D000C',
     '0000000000000155']
 
-DATA_FRAME = ''.join([ele[::-1] for ele in DATA_FRAME1]) + ''.join([ele[::-1] for ele in DATA_FRAME2])
+DATA_FRAME = ''.join([ele[::-1] for ele in DATA_FRAME1]) + \
+    ''.join([ele[::-1] for ele in DATA_FRAME2])
 DATA_FRAMES = ''
 
 if __name__ == "__main__":
-   
+
     while len(DATA_FRAMES)/2 < 10*1E6:
         DATA_FRAMES += DATA_FRAME
 
