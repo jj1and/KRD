@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # BASE_FILE_NAME = "./data/recv_buff_v4_20201204_11.bin"
-BASE_FILE_NAME = "./data/Mog2fee_v0_20201218_19.bin"
+BASE_FILE_NAME = "./data/Mog2fee_v0_20201221_05.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -50,6 +50,14 @@ if __name__ == "__main__":
     # axes[0].set_title("Acquired data")
     # axes[-1].set_xlabel("Time[nsec]")
 
+    sel_channels = np.array([1, 3])
+    sel_ch_label = {
+        1: "Ch1 DSP disabled",
+        3: "Ch3 DSP enabled"}
+    sel_label_plotted = np.zeros(len(sel_channels))
+    sel_fig, sel_ax = plt.subplots(1, 1, sharex=True)
+    sel_ax.set_ylabel("ADC")
+
     t0 = min(pd_dfs['TIMESTAMP'])
     for i in (select_pds.index[:]):
         sample_num = pd_dfs['FRAME_LEN'][i]
@@ -66,6 +74,16 @@ if __name__ == "__main__":
         axes[np.where(acuqired_channels == pd_dfs['CH_ID'][i])[0][0]].plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
                                                                            linestyle='-', marker='o', markersize=5)
 
+        search_sel_ch = np.where(sel_channels == pd_dfs['CH_ID'][i])[0]
+        if len(search_sel_ch) > 0:
+            if sel_label_plotted[search_sel_ch[0]] == 0:
+                sel_label_plotted[search_sel_ch[0]] = 1
+                sel_ax.plot(
+                    t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5, label=sel_ch_label[pd_dfs['CH_ID'][i]])
+            else:
+                sel_ax.plot(
+                    t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5)
+    sel_ax.legend()
     # xmin, xmax=ax.get_xlim()
     # ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']
     #                        [0]], ls = '-.', color = 'firebrick', label = 'rising_edge')
