@@ -5,8 +5,6 @@
 #include "xil_printf.h"
 #include "xstatus.h"
 
-#define FEE_DEBUG
-
 static XGpio Gpio_mode_switch_thre;
 static int fee_state_flag = FEE_STOPPED;
 

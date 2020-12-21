@@ -18,11 +18,13 @@
 #include "task.h"
 #include "xil_printf.h"
 #include "xparameters.h"
-#include "xtime_l.h"
 
 #define CMDRECV_PORT 5002
 #define RECV_BUF_SIZE 2048
 #define THREAD_STACKSIZE 1024
+
+#define TYPE_SIZE 0
+#define TYPE_TIME 1
 
 #define TIMER_ID 1
 #define DELAY_10_SECONDS 10000UL
@@ -44,7 +46,12 @@ extern TaskHandle_t cleanup_thread;
 extern TaskHandle_t cmd_thread;
 extern TaskHandle_t xPeripheralSetupTask;
 extern TaskHandle_t xFeeCtrlTask;
+extern TaskHandle_t xResetTask;
+
 extern SemaphoreHandle_t xCmdrcvd2FeeCtrlSemaphore;
+extern SemaphoreHandle_t xALL2ResetTaskSemaphore;
+extern SemaphoreHandle_t xResetTask2ALLFeeCtrlSemaphore;
+
 extern TriggerManager_Config fee;
 
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
@@ -53,8 +60,7 @@ const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
 const double refClkFreq_MHz = 250.00;
 const double ADC_samplingRate_Msps = 2000.0;
 
-XTime Start;
-XTime End;
+#define TRY_TIMES 10
 
 const int RFDC_ADC_TILES[4] = {0, 1, 2, 3};
 // const int RFDC_DAC_TILES[1] = {0};
@@ -68,6 +74,8 @@ AvailableAdcTiles AdcTile = {
 //     RFDC_DAC_TILES};
 
 static unsigned long long test_size = 256000000;
+static unsigned long test_time = 120;
+static int test_type = TYPE_SIZE;
 
 static Channel_Config ch_config_array[16];
 static Channel_Config channel_0 = {0, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
@@ -91,13 +99,19 @@ static Ladc_Config LadcConfig;
 static u16 baseline = 0x233;
 
 struct netif myself_netif;
+static struct sockaddr_in myself, remote;
+static int sock, sd, size, n;
+static char mesgbuff[2048];
 
-XGpio CheckGpio;
+XGpio SizeGpio;
+XGpio TimeGpio;
 
 void network_thread(void *arg);
 void cmdrecv_application_thread(void *pvParameters);
 void prvFeeCtrlTask(void *pvParameters);
+void prvResetTask(void *pvParameters);
 void cleanup_tasks(void *pvParameters);
+void resetFEE();
 int vAppDaemonPeripheralStartupHook();
 
 static void print_ip(char *msg, ip_addr_t *ip) {
@@ -118,7 +132,6 @@ static void flush_buff(char *buff) {
 }
 
 int main() {
-    XTime_StartTimer();
     int Status;
     xil_printf("INFO: MoGURA2 FEE RTOS for debug\r\n");
     Status = peripheral_setup();
@@ -169,7 +182,7 @@ void network_thread(void *arg) {
     /* start packet receive thread - required for lwIP operation */
 
     sys_thread_new("xemacif_input_thread", (void (*)(void *))xemacif_input_thread, netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO + 1);
-    xTaskCreate(prvFeeCtrlTask, (const char *)"FEE Ctrl", configMINIMAL_STACK_SIZE, NULL, DEFAULT_THREAD_PRIO, &xFeeCtrlTask);
+    xTaskCreate(prvFeeCtrlTask, (const char *)"FEE Ctrl", THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO, &xFeeCtrlTask);
     cmd_thread = sys_thread_new("cmdrcvdd", cmdrecv_application_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO + 1);
     vTaskDelete(NULL);
     return;
@@ -196,20 +209,32 @@ void cleanup_tasks(void *pvParameters) {
     DisableIntrSystem(&xInterruptController, SPI_BASEDAC_INTR);
     DisableIntrSystem(&xInterruptController, SPI_LADC_INTR);
     vTaskDelete(xFeeCtrlTask);
+    vTaskDelete(xResetTask);
     vTaskDelete(cmd_thread);
     vTaskDelete(NULL);
     exit(0);
     return;
 }
 
+void prvResetTask(void *pvParameters) {
+    while (1) {
+        if (xSemaphoreTake(xALL2ResetTaskSemaphore, portMAX_DELAY)) {
+            printf("INFO: reset fee\r\n");
+            GPO_TriggerReset();
+            sleep(1);
+            rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
+            SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
+            HardwareTrigger_SetupDeviceId(0, &fee);
+        }
+        xSemaphoreGive(xResetTask2ALLFeeCtrlSemaphore);
+        portYIELD();
+    }
+}
+
 void cmdrecv_application_thread(void *pvParameters) {
     int status;
-    struct sockaddr_in myself, remote;
-    int sock, sd, size, n;
     int quit_flag = 0;
     char recv_buf[RECV_BUF_SIZE];
-    int mesglen;
-    char mesgbuff[2048];
 
     ch_config_array[0] = channel_0;
     ch_config_array[1] = channel_1;
@@ -238,29 +263,14 @@ void cmdrecv_application_thread(void *pvParameters) {
     LadcConfig.OperationMode = LADC_DOUBLETPNMODE;
 
     xCmdrcvd2FeeCtrlSemaphore = xSemaphoreCreateBinary();
-    GPO_TriggerReset();
-    sleep(1);
-
-    if (rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile) != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to setup RF Data Converter ADC\r\n");
-        return XST_FAILURE;
+    xALL2ResetTaskSemaphore = xSemaphoreCreateBinary();
+    xResetTask2ALLFeeCtrlSemaphore = xSemaphoreCreateBinary();
+    xTaskCreate(prvResetTask, (const char *)"FEE Reset", THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO, &xResetTask);
+    xSemaphoreGive(xALL2ResetTaskSemaphore);
+    if (xSemaphoreTake(xResetTask2ALLFeeCtrlSemaphore, portMAX_DELAY)) {
+        xil_printf("INFO: reset FEE done.");
     }
-    // Status = rfdcSingle_setup(RFDC_DEVICE_ID, 0, XRFDC_ADC_TILE, refClkFreq_MHz, ADC_samplingRate_Msps);
-    // if (Status != XST_SUCCESS) {
-    //     xil_printf("ERROR: Failed to setup RF Data Converter ADC in single\r\n");
-    //     return XST_FAILURE;
-    // }
 
-    //    double DAC_samplingRate_Msps = 983.04;
-    //    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
-    //    Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 0, refClkFreq_MHz, DAC_samplingRate_Msps);
-    //    if (Status != XST_SUCCESS) {
-    //        xil_printf("ERROR: Failed to setup RF Data Converter DAC\r\n");
-    //        return XST_FAILURE;
-    //    }
-
-    SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
-    HardwareTrigger_SetupDeviceId(0, &fee);
     vAppDaemonPeripheralStartupHook();
 
     memset(&myself, 0, sizeof(myself));
@@ -312,7 +322,11 @@ void cmdrecv_application_thread(void *pvParameters) {
                         write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "help       : show avairable command\r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
-                        sprintf(mesgbuff, "test_size       : total send size to PC\r\n");
+                        sprintf(mesgbuff, "test_size       : total size of receiveing data\r\n");
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        sprintf(mesgbuff, "test_time       : total time of test\r\n");
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        sprintf(mesgbuff, "test_type       : type of test\r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "baseline   : baseline \r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
@@ -324,6 +338,26 @@ void cmdrecv_application_thread(void *pvParameters) {
                         write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "quit       : shutdown FEE and disconnect\r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
+                    } else if (!strncmp(recv_buf, "test_type", 9)) {
+                        sprintf(mesgbuff, "INFO: Enter type of test (size or time).\r\n");
+                        xil_printf(mesgbuff);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        if ((n = read(sd, recv_buf, RECV_BUF_SIZE)) < 0) {
+                            xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
+                            break;
+                        }
+                        if (!strncmp(recv_buf, "size", 4)) {
+                            test_type = TYPE_SIZE;
+                            sprintf(mesgbuff, "INFO: set test type as size.\r\n");
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                        } else if (!strncmp(recv_buf, "time", 4)) {
+                            test_type = TYPE_TIME;
+                            sprintf(mesgbuff, "INFO: set test type as time.\r\n");
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                        } else {
+                            sprintf(mesgbuff, "INFO: unknown type\r\n");
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                        }
                     } else if (!strncmp(recv_buf, "test_size", 9)) {
                         sprintf(mesgbuff, "INFO: Enter total test data size (unit is Byte).\r\n");
                         xil_printf(mesgbuff);
@@ -334,6 +368,17 @@ void cmdrecv_application_thread(void *pvParameters) {
                         }
                         test_size = strtoull(recv_buf, NULL, 10);
                         sprintf(mesgbuff, "INFO: set test data size as %llu Byte.\r\n", test_size);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                    } else if (!strncmp(recv_buf, "test_time", 9)) {
+                        sprintf(mesgbuff, "INFO: Enter total test time (unit is sec).\r\n");
+                        xil_printf(mesgbuff);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        if ((n = read(sd, recv_buf, RECV_BUF_SIZE)) < 0) {
+                            xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
+                            break;
+                        }
+                        test_time = strtoul(recv_buf, NULL, 10);
+                        sprintf(mesgbuff, "INFO: set test time as %lu sec.\r\n", test_time);
                         write(sd, mesgbuff, strlen(mesgbuff));
                     } else if (!strncmp(recv_buf, "baseline", 8)) {
                         sprintf(mesgbuff, "INFO: Enter baseline (%d <= baseline <= %d).\r\n", 0x000, 0x2ff);
@@ -389,13 +434,12 @@ void cmdrecv_application_thread(void *pvParameters) {
                         xSemaphoreGive(xCmdrcvd2FeeCtrlSemaphore);
                         vTaskSuspend(NULL);
                     } else if (!strncmp(recv_buf, "reset", 5)) {
-                        sprintf(mesgbuff, "INFO: reset fee\r\n");
-                        write(sd, mesgbuff, strlen(mesgbuff));
-                        GPO_TriggerReset();
-                        sleep(1);
-                        rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
-                        SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
-                        HardwareTrigger_SetupDeviceId(0, &fee);
+                        xSemaphoreGive(xALL2ResetTaskSemaphore);
+                        if (xSemaphoreTake(xResetTask2ALLFeeCtrlSemaphore, portMAX_DELAY)) {
+                            sprintf(mesgbuff, "INFO: reset FEE done.\r\n");
+                            print(mesgbuff);
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                        }
                     } else {
                         sprintf(mesgbuff, "INFO: unknown command\r\n");
                         xil_printf(mesgbuff);
@@ -418,64 +462,134 @@ void cmdrecv_application_thread(void *pvParameters) {
 
 void prvFeeCtrlTask(void *pvParameters) {
     int fee_status;
-    u64 dump_recv_size = 0;
+    u64 dump_recv_size[TRY_TIMES];
+    double passed_time;
+    int passed_10min_times = 0;
     u64 other_info;
     u8 full_flag = 0;
     u32 hit_count = 0;
+    u64 time_since_start[TRY_TIMES];
+    u64 time_since_start_MSB = 0;
+    u64 time_since_start_LSB = 0;
 
-    xil_printf("INFO: Start Dma task\r\n");
+    xil_printf("INFO: Start FEE Ctrl task\r\n");
 
     while (1) {
         if (xSemaphoreTake(xCmdrcvd2FeeCtrlSemaphore, portMAX_DELAY)) {
-            xil_printf("INFO: Run start\r\n");
+            sprintf(mesgbuff, "INFO: Test start\r\n");
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
         } else {
-            xil_printf("INFO: Waiting Cmdrcvd is Timeout\r\n");
+            sprintf(mesgbuff, "INFO: Waiting Cmdrcvd is Timeout\r\n");
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
             break;
         }
 
-        //        fee_status = HardwareTrigger_StartDeviceIdAllCh(0);
-        for (u16 i = 0; i < 16; i++) {
-            if (ch_config_array[i].enable == ENABLE) {
-                fee_status = HardwareTrigger_StartDeviceId(0, i);
-                if (fee_status != XST_SUCCESS) {
-                    return fee_status;
+        fee_status = XGpio_Initialize(&SizeGpio, XPAR_DUMMY_RECEIVER_BLOCK_AXI_GPIO_1_DEVICE_ID);
+        if (fee_status != XST_SUCCESS) {
+            sprintf(mesgbuff, "ERROR: Failed to dummy_receiver Size GPIO\r\n");
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
+            return;
+        }
+        XGpio_SetDataDirection(&SizeGpio, 1, 0x1);
+        XGpio_SetDataDirection(&SizeGpio, 2, 0x1);
+
+        fee_status = XGpio_Initialize(&TimeGpio, XPAR_DUMMY_RECEIVER_BLOCK_AXI_GPIO_2_DEVICE_ID);
+        if (fee_status != XST_SUCCESS) {
+            sprintf(mesgbuff, "ERROR: Failed to dummy_receiver Time GPIO\r\n");
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
+            return;
+        }
+        XGpio_SetDataDirection(&TimeGpio, 1, 0x1);
+        XGpio_SetDataDirection(&TimeGpio, 2, 0x1);
+
+        for (size_t i = 0; i < TRY_TIMES; i++) {
+            xSemaphoreGive(xALL2ResetTaskSemaphore);
+            if (xSemaphoreTake(xResetTask2ALLFeeCtrlSemaphore, portMAX_DELAY)) {
+                sprintf(mesgbuff, "INFO: reset FEE done.\r\n");
+                print(mesgbuff);
+                write(sd, mesgbuff, strlen(mesgbuff));
+            }
+            dump_recv_size[i] = 0;
+            passed_time = 0;
+            passed_10min_times = 0;
+            time_since_start[i] = 0;
+            sprintf(mesgbuff, "INFO: Run[%d] start\r\n", i);
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
+            //        fee_status = HardwareTrigger_StartDeviceIdAllCh(0);
+            for (u16 i = 0; i < 16; i++) {
+                if (ch_config_array[i].enable == ENABLE) {
+                    fee_status = HardwareTrigger_StartDeviceId(0, i);
+                    if (fee_status != XST_SUCCESS) {
+                        sprintf(mesgbuff, "ERROR: Failed to start FEE\r\n");
+                        printf(mesgbuff);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        return;
+                    }
                 }
             }
-        }
 
-        fee_status = XGpio_Initialize(&CheckGpio, XPAR_AXI_GPIO_1_DEVICE_ID);
-        if (fee_status != XST_SUCCESS) {
-            xil_printf("ERROR: Failed to dummy_receiver check GPIO\r\n");
-            return XST_FAILURE;
-        }
-        XGpio_SetDataDirection(&CheckGpio, 1, 0x1);
-        XGpio_SetDataDirection(&CheckGpio, 2, 0x1);
+            if (test_type == TYPE_TIME) {
+                while ((passed_time < (double)test_time) && (full_flag == 0)) {
+                    dump_recv_size[i] = ((u64)XGpio_DiscreteRead(&SizeGpio, 2)) * 8;
+                    other_info = XGpio_DiscreteRead(&SizeGpio, 1);
+                    hit_count = (other_info >> 1) & 0x7FFFFFFF;
+                    full_flag = (other_info & 0x1);
 
-        dump_recv_size = 0;
-        XTime_GetTime(&Start);
-        while ((dump_recv_size < test_size) && (full_flag == 0)) {
-            dump_recv_size = ((u64)XGpio_DiscreteRead(&CheckGpio, 2))*8;
-            other_info = XGpio_DiscreteRead(&CheckGpio, 1);
-            hit_count = (other_info >> 1) & 0x7FFFFFFF;
-            full_flag = (other_info & 0x1);
-        }
-        if (full_flag != 0) {
-            xil_printf("INFO: Full flag detected.\r\n");
-            full_flag = 0;
-        }
+                    time_since_start_LSB = (u64)XGpio_DiscreteRead(&TimeGpio, 1);
+                    time_since_start_MSB = (u64)XGpio_DiscreteRead(&TimeGpio, 2);
+                    time_since_start[i] = ((time_since_start_MSB << 32) & 0xFFFF00000000) | (time_since_start_LSB & 0xFFFFFFFF);
 
-        XTime_GetTime(&End);
-        if (getFeeState() == FEE_RUNNING) {
-            if (HardwareTrigger_StopDeviceIdAllCh(0) != XST_SUCCESS) {
-                xil_printf("ERROR: failed to stop fee. Recomend to reset fee.\r\n");
+                    passed_time = time_since_start[i] * 5 * 1E-9;
+                    if ((int)(passed_time / 600) > passed_10min_times) {
+                        sprintf(mesgbuff, "INFO: %d minutes passed. Received %.2f MBytes\r\n", (int)(passed_time / 60), (double)(dump_recv_size[i] * 1E-6));
+                        printf(mesgbuff);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        passed_10min_times = (int)(passed_time / 600);
+                    }
+                }
+            } else {
+                while ((dump_recv_size[i] < test_size) && (full_flag == 0)) {
+                    dump_recv_size[i] = ((u64)XGpio_DiscreteRead(&SizeGpio, 2)) * 8;
+                    other_info = XGpio_DiscreteRead(&SizeGpio, 1);
+                    hit_count = (other_info >> 1) & 0x7FFFFFFF;
+                    full_flag = (other_info & 0x1);
+
+                    time_since_start_LSB = (u64)XGpio_DiscreteRead(&TimeGpio, 1);
+                    time_since_start_MSB = (u64)XGpio_DiscreteRead(&TimeGpio, 2);
+                    time_since_start[i] = ((time_since_start_MSB << 32) & 0xFFFF00000000) | (time_since_start_LSB & 0xFFFFFFFF);
+                }
             }
+            if (full_flag != 0) {
+                sprintf(mesgbuff, "INFO: Full flag detected.\r\n");
+                printf(mesgbuff);
+                write(sd, mesgbuff, strlen(mesgbuff));
+                full_flag = 0;
+            }
+            if (getFeeState() == FEE_RUNNING) {
+                if (HardwareTrigger_StopDeviceIdAllCh(0) != XST_SUCCESS) {
+                    sprintf(mesgbuff, "ERROR: failed to stop fee. Recomend to reset fee.\r\n");
+                    printf(mesgbuff);
+                    write(sd, mesgbuff, strlen(mesgbuff));
+                }
+            }
+            sprintf(mesgbuff, "INFO: Run[%d] end.\r\n", i);
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
         }
-        xil_printf("INFO: Run end.\r\n");
 
-        double rcvd_time_sec = (End - Start) / COUNTS_PER_SECOND;
-        double rcvd_data_size_MB = dump_recv_size * 1E-6;
-        double dma_speed_Mbps = rcvd_data_size_MB * 8 / rcvd_time_sec;
-        printf("INFO: Rcvd %f MBytes @ %f Mbps\r\n", rcvd_data_size_MB, dma_speed_Mbps);
+        for (size_t i = 0; i < TRY_TIMES; i++) {
+            double rcvd_time_sec = time_since_start[i] * 5 * 1E-9;
+            double rcvd_data_size_MB = dump_recv_size[i] * 1E-6;
+            double read_speed_Mbps = rcvd_data_size_MB * 8 / rcvd_time_sec;
+            sprintf(mesgbuff, "INFO: Run[%d]: Rcvd %f MBytes for %f sec -> %f Mbps\r\n", i, rcvd_data_size_MB, rcvd_time_sec, read_speed_Mbps);
+            printf(mesgbuff);
+            write(sd, mesgbuff, strlen(mesgbuff));
+        }
 
         vTaskResume(cmd_thread);
     }
