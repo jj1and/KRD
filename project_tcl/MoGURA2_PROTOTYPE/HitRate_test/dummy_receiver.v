@@ -38,15 +38,11 @@ module dummy_receiver # (
         if (!ARESETN) begin
             total_rcvd_size <= #100 0;
         end else begin
-            if (full_flag) begin
-                total_rcvd_size <= #100 total_rcvd_size;
+            if (tdata_is_header&S_AXIS_TVALID) begin
+                total_rcvd_size <= #100 total_rcvd_size + packet_size;
             end else begin
-                if (tdata_is_header&S_AXIS_TVALID) begin
-                    total_rcvd_size <= #100 total_rcvd_size + packet_size;
-                end else begin
-                    total_rcvd_size <= #100 total_rcvd_size;
-                end                
-            end
+                total_rcvd_size <= #100 total_rcvd_size;
+            end                
         end
     end
 
