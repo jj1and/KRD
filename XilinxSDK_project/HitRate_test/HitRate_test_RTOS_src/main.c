@@ -534,7 +534,7 @@ void prvFeeCtrlTask(void *pvParameters) {
             }
 
             if (test_type == TYPE_TIME) {
-                while ((passed_time < (double)test_time) && (full_flag == 0)) {
+                while (passed_time < (double)test_time) {
                     dump_recv_size[i] = ((u64)XGpio_DiscreteRead(&SizeGpio, 2)) * 8;
                     other_info = XGpio_DiscreteRead(&SizeGpio, 1);
                     hit_count = (other_info >> 1) & 0x7FFFFFFF;
