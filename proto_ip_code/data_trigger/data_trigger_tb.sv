@@ -34,7 +34,7 @@
     end
 
     // trigger settings
-    reg signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRSHOLD = 1024;
+    reg signed [`SAMPLE_WIDTH-1:0] RISING_EDGE_THRESHOLD = 1024;
     reg signed [`SAMPLE_WIDTH-1:0] FALLING_EDGE_THRESHOLD = 1024;
     reg signed [`ADC_RESOLUTION_WIDTH:0] H_GAIN_BASELINE = -1024;
     reg signed [`SAMPLE_WIDTH-1:0] L_GAIN_BASELINE = 256;
@@ -285,7 +285,7 @@
         SET_CONFIG <= #100 1'b1;
 
         ACQUIRE_MODE <= #100 acquire_mode;
-        RISING_EDGE_THRSHOLD <= #100 rise_edge_thre;
+        RISING_EDGE_THRESHOLD <= #100 rise_edge_thre;
         FALLING_EDGE_THRESHOLD <= #100 fall_edge_thre;
         H_GAIN_BASELINE <= #100 h_baseline;
         L_GAIN_BASELINE <= #100 l_baseline;

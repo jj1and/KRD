@@ -120,7 +120,7 @@ module data_trigger # (
                 assign dsp_sample[i] = DSP_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH];
                 // assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = { {`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH]}}, h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH:0] };                
                 assign normal_tdata[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] = dsp_mode_enable ? 
-                                                                                    DSP_S_AXIS_TDATA : 
+                                                                                    DSP_S_AXIS_TDATA[i*`SAMPLE_WIDTH +:`SAMPLE_WIDTH] : 
                                                                                     { {`SAMPLE_WIDTH-(`ADC_RESOLUTION_WIDTH+1){h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH]}}, h_gain_bl_subtracted[i][`ADC_RESOLUTION_WIDTH:0] };
             end
             for (i=0; i<4; i=i+1) begin
