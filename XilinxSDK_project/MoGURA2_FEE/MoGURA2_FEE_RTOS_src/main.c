@@ -36,31 +36,11 @@
 #define PRE_ACQUISITION_LENGTH 2
 #define POST_ACQUISITION_LENGTH 1
 
-static Channel_Config ch_config_array[16];
-const Channel_Config channel_0 = {0, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_1 = {1, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_2 = {2, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_3 = {3, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_4 = {4, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_5 = {5, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_6 = {6, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_7 = {7, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_8 = {8, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_9 = {9, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_10 = {10, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_11 = {11, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_12 = {12, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_13 = {13, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_14 = {14, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-const Channel_Config channel_15 = {15, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
-
-int internalbuffer_full_cnt;
-
-static Ladc_Config LadcConfig;
-static u16 baseline = 0x233;
-
 const TickType_t x1seconds = pdMS_TO_TICKS(DELAY_1_SECOND);
 const TickType_t x10seconds = pdMS_TO_TICKS(DELAY_10_SECONDS);
+
+const double refClkFreq_MHz = 250.00;
+const double ADC_samplingRate_Msps = 2000.0;
 
 const int RFDC_ADC_TILES[4] = {0, 1, 2, 3};
 // const int RFDC_DAC_TILES[1] = {0};
@@ -72,6 +52,29 @@ AvailableAdcTiles AdcTile = {
 // AvailableDacTiles DacTile = {
 //     0,
 //     RFDC_DAC_TILES};
+
+static Channel_Config ch_config_array[16];
+static Channel_Config channel_0 = {0, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_1 = {1, ENABLE, DSP_NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_2 = {2, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_3 = {3, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_4 = {4, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_5 = {5, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_6 = {6, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_7 = {7, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_8 = {8, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_9 = {9, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_10 = {10, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_11 = {11, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_12 = {12, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_13 = {13, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_14 = {14, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+static Channel_Config channel_15 = {15, ENABLE, NORMAL_ACQUIRE_MODE, EXTERNAL_TRIGGER, -256, FALLING_EDGE_THRESHOLD, PRE_ACQUISITION_LENGTH, POST_ACQUISITION_LENGTH, H_GAIN_BASELINE, L_GAIN_BASELINE};
+
+int internalbuffer_full_cnt;
+
+static Ladc_Config LadcConfig;
+static u16 baseline = 0x233;
 
 struct netif myself_netif;
 app_arg send2pc_setting;
@@ -93,38 +96,12 @@ int main() {
     send2pc_setting.port = 5001;
     send2pc_setting.server_address = "192.168.1.2";
     send2pc_setting.xTicksToWait = x10seconds;
+    DmaTaskState = DMATASK_READY;
 
     int Status;
     xil_printf("INFO: MoGURA2 FEE RTOS for debug\r\n");
     Status = peripheral_setup();
     if (Status != XST_SUCCESS) return XST_FAILURE;
-
-    double refClkFreq_MHz = 250.00;
-    double ADC_samplingRate_Msps = 2000.0;
-    Status = rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
-    if (Status != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to setup RF Data Converter ADC\r\n");
-        return XST_FAILURE;
-    }
-    // Status = rfdcSingle_setup(RFDC_DEVICE_ID, 0, XRFDC_ADC_TILE, refClkFreq_MHz, ADC_samplingRate_Msps);
-    // if (Status != XST_SUCCESS) {
-    //     xil_printf("ERROR: Failed to setup RF Data Converter ADC in single\r\n");
-    //     return XST_FAILURE;
-    // }
-
-    //    double DAC_samplingRate_Msps = 983.04;
-    //    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
-    //    Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 0, refClkFreq_MHz, DAC_samplingRate_Msps);
-    //    if (Status != XST_SUCCESS) {
-    //        xil_printf("ERROR: Failed to setup RF Data Converter DAC\r\n");
-    //        return XST_FAILURE;
-    //    }
-
-    Status = axidma_setup();
-    if (Status != XST_SUCCESS) {
-        xil_printf("ERROR: Failed to Setup AXI-DMA\r\n");
-        return XST_FAILURE;
-    }
 
     sys_thread_new("nw_thread", network_thread, &send2pc_setting, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 
@@ -242,10 +219,34 @@ void cmdrecv_application_thread(void *pvParameters) {
     LadcConfig.OperationMode = LADC_DOUBLETPNMODE;
 
     xCmdrcvd2DmaSemaphore = xSemaphoreCreateBinary();
+    GPO_TriggerReset();
+    sleep(1);
+
+    if (rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile) != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to setup RF Data Converter ADC\r\n");
+        return XST_FAILURE;
+    }
+    // Status = rfdcSingle_setup(RFDC_DEVICE_ID, 0, XRFDC_ADC_TILE, refClkFreq_MHz, ADC_samplingRate_Msps);
+    // if (Status != XST_SUCCESS) {
+    //     xil_printf("ERROR: Failed to setup RF Data Converter ADC in single\r\n");
+    //     return XST_FAILURE;
+    // }
+
+    //    double DAC_samplingRate_Msps = 983.04;
+    //    Status = rfdcDAC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, DAC_samplingRate_Msps, DacTile);
+    //    Status = rfdcSingle_setup(RFDC_DEVICE_ID, XRFDC_DAC_TILE, 0, refClkFreq_MHz, DAC_samplingRate_Msps);
+    //    if (Status != XST_SUCCESS) {
+    //        xil_printf("ERROR: Failed to setup RF Data Converter DAC\r\n");
+    //        return XST_FAILURE;
+    //    }
 
     SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
     HardwareTrigger_SetupDeviceId(0, &fee);
-
+    status = axidma_setup();
+    if (status != XST_SUCCESS) {
+        xil_printf("ERROR: Failed to Setup AXI-DMA\r\n");
+        return XST_FAILURE;
+    }
     vAppDaemonPeripheralStartupHook();
 
     memset(&myself, 0, sizeof(myself));
@@ -301,6 +302,8 @@ void cmdrecv_application_thread(void *pvParameters) {
                         write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "baseline   : baseline \r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
+                        sprintf(mesgbuff, "channel    : Enter enable channel with hex.\r\n");
+                        write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "start      : start data acquisition\r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
                         sprintf(mesgbuff, "reset      : reset hardware trigger\r\n");
@@ -327,17 +330,39 @@ void cmdrecv_application_thread(void *pvParameters) {
                             xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
                             break;
                         }
-                        baseline = atoi(recv_buf);
+                        int temp_baseline = atoi(recv_buf);
                         if ((baseline < 0) | (baseline > 767)) {
                             sprintf(mesgbuff, "ERROR: baseline must be larger than %d & smaller than %d\r\n", 0x000, 0x2ff);
                             xil_printf(mesgbuff);
                             write(sd, mesgbuff, strlen(mesgbuff));
-                            baseline = 563;
                         } else {
+                            baseline = temp_baseline;
                             sprintf(mesgbuff, "INFO: set baseline as %d.\r\n", baseline);
                             xil_printf(mesgbuff);
                             write(sd, mesgbuff, strlen(mesgbuff));
                         }
+                    } else if (!strncmp(recv_buf, "channel", 7)) {
+                        sprintf(mesgbuff, "INFO: Enter enable channel with hex.\r\n");
+                        xil_printf(mesgbuff);
+                        write(sd, mesgbuff, strlen(mesgbuff));
+                        if ((n = read(sd, recv_buf, RECV_BUF_SIZE)) < 0) {
+                            xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
+                            break;
+                        }
+                        u16 en_ch = atoi(recv_buf);
+                        if ((en_ch < 0) | (en_ch > 0xFFFF)) {
+                            sprintf(mesgbuff, "ERROR: channel must be (%04x < channel < %04x)) %d\r\n", 0x0000, 0xFFFF);
+                            xil_printf(mesgbuff);
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                        } else {
+                            sprintf(mesgbuff, "INFO: set enable channel as %x.\r\n", en_ch);
+                            xil_printf(mesgbuff);
+                            write(sd, mesgbuff, strlen(mesgbuff));
+                            for (size_t i = 0; i < 16; i++) {
+                                fee.ChanelConfigs[i].enable = (en_ch >> i) & 0x0001;
+                            }
+                        }
+
                     } else if (!strncmp(recv_buf, "start", 5)) {
                         sprintf(mesgbuff, "INFO: start command is rcvd.\r\n");
                         xil_printf(mesgbuff);
@@ -353,6 +378,10 @@ void cmdrecv_application_thread(void *pvParameters) {
                     } else if (!strncmp(recv_buf, "reset", 5)) {
                         sprintf(mesgbuff, "INFO: reset fee\r\n");
                         write(sd, mesgbuff, strlen(mesgbuff));
+                        GPO_TriggerReset();
+                        sleep(1);
+                        rfdcADC_MTS_setup(RFDC_DEVICE_ID, refClkFreq_MHz, ADC_samplingRate_Msps, AdcTile);
+                        SetSwitchThreshold(MODE_SWITCH_UPPER_THRE, MODE_SWITCH_LOWER_THRE);
                         HardwareTrigger_SetupDeviceId(0, &fee);
                         axidma_setup();
                     } else {
@@ -396,6 +425,7 @@ void prvDmaTask(void *pvParameters) {
     while (1) {
         internalbuffer_full_cnt = 0;
         timeout_flag = 0;
+        DmaTaskState = DMATASK_READY;
         if (xSemaphoreTake(xCmdrcvd2DmaSemaphore, portMAX_DELAY)) {
             xil_printf("INFO: Waiting Send2PC task start\r\n");
             xSemaphoreGive(xDma2Send2pcSemaphore);
@@ -406,18 +436,19 @@ void prvDmaTask(void *pvParameters) {
         }
 
         xil_printf("INFO: Run start\r\n");
-        fee_status = HardwareTrigger_StartDeviceIdAllCh(0);
-        // for (u16 i = 0; i < 16; i++) {
-        //     if (ch_config_array[i].enable == ENABLE) {
-        //         fee_status = HardwareTrigger_StartDeviceId(0, i);
-        //         if (fee_status != XST_SUCCESS) {
-        //             return fee_status;
-        //         }
-        //     }
-        // }
+        //        fee_status = HardwareTrigger_StartDeviceIdAllCh(0);
+        for (u16 i = 0; i < 16; i++) {
+            if (ch_config_array[i].enable == ENABLE) {
+                fee_status = HardwareTrigger_StartDeviceId(0, i);
+                if (fee_status != XST_SUCCESS) {
+                    return fee_status;
+                }
+            }
+        }
 
         while (fee_status == XST_SUCCESS) {
             s2mm_dma_state = axidma_recv_buff();
+            DmaTaskState = DMATASK_RUNNING;
             if (s2mm_dma_state == XST_SUCCESS) {
                 if (ulTaskNotifyTake(pdTRUE, 10 * x1seconds)) {
                     if (getRxError()) {
@@ -449,6 +480,13 @@ void prvDmaTask(void *pvParameters) {
             }
 
             if (check_result == INTERNAL_BUFFER_FULL) {
+                if (internalbuffer_full_cnt == 0) {
+                    xil_printf("INFO: Internal buffer full detected. Stop fee.\r\n");
+                    fee_status = HardwareTrigger_StopDeviceIdAllCh(0);
+                    if (fee_status != XST_SUCCESS) {
+                        xil_printf("ERROR: failed to stop fee\r\n");
+                    }
+                }
                 internalbuffer_full_cnt++;
             }
 
@@ -457,28 +495,33 @@ void prvDmaTask(void *pvParameters) {
             //            break;
             //        }
 
-            if ((dump_recv_size > SEND_BUF_SIZE)) {
+            if ((dump_recv_size > SEND_BUF_SIZE) || (internalbuffer_full_cnt == fee.ChannelNum)) {
                 dump_recv_size = 0;
                 xTaskNotifyGive(app_thread);
                 vTaskSuspend(NULL);
             }
-
-            if (internalbuffer_full_cnt == fee.ChannelNum) {
-                xil_printf("INFO: internal buffer gets full for %d times\r\n", internalbuffer_full_cnt);
-                xil_printf("INFO: stop fee\r\n");
-                fee_status = HardwareTrigger_StopDeviceIdAllCh(0);
-                if (fee_status != XST_SUCCESS) {
-                    xil_printf("ERROR: failed to stop fee\r\n");
-                    break;
-                }
+            if ((internalbuffer_full_cnt > fee.ChannelNum)) {
+                xil_printf("ERROR: # of rcvd internal buffer full frame exceeds channel #\r\n");
+                break;
             }
 
-            if ((getSend2pcTaskStauts() == SOCKET_CLOSE) || (timeout_flag == 1)) {
-                xil_printf("INFO: Run end.\r\n");
-                fee_status = HardwareTrigger_StopDeviceIdAllCh(0);
+            if (getSend2pcTaskStauts() == SOCKET_CLOSE) {
                 break;
             }
         }
+
+        if (getFeeState() == FEE_RUNNING) {
+            if (HardwareTrigger_StopDeviceIdAllCh(0) != XST_SUCCESS) {
+                xil_printf("ERROR: failed to stop fee. Recomend to reset fee.\r\n");
+            }
+        }
+        DmaTaskState = DMATASK_END;
+        xil_printf("INFO: Run end.\r\n");
+        if (axidma_stopDma() != XST_SUCCESS) {
+            xil_printf("ERROR: failed to stop dma.\r\n");
+        }
+
+        // for closing socket when haven't been closed
         if (getSend2pcTaskStauts() != SOCKET_CLOSE) {
             dump_recv_size = 0;
             xTaskNotifyGive(app_thread);

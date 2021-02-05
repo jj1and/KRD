@@ -2,6 +2,7 @@
 #define __SEND2PC_H__
 
 #include "FreeRTOS.h"
+#include "hardware_trigger_manager.h"
 #include "lwip/sockets.h"
 #include "lwipopts.h"
 #include "netif/xadapter.h"
@@ -23,6 +24,8 @@ typedef struct send2pc_arg {
     TickType_t xTicksToWait;
 } app_arg;
 
+extern TriggerManager_Config fee;
+extern TaskHandle_t cleanup_thread;
 extern TaskHandle_t cmd_thread;
 extern TaskHandle_t app_thread;
 extern SemaphoreHandle_t xCmdrcvd2DmaSemaphore;
@@ -34,5 +37,8 @@ void print_send2pc_app_header(char server_address[], int port);
 void send2pc_application_thread(void *arg);
 void cmdrecv_application_thread();
 int getSend2pcTaskStauts();
+
+void setTotalSendDataSize(int size);
+int getTotalSendDatasize();
 
 #endif

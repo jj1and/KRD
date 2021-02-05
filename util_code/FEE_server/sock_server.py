@@ -23,11 +23,11 @@ def data_recv(sock):
     while True:
         try:
             data = sock.recv(int(20E6))
+            end = time.perf_counter()
             if(len(buff) == 0):
                 start = time.perf_counter()
                 print("rx start")
             if not data:
-                end = time.perf_counter()
                 print("rx end. socket is closed by client")
                 break
             buff += data
