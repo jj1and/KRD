@@ -5620,12 +5620,12 @@ unsigned long psu_ddr_init_data(void)
     * Register : GPR1 @ 0XFD0800C4
 
     * General Purpose Register 1
-    *  PSU_DDR_PHY_GPR1_GPR1                                       0xe0
+    *  PSU_DDR_PHY_GPR1_GPR1                                       0xde
 
     * General Purpose Register 1
-    * (OFFSET, MASK, VALUE)      (0XFD0800C4, 0xFFFFFFFFU ,0x000000E0U)
+    * (OFFSET, MASK, VALUE)      (0XFD0800C4, 0xFFFFFFFFU ,0x000000DEU)
     */
-	PSU_Mask_Write(DDR_PHY_GPR1_OFFSET, 0xFFFFFFFFU, 0x000000E0U);
+	PSU_Mask_Write(DDR_PHY_GPR1_OFFSET, 0xFFFFFFFFU, 0x000000DEU);
 /*##################################################################### */
 
     /*
@@ -8054,15 +8054,15 @@ unsigned long psu_ddr_init_data(void)
     *  PSU_DDR_PHY_DX2GCR4_RESERVED_7_6                            0x0
 
     * VREF Enable control for DQ IO (Single Ended) buffers of a byte lane.
-    *  PSU_DDR_PHY_DX2GCR4_DXREFIEN                                0x1
+    *  PSU_DDR_PHY_DX2GCR4_DXREFIEN                                0xf
 
     * VRMON control for DQ IO (Single Ended) buffers of a byte lane.
     *  PSU_DDR_PHY_DX2GCR4_DXREFIMON                               0x0
 
     * DATX8 n General Configuration Register 4
-    * (OFFSET, MASK, VALUE)      (0XFD080910, 0xFFFFFFFFU ,0x0E00B004U)
+    * (OFFSET, MASK, VALUE)      (0XFD080910, 0xFFFFFFFFU ,0x0E00B03CU)
     */
-	PSU_Mask_Write(DDR_PHY_DX2GCR4_OFFSET, 0xFFFFFFFFU, 0x0E00B004U);
+	PSU_Mask_Write(DDR_PHY_DX2GCR4_OFFSET, 0xFFFFFFFFU, 0x0E00B03CU);
 /*##################################################################### */
 
     /*
@@ -8331,15 +8331,15 @@ unsigned long psu_ddr_init_data(void)
     *  PSU_DDR_PHY_DX3GCR4_RESERVED_7_6                            0x0
 
     * VREF Enable control for DQ IO (Single Ended) buffers of a byte lane.
-    *  PSU_DDR_PHY_DX3GCR4_DXREFIEN                                0x1
+    *  PSU_DDR_PHY_DX3GCR4_DXREFIEN                                0xf
 
     * VRMON control for DQ IO (Single Ended) buffers of a byte lane.
     *  PSU_DDR_PHY_DX3GCR4_DXREFIMON                               0x0
 
     * DATX8 n General Configuration Register 4
-    * (OFFSET, MASK, VALUE)      (0XFD080A10, 0xFFFFFFFFU ,0x0E00B004U)
+    * (OFFSET, MASK, VALUE)      (0XFD080A10, 0xFFFFFFFFU ,0x0E00B03CU)
     */
-	PSU_Mask_Write(DDR_PHY_DX3GCR4_OFFSET, 0xFFFFFFFFU, 0x0E00B004U);
+	PSU_Mask_Write(DDR_PHY_DX3GCR4_OFFSET, 0xFFFFFFFFU, 0x0E00B03CU);
 /*##################################################################### */
 
     /*
@@ -11136,6 +11136,55 @@ unsigned long psu_ddr_init_data(void)
     * (OFFSET, MASK, VALUE)      (0XFD081530, 0xFFFFFFFFU ,0x70400000U)
     */
 	PSU_Mask_Write(DDR_PHY_DX8SL4IOCR_OFFSET, 0xFFFFFFFFU, 0x70400000U);
+/*##################################################################### */
+
+    /*
+    * Register : DX8SLbPLLCR0 @ 0XFD0817C4
+
+    * PLL Bypass
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_PLLBYP                             0x0
+
+    * PLL Reset
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_PLLRST                             0x0
+
+    * PLL Power Down
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_PLLPD                              0x0
+
+    * Reference Stop Mode
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_RSTOPM                             0x0
+
+    * PLL Frequency Select
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_FRQSEL                             0x2
+
+    * Relock Mode
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_RLOCKM                             0x0
+
+    * Charge Pump Proportional Current Control
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_CPPC                               0x9
+
+    * Charge Pump Integrating Current Control
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_CPIC                               0x0
+
+    * Gear Shift
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_GSHIFT                             0x0
+
+    * Reserved. Return zeroes on reads.
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_RESERVED_11_9                      0x0
+
+    * Analog Test Enable (ATOEN)
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_ATOEN                              0x0
+
+    * Analog Test Control
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_ATC                                0x0
+
+    * Digital Test Control
+    *  PSU_DDR_PHY_DX8SLBPLLCR0_DTC                                0x0
+
+    * DAXT8 0-8 PLL Control Register 0
+    * (OFFSET, MASK, VALUE)      (0XFD0817C4, 0xFFFFFFFFU ,0x02120000U)
+    */
+	PSU_Mask_Write(DDR_PHY_DX8SLBPLLCR0_OFFSET,
+		0xFFFFFFFFU, 0x02120000U);
 /*##################################################################### */
 
     /*
