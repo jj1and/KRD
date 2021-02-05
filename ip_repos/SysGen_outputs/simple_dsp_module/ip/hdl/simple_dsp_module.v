@@ -22,22 +22,22 @@ module simple_dsp_module_vector_reinterpret (
   output [16-1:0] out_7,
   output [16-1:0] out_8
 );
+  wire [16-1:0] reinterpret0_output_port_net_x0;
   wire [16-1:0] reinterpret4_output_port_net_x0;
-  wire [16-1:0] reinterpret7_output_port_net_x0;
   wire [16-1:0] reinterpret5_output_port_net_x0;
-  wire [16-1:0] reinterpret6_output_port_net_x0;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret3_output_port_net_x0;
+  wire [16-1:0] reinterpret1_output_port_net_x0;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net_x0;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net_x0;
+  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
   wire [16-1:0] reinterpret6_output_port_net;
   wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net_x0;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net_x0;
-  wire [16-1:0] reinterpret2_output_port_net_x0;
-  wire [16-1:0] reinterpret3_output_port_net_x0;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net_x0;
   assign out_1 = reinterpret0_output_port_net;
   assign out_2 = reinterpret1_output_port_net;
   assign out_3 = reinterpret2_output_port_net;
@@ -124,15 +124,15 @@ module simple_dsp_module_vector2scalar (
   input [16-1:0] i_8,
   output [128-1:0] o
 );
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [128-1:0] concat1_y_net;
-  wire [16-1:0] reinterpret5_output_port_net;
   wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [128-1:0] concat1_y_net;
   wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
   assign o = concat1_y_net;
   assign reinterpret0_output_port_net = i_1;
   assign reinterpret1_output_port_net = i_2;
@@ -172,48 +172,48 @@ module simple_dsp_module_vector_sum (
   input ce_1,
   output [19-1:0] sum_data_out
 );
-  wire [16-1:0] reinterpret4_output_port_net_x1;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [128-1:0] concat1_y_net;
-  wire [16-1:0] reinterpret4_output_port_net_x0;
-  wire [19-1:0] addsub6_s_net;
-  wire [16-1:0] reinterpret1_output_port_net_x0;
-  wire [16-1:0] reinterpret7_output_port_net_x1;
-  wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] reinterpret_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire ce_net;
-  wire [16-1:0] reinterpret2_output_port_net_x0;
-  wire [16-1:0] reinterpret6_output_port_net_x1;
-  wire [16-1:0] reinterpret5_output_port_net_x0;
-  wire [17-1:0] addsub_s_net;
-  wire [17-1:0] addsub1_s_net;
-  wire [16-1:0] reinterpret1_output_port_net_x1;
-  wire [16-1:0] reinterpret5_output_port_net_x1;
-  wire [16-1:0] reinterpret3_output_port_net_x1;
-  wire clk_net;
-  wire [16-1:0] reinterpret3_output_port_net_x0;
+  wire [16-1:0] slice7_y_net;
+  wire [16-1:0] slice6_y_net;
   wire [16-1:0] reinterpret2_output_port_net_x1;
+  wire [16-1:0] reinterpret1_output_port_net_x1;
+  wire [16-1:0] reinterpret3_output_port_net_x1;
+  wire [19-1:0] addsub6_s_net;
   wire [16-1:0] reinterpret0_output_port_net_x0;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [17-1:0] addsub2_s_net;
-  wire [17-1:0] addsub3_s_net;
+  wire ce_net;
+  wire [17-1:0] addsub1_s_net;
   wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret6_output_port_net_x0;
-  wire [16-1:0] reinterpret7_output_port_net_x0;
+  wire [16-1:0] reinterpret3_output_port_net_x0;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net_x1;
   wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] slice4_y_net;
-  wire [16-1:0] slice5_y_net;
+  wire [17-1:0] addsub2_s_net;
+  wire [16-1:0] reinterpret5_output_port_net_x0;
+  wire [16-1:0] reinterpret6_output_port_net_x1;
+  wire [17-1:0] addsub3_s_net;
+  wire [16-1:0] reinterpret7_output_port_net_x0;
+  wire [16-1:0] reinterpret1_output_port_net_x0;
+  wire [17-1:0] addsub_s_net;
+  wire [16-1:0] reinterpret2_output_port_net_x0;
+  wire [16-1:0] reinterpret5_output_port_net_x1;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire clk_net;
+  wire [16-1:0] reinterpret_output_port_net;
+  wire [128-1:0] concat1_y_net;
+  wire [16-1:0] reinterpret7_output_port_net_x1;
+  wire [16-1:0] reinterpret4_output_port_net_x0;
+  wire [16-1:0] slice1_y_net;
+  wire [18-1:0] addsub5_s_net;
   wire [18-1:0] addsub4_s_net;
   wire [16-1:0] slice2_y_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice7_y_net;
+  wire [16-1:0] slice5_y_net;
+  wire [16-1:0] slice4_y_net;
   wire [16-1:0] slice_y_net;
-  wire [18-1:0] addsub5_s_net;
-  wire [16-1:0] slice1_y_net;
-  wire [16-1:0] slice6_y_net;
+  wire [16-1:0] slice3_y_net;
   assign sum_data_out = addsub6_s_net;
   assign reinterpret0_output_port_net_x0 = tdata_in_1;
   assign reinterpret1_output_port_net_x1 = tdata_in_2;
@@ -611,12 +611,12 @@ module simple_dsp_module_scaling (
   output [1-1:0] valid_out,
   output [19-1:0] data_out
 );
-  wire ce_net;
-  wire [1-1:0] h_s_axis_tvalid_net;
-  wire [19-1:0] shift_op_net;
-  wire [1-1:0] tvalid_delay_q_net;
   wire clk_net;
   wire [19-1:0] addsub6_s_net;
+  wire [1-1:0] tvalid_delay_q_net;
+  wire [1-1:0] h_s_axis_tvalid_net;
+  wire ce_net;
+  wire [19-1:0] shift_op_net;
   assign valid_out = tvalid_delay_q_net;
   assign data_out = shift_op_net;
   assign h_s_axis_tvalid_net = valid_in;
@@ -662,20 +662,20 @@ module simple_dsp_module_8sample_average (
   output [1-1:0] ave_valid_out,
   output [19-1:0] ave_data_out
 );
-  wire ce_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [1-1:0] h_s_axis_tvalid_net;
-  wire [19-1:0] addsub6_s_net;
-  wire clk_net;
-  wire [1-1:0] tvalid_delay_q_net;
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net;
   wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
+  wire [1-1:0] tvalid_delay_q_net;
   wire [19-1:0] shift_op_net;
+  wire [1-1:0] h_s_axis_tvalid_net;
+  wire [16-1:0] reinterpret0_output_port_net;
   wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [19-1:0] addsub6_s_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire ce_net;
+  wire clk_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   assign ave_valid_out = tvalid_delay_q_net;
   assign ave_data_out = shift_op_net;
   assign h_s_axis_tvalid_net = valid_in;
@@ -724,15 +724,15 @@ module simple_dsp_module_scalar2vector (
   output [16-1:0] o_7,
   output [16-1:0] o_8
 );
-  wire [16-1:0] slice1_y_net;
   wire [16-1:0] slice2_y_net;
-  wire [16-1:0] slice0_y_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice5_y_net;
-  wire [16-1:0] slice6_y_net;
   wire [16-1:0] slice4_y_net;
-  wire [128-1:0] concat_y_net;
+  wire [16-1:0] slice1_y_net;
+  wire [16-1:0] slice6_y_net;
   wire [16-1:0] slice7_y_net;
+  wire [16-1:0] slice3_y_net;
+  wire [128-1:0] concat_y_net;
+  wire [16-1:0] slice0_y_net;
+  wire [16-1:0] slice5_y_net;
   assign o_1 = slice0_y_net;
   assign o_2 = slice1_y_net;
   assign o_3 = slice2_y_net;
@@ -843,22 +843,22 @@ module simple_dsp_module_vector_reinterpret_x0 (
   output [16-1:0] out_7,
   output [16-1:0] out_8
 );
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice1_y_net;
-  wire [16-1:0] slice0_y_net;
-  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
   wire [16-1:0] reinterpret2_output_port_net;
   wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] slice2_y_net;
-  wire [16-1:0] slice7_y_net;
   wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   wire [16-1:0] slice4_y_net;
+  wire [16-1:0] slice1_y_net;
+  wire [16-1:0] slice0_y_net;
+  wire [16-1:0] slice7_y_net;
   wire [16-1:0] slice5_y_net;
-  wire [16-1:0] slice6_y_net;
-  wire [16-1:0] reinterpret0_output_port_net;
   wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] slice2_y_net;
+  wire [16-1:0] slice6_y_net;
+  wire [16-1:0] slice3_y_net;
   assign out_1 = reinterpret0_output_port_net;
   assign out_2 = reinterpret1_output_port_net;
   assign out_3 = reinterpret2_output_port_net;
@@ -945,25 +945,25 @@ module simple_dsp_module_dbl_scalar2vector (
   output [16-1:0] out1_7,
   output [16-1:0] out1_8
 );
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret_output_port_net;
-  wire [16-1:0] slice6_y_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] slice1_y_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice0_y_net;
   wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] convert_to_dac_data_dout_net;
-  wire [16-1:0] slice5_y_net;
   wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
   wire [128-1:0] concat_y_net;
-  wire [16-1:0] slice4_y_net;
-  wire [16-1:0] slice7_y_net;
-  wire [16-1:0] slice2_y_net;
+  wire [16-1:0] slice6_y_net;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] convert_to_dac_data_dout_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret_output_port_net;
+  wire [16-1:0] slice1_y_net;
+  wire [16-1:0] slice5_y_net;
   wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] slice4_y_net;
+  wire [16-1:0] slice3_y_net;
+  wire [16-1:0] slice0_y_net;
+  wire [16-1:0] slice7_y_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] slice2_y_net;
   assign out1_1 = reinterpret0_output_port_net;
   assign out1_2 = reinterpret1_output_port_net;
   assign out1_3 = reinterpret2_output_port_net;
@@ -1037,14 +1037,14 @@ module simple_dsp_module_vector2scalar_x0 (
   input [16-1:0] i_8,
   output [128-1:0] o
 );
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   wire [128-1:0] concat1_y_net;
   assign o = concat1_y_net;
   assign reinterpret0_output_port_net = i_1;
@@ -1090,22 +1090,22 @@ module simple_dsp_module_vector_reinterpret2unsigned (
   output [16-1:0] out_7,
   output [16-1:0] out_8
 );
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] addsub1_s_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] addsub2_s_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] addsub3_s_net;
-  wire [16-1:0] addsub0_s_net;
-  wire [16-1:0] addsub5_s_net;
-  wire [16-1:0] addsub6_s_net;
-  wire [16-1:0] addsub4_s_net;
-  wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret0_output_port_net;
   wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] addsub4_s_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] addsub5_s_net;
+  wire [16-1:0] addsub0_s_net;
+  wire [16-1:0] addsub2_s_net;
+  wire [16-1:0] addsub3_s_net;
+  wire [16-1:0] addsub6_s_net;
   wire [16-1:0] addsub7_s_net;
+  wire [16-1:0] addsub1_s_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
   assign out_1 = reinterpret0_output_port_net;
   assign out_2 = reinterpret1_output_port_net;
   assign out_3 = reinterpret2_output_port_net;
@@ -1192,23 +1192,23 @@ module simple_dsp_module_dsp_vector2scalar (
   input [16-1:0] in1_8,
   output [128-1:0] out1
 );
-  wire [16-1:0] addsub5_s_net;
-  wire [16-1:0] addsub4_s_net;
-  wire [16-1:0] addsub6_s_net;
-  wire [16-1:0] addsub3_s_net;
+  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] addsub0_s_net;
   wire [16-1:0] addsub7_s_net;
   wire [16-1:0] addsub2_s_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] addsub6_s_net;
+  wire [16-1:0] addsub1_s_net;
   wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] addsub4_s_net;
+  wire [16-1:0] addsub5_s_net;
   wire [16-1:0] reinterpret2_output_port_net;
   wire [128-1:0] concat1_y_net;
-  wire [16-1:0] addsub1_s_net;
-  wire [16-1:0] addsub0_s_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] addsub3_s_net;
   assign out1 = concat1_y_net;
   assign addsub0_s_net = in1_1;
   assign addsub1_s_net = in1_2;
@@ -1270,24 +1270,24 @@ module simple_dsp_module_dsp_delay (
   output [16-1:0] q_7,
   output [16-1:0] q_8
 );
-  wire [16-1:0] delay2_q_net;
-  wire [16-1:0] delay5_q_net;
-  wire [16-1:0] delay6_q_net;
-  wire clk_net;
-  wire [16-1:0] delay0_q_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] delay4_q_net;
-  wire ce_net;
   wire [16-1:0] delay7_q_net;
-  wire [16-1:0] reinterpret5_output_port_net;
   wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] delay2_q_net;
   wire [16-1:0] delay3_q_net;
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] delay5_q_net;
   wire [16-1:0] delay1_q_net;
+  wire [16-1:0] delay6_q_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] delay0_q_net;
+  wire [16-1:0] delay4_q_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire clk_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire ce_net;
+  wire [16-1:0] reinterpret7_output_port_net;
   assign q_1 = delay0_q_net;
   assign q_2 = delay1_q_net;
   assign q_3 = delay2_q_net;
@@ -1432,15 +1432,15 @@ module simple_dsp_module_vector2scalar_x1 (
   input [16-1:0] i_8,
   output [128-1:0] o
 );
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
   wire [128-1:0] concat1_y_net;
-  wire [16-1:0] reinterpret6_output_port_net;
   wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   assign o = concat1_y_net;
   assign reinterpret0_output_port_net = i_1;
   assign reinterpret1_output_port_net = i_2;
@@ -1485,22 +1485,22 @@ module simple_dsp_module_vector_reinterpret2unsigned_x0 (
   output [16-1:0] out_7,
   output [16-1:0] out_8
 );
-  wire [16-1:0] delay1_q_net;
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] delay2_q_net;
-  wire [16-1:0] delay6_q_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret5_output_port_net;
   wire [16-1:0] delay7_q_net;
-  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
   wire [16-1:0] delay0_q_net;
-  wire [16-1:0] delay4_q_net;
+  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] delay2_q_net;
+  wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] delay3_q_net;
+  wire [16-1:0] delay4_q_net;
+  wire [16-1:0] delay1_q_net;
+  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] delay6_q_net;
+  wire [16-1:0] reinterpret4_output_port_net;
   assign out_1 = reinterpret0_output_port_net;
   assign out_2 = reinterpret1_output_port_net;
   assign out_3 = reinterpret2_output_port_net;
@@ -1587,23 +1587,23 @@ module simple_dsp_module_hgain_vector2scalar (
   input [16-1:0] in1_8,
   output [128-1:0] out1
 );
-  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] delay1_q_net;
+  wire [16-1:0] delay2_q_net;
   wire [16-1:0] delay4_q_net;
-  wire [16-1:0] delay3_q_net;
   wire [16-1:0] delay0_q_net;
+  wire [16-1:0] delay3_q_net;
+  wire [128-1:0] concat1_y_net;
+  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] delay6_q_net;
+  wire [16-1:0] delay7_q_net;
   wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
   wire [16-1:0] reinterpret3_output_port_net;
   wire [16-1:0] reinterpret4_output_port_net;
   wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] delay1_q_net;
-  wire [128-1:0] concat1_y_net;
-  wire [16-1:0] delay6_q_net;
   wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] delay7_q_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] delay2_q_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   assign out1 = concat1_y_net;
   assign delay0_q_net = in1_1;
   assign delay1_q_net = in1_2;
@@ -1665,24 +1665,24 @@ module simple_dsp_module_hgain_delay (
   output [16-1:0] q_7,
   output [16-1:0] q_8
 );
-  wire [16-1:0] delay4_q_net_x0;
-  wire [16-1:0] delay3_q_net_x0;
-  wire [16-1:0] delay0_q_net;
-  wire [16-1:0] delay7_q_net_x0;
-  wire [16-1:0] delay0_q_net_x0;
-  wire [16-1:0] delay6_q_net_x0;
-  wire [16-1:0] delay4_q_net;
-  wire [16-1:0] delay5_q_net;
-  wire [16-1:0] delay1_q_net;
-  wire [16-1:0] delay2_q_net;
-  wire [16-1:0] delay5_q_net_x0;
-  wire [16-1:0] delay1_q_net_x0;
-  wire [16-1:0] delay3_q_net;
-  wire [16-1:0] delay2_q_net_x0;
-  wire ce_net;
-  wire [16-1:0] delay7_q_net;
-  wire clk_net;
   wire [16-1:0] delay6_q_net;
+  wire [16-1:0] delay7_q_net;
+  wire [16-1:0] delay5_q_net_x0;
+  wire [16-1:0] delay3_q_net_x0;
+  wire [16-1:0] delay1_q_net;
+  wire [16-1:0] delay0_q_net_x0;
+  wire [16-1:0] delay0_q_net;
+  wire [16-1:0] delay4_q_net_x0;
+  wire clk_net;
+  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] delay1_q_net_x0;
+  wire [16-1:0] delay6_q_net_x0;
+  wire [16-1:0] delay3_q_net;
+  wire [16-1:0] delay7_q_net_x0;
+  wire [16-1:0] delay4_q_net;
+  wire [16-1:0] delay2_q_net_x0;
+  wire [16-1:0] delay2_q_net;
+  wire ce_net;
   assign q_1 = delay0_q_net;
   assign q_2 = delay1_q_net;
   assign q_3 = delay2_q_net;
@@ -1827,15 +1827,15 @@ module simple_dsp_module_scalar2vector_x0 (
   output [16-1:0] o_7,
   output [16-1:0] o_8
 );
-  wire [16-1:0] slice0_y_net;
-  wire [16-1:0] slice1_y_net;
   wire [16-1:0] slice2_y_net;
-  wire [16-1:0] slice5_y_net;
-  wire [16-1:0] slice3_y_net;
+  wire [16-1:0] slice1_y_net;
   wire [16-1:0] slice6_y_net;
   wire [16-1:0] slice4_y_net;
-  wire [128-1:0] h_s_axis_tdata_net;
+  wire [16-1:0] slice5_y_net;
+  wire [16-1:0] slice0_y_net;
   wire [16-1:0] slice7_y_net;
+  wire [128-1:0] h_s_axis_tdata_net;
+  wire [16-1:0] slice3_y_net;
   assign o_1 = slice0_y_net;
   assign o_2 = slice1_y_net;
   assign o_3 = slice2_y_net;
@@ -1956,32 +1956,32 @@ module simple_dsp_module_vector_addsub_fabric (
   output [16-1:0] a_b_7,
   output [16-1:0] a_b_8
 );
-  wire [16-1:0] addsub3_s_net;
-  wire [16-1:0] addsub2_s_net;
-  wire [16-1:0] addsub1_s_net;
-  wire [16-1:0] addsub4_s_net;
-  wire [16-1:0] addsub5_s_net;
-  wire [16-1:0] addsub6_s_net;
-  wire [16-1:0] addsub0_s_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] delay5_q_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   wire [16-1:0] delay0_q_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] delay6_q_net;
+  wire [16-1:0] addsub1_s_net;
+  wire [16-1:0] delay3_q_net;
+  wire [16-1:0] addsub5_s_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] addsub4_s_net;
+  wire clk_net;
+  wire [16-1:0] addsub2_s_net;
+  wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] delay1_q_net;
   wire [16-1:0] addsub7_s_net;
-  wire [16-1:0] delay2_q_net;
-  wire [16-1:0] delay3_q_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] delay4_q_net;
-  wire [16-1:0] delay5_q_net;
-  wire clk_net;
   wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] delay6_q_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] delay7_q_net;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret2_output_port_net;
+  wire [16-1:0] delay2_q_net;
   wire ce_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] addsub3_s_net;
+  wire [16-1:0] addsub6_s_net;
+  wire [16-1:0] delay7_q_net;
+  wire [16-1:0] addsub0_s_net;
+  wire [16-1:0] delay4_q_net;
   assign a_b_1 = addsub0_s_net;
   assign a_b_2 = addsub1_s_net;
   assign a_b_3 = addsub2_s_net;
@@ -2023,8 +2023,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2053,8 +2053,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2083,8 +2083,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2113,8 +2113,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2143,8 +2143,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2173,8 +2173,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2203,8 +2203,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2233,8 +2233,8 @@ module simple_dsp_module_vector_addsub_fabric (
     .full_s_arith(2),
     .full_s_width(17),
     .latency(1),
-    .overflow(1),
-    .quantization(2),
+    .overflow(2),
+    .quantization(1),
     .s_arith(`xlSigned),
     .s_bin_pt(0),
     .s_width(16)
@@ -2269,22 +2269,22 @@ module simple_dsp_module_vector_reinterpret_x1 (
   output [16-1:0] out_7,
   output [16-1:0] out_8
 );
-  wire [16-1:0] slice5_y_net;
-  wire [16-1:0] slice1_y_net;
   wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] slice0_y_net;
-  wire [16-1:0] slice2_y_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice6_y_net;
-  wire [16-1:0] slice4_y_net;
+  wire [16-1:0] reinterpret1_output_port_net;
   wire [16-1:0] reinterpret2_output_port_net;
   wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net;
   wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] slice6_y_net;
+  wire [16-1:0] slice3_y_net;
+  wire [16-1:0] slice5_y_net;
+  wire [16-1:0] slice2_y_net;
+  wire [16-1:0] slice0_y_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [16-1:0] slice4_y_net;
   wire [16-1:0] slice7_y_net;
+  wire [16-1:0] slice1_y_net;
+  wire [16-1:0] reinterpret6_output_port_net;
   assign out_1 = reinterpret0_output_port_net;
   assign out_2 = reinterpret1_output_port_net;
   assign out_3 = reinterpret2_output_port_net;
@@ -2369,20 +2369,20 @@ module simple_dsp_module_xil_dac_pid (
   output [1-1:0] valid_out,
   output [49-1:0] pid_data_out
 );
-  wire ce_net;
+  wire [1-1:0] delay_q_net;
+  wire [49-1:0] p_comp_i_comp_s_net;
   wire [48-1:0] i_n_1_e_n_i_dt_p_net;
   wire [32-1:0] accumulator_q_net;
-  wire clk_net;
-  wire [16-1:0] i_dt_op_net;
-  wire [20-1:0] delta_from_baseline_s_net;
-  wire [49-1:0] p_comp_i_comp_s_net;
-  wire [1-1:0] logical_y_net_x0;
-  wire [1-1:0] delay_q_net;
-  wire [1-1:0] logical_y_net;
-  wire [1-1:0] tvalid_delay_q_net;
-  wire [36-1:0] p_e_n_p_net;
   wire [16-1:0] p_op_net;
+  wire [20-1:0] delta_from_baseline_s_net;
+  wire [1-1:0] logical_y_net_x0;
+  wire [1-1:0] tvalid_delay_q_net;
   wire [1-1:0] inverter_op_net;
+  wire [1-1:0] logical_y_net;
+  wire [16-1:0] i_dt_op_net;
+  wire clk_net;
+  wire ce_net;
+  wire [36-1:0] p_e_n_p_net;
   assign valid_out = delay_q_net;
   assign pid_data_out = p_comp_i_comp_s_net;
   assign tvalid_delay_q_net = valid_in;
@@ -2555,16 +2555,16 @@ module simple_dsp_module_xil_dac_delta_calc (
   output [1-1:0] init_pid
 );
   wire [1-1:0] logical_y_net;
-  wire [1-1:0] tvalid_delay_q_net;
-  wire [19-1:0] shift_op_net;
-  wire [16-1:0] convert_to_dac_input_dout_net;
-  wire [16-1:0] convert_dout_net;
   wire clk_net;
-  wire [20-1:0] delta_from_baseline_s_net;
-  wire ce_net;
+  wire [16-1:0] convert_to_dac_input_dout_net;
   wire [16-1:0] constant_op_net;
+  wire [20-1:0] delta_from_baseline_s_net;
   wire [1-1:0] no_operation_op_net;
   wire [1-1:0] isnot_undershoot_op_net;
+  wire ce_net;
+  wire [1-1:0] tvalid_delay_q_net;
+  wire [16-1:0] convert_dout_net;
+  wire [19-1:0] shift_op_net;
   assign delta_data_out = delta_from_baseline_s_net;
   assign init_pid = logical_y_net;
   assign tvalid_delay_q_net = valid_in;
@@ -2643,11 +2643,11 @@ module simple_dsp_module_xil_dac_smoothing (
   output [50-1:0] data_out
 );
   wire clk_net;
-  wire [49-1:0] last_sample_q_net;
   wire [50-1:0] x2sample_ave_op_net;
   wire [49-1:0] p_comp_i_comp_s_net;
-  wire [50-1:0] x2sample_sum_s_net;
   wire ce_net;
+  wire [50-1:0] x2sample_sum_s_net;
+  wire [49-1:0] last_sample_q_net;
   assign data_out = x2sample_ave_op_net;
   assign p_comp_i_comp_s_net = data_in;
   assign clk_net = clk_1;
@@ -2714,19 +2714,19 @@ module simple_dsp_module_xil_dblc_pid (
   input ce_1,
   output [49-1:0] pid_data_out
 );
-  wire [37-1:0] p_e_n_p_net;
-  wire [1-1:0] logical_y_net;
-  wire [1-1:0] logical_y_net_x0;
-  wire [32-1:0] accumulator_q_net;
-  wire [48-1:0] i_n_1_e_n_i_dt_p_net;
+  wire [21-1:0] delta_from_baseline_s_net;
   wire clk_net;
+  wire [1-1:0] tvalid_delay_q_net;
+  wire [32-1:0] accumulator_q_net;
+  wire [49-1:0] p_comp_i_comp_s_net;
+  wire [48-1:0] i_n_1_e_n_i_dt_p_net;
   wire [16-1:0] i_dt_op_net;
   wire ce_net;
-  wire [21-1:0] delta_from_baseline_s_net;
-  wire [16-1:0] p_op_net;
-  wire [1-1:0] tvalid_delay_q_net;
+  wire [1-1:0] logical_y_net;
+  wire [1-1:0] logical_y_net_x0;
+  wire [37-1:0] p_e_n_p_net;
   wire [1-1:0] inverter_op_net;
-  wire [49-1:0] p_comp_i_comp_s_net;
+  wire [16-1:0] p_op_net;
   assign pid_data_out = p_comp_i_comp_s_net;
   assign tvalid_delay_q_net = valid_in;
   assign delta_from_baseline_s_net = data_in;
@@ -2883,18 +2883,18 @@ module simple_dsp_module_xil_dblc_delta_calc (
   output [21-1:0] delta_data_out,
   output [1-1:0] init_pid
 );
-  wire [20-1:0] digital_blc_s_net;
+  wire [21-1:0] delta_from_baseline_s_net;
+  wire clk_net;
+  wire [19-1:0] shift_op_net;
+  wire [1-1:0] tvalid_delay_q_net;
+  wire [16-1:0] convert_dout_net;
+  wire [16-1:0] convert_to_dac_data_dout_net;
+  wire [1-1:0] logical_y_net;
+  wire ce_net;
+  wire [16-1:0] constant_op_net;
   wire [1-1:0] no_operation_op_net;
   wire [1-1:0] isnot_undershoot_op_net;
-  wire [16-1:0] convert_to_dac_data_dout_net;
-  wire [1-1:0] tvalid_delay_q_net;
-  wire [16-1:0] constant_op_net;
-  wire [1-1:0] logical_y_net;
-  wire [21-1:0] delta_from_baseline_s_net;
-  wire [19-1:0] shift_op_net;
-  wire clk_net;
-  wire [16-1:0] convert_dout_net;
-  wire ce_net;
+  wire [20-1:0] digital_blc_s_net;
   assign delta_data_out = delta_from_baseline_s_net;
   assign init_pid = logical_y_net;
   assign tvalid_delay_q_net = valid_in;
@@ -3002,12 +3002,12 @@ module simple_dsp_module_xil_dblc_smoothing (
   input ce_1,
   output [50-1:0] data_out
 );
-  wire [50-1:0] x2sample_sum_s_net;
   wire [49-1:0] p_comp_i_comp_s_net;
   wire ce_net;
-  wire clk_net;
-  wire [49-1:0] last_sample_q_net;
   wire [50-1:0] x2sample_ave_op_net;
+  wire clk_net;
+  wire [50-1:0] x2sample_sum_s_net;
+  wire [49-1:0] last_sample_q_net;
   assign data_out = x2sample_ave_op_net;
   assign p_comp_i_comp_s_net = data_in;
   assign clk_net = clk_1;
@@ -3084,82 +3084,82 @@ module simple_dsp_module_struct (
   output [32-1:0] l_m_axis_tdata,
   output [1-1:0] l_m_axis_tvalid
 );
-  wire [32-1:0] l_s_axis_tdata_net;
-  wire [1-1:0] l_gain_tvalid_delay_q_net;
-  wire [16-1:0] cast_dbl_out_dout_net;
-  wire [16-1:0] convert_to_dac_input_dout_net;
   wire [1-1:0] valid_delay_q_net;
-  wire [1-1:0] delay_q_net_x0;
-  wire [128-1:0] concat1_y_net;
-  wire [13-1:0] h_gain_baseline_net;
-  wire [1-1:0] l_s_axis_tvalid_net;
-  wire clk_net;
-  wire ce_net;
-  wire [1-1:0] tvalid_delay_q_net;
-  wire [19-1:0] shift_op_net;
-  wire [1-1:0] h_s_axis_tvalid_net;
-  wire [128-1:0] concat1_y_net_x0;
-  wire [32-1:0] l_gain_tdata_delay_q_net;
-  wire [128-1:0] h_s_axis_tdata_net;
-  wire [16-1:0] reinterpret2_output_port_net;
-  wire [16-1:0] reinterpret1_output_port_net_x0;
+  wire [16-1:0] convert_to_dac_input_dout_net;
   wire [16-1:0] addsub2_s_net;
-  wire [16-1:0] delay1_q_net_x0;
-  wire [16-1:0] reinterpret5_output_port_net_x0;
-  wire [16-1:0] delay2_q_net_x0;
-  wire [16-1:0] delay4_q_net;
-  wire [16-1:0] delay6_q_net;
-  wire [16-1:0] slice0_y_net;
-  wire [16-1:0] reinterpret2_output_port_net_x0;
-  wire [16-1:0] delay4_q_net_x0;
-  wire [16-1:0] delay1_q_net;
-  wire [16-1:0] reinterpret4_output_port_net;
-  wire [16-1:0] addsub6_s_net;
-  wire [16-1:0] delay3_q_net_x0;
-  wire [16-1:0] slice2_y_net;
-  wire [16-1:0] reinterpret6_output_port_net;
-  wire [16-1:0] reinterpret6_output_port_net_x0;
-  wire [16-1:0] delay0_q_net;
-  wire [16-1:0] reinterpret7_output_port_net;
-  wire [16-1:0] slice1_y_net;
-  wire [16-1:0] slice4_y_net;
-  wire [20-1:0] delta_from_baseline_s_net_x0;
-  wire [1-1:0] logical_y_net_x0;
-  wire [16-1:0] delay0_q_net_x0;
-  wire [49-1:0] p_comp_i_comp_s_net;
-  wire [16-1:0] delay7_q_net_x0;
-  wire [16-1:0] slice5_y_net;
-  wire [21-1:0] delta_from_baseline_s_net;
-  wire [16-1:0] delay6_q_net_x0;
-  wire [16-1:0] reinterpret3_output_port_net;
-  wire [16-1:0] convert_to_dac_data_dout_net;
-  wire [1-1:0] delay_q_net;
-  wire [16-1:0] addsub3_s_net;
-  wire [49-1:0] p_comp_i_comp_s_net_x0;
-  wire [1-1:0] logical_y_net;
-  wire [16-1:0] reinterpret1_output_port_net;
-  wire [16-1:0] addsub5_s_net;
-  wire [16-1:0] delay5_q_net_x0;
-  wire [16-1:0] slice7_y_net;
-  wire [50-1:0] x2sample_ave_op_net_x0;
   wire [16-1:0] reinterpret3_output_port_net_x0;
-  wire [16-1:0] reinterpret4_output_port_net_x0;
-  wire [16-1:0] reinterpret0_output_port_net_x0;
-  wire [16-1:0] addsub1_s_net;
-  wire [16-1:0] reinterpret5_output_port_net;
-  wire [16-1:0] delay7_q_net;
-  wire [16-1:0] delay3_q_net;
-  wire [16-1:0] convert_dout_net;
-  wire [50-1:0] x2sample_ave_op_net;
-  wire [16-1:0] addsub0_s_net;
-  wire [16-1:0] slice3_y_net;
-  wire [16-1:0] slice6_y_net;
-  wire [16-1:0] delay2_q_net;
-  wire [16-1:0] delay5_q_net;
-  wire [16-1:0] addsub7_s_net;
-  wire [16-1:0] reinterpret0_output_port_net;
-  wire [16-1:0] reinterpret7_output_port_net_x0;
+  wire ce_net;
   wire [16-1:0] addsub4_s_net;
+  wire clk_net;
+  wire [128-1:0] h_s_axis_tdata_net;
+  wire [1-1:0] delay_q_net_x0;
+  wire [1-1:0] l_gain_tvalid_delay_q_net;
+  wire [32-1:0] l_s_axis_tdata_net;
+  wire [16-1:0] cast_dbl_out_dout_net;
+  wire [1-1:0] tvalid_delay_q_net;
+  wire [16-1:0] reinterpret2_output_port_net;
+  wire [1-1:0] h_s_axis_tvalid_net;
+  wire [1-1:0] l_s_axis_tvalid_net;
+  wire [16-1:0] reinterpret4_output_port_net;
+  wire [128-1:0] concat1_y_net_x0;
+  wire [16-1:0] reinterpret3_output_port_net;
+  wire [16-1:0] reinterpret5_output_port_net;
+  wire [16-1:0] reinterpret6_output_port_net;
+  wire [16-1:0] reinterpret7_output_port_net;
+  wire [32-1:0] l_gain_tdata_delay_q_net;
+  wire [16-1:0] reinterpret0_output_port_net;
+  wire [13-1:0] h_gain_baseline_net;
+  wire [16-1:0] reinterpret0_output_port_net_x0;
+  wire [16-1:0] reinterpret1_output_port_net_x0;
+  wire [16-1:0] reinterpret2_output_port_net_x0;
+  wire [16-1:0] reinterpret4_output_port_net_x0;
+  wire [16-1:0] reinterpret5_output_port_net_x0;
+  wire [19-1:0] shift_op_net;
+  wire [16-1:0] reinterpret6_output_port_net_x0;
+  wire [16-1:0] reinterpret7_output_port_net_x0;
+  wire [16-1:0] convert_to_dac_data_dout_net;
+  wire [16-1:0] addsub0_s_net;
+  wire [16-1:0] addsub1_s_net;
+  wire [128-1:0] concat1_y_net;
+  wire [16-1:0] reinterpret1_output_port_net;
+  wire [16-1:0] addsub3_s_net;
+  wire [16-1:0] addsub5_s_net;
+  wire [1-1:0] logical_y_net;
+  wire [1-1:0] logical_y_net_x0;
+  wire [16-1:0] delay2_q_net;
+  wire [49-1:0] p_comp_i_comp_s_net;
+  wire [16-1:0] slice5_y_net;
+  wire [50-1:0] x2sample_ave_op_net;
+  wire [16-1:0] delay3_q_net_x0;
+  wire [16-1:0] delay4_q_net;
+  wire [16-1:0] slice4_y_net;
+  wire [16-1:0] addsub6_s_net;
+  wire [49-1:0] p_comp_i_comp_s_net_x0;
+  wire [16-1:0] delay2_q_net_x0;
+  wire [16-1:0] slice1_y_net;
+  wire [16-1:0] delay0_q_net;
+  wire [16-1:0] delay5_q_net_x0;
+  wire [16-1:0] delay7_q_net_x0;
+  wire [16-1:0] slice2_y_net;
+  wire [16-1:0] delay3_q_net;
+  wire [20-1:0] delta_from_baseline_s_net_x0;
+  wire [50-1:0] x2sample_ave_op_net_x0;
+  wire [16-1:0] addsub7_s_net;
+  wire [16-1:0] delay6_q_net;
+  wire [16-1:0] delay0_q_net_x0;
+  wire [16-1:0] slice6_y_net;
+  wire [16-1:0] convert_dout_net;
+  wire [16-1:0] delay6_q_net_x0;
+  wire [16-1:0] delay7_q_net;
+  wire [16-1:0] slice3_y_net;
+  wire [16-1:0] delay1_q_net;
+  wire [16-1:0] slice0_y_net;
+  wire [16-1:0] delay1_q_net_x0;
+  wire [16-1:0] delay5_q_net;
+  wire [21-1:0] delta_from_baseline_s_net;
+  wire [16-1:0] slice7_y_net;
+  wire [1-1:0] delay_q_net;
+  wire [16-1:0] delay4_q_net_x0;
   assign dac_m_axis_tdata = convert_to_dac_input_dout_net;
   assign dac_m_axis_tvalid = valid_delay_q_net;
   assign digital_baseline = cast_dbl_out_dout_net;
@@ -3548,8 +3548,8 @@ module simple_dsp_module (
   output [32-1:0] l_m_axis_tdata,
   output [1-1:0] l_m_axis_tvalid
 );
-  wire clk_1_net;
   wire ce_1_net;
+  wire clk_1_net;
   simple_dsp_module_default_clock_driver simple_dsp_module_default_clock_driver (
     .simple_dsp_module_sysclk(clk),
     .simple_dsp_module_sysce(1'b1),

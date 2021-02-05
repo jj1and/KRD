@@ -656,7 +656,7 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
       <spirit:file>
         <spirit:name>hdl/simple_dsp_module.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_6244fac9</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_8e851027</spirit:userFileType>
         <spirit:logicalName>work</spirit:logicalName>
       </spirit:file>
     </spirit:fileSet>
@@ -801,8 +801,8 @@ mediate dependency {} format bool minimum {} maximum {}} value true}}}}}}</spiri
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>239852288</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-12-25T16:38:20Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>243280115</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2021-02-03T08:48:46Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1.3_AR73068</xilinx:xilinxVersion>
