@@ -1,0 +1,1875 @@
+# Vivado resource utilization data is represented in anytable format
+# The data will be consumed by Resource Utilization flow in SysGen.
+
+{
+   'Design_Information' => [
+     { 
+        'PART' => 'xczu29dr-ffvf1760-1-e',
+        'Vivado_Stage' => 'Post Synthesis',
+        'Top_Module' => 'dsp_blr',
+        'HDL_Language' => 'verilog',
+        'Netlist_Crossprobe_File' => 'dsp_blr.v.at',
+     },
+   ],
+   'Device_Resources' => [
+     { 
+        'URAMs' => '80',
+        'BRAMs' => '1080',
+        'DSPs' => '4272',
+        'Registers' => '850560',
+        'LUTs' => '425280',
+     },
+   ],
+   'Resource_Utilization_Data' => [
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_886',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_916',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_946',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_976',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1006',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1036',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1066',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1096',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 20,
+                    'Total_LUTs' => 20,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4851',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 160,
+                    'Total_LUTs' => 160,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1209',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1239',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1269',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1299',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1329',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1359',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1389',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1419',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4879',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 136,
+                    'Total_LUTs' => 136,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1532',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1562',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1592',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1622',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1652',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1682',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1712',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1742',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4907',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 136,
+                    'Total_LUTs' => 136,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1855',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1885',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1915',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1945',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_1975',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2005',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2035',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2065',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4935',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 144,
+                    'Total_LUTs' => 144,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2178',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2208',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2238',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2268',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2298',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2328',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2358',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2388',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4963',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 136,
+                    'Total_LUTs' => 136,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2501',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2531',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2561',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2591',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2621',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2651',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2681',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2711',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 17,
+                    'Total_LUTs' => 17,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4991',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 136,
+                    'Total_LUTs' => 136,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2824',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2854',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2884',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2914',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2944',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_2974',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3004',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3034',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 18,
+                    'Total_LUTs' => 18,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5019',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 144,
+                    'Total_LUTs' => 144,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3147',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub0',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3177',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub1',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3207',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub2',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3237',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub3',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3267',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub4',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3297',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub5',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3327',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub6',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3357',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8.addsub7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8/addsub7',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 3,
+                    'LUT2' => 19,
+                    'Total_LUTs' => 19,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5047',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_addsub_fabric8',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_addsub_fabric8',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 24,
+                    'LUT2' => 152,
+                    'Total_LUTs' => 152,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3431',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3445',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3459',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3473',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3487',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3501',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3515',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3529',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5075',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3602',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3616',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3630',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3644',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3658',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3672',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3686',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3700',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5095',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3773',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3787',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3801',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3815',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3829',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3843',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3857',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3871',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5115',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3944',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3958',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3972',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_3986',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4000',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4014',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4028',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4042',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5135',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4115',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4129',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4143',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4157',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4171',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4185',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4199',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4213',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5155',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4286',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4300',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4314',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4328',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4342',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4356',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4370',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4384',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5175',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4457',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay0',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay0',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4471',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay1',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay1',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4485',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay2',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay2',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4499',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay3',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay3',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4513',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay4',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay4',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4527',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay5',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay5',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4541',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_4555',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6.delay7',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6/delay7',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 16,
+                    'FDRE' => 16,
+                    'Total_LUTs' => 16,
+                    'Total_Registers' => 16,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5195',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem.vector_delay6',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem/vector_delay6',
+          'Primitives' => [ 
+               {
+                    'SRLC32E' => 128,
+                    'FDRE' => 128,
+                    'Total_LUTs' => 128,
+                    'Total_Registers' => 128,
+               },
+          ], 
+     },
+     {
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_5491',
+          'Hier_Name' => 'dsp_blr_bd_wrapper.dsp_blr_bd_i.dsp_blr_1.inst.dsp_blr_struct.subsystem',
+          'Cell_Name' => 'dsp_blr_bd_i/dsp_blr_1/inst/dsp_blr_struct/subsystem',
+          'Primitives' => [ 
+               {
+                    'CARRY8' => 192,
+                    'LUT2' => 1144,
+                    'SRLC32E' => 896,
+                    'FDRE' => 896,
+                    'Total_LUTs' => 2040,
+                    'Total_Registers' => 896,
+               },
+          ], 
+     },
+     { 
+          'File_Name' => 'dsp_blr.v',
+          'Line_Num' => 'Line_000',
+          'Hier_Name' => 'dsp_blr',
+          'Cell_Name' => 'dsp_blr',
+          'Primitives' => [ 
+               { 
+                    'CARRY8' => 192,
+                    'LUT2' => 1144,
+                    'SRLC32E' => 896,
+                    'FDRE' => 896,
+                    'Total_LUTs' => 2040,
+                    'Total_Registers' => 896,
+               },
+          ],
+     },
+   ],
+} 

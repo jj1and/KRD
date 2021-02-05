@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<wave_config>
+	<wave_state>
+		<UserUnit time="2ps">
+		</UserUnit>
+	</wave_state>
+	<db_ref_list>
+		<db_ref path="dsp_blr_hikaku_nakamura_futagi.wdb" id="1" type="auto">
+			<top_modules>
+				<top_module name="dsp_blr_hikaku_nakamura_futagi">
+				</top_module>
+			</top_modules>
+		</db_ref>
+	</db_ref_list>
+	<WVObjectSize size="1">
+	</WVObjectSize>
+	<wvobject fp_name="/dsp_blr_hikaku_nakamura_futagi/Clock" type="logic" db_ref_id="1">
+		<obj_property name="DisplayName">FullPathName</obj_property>
+		<obj_property name="ElementShortName">/dsp_blr_hikaku_nakamura_futagi/Clock</obj_property>
+		<obj_property name="ObjectShortName">/dsp_blr_hikaku_nakamura_futagi/Clock</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+		<obj_property name="CellHeight">50</obj_property>
+		<obj_property name="CustomSignalColor">#FFFF00</obj_property>
+		<obj_property name="UseCustomSignalColor">true</obj_property>
+	</wvobject>
+</wave_config>
+

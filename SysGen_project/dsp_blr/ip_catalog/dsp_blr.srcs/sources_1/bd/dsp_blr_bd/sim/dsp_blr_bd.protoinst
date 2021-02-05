@@ -1,0 +1,49 @@
+{
+	"version": "1.0",
+	"modules": {
+		"dsp_blr_bd": {
+			"proto_instances": {
+				"/dsp_blr_1/dsp_m_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"TDATA": { "actual": "dsp_m_axis_tdata"},
+						"TVALID": { "actual": "dsp_m_axis_tvalid"}
+					}
+				},
+				"/dsp_blr_1/h_m_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"TDATA": { "actual": "h_m_axis_tdata"},
+						"TVALID": { "actual": "h_m_axis_tvalid"}
+					}
+				},
+				"/dsp_blr_1/h_s_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"TDATA": { "actual": "h_s_axis_tdata"},
+						"TVALID": { "actual": "h_s_axis_tvalid"}
+					}
+				},
+				"/dsp_blr_1/l_m_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"TDATA": { "actual": "l_m_axis_tdata"},
+						"TVALID": { "actual": "l_m_axis_tvalid"}
+					}
+				},
+				"/dsp_blr_1/l_s_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"TDATA": { "actual": "l_s_axis_tdata"},
+						"TVALID": { "actual": "l_s_axis_tvalid"}
+					}
+				}
+			}
+		}
+	}
+}
