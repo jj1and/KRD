@@ -5,7 +5,7 @@ import socket
 import glob
 
 IP_ADDR = '192.168.1.2'
-# IP_ADDR = '127.0.0.1'
+#IP_ADDR = '127.0.0.1'
 PACKET_HEADER_SIZE = 8
 
 save_date = time.strftime("%Y%m%d", time.localtime())
@@ -14,6 +14,7 @@ save_date = time.strftime("%Y%m%d", time.localtime())
 # SAVE_FILE_BASE_NAME = "./data/recv_buff_v4_"
 
 SAVE_FILE_BASE_NAME = "./data/Mog2fee_v0_"
+#SAVE_FILE_BASE_NAME = "./data/test_"
 SAVE_FILE_EXTENTION = ".bin"
 # SAVE_FIG_EXTENTION = ".pkl"
 
