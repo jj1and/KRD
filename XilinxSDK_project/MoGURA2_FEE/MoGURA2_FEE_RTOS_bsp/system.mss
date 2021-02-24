@@ -658,6 +658,8 @@ BEGIN LIBRARY
  PARAMETER LIBRARY_VER = 1.0
  PARAMETER PROC_INSTANCE = psu_cortexa53_0
  PARAMETER api_mode = SOCKET_API
+ PARAMETER lwip_debug = true
+ PARAMETER netif_debug = true
 END
 
 

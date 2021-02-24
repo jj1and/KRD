@@ -18,6 +18,13 @@
 #include "xil_printf.h"
 #include "xparameters.h"
 
+#define TEDBOARD_2OR3 1
+
+#ifdef TEDBOARD_2OR3
+#include "lwip/tcpip.h"
+#include "netif/xemacpsif.h"
+#endif  // DEBUG
+
 #define TIMER_ID 1
 #define DELAY_10_SECONDS 10000UL
 #define DELAY_1_SECOND 1000UL
@@ -92,6 +99,53 @@ static void flush_buff(char *buff) {
     }
 }
 
+static void EtherPHYWrite(int verbose, u32 EmacBaseAddress, u32 PhyAddress,
+                          u32 RegisterNum, u16 PhyData) {
+    int Status;
+    u32 Mgtcr;
+    volatile u32 Ipisr;
+    u32 IpReadTemp;
+
+    Mgtcr = XEMACPS_PHYMNTNC_OP_MASK | XEMACPS_PHYMNTNC_OP_W_MASK |
+            ((PhyAddress << XEMACPS_PHYMNTNC_PHAD_SHFT_MSK) & XEMACPS_PHYMNTNC_ADDR_MASK) |
+            ((RegisterNum << XEMACPS_PHYMNTNC_PREG_SHFT_MSK) & XEMACPS_PHYMNTNC_REG_MASK) | ((u32)PhyData & 0x0000FFFF);
+    XEmacPs_WriteReg(EmacBaseAddress, XEMACPS_PHYMNTNC_OFFSET, Mgtcr);
+    do {
+        Ipisr = XEmacPs_ReadReg(EmacBaseAddress,
+                                XEMACPS_NWSR_OFFSET);
+        IpReadTemp = Ipisr;
+    } while ((IpReadTemp & XEMACPS_NWSR_MDIOIDLE_MASK) == 0x00000000U);
+    // usleep(100000);
+    if (verbose)
+        xil_printf("INFO: (Write) DATA:0x%08x -> REG:0x%08x\r\n", Mgtcr, EmacBaseAddress + XEMACPS_PHYMNTNC_OFFSET);
+}
+
+static u16 EtherPHYRead(int verbose, u32 EmacBaseAddress, u32 PhyAddress, u32 RegisterNum) {
+    int Status;
+    volatile u32 Ipisr;
+    u32 IpReadTemp;
+    u32 Mgtcr = XEMACPS_PHYMNTNC_OP_MASK | XEMACPS_PHYMNTNC_OP_R_MASK |
+                ((PhyAddress << XEMACPS_PHYMNTNC_PHAD_SHFT_MSK) & XEMACPS_PHYMNTNC_ADDR_MASK) |
+                ((RegisterNum << XEMACPS_PHYMNTNC_PREG_SHFT_MSK) & XEMACPS_PHYMNTNC_REG_MASK);
+    XEmacPs_WriteReg(EmacBaseAddress, XEMACPS_PHYMNTNC_OFFSET, Mgtcr);
+
+    do {
+        Ipisr = XEmacPs_ReadReg(EmacBaseAddress,
+                                XEMACPS_NWSR_OFFSET);
+        IpReadTemp = Ipisr;
+    } while ((IpReadTemp & XEMACPS_NWSR_MDIOIDLE_MASK) == 0x00000000U);
+    // usleep(100000);
+    if (verbose)
+        xil_printf("INFO: (Read) DATA:0x%08x -> REG:0x%08x\r\n", Mgtcr, EmacBaseAddress + XEMACPS_PHYMNTNC_OFFSET);
+
+    u32 PhyReadData = XEmacPs_ReadReg(EmacBaseAddress, XEMACPS_PHYMNTNC_OFFSET);
+    if (verbose)
+        xil_printf("INFO: (Read) DATA:0x%08x <- REG:0x%08x\r\n", PhyReadData, EmacBaseAddress + XEMACPS_PHYMNTNC_OFFSET);
+
+    return (u16)(PhyReadData & 0x0000FFFF);
+    // xil_printf("INFO: Data:0x%04x on  EtherPHY REG:0x%04x\r\n", PhyReadData, RegisterNum);
+}
+
 int main() {
     send2pc_setting.port = 5001;
     send2pc_setting.server_address = "192.168.1.2";
@@ -134,6 +188,70 @@ void network_thread(void *arg) {
 
     /* print out IP settings of the board */
     print_ip_settings(&ipaddr, &netmask, &gw);
+
+#ifdef TEDBOARD_2OR3
+    xil_printf("INFO: Start EtherPHY(0x%08x) Configration\r\n", PLATFORM_EMAC_BASEADDR);
+    u32 setupReg = XEmacPs_ReadReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCTRL_OFFSET);
+    xil_printf("INFO: DATA:0x%08x <- EtherPHY Ctrl REG:0x%08x (before write)\r\n", setupReg, PLATFORM_EMAC_BASEADDR + XEMACPS_NWCTRL_OFFSET);
+    XEmacPs_WriteReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCTRL_OFFSET, (setupReg | XEMACPS_NWCTRL_MDEN_MASK));
+    xil_printf("INFO: DATA:0x%08x <- EtherPHY Ctrl REG:0x%08x (after write)\r\n", XEmacPs_ReadReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCTRL_OFFSET), PLATFORM_EMAC_BASEADDR + XEMACPS_NWCTRL_OFFSET);
+
+    setupReg = XEmacPs_ReadReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCFG_OFFSET);
+    xil_printf("INFO: DATA:0x%08x <- EtherPHY Config REG:0x%08x (before write)\r\n", setupReg, PLATFORM_EMAC_BASEADDR + XEMACPS_NWCFG_OFFSET);
+    XEmacPs_WriteReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCFG_OFFSET, (setupReg & ~XEMACPS_NWCFG_MDCCLKDIV_MASK) | (0x00080000U));
+    xil_printf("INFO: DATA:0x%08x <- EtherPHY Config REG:0x%08x (after write)\r\n", XEmacPs_ReadReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWCFG_OFFSET), PLATFORM_EMAC_BASEADDR + XEMACPS_NWCFG_OFFSET);
+    xil_printf("INFO: DATA:0x%08x <- EtherPHY Status REG:0x%08x\r\n", XEmacPs_ReadReg(PLATFORM_EMAC_BASEADDR, XEMACPS_NWSR_OFFSET), PLATFORM_EMAC_BASEADDR + XEMACPS_NWSR_OFFSET);
+    xil_printf("\r\n");
+
+    u32 phy_address = 0xFFFFU;
+    xil_printf("INFO: Searching EtherPHY address...\r\n");
+    for (u32 i = 0x0000U; i < 0x0100U; i++) {
+        if (EtherPHYRead(0, PLATFORM_EMAC_BASEADDR, i, 0x0002U) == 0x2000U) {
+            if (EtherPHYRead(0, PLATFORM_EMAC_BASEADDR, i, 0x0003U) == 0xA231U) {
+                xil_printf("INFO: valid EtherPHY address(0x%04x) is found!\r\n", i);
+                if (phy_address != 0xFFFFU) {
+                    xil_printf("INFO: multiple valid EtherPHY addresses are found\r\n", i);
+                }
+                phy_address = i;
+                xil_printf("INFO: check current EtherPHY(GEM:0x%08x, Addr:0x%04x) Configration of REG:0x%08x\r\n", PLATFORM_EMAC_BASEADDR, phy_address, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_INIT);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_NOPOSTINCRMODE);
+                EtherPHYRead(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR);
+                xil_printf("\r\n");
+
+                xil_printf("INFO: write DATA:0x%08x EtherPHY(GEM:0x%08x, Addr:0x%04x) REG:0x%08x\r\n", TEDBOARD_ETHERNET_CUSTOM_DATA, PLATFORM_EMAC_BASEADDR, phy_address, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_INIT);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_NOPOSTINCRMODE);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR, TEDBOARD_ETHERNET_CUSTOM_DATA);
+                xil_printf("\r\n");
+
+                xil_printf("INFO: check current EtherPHY(GEM:0x%08x, Addr:0x%04x) Configration of REG:0x%08x\r\n", PLATFORM_EMAC_BASEADDR, phy_address, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_INIT);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR, TEDBOARD_ETHERNET_CUSTOM_REG_ADDR);
+                EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_REGCR, DP83867IR_REGCR_NOPOSTINCRMODE);
+                EtherPHYRead(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_ADDAR);
+                xil_printf("\r\n");
+
+                volatile u16 readData;
+                u16 readDataTemp;
+                // xil_printf("INFO: Reset EtherPHY\r\n");
+                // EtherPHYWrite(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_BMCR, 0x9240U);
+                // do {
+                //     readData = EtherPHYRead(1, PLATFORM_EMAC_BASEADDR, phy_address, DP83867IR_BMCR);
+                //     readDataTemp = readData;
+                // } while ((readData & 0x8000) == 0x8000U);
+                break;
+            }
+        }
+    }
+    if (phy_address == 0xFFFFU) {
+        xil_printf("ERROR: valid EtherPHY address was not found\r\n");
+        phy_address = 0x0000U;
+    }
+    xil_printf("\r\n");
+#endif
 
     /* Add network interface to the netif_list, and set it as default */
     if (!xemac_add(netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR)) {
