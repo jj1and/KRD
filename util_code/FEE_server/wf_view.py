@@ -2,8 +2,28 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# BASE_FILE_NAME = "./data/recv_buff_v4_20201204_11.bin"
-BASE_FILE_NAME = "./data/Mog2fee_v0_20201221_05.bin"
+# memo
+# "./data/Mog2fee_v0_20210109_00.bin" -> baseline 0
+# "./data/Mog2fee_v0_20210109_01.bin" -> baseline 500
+# "./data/Mog2fee_v0_20210109_02.bin" -> baseline 700
+# "./data/Mog2fee_v0_20210109_03.bin" -> baseline 0
+# "./data/Mog2fee_v0_20210109_04.bin" -> baseline 200
+# "./data/Mog2fee_v0_20210109_05.bin" -> baseline 566
+# "./data/Mog2fee_v0_20210109_06.bin" -> baseline 566
+# "./data/Mog2fee_v0_20210109_07.bin" -> baseline 563
+# "./data/Mog2fee_v0_20210109_08.bin" -> baseline 363
+# 0 にすると+にサチる、700 にすると-側にサチる、という傾向
+# --- reconfiguration ---
+# "./data/Mog2fee_v0_20210109_09.bin" -> baseline 0x233 (563)
+# "./data/Mog2fee_v0_20210109_10.bin" -> baseline 0x233 (563)
+# --- 再起動 ---
+# "./data/Mog2fee_v0_20210109_11.bin" -> baseline 0x233 (563)
+# "./data/Mog2fee_v0_20210109_12.bin" -> baseline 0x233 (563)
+
+
+BASE_FILE_NAME = "./data/Mog2fee_v0_20210222_00.bin"
+# BASE_FILE_NAME = "./data/test_20210206_00.bin"
+# BASE_FILE_NAME = "./data/Mog2fee_v0_20201216_26.bin"
 # BASE_FILE_NAME = "./dummy_data/sample01.bin"
 
 COMPRESSION_TYPE = 'zip'
@@ -50,10 +70,20 @@ if __name__ == "__main__":
     # axes[0].set_title("Acquired data")
     # axes[-1].set_xlabel("Time[nsec]")
 
-    sel_channels = np.array([1, 3])
+    sel_channels = np.array([2, 10])
     sel_ch_label = {
-        1: "Ch1 DSP disabled",
-        3: "Ch3 DSP enabled"}
+        0: "10MHz",
+        2: "Ch2 dsp blr14",
+        3: "Ch3 dsp blr9",
+        4: "Ch4 dsp blr15",
+        5: "Ch5 dsp blr10",
+        6: "Ch6 dsp blr16",
+        7: "Ch7 dsp blr11",
+        8: "Ch8 dsp blr17",
+        9: "Ch9 dsp blr12",
+        10: "Ch10 DSP disabled",
+        11: "Ch11 DSP enabled",
+        13: "Ch13 DSP disabled"}
     sel_label_plotted = np.zeros(len(sel_channels))
     sel_fig, sel_ax = plt.subplots(1, 1, sharex=True)
     sel_ax.set_ylabel("ADC")
@@ -71,18 +101,25 @@ if __name__ == "__main__":
         #                                      linestyle='-', marker='s', markersize=5)
         # ax.plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
         #         linestyle='--', marker='o', markersize=5)
-        axes[np.where(acuqired_channels == pd_dfs['CH_ID'][i])[0][0]].plot(t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]],
+        axes[np.where(acuqired_channels == pd_dfs['CH_ID'][i])[0][0]].plot(t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]],
                                                                            linestyle='-', marker='o', markersize=5)
 
         search_sel_ch = np.where(sel_channels == pd_dfs['CH_ID'][i])[0]
         if len(search_sel_ch) > 0:
             if sel_label_plotted[search_sel_ch[0]] == 0:
+                f = open('hoge{}.txt'.format(i), 'w')
+                for line in range(len(t)):
+                    print("{} {}".format(t[line], hgain_wav[line]))
+                    fdata = "{} {} \n".format(t[line], hgain_wav[line])
+                    f.writelines(fdata)
+                # pass
+                f.close()
                 sel_label_plotted[search_sel_ch[0]] = 1
                 sel_ax.plot(
-                    t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5, label=sel_ch_label[pd_dfs['CH_ID'][i]])
+                    t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5, label=sel_ch_label[pd_dfs['CH_ID'][i]])
             else:
                 sel_ax.plot(
-                    t*1E9, wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5)
+                    t*1E9, hgain_wav, color=plot_color[pd_dfs['CH_ID'][i]], linestyle='-', marker='o', markersize=5)
     sel_ax.legend()
     # xmin, xmax=ax.get_xlim()
     # ax.plot([xmin, xmax], [pd_dfs['RISE_THRE'][0], pd_dfs['RISE_THRE']

@@ -3,8 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import df_extract
 
-# FILE_NAME = "./data/recv_buff_v4_20201211_00.bin"
-FILE_NAME = "./data/Mog2fee_v0_20201221_05.bin"
+FILE_NAME = "./data/Mog2fee_v0_20210222_00.bin"
+#FILE_NAME = "./data/test_20210206_00.bin"
+# FILE_NAME = "./data/1.bin"
 # FILE_NAME = "./dummy_data/sample01.bin"
 COMPRESSION_TYPE = 'zip'
 

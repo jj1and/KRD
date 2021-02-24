@@ -107,12 +107,17 @@ ip_repos/TED_ip
 
 # exceptions
 algorithm_dev/AfterMuon_FreqSpec.py
-util_code/*/data/*
-util_code/*/dummy_data/*
+util_code/*/*
+!util_code/*/*.py
+!util_code/*/*.pyx
+!util_code/*/*.cpp
+
+
 !util_code/MMTrigger/data/recv_buff_v2_20200428_01.bin
 !util_code/MMTrigger/data/recv_buff_v2_format.txt
-util_code/pl_pc_transport_test.gif
 !util_code/FEE_server/data/recv_buff_v4_20200910_15.bin
+
+
 proto_ip_code/**/*_proj/
 
 proto_ip_code/dsp_module/l1norm_method
